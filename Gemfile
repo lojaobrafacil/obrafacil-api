@@ -32,7 +32,7 @@ group :development, :test do
 end
 
 group :test do
-	gem 'database_cleaner'	
+	gem 'database_cleaner'
 	gem 'shoulda-matchers', '~> 3.1'
 	gem "factory_bot_rails"
 end
@@ -50,3 +50,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
+gem 'money-rails', '~> 1.7'
