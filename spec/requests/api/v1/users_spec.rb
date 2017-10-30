@@ -33,7 +33,7 @@ RSpec.describe 'Users API', type: :request do
 
  describe "POST /users" do
     before do
-      headers = { "Accept" => "application/vnd.taskmanager.v1", 'Content-Type' => 'application/json' }
+      headers = { "Accept" => "application/vnd.taskmanager.v1" }
       post '/users', params: { user: user_params }, headers: headers
     end
 
@@ -51,7 +51,7 @@ RSpec.describe 'Users API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:user_params) { attributes_for(:user, email: 'invalid.email@') }
+      let(:user_params) { attributes_for(:user, email: nil) }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
