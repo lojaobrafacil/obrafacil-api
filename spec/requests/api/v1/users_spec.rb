@@ -7,7 +7,8 @@ RSpec.describe 'Users API', type: :request do
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
-      'Content-type' => Mime[:json].to_s
+      'Content-type' => Mime[:json].to_s,
+      'Authorization' => user.auth_token
     }
   end
 
