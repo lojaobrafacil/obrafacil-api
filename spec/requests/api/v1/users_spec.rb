@@ -65,7 +65,7 @@ RSpec.describe 'Users API', type: :request do
     end
   end
 
-  describe 'Put /users/:id' do
+  describe 'PUT /users/:id' do
     before do
       put "/users/#{user_id}", params: { user: user_params }.to_json, headers: headers
     end
