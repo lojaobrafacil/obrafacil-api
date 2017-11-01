@@ -85,4 +85,18 @@ RSpec.describe 'AddressType API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /address_types/:id' do
+    before do
+      delete "/address_types/#{address_type_id}", params: { }.to_json , headers: headers
+    end
+
+    it 'return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+
+    it 'removes the user from database' do
+      expect(AddressType.find_by(id: address_type_id)).to be_nil
+    end
+  end
 end

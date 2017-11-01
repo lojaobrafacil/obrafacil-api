@@ -24,6 +24,13 @@ class Api::V1::AddressTypesController < ApplicationController
       render json: { errors: address_type.errors }, status: 422
     end
   end
+
+  def destroy
+    address_type = AddressType.find(params[:id])
+    address_type.destroy
+    head 204
+  end
+
   private
 
   def address_type_params
