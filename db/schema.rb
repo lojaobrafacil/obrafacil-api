@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20171101103851) do
 
   create_table "cities", force: :cascade do |t|
     t.string "name"
-    t.boolean "capital"
+    t.boolean "capital", default: false
     t.bigint "state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
