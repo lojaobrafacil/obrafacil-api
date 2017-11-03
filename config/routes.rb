@@ -11,6 +11,9 @@ Rails.application.routes.draw do
         resources :cities, only: [:index, :create, :update, :destroy]
         resources :regions, only: [:index, :create, :update, :destroy]
         resources :states, only: [:index, :create, :update, :destroy]
+        resources :addresses, only: [:index, :create, :update, :destroy]
+        resources :billing_types, only: [:index, :create, :update, :destroy]
+        resources :banks, only: [:index, :create, :update, :destroy]
   		end
   	end
 

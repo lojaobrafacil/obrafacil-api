@@ -10,12 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101103851) do
+ActiveRecord::Schema.define(version: 20171103123530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "address_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.string "neighborhood"
+    t.string "zipcode"
+    t.string "ibge"
+    t.string "gia"
+    t.string "complement"
+    t.string "description"
+    t.bigint "address_type_id"
+    t.bigint "city_id"
+    t.integer "addressable_id"
+    t.string "addressable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_type_id"], name: "index_addresses_on_address_type_id"
+    t.index ["city_id"], name: "index_addresses_on_city_id"
+  end
+
+  create_table "banks", force: :cascade do |t|
+    t.integer "code"
+    t.string "name"
+    t.string "slug"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "billing_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -76,6 +109,8 @@ ActiveRecord::Schema.define(version: 20171101103851) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "addresses", "address_types"
+  add_foreign_key "addresses", "cities"
   add_foreign_key "cities", "states"
   add_foreign_key "states", "regions"
 end
