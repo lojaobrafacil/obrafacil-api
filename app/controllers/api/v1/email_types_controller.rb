@@ -5,6 +5,11 @@ class Api::V1::EmailTypesController < ApplicationController
     render json: {email_types: email_types}, status: 200
   end
 
+  def show
+    email_type = EmailType.find(params[:id])
+    render json: email_type, status: 200
+  end
+
   def create
     email_type = EmailType.new(email_type_params)
 

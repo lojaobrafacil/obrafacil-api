@@ -5,15 +5,15 @@ Rails.application.routes.draw do
   		namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
   			resources :users, only: [:show, :create, :update, :destroy]
         resources :sessions, only: [:create, :destroy]
-        resources :address_types, only: [:index, :create, :update, :destroy]
-        resources :email_types, only: [:index, :create, :update, :destroy]
-        resources :phone_types, only: [:index, :create, :update, :destroy]
-        resources :cities, only: [:index, :create, :update, :destroy]
-        resources :regions, only: [:index, :create, :update, :destroy]
-        resources :states, only: [:index, :create, :update, :destroy]
-        resources :addresses, only: [:index, :create, :update, :destroy]
-        resources :billing_types, only: [:index, :create, :update, :destroy]
-        resources :banks, only: [:index, :create, :update, :destroy]
+        resources :address_types, only: [:index, :show, :create, :update, :destroy]
+        resources :email_types, only: [:index, :show, :create, :update, :destroy]
+        resources :phone_types, only: [:index, :show, :create, :update, :destroy]
+        resources :cities, only: [:index, :show, :create, :update, :destroy]
+        resources :regions, only: [:index, :show, :create, :update, :destroy]
+        resources :states, only: [:index, :show, :create, :update, :destroy]
+        resources :addresses, only: [:index, :show, :create, :update, :destroy]
+        resources :billing_types, only: [:index, :show, :create, :update, :destroy]
+        resources :banks, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 

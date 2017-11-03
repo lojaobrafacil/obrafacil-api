@@ -5,6 +5,11 @@ class Api::V1::PhoneTypesController < ApplicationController
     render json: {phone_types: phone_types}, status: 200
   end
 
+  def show
+    phone_type = PhoneType.find(params[:id])
+    render json: phone_type, status: 200
+  end
+
   def create
     phone_type = PhoneType.new(phone_type_params)
 

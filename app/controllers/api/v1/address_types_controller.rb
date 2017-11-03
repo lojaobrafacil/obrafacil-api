@@ -5,6 +5,11 @@ class Api::V1::AddressTypesController < ApplicationController
     render json: {address_types: address_types}, status: 200
   end
 
+  def show
+    address_type = AddressType.find(params[:id])
+    render json: address_type, status: 200
+  end
+
   def create
     address_type = AddressType.new(address_type_params)
 

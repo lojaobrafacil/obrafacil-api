@@ -4,7 +4,8 @@ RSpec.describe 'AddressType API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:address_types) { create_list(:address_type, 5) }
-  let(:address_type_id) { address_types.first.id }
+  let(:address_type) { address_types.first }
+  let(:address_type_id) { address_type.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -19,6 +20,19 @@ RSpec.describe 'AddressType API', type: :request do
     end
     it 'return 5 address types from database' do
       expect(json_body[:address_types].count).to eq(5)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
+  describe 'GET /address_types/:id' do
+    before do
+      get "/address_types/#{address_type_id}", params: {}, headers: headers
+    end
+    it 'return address type from database' do
+      expect(json_body.to_json).to eq(address_type.to_json)
     end
 
     it 'return status 200' do

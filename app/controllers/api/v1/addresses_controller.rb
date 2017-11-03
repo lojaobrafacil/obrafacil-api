@@ -5,6 +5,11 @@ class Api::V1::AddressesController < ApplicationController
     render json: {addresses: addresses}, status: 200
   end
 
+  def show
+    address = Address.find(params[:id])
+    render json: address, status: 200
+  end
+
   def create
     address = Address.new(address_params)
 

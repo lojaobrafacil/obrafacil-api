@@ -4,7 +4,8 @@ RSpec.describe 'EmailType API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:email_types) { create_list(:email_type, 5) }
-  let(:email_type_id) { email_types.first.id }
+  let(:email_type) { email_types.first }
+  let(:email_type_id) { email_type.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -25,6 +26,20 @@ RSpec.describe 'EmailType API', type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe 'GET /email_types/:id' do
+    before do
+      get "/email_types/#{email_type_id}", params: {}, headers: headers
+    end
+    it 'return address from database' do
+      expect(json_body.to_json).to eq(email_type.to_json)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
 
   describe 'POST /email_types' do
     before do

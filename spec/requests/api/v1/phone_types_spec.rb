@@ -4,7 +4,8 @@ RSpec.describe 'PhoneType API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:phone_types) { create_list(:phone_type, 5) }
-  let(:phone_type_id) { phone_types.first.id }
+  let(:phone_type) { phone_types.first }
+  let(:phone_type_id) { phone_type.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -25,6 +26,20 @@ RSpec.describe 'PhoneType API', type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe 'GET /phone_types/:id' do
+    before do
+      get "/phone_types/#{phone_type_id}", params: {}, headers: headers
+    end
+    it 'return address from database' do
+      expect(json_body.to_json).to eq(phone_type.to_json)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
 
   describe 'POST /phone_types' do
     before do

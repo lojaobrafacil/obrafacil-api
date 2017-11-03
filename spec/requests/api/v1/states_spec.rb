@@ -4,7 +4,8 @@ RSpec.describe 'State API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:states) { create_list(:state, 2) }
-  let(:state_id) { states.first.id }
+  let(:state) { states.first }
+  let(:state_id) { state.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -25,6 +26,20 @@ RSpec.describe 'State API', type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe 'GET /states/:id' do
+    before do
+      get "/states/#{state_id}", params: {}, headers: headers
+    end
+    it 'return address from database' do
+      expect(json_body.to_json).to eq(state.to_json)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
 
   describe 'POST /states' do
     before do

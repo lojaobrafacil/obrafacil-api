@@ -4,7 +4,8 @@ RSpec.describe 'City API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:cities) { create_list(:city, 5) }
-  let(:city_id) { cities.first.id }
+  let(:city) { cities.first }
+  let(:city_id) { city.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -25,6 +26,20 @@ RSpec.describe 'City API', type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe 'GET /cities/:id' do
+    before do
+      get "/cities/#{city_id}", params: {}, headers: headers
+    end
+    it 'return address from database' do
+      expect(json_body.to_json).to eq(city.to_json)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
 
   describe 'POST /cities' do
     before do

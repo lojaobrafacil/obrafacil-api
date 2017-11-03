@@ -5,6 +5,11 @@ class Api::V1::RegionsController < ApplicationController
     render json: {regions: regions}, status: 200
   end
 
+  def show
+    region = Region.find(params[:id])
+    render json: region, status: 200
+  end
+
   def create
     region = Region.new(region_params)
 

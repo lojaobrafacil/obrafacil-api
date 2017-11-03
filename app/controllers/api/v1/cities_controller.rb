@@ -5,6 +5,11 @@ class Api::V1::CitiesController < ApplicationController
     render json: {cities: cities}, status: 200
   end
 
+  def show
+    city = City.find(params[:id])
+    render json: city, status: 200
+  end
+
   def create
     city = City.new(city_params)
 

@@ -4,7 +4,8 @@ RSpec.describe 'BillingType API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:billing_types) { create_list(:billing_type, 5) }
-  let(:billing_type_id) { billing_types.first.id }
+  let(:billing_type) { billing_types.first }
+  let(:billing_type_id) { billing_type.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -25,6 +26,20 @@ RSpec.describe 'BillingType API', type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe 'GET /billing_types/:id' do
+    before do
+      get "/billing_types/#{billing_type_id}", params: {}, headers: headers
+    end
+    it 'return address from database' do
+      expect(json_body.to_json).to eq(billing_type.to_json)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
 
   describe 'POST /billing_types' do
     before do

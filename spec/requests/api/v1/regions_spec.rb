@@ -4,7 +4,8 @@ RSpec.describe 'Region API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:regions) { create_list(:region, 2) }
-  let(:region_id) { regions.first.id }
+  let(:region) { regions.first }
+  let(:region_id) { region.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -25,6 +26,20 @@ RSpec.describe 'Region API', type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe 'GET /regions/:id' do
+    before do
+      get "/regions/#{region_id}", params: {}, headers: headers
+    end
+    it 'return address from database' do
+      expect(json_body.to_json).to eq(region.to_json)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
 
   describe 'POST /regions' do
     before do

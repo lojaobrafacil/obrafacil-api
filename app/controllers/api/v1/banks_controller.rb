@@ -4,6 +4,11 @@ class Api::V1::BanksController < ApplicationController
     render json: {banks: banks}, status: 200
   end
 
+  def show
+    bank = Bank.find(params[:id])
+    render json: bank, status: 200
+  end
+
   def create
     bank = Bank.new(bank_params)
 

@@ -4,7 +4,8 @@ RSpec.describe 'Bank API', type: :request do
   before { host! 'api.hubcoapp.dev'}
   let!(:user){ create(:user) }
   let!(:banks) { create_list(:bank, 5) }
-  let(:bank_id) { banks.first.id }
+  let(:bank) { banks.first }
+  let(:bank_id) { bank.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -25,6 +26,20 @@ RSpec.describe 'Bank API', type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe 'GET /banks/:id' do
+    before do
+      get "/banks/#{bank_id}", params: {}, headers: headers
+    end
+    it 'return address from database' do
+      expect(json_body.to_json).to eq(bank.to_json)
+    end
+
+    it 'return status 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
 
   describe 'POST /banks' do
     before do

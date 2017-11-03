@@ -9,7 +9,7 @@ class Api::V1::UsersController < ApplicationController
       head 404
     end
 	end
-
+  
   def create
     user = User.new(user_params)
 

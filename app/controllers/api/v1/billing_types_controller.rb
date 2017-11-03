@@ -4,6 +4,11 @@ class Api::V1::BillingTypesController < ApplicationController
     render json: {billing_types: billing_types}, status: 200
   end
 
+  def show
+    billing_type = BillingType.find(params[:id])
+    render json: billing_type, status: 200
+  end
+
   def create
     billing_type = BillingType.new(billing_type_params)
 

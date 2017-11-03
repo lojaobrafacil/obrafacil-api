@@ -5,6 +5,11 @@ class Api::V1::StatesController < ApplicationController
     render json: {states: states}, status: 200
   end
 
+  def show
+    state = State.find(params[:id])
+    render json: state, status: 200
+  end
+
   def create
     state = State.new(state_params)
 
