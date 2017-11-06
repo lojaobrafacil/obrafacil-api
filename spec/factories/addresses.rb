@@ -9,5 +9,6 @@ FactoryBot.define do
     description { Faker::Lorem.paragraph }
     address_type_id { create(:address_type).id }
     city_id { create(:city).id }
+    association :addressable, :factory => :client
   end
 end

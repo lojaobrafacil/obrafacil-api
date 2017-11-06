@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Address API', type: :request do
+RSpec.describe 'Email API', type: :request do
   before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
-  let!(:addresses) { create_list(:address, 2) }
-  let(:address) { addresses.first }
-  let(:address_id) { address.id }
+  let!(:emails) { create_list(:email, 2) }
+  let(:email) { emails.first }
+  let(:email_id) { email.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -14,12 +14,12 @@ RSpec.describe 'Address API', type: :request do
     }
   end
 
-  describe 'GET /addresses' do
+  describe 'GET /emails' do
     before do
-      get '/addresses', params: {}, headers: headers
+      get '/emails', params: {}, headers: headers
     end
-    it 'return 2 address types from database' do
-      expect(json_body[:addresses].count).to eq(2)
+    it 'return 2 email types from database' do
+      expect(json_body[:emails].count).to eq(2)
     end
 
     it 'return status 200' do
@@ -27,12 +27,12 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-  describe 'GET /addresses/:id' do
+  describe 'GET /emails/:id' do
     before do
-      get "/addresses/#{address_id}", params: {}, headers: headers
+      get "/emails/#{email_id}", params: {}, headers: headers
     end
-    it 'return address from database' do
-      expect(json_body.to_json).to eq(address.to_json)
+    it 'return email from database' do
+      expect(json_body.to_json).to eq(email.to_json)
     end
 
     it 'return status 200' do
@@ -40,26 +40,26 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-# addresses will only be created in the associated controller 
-  # describe 'POST /addresses' do
+# emails will only be created in the associated controller
+  # describe 'POST /emails' do
   #   before do
-  #     post '/addresses', params: { address: address_params }.to_json , headers: headers
+  #     post '/emails', params: { email: email_params }.to_json , headers: headers
   #   end
   #
   #   context 'when the request params are valid' do
-  #     let(:address_params) { attributes_for(:address) }
+  #     let(:email_params) { attributes_for(:email) }
   #
   #     it 'return status code 201' do
   #       expect(response).to have_http_status(201)
   #     end
   #
-  #     it 'returns the json data for the created address type' do
-  #       expect(json_body[:street]).to eq(address_params[:street])
+  #     it 'returns the json data for the created email type' do
+  #       expect(json_body[:email]).to eq(email_params[:email])
   #     end
   #   end
   #
   #   context 'when the request params are invalid' do
-  #     let(:address_params) { { street: '' } }
+  #     let(:email_params) { { email: '' } }
   #
   #     it 'return status code 422' do
   #       expect(response).to have_http_status(422)
@@ -71,25 +71,25 @@ RSpec.describe 'Address API', type: :request do
   #   end
   # end
 
-  describe 'PUT /addresses/:id' do
+  describe 'PUT /emails/:id' do
     before do
-      put "/addresses/#{address_id}", params: { address: address_params }.to_json , headers: headers
+      put "/emails/#{email_id}", params: { email: email_params }.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:address_params) { { street: 'Comercial' } }
+      let(:email_params) { { email: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated address type' do
-        expect(json_body[:street]).to eq(address_params[:street])
+      it 'return the json data for the updated email type' do
+        expect(json_body[:email]).to eq(email_params[:email])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:address_params) { { street: nil } }
+      let(:email_params) { { email: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -101,9 +101,9 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-  describe 'DELETE /addresses/:id' do
+  describe 'DELETE /emails/:id' do
     before do
-      delete "/addresses/#{address_id}", params: { }.to_json , headers: headers
+      delete "/emails/#{email_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do
@@ -111,7 +111,7 @@ RSpec.describe 'Address API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Address.find_by(id: address_id)).to be_nil
+      expect(Email.find_by(id: email_id)).to be_nil
     end
   end
 end

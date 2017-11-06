@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Address API', type: :request do
+RSpec.describe 'Phone API', type: :request do
   before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
-  let!(:addresses) { create_list(:address, 2) }
-  let(:address) { addresses.first }
-  let(:address_id) { address.id }
+  let!(:phones) { create_list(:phone, 2) }
+  let(:phone) { phones.first }
+  let(:phone_id) { phone.id }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
@@ -14,12 +14,12 @@ RSpec.describe 'Address API', type: :request do
     }
   end
 
-  describe 'GET /addresses' do
+  describe 'GET /phones' do
     before do
-      get '/addresses', params: {}, headers: headers
+      get '/phones', params: {}, headers: headers
     end
-    it 'return 2 address types from database' do
-      expect(json_body[:addresses].count).to eq(2)
+    it 'return 2 phone types from database' do
+      expect(json_body[:phones].count).to eq(2)
     end
 
     it 'return status 200' do
@@ -27,12 +27,12 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-  describe 'GET /addresses/:id' do
+  describe 'GET /phones/:id' do
     before do
-      get "/addresses/#{address_id}", params: {}, headers: headers
+      get "/phones/#{phone_id}", params: {}, headers: headers
     end
-    it 'return address from database' do
-      expect(json_body.to_json).to eq(address.to_json)
+    it 'return phone from database' do
+      expect(json_body.to_json).to eq(phone.to_json)
     end
 
     it 'return status 200' do
@@ -40,26 +40,26 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-# addresses will only be created in the associated controller 
-  # describe 'POST /addresses' do
+# phones will only be created in the associated controller
+  # describe 'POST /phones' do
   #   before do
-  #     post '/addresses', params: { address: address_params }.to_json , headers: headers
+  #     post '/phones', params: { phone: phone_params }.to_json , headers: headers
   #   end
   #
   #   context 'when the request params are valid' do
-  #     let(:address_params) { attributes_for(:address) }
+  #     let(:phone_params) { attributes_for(:phone) }
   #
   #     it 'return status code 201' do
   #       expect(response).to have_http_status(201)
   #     end
   #
-  #     it 'returns the json data for the created address type' do
-  #       expect(json_body[:street]).to eq(address_params[:street])
+  #     it 'returns the json data for the created phone type' do
+  #       expect(json_body[:phone]).to eq(phone_params[:phone])
   #     end
   #   end
   #
   #   context 'when the request params are invalid' do
-  #     let(:address_params) { { street: '' } }
+  #     let(:phone_params) { { phone: '' } }
   #
   #     it 'return status code 422' do
   #       expect(response).to have_http_status(422)
@@ -71,25 +71,25 @@ RSpec.describe 'Address API', type: :request do
   #   end
   # end
 
-  describe 'PUT /addresses/:id' do
+  describe 'PUT /phones/:id' do
     before do
-      put "/addresses/#{address_id}", params: { address: address_params }.to_json , headers: headers
+      put "/phones/#{phone_id}", params: { phone: phone_params }.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:address_params) { { street: 'Comercial' } }
+      let(:phone_params) { { phone: '11975226584' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated address type' do
-        expect(json_body[:street]).to eq(address_params[:street])
+      it 'return the json data for the updated phone type' do
+        expect(json_body[:phone]).to eq(phone_params[:phone])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:address_params) { { street: nil } }
+      let(:phone_params) { { phone: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -101,9 +101,9 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-  describe 'DELETE /addresses/:id' do
+  describe 'DELETE /phones/:id' do
     before do
-      delete "/addresses/#{address_id}", params: { }.to_json , headers: headers
+      delete "/phones/#{phone_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do
@@ -111,7 +111,7 @@ RSpec.describe 'Address API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Address.find_by(id: address_id)).to be_nil
+      expect(Phone.find_by(id: phone_id)).to be_nil
     end
   end
 end

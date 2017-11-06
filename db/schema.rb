@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171103183031) do
+ActiveRecord::Schema.define(version: 20171106160828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,17 @@ ActiveRecord::Schema.define(version: 20171103183031) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "emails", force: :cascade do |t|
+    t.string "email"
+    t.string "contact"
+    t.integer "emailable_id"
+    t.string "emailable_type"
+    t.bigint "email_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_type_id"], name: "index_emails_on_email_type_id"
+  end
+
   create_table "partners", force: :cascade do |t|
     t.string "name"
     t.string "federal_tax_number"
@@ -122,6 +133,17 @@ ActiveRecord::Schema.define(version: 20171103183031) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "phones", force: :cascade do |t|
+    t.string "phone"
+    t.string "contact"
+    t.integer "phonable_id"
+    t.string "phonable_type"
+    t.bigint "phone_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_type_id"], name: "index_phones_on_phone_type_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -163,8 +185,10 @@ ActiveRecord::Schema.define(version: 20171103183031) do
   add_foreign_key "cities", "states"
   add_foreign_key "clients", "billing_types"
   add_foreign_key "clients", "users"
+  add_foreign_key "emails", "email_types"
   add_foreign_key "partners", "banks"
   add_foreign_key "partners", "billing_types"
   add_foreign_key "partners", "users"
+  add_foreign_key "phones", "phone_types"
   add_foreign_key "states", "regions"
 end

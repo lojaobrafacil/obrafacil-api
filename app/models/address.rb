@@ -1,6 +1,6 @@
 class Address < ApplicationRecord
   belongs_to :address_type
   belongs_to :city
-
-  validates_presence_of :street, :neighborhood, :zipcode
+  belongs_to :addressable, polymorphic: true
+  validates_presence_of :street, :zipcode
 end

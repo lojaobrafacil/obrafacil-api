@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Partner API', type: :request do
-  before { host! 'api.hubcoapp.dev'}
+  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let!(:partners) { create_list(:partner, 5) }
   let(:partner) { partners.first }

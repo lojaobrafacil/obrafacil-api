@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Client API', type: :request do
-  before { host! 'api.hubcoapp.dev'}
+  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let!(:clients) { create_list(:client, 5) }
   let(:client) { clients.first }

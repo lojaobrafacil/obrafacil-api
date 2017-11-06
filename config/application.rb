@@ -30,5 +30,6 @@ module Emam
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.i18n.default_locale = 'pt-BR'
+    Faker::Config.locale = :"pt-BR"
   end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'EmailType API', type: :request do
-  before { host! 'api.hubcoapp.dev'}
+  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let!(:email_types) { create_list(:email_type, 5) }
   let(:email_type) { email_types.first }

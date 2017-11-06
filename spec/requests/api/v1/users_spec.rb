@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users API', type: :request do
-  before { host! 'api.hubcoapp.dev'}
+  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let(:user_id) { user.id }
   let(:headers) do

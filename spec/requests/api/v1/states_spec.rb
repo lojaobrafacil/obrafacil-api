@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'State API', type: :request do
-  before { host! 'api.hubcoapp.dev'}
+  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let!(:states) { create_list(:state, 2) }
   let(:state) { states.first }

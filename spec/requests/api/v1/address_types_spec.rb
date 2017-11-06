@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'AddressType API', type: :request do
-  before { host! 'api.hubcoapp.dev'}
+  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let!(:address_types) { create_list(:address_type, 5) }
   let(:address_type) { address_types.first }

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Bank API', type: :request do
-  before { host! 'api.hubcoapp.dev'}
+  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let!(:banks) { create_list(:bank, 5) }
   let(:bank) { banks.first }
