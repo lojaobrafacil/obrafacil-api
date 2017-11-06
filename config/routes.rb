@@ -14,6 +14,8 @@ Rails.application.routes.draw do
         resources :addresses, only: [:index, :show, :create, :update, :destroy]
         resources :billing_types, only: [:index, :show, :create, :update, :destroy]
         resources :banks, only: [:index, :show, :create, :update, :destroy]
+        resources :clients, only: [:index, :show, :create, :update, :destroy]
+        resources :partners, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 
