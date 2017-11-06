@@ -11,7 +11,7 @@ class Api::V1::CompaniesController < ApplicationController
   end
 
   def create
-    company = Company.new(client_params)
+    company = Company.new(company_params)
 
     if company.save
       render json: company, status: 201
@@ -22,7 +22,7 @@ class Api::V1::CompaniesController < ApplicationController
 
   def update
     company = Company.find(params[:id])
-    if company.update(client_params)
+    if company.update(company_params)
       render json: company, status: 200
     else
       render json: { errors: company.errors }, status: 422
@@ -37,7 +37,7 @@ class Api::V1::CompaniesController < ApplicationController
 
   private
 
-  def client_params
+  def company_params
     params.require(:company).permit(:name, :fantasy_name, :federal_tax_number,
       :state_registration, :kind, :birth_date, :tax_regime, :description,
       :invoice_sale, :invoice_return, :pis_percent, :confins_percent,

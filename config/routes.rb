@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         resources :clients, only: [:index, :show, :create, :update, :destroy]
         resources :partners, only: [:index, :show, :create, :update, :destroy]
         resources :companies, only: [:index, :show, :create, :update, :destroy]
+        resources :providers, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 
