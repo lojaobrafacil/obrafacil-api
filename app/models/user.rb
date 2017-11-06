@@ -5,8 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates_uniqueness_of :auth_token
-  has_many :clients
-  has_many :partners
+  has_one :client
+  has_one :partner
+  has_one :company
   before_create :generate_authentication_token!
 
   def info

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         resources :banks, only: [:index, :show, :create, :update, :destroy]
         resources :clients, only: [:index, :show, :create, :update, :destroy]
         resources :partners, only: [:index, :show, :create, :update, :destroy]
+        resources :companies, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 

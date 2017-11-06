@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171106160828) do
+ActiveRecord::Schema.define(version: 20171106173742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,29 @@ ActiveRecord::Schema.define(version: 20171106160828) do
     t.datetime "updated_at", null: false
     t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
     t.index ["user_id"], name: "index_clients_on_user_id"
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.string "fantasy_name"
+    t.string "federal_tax_number"
+    t.string "state_registration"
+    t.integer "kind"
+    t.datetime "birth_date"
+    t.integer "tax_regime"
+    t.text "description"
+    t.integer "invoice_sale"
+    t.integer "invoice_return"
+    t.integer "pis_percent"
+    t.integer "confins_percent"
+    t.integer "icmsn_percent"
+    t.integer "between_states_percent"
+    t.bigint "billing_type_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["billing_type_id"], name: "index_companies_on_billing_type_id"
+    t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
   create_table "email_types", force: :cascade do |t|
@@ -185,6 +208,8 @@ ActiveRecord::Schema.define(version: 20171106160828) do
   add_foreign_key "cities", "states"
   add_foreign_key "clients", "billing_types"
   add_foreign_key "clients", "users"
+  add_foreign_key "companies", "billing_types"
+  add_foreign_key "companies", "users"
   add_foreign_key "emails", "email_types"
   add_foreign_key "partners", "banks"
   add_foreign_key "partners", "billing_types"
