@@ -50,4 +50,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
-gem 'money-rails', '~> 1.7'
+gem 'active_model_serializers'

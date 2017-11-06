@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171103123530) do
+ActiveRecord::Schema.define(version: 20171103183031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,10 +63,59 @@ ActiveRecord::Schema.define(version: 20171103123530) do
     t.index ["state_id"], name: "index_cities_on_state_id"
   end
 
+  create_table "clients", force: :cascade do |t|
+    t.string "name"
+    t.string "federal_tax_number"
+    t.string "state_registration"
+    t.string "international_registration"
+    t.integer "kind"
+    t.boolean "active", default: true
+    t.datetime "birth_date"
+    t.datetime "renewal_date"
+    t.integer "tax_regime"
+    t.text "description"
+    t.string "order_description"
+    t.float "limit"
+    t.bigint "billing_type_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
+    t.index ["user_id"], name: "index_clients_on_user_id"
+  end
+
   create_table "email_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "partners", force: :cascade do |t|
+    t.string "name"
+    t.string "federal_tax_number"
+    t.string "state_registration"
+    t.string "international_registration"
+    t.integer "kind"
+    t.boolean "active", default: true
+    t.datetime "birth_date"
+    t.datetime "renewal_date"
+    t.integer "tax_regime"
+    t.text "description"
+    t.string "order_description"
+    t.float "limit"
+    t.integer "origin"
+    t.integer "percent"
+    t.string "agency"
+    t.string "account"
+    t.string "favored"
+    t.bigint "bank_id"
+    t.bigint "billing_type_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bank_id"], name: "index_partners_on_bank_id"
+    t.index ["billing_type_id"], name: "index_partners_on_billing_type_id"
+    t.index ["user_id"], name: "index_partners_on_user_id"
   end
 
   create_table "phone_types", force: :cascade do |t|
@@ -112,5 +161,10 @@ ActiveRecord::Schema.define(version: 20171103123530) do
   add_foreign_key "addresses", "address_types"
   add_foreign_key "addresses", "cities"
   add_foreign_key "cities", "states"
+  add_foreign_key "clients", "billing_types"
+  add_foreign_key "clients", "users"
+  add_foreign_key "partners", "banks"
+  add_foreign_key "partners", "billing_types"
+  add_foreign_key "partners", "users"
   add_foreign_key "states", "regions"
 end
