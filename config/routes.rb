@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         resources :companies, only: [:index, :show, :create, :update, :destroy]
         resources :providers, only: [:index, :show, :create, :update, :destroy]
         resources :permissions, only: [:index, :show, :create, :update, :destroy]
+        resources :employees, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 

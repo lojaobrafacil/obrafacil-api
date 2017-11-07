@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107122931) do
+ActiveRecord::Schema.define(version: 20171107125022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,28 @@ ActiveRecord::Schema.define(version: 20171107122931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email_type_id"], name: "index_emails_on_email_type_id"
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.string "name"
+    t.string "federal_tax_number"
+    t.string "state_registration"
+    t.boolean "active", default: true
+    t.datetime "birth_date"
+    t.datetime "renewal_date"
+    t.integer "commission_percent"
+    t.text "description"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_employees_on_user_id"
+  end
+
+  create_table "employees_permissions", id: false, force: :cascade do |t|
+    t.bigint "employee_id"
+    t.bigint "permission_id"
+    t.index ["employee_id"], name: "index_employees_permissions_on_employee_id"
+    t.index ["permission_id"], name: "index_employees_permissions_on_permission_id"
   end
 
   create_table "partners", force: :cascade do |t|
@@ -240,6 +262,7 @@ ActiveRecord::Schema.define(version: 20171107122931) do
   add_foreign_key "companies", "billing_types"
   add_foreign_key "companies", "users"
   add_foreign_key "emails", "email_types"
+  add_foreign_key "employees", "users"
   add_foreign_key "partners", "banks"
   add_foreign_key "partners", "billing_types"
   add_foreign_key "partners", "users"

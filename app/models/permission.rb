@@ -1,3 +1,4 @@
 class Permission < ApplicationRecord
-  validates_presence_of :name
+  has_and_belongs_to_many :employees
+  validates_presence_of :name, uniqueness: { case_sensitive: true }
 end
