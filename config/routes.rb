@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         resources :partners, only: [:index, :show, :create, :update, :destroy]
         resources :companies, only: [:index, :show, :create, :update, :destroy]
         resources :providers, only: [:index, :show, :create, :update, :destroy]
+        resources :permissions, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 
