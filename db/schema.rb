@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107165641) do
+ActiveRecord::Schema.define(version: 20171108164031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,42 @@ ActiveRecord::Schema.define(version: 20171107165641) do
     t.index ["phone_type_id"], name: "index_phones_on_phone_type_id"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "common_nomenclature_mercosur"
+    t.float "added_value_tax"
+    t.string "brand"
+    t.float "cost"
+    t.float "tax_industrialized_products"
+    t.float "profit_margin"
+    t.integer "stock"
+    t.integer "stock_min"
+    t.integer "stock_max"
+    t.datetime "stock_date"
+    t.float "aliquot_merchandise_tax"
+    t.string "bar_code"
+    t.float "tax_substitution"
+    t.float "tax_reduction"
+    t.float "discount"
+    t.float "Weight"
+    t.float "Height"
+    t.float "width"
+    t.float "length"
+    t.string "color"
+    t.string "code_tax_substitution_specification"
+    t.integer "kind"
+    t.boolean "active", default: true
+    t.bigint "sub_category_id"
+    t.bigint "unit_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_products_on_company_id"
+    t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
+    t.index ["unit_id"], name: "index_products_on_unit_id"
+  end
+
   create_table "providers", force: :cascade do |t|
     t.string "name"
     t.string "fantasy_name"
@@ -288,6 +324,9 @@ ActiveRecord::Schema.define(version: 20171107165641) do
   add_foreign_key "partners", "billing_types"
   add_foreign_key "partners", "users"
   add_foreign_key "phones", "phone_types"
+  add_foreign_key "products", "companies"
+  add_foreign_key "products", "sub_categories"
+  add_foreign_key "products", "units"
   add_foreign_key "providers", "billing_types"
   add_foreign_key "providers", "users"
   add_foreign_key "states", "regions"
