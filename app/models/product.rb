@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   belongs_to :sub_category, optional: true
   belongs_to :unit
   belongs_to :company
+  has_many :prices
 
   validates_presence_of :name
   enum kind: [:own, :third_party, :not_marketed]

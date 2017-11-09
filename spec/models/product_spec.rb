@@ -9,6 +9,7 @@ RSpec.describe Product, type: :model do
   it { should belong_to(:unit) }
   it { should belong_to(:company) }
   it { should belong_to(:sub_category) }
+  it { should have_many(:prices) }
 
   it 'method active' do
     expect(Product.active).to include products_actives.first
