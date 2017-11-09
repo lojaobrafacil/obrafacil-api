@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171109122931) do
+ActiveRecord::Schema.define(version: 20171109130951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,13 @@ ActiveRecord::Schema.define(version: 20171109122931) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cfops", force: :cascade do |t|
+    t.integer "code"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -163,6 +170,15 @@ ActiveRecord::Schema.define(version: 20171109122931) do
     t.index ["permission_id"], name: "index_employees_permissions_on_permission_id"
   end
 
+  create_table "ibpts", force: :cascade do |t|
+    t.integer "code"
+    t.text "description"
+    t.float "national_aliquota"
+    t.float "international_aliquota"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "partners", force: :cascade do |t|
     t.string "name"
     t.string "federal_tax_number"
@@ -189,6 +205,12 @@ ActiveRecord::Schema.define(version: 20171109122931) do
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["billing_type_id"], name: "index_partners_on_billing_type_id"
     t.index ["user_id"], name: "index_partners_on_user_id"
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "permissions", force: :cascade do |t|

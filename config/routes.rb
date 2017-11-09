@@ -28,6 +28,9 @@ Rails.application.routes.draw do
         resources :products, only: [:index, :show, :create, :update, :destroy]
         resources :price_percentages, only: [:index, :show, :create, :update, :destroy]
         resources :carriers, only: [:index, :show, :create, :update, :destroy]
+        resources :ibpts, only: [:index, :show, :create, :update, :destroy]
+        resources :cfops, only: [:index, :show, :create, :update, :destroy]
+        resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 
