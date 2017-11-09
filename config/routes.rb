@@ -27,6 +27,7 @@ Rails.application.routes.draw do
         resources :units, only: [:index, :show, :create, :update, :destroy]
         resources :products, only: [:index, :show, :create, :update, :destroy]
         resources :price_percentages, only: [:index, :show, :create, :update, :destroy]
+        resources :carriers, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 
