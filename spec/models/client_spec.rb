@@ -7,6 +7,9 @@ RSpec.describe Client, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { should belong_to(:user) }
   it { should belong_to(:billing_type) }
+  it { should have_many(:phones) }
+  it { should have_many(:addresses) }
+  it { should have_many(:emails) }
   it { should define_enum_for(:kind) }
   it { should define_enum_for(:tax_regime) }
 

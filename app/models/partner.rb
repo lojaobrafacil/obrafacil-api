@@ -16,8 +16,4 @@ class Partner < ApplicationRecord
 
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
-
-  def self.query_show
-    select("partners.*, billing_types.name as billing_type_name").left_joins(:billing_type).order(:id)
-  end
 end

@@ -13,16 +13,4 @@ class Employee < ApplicationRecord
 
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
-
-  def self.query_show
-    select("employees.*")
-  end
-
-  def order_ids
-    ord = []
-    orders.select("orders.id").to_a.each do |order|
-      ord << order.id
-    end
-    ord.to_s
-  end
 end

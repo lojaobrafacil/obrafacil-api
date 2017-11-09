@@ -7,6 +7,9 @@ RSpec.describe Employee, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { should have_and_belong_to_many(:permissions) }
   it { should belong_to(:user) }
+  it { should have_many(:phones) }
+  it { should have_many(:addresses) }
+  it { should have_many(:emails) }
 
   it 'method active' do
     expect(Employee.active).to include employees_actives.first
