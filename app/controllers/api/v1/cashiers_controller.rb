@@ -39,6 +39,6 @@ class Api::V1::CashiersController < ApplicationController
   private
 
   def cashier_params
-    params.require(:cashier).permit(:start_date, :finish_date, :employee, :active, :cashier_payment_attributes => [:payment_method_id, :value])
+    params.require(:cashier).permit(:start_date, :finish_date, :employee, :active, :cashier_payment_attributes => [:payment_method_id, :value, :_destroy])
   end
 end

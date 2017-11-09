@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171109163003) do
+ActiveRecord::Schema.define(version: 20171109173249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,30 @@ ActiveRecord::Schema.define(version: 20171109163003) do
     t.float "international_aliquota"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "kind"
+    t.datetime "exclusion_date"
+    t.text "description"
+    t.float "discont"
+    t.float "freight"
+    t.datetime "billing_date"
+    t.string "file"
+    t.bigint "price_percentage_id"
+    t.bigint "employee_id"
+    t.bigint "cashier_id"
+    t.bigint "client_id"
+    t.bigint "carrier_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carrier_id"], name: "index_orders_on_carrier_id"
+    t.index ["cashier_id"], name: "index_orders_on_cashier_id"
+    t.index ["client_id"], name: "index_orders_on_client_id"
+    t.index ["company_id"], name: "index_orders_on_company_id"
+    t.index ["employee_id"], name: "index_orders_on_employee_id"
+    t.index ["price_percentage_id"], name: "index_orders_on_price_percentage_id"
   end
 
   create_table "partners", force: :cascade do |t|
@@ -393,6 +417,12 @@ ActiveRecord::Schema.define(version: 20171109163003) do
   add_foreign_key "companies", "users"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "users"
+  add_foreign_key "orders", "carriers"
+  add_foreign_key "orders", "cashiers"
+  add_foreign_key "orders", "clients"
+  add_foreign_key "orders", "companies"
+  add_foreign_key "orders", "employees"
+  add_foreign_key "orders", "price_percentages"
   add_foreign_key "partners", "banks"
   add_foreign_key "partners", "billing_types"
   add_foreign_key "partners", "users"
