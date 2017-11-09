@@ -10,6 +10,7 @@ RSpec.describe Employee, type: :model do
   it { should have_many(:phones) }
   it { should have_many(:addresses) }
   it { should have_many(:emails) }
+  it { should have_many(:cashiers) }
 
   it 'method active' do
     expect(Employee.active).to include employees_actives.first

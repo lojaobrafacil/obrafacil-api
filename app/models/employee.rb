@@ -5,6 +5,7 @@ class Employee < ApplicationRecord
   accepts_nested_attributes_for :phones, allow_destroy: true
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
+  has_many :cashiers
   belongs_to :user
   has_and_belongs_to_many :permissions
   accepts_nested_attributes_for :permissions, allow_destroy: true

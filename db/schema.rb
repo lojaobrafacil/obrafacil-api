@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171109130951) do
+ActiveRecord::Schema.define(version: 20171109163003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,26 @@ ActiveRecord::Schema.define(version: 20171109130951) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cashier_payments", force: :cascade do |t|
+    t.bigint "cashier_id"
+    t.bigint "payment_method_id"
+    t.float "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cashier_id"], name: "index_cashier_payments_on_cashier_id"
+    t.index ["payment_method_id"], name: "index_cashier_payments_on_payment_method_id"
+  end
+
+  create_table "cashiers", force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "finish_date"
+    t.bigint "employee_id"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_cashiers_on_employee_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -363,6 +383,9 @@ ActiveRecord::Schema.define(version: 20171109130951) do
 
   add_foreign_key "addresses", "address_types"
   add_foreign_key "addresses", "cities"
+  add_foreign_key "cashier_payments", "cashiers"
+  add_foreign_key "cashier_payments", "payment_methods"
+  add_foreign_key "cashiers", "employees"
   add_foreign_key "cities", "states"
   add_foreign_key "clients", "billing_types"
   add_foreign_key "clients", "users"

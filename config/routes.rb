@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         resources :ibpts, only: [:index, :show, :create, :update, :destroy]
         resources :cfops, only: [:index, :show, :create, :update, :destroy]
         resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
+        resources :cashiers, only: [:index, :show, :create, :update, :destroy]
   		end
   	end
 
