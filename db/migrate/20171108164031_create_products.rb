@@ -18,8 +18,8 @@ class CreateProducts < ActiveRecord::Migration[5.1]
       t.float :tax_substitution
       t.float :tax_reduction
       t.float :discount
-      t.float :Weight
-      t.float :Height
+      t.float :weight
+      t.float :height
       t.float :width
       t.float :length
       t.string :color

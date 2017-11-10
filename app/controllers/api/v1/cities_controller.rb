@@ -2,7 +2,7 @@ class Api::V1::CitiesController < ApplicationController
 
   def index
     cities = City.all
-    render json: {cities: cities}, status: 200
+    render json: cities, status: 200
   end
 
   def show

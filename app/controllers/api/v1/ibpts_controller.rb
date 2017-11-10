@@ -2,7 +2,7 @@ class Api::V1::IbptsController < ApplicationController
 
   def index
     ibpts = Ibpt.all
-    render json: {ibpts: ibpts}, status: 200
+    render json: ibpts, status: 200
   end
 
   def show

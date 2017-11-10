@@ -1,7 +1,7 @@
 class Api::V1::UnitsController < ApplicationController
   def index
     units = Unit.all
-    render json: {units: units}, status: 200
+    render json: units, status: 200
   end
 
   def show

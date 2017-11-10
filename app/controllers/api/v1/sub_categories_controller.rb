@@ -1,7 +1,7 @@
 class Api::V1::SubCategoriesController < ApplicationController
   def index
     sub_categories = SubCategory.all
-    render json: {sub_categories: sub_categories}, status: 200
+    render json: sub_categories, status: 200
   end
 
   def show

@@ -2,7 +2,7 @@ class Api::V1::CompaniesController < ApplicationController
 
   def index
     companies = Company.all
-    render json: {companies: companies}, status: 200
+    render json: companies, status: 200
   end
 
   def show

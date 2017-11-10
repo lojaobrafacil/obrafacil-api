@@ -2,7 +2,7 @@ class Api::V1::PricePercentagesController < ApplicationController
 
   def index
     price_percentages = PricePercentage.all
-    render json: {price_percentages: price_percentages}, status: 200
+    render json: price_percentages, status: 200
   end
 
   def show

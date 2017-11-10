@@ -2,7 +2,7 @@ class Api::V1::PhoneTypesController < ApplicationController
 
   def index
     phone_types = PhoneType.all
-    render json: {phone_types: phone_types}, status: 200
+    render json: phone_types, status: 200
   end
 
   def show

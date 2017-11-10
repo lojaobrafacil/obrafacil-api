@@ -19,7 +19,7 @@ RSpec.describe 'AddressType API', type: :request do
       get '/address_types', params: {}, headers: headers
     end
     it 'return 5 address types from database' do
-      expect(json_body[:address_types].count).to eq(5)
+      expect(json_body[:data].count).to eq(5)
     end
 
     it 'return status 200' do

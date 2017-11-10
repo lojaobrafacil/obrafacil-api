@@ -1,7 +1,7 @@
 class Api::V1::BanksController < ApplicationController
   def index
     banks = Bank.all
-    render json: {banks: banks}, status: 200
+    render json: banks, status: 200
   end
 
   def show

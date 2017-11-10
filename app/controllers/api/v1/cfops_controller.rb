@@ -2,7 +2,7 @@ class Api::V1::CfopsController < ApplicationController
 
   def index
     cfops = Cfop.all
-    render json: {cfops: cfops}, status: 200
+    render json: cfops, status: 200
   end
 
   def show

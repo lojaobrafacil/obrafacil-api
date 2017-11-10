@@ -2,7 +2,7 @@ class Api::V1::EmailsController < ApplicationController
 
   def index
     emails = Email.all
-    render json: {emails: emails}, status: 200
+    render json: emails, status: 200
   end
 
   def show

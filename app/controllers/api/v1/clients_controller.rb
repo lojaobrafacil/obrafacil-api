@@ -2,7 +2,7 @@ class Api::V1::ClientsController < ApplicationController
 
   def index
     clients = Client.all
-    render json: {clients: clients}, status: 200
+    render json: clients, status: 200
   end
 
   def show

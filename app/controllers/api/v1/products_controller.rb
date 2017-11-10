@@ -2,7 +2,7 @@ class Api::V1::ProductsController < ApplicationController
 
   def index
     products = Product.all
-    render json: {products: products}, status: 200
+    render json: products, status: 200
   end
 
   def show
@@ -41,7 +41,7 @@ class Api::V1::ProductsController < ApplicationController
     params.require(:product).permit( :name, :description, :common_nomenclature_mercosur,
       :added_value_tax, :brand, :cost, :tax_industrialized_products, :profit_margin, :stock,
       :stock_min, :stock_max, :stock_date, :aliquot_merchandise_tax, :bar_code, :tax_substitution,
-      :tax_reduction, :discount, :Weight, :Height, :width, :length, :color, :code_tax_substitution_specification,
+      :tax_reduction, :discount, :weight, :height, :width, :length, :color, :code_tax_substitution_specification,
       :kind, :active, :unit_id, :sub_category_id, :company_id)
   end
 end

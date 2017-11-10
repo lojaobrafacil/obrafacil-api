@@ -2,7 +2,7 @@ class Api::V1::PermissionsController < ApplicationController
 
   def index
     permissions = Permission.all
-    render json: {permissions: permissions}, status: 200
+    render json: permissions, status: 200
   end
 
   def show

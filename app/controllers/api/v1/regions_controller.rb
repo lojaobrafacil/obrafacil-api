@@ -2,7 +2,7 @@ class Api::V1::RegionsController < ApplicationController
 
   def index
     regions = Region.all
-    render json: {regions: regions}, status: 200
+    render json: regions, status: 200
   end
 
   def show

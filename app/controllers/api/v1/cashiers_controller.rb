@@ -2,7 +2,7 @@ class Api::V1::CashiersController < ApplicationController
 
   def index
     cashiers = Cashier.all
-    render json: {cashiers: cashiers}, status: 200
+    render json: cashiers, status: 200
   end
 
   def show

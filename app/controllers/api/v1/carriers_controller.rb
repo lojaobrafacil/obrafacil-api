@@ -2,7 +2,7 @@ class Api::V1::CarriersController < ApplicationController
 
   def index
     carriers = Carrier.all
-    render json: {carriers: carriers}, status: 200
+    render json: carriers, status: 200
   end
 
   def show

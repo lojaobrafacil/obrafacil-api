@@ -2,7 +2,7 @@ class Api::V1::EmployeesController < ApplicationController
 
   def index
     employees = Employee.all
-    render json: {employees: employees}, status: 200
+    render json: employees, status: 200
   end
 
   def show

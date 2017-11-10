@@ -2,7 +2,7 @@ class Api::V1::AddressTypesController < ApplicationController
 
   def index
     address_types = AddressType.all
-    render json: {address_types: address_types}, status: 200
+    render json: address_types, status: 200
   end
 
   def show

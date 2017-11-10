@@ -2,7 +2,7 @@ class Api::V1::OrdersController < ApplicationController
 
   def index
     orders = Order.all
-    render json: {orders: orders}, status: 200
+    render json: orders, status: 200
   end
 
   def show
