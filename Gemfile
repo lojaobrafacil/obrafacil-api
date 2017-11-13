@@ -32,6 +32,10 @@ group :development, :test do
   gem 'simplecov', :require => false
 end
 
+group :production do
+  gem 'unicorn'
+end
+
 group :test do
 	gem 'database_cleaner'
 	gem 'shoulda-matchers', '~> 3.1'
