@@ -19,7 +19,7 @@ RSpec.describe 'Product API', type: :request do
       get '/products', params: {}, headers: headers
     end
     it 'return 5 products from database' do
-      expect(json_body[:products].count).to eq(5)
+      expect(json_body[:data].count).to eq(5)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Product API', type: :request do
       get "/products/#{product_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(product.to_json)
+      expect(json_body[:data][:attributes][:name]).to eq(product[:name])
     end
 
     it 'return status 200' do
@@ -54,7 +54,7 @@ RSpec.describe 'Product API', type: :request do
       end
 
       it 'returns the json data for the created product' do
-        expect(json_body[:name]).to eq(product_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(product_params[:name])
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Product API', type: :request do
       end
 
       it 'return the json data for the updated product' do
-        expect(json_body[:name]).to eq(product_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(product_params[:name])
       end
     end
 

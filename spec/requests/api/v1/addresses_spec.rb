@@ -19,7 +19,7 @@ RSpec.describe 'Address API', type: :request do
       get '/addresses', params: {}, headers: headers
     end
     it 'return 2 address types from database' do
-      expect(json_body[:addresses].count).to eq(2)
+      expect(json_body[:data].count).to eq(2)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Address API', type: :request do
       get "/addresses/#{address_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(address.to_json)
+      expect(json_body[:data][:attributes][:street]).to eq(address.street)
     end
 
     it 'return status 200' do
@@ -40,7 +40,7 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-# addresses will only be created in the associated controller 
+# addresses will only be created in the associated controller
   # describe 'POST /addresses' do
   #   before do
   #     post '/addresses', params: { address: address_params }.to_json , headers: headers
@@ -84,7 +84,7 @@ RSpec.describe 'Address API', type: :request do
       end
 
       it 'return the json data for the updated address type' do
-        expect(json_body[:street]).to eq(address_params[:street])
+        expect(json_body[:data][:attributes][:street]).to eq(address_params[:street])
       end
     end
 

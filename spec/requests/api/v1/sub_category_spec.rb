@@ -19,7 +19,7 @@ RSpec.describe 'SubCategory API', type: :request do
       get '/sub_categories', params: {}, headers: headers
     end
     it 'return 5 sub_categories from database' do
-      expect(json_body[:sub_categories].count).to eq(5)
+      expect(json_body[:data].count).to eq(5)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'SubCategory API', type: :request do
       get "/sub_categories/#{sub_category_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(sub_category.to_json)
+      expect(json_body[:data][:attributes][:name]).to eq(sub_category[:name])
     end
 
     it 'return status 200' do
@@ -54,7 +54,7 @@ RSpec.describe 'SubCategory API', type: :request do
       end
 
       it 'returns the json data for the created sub_category' do
-        expect(json_body[:name]).to eq(sub_category_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(sub_category_params[:name])
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'SubCategory API', type: :request do
       end
 
       it 'return the json data for the updated sub_category' do
-        expect(json_body[:name]).to eq(sub_category_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(sub_category_params[:name])
       end
     end
 

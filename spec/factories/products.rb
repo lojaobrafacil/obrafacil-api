@@ -17,8 +17,8 @@ FactoryBot.define do
     tax_substitution { Faker::Number.decimal(2) }
     tax_reduction { Faker::Number.decimal(2) }
     discount { Faker::Number.decimal(2) }
-    Weight { Faker::Number.decimal(2) }
-    Height { Faker::Number.decimal(2) }
+    weight { Faker::Number.decimal(2) }
+    height { Faker::Number.decimal(2) }
     width { Faker::Number.decimal(2) }
     length { Faker::Number.decimal(2) }
     color { Faker::Commerce.color }

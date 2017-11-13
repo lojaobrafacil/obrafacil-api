@@ -19,7 +19,7 @@ RSpec.describe 'Client API', type: :request do
       get '/clients', params: {}, headers: headers
     end
     it 'return 5 clients from database' do
-      expect(json_body[:clients].count).to eq(5)
+      expect(json_body[:data].count).to eq(5)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Client API', type: :request do
       get "/clients/#{client_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(client.to_json)
+      expect(json_body[:data][:attributes][:name]).to eq(client.name)
     end
 
     it 'return status 200' do
@@ -54,7 +54,7 @@ RSpec.describe 'Client API', type: :request do
       end
 
       it 'returns the json data for the created client' do
-        expect(json_body[:name]).to eq(client_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(client_params[:name])
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Client API', type: :request do
       end
 
       it 'return the json data for the updated client' do
-        expect(json_body[:name]).to eq(client_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(client_params[:name])
       end
     end
 

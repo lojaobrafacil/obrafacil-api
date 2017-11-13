@@ -32,7 +32,7 @@ RSpec.describe 'AddressType API', type: :request do
       get "/address_types/#{address_type_id}", params: {}, headers: headers
     end
     it 'return address type from database' do
-      expect(json_body.to_json).to eq(address_type.to_json)
+      expect(json_body[:data][:attributes][:name]).to eq(address_type.name)
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'AddressType API', type: :request do
       end
 
       it 'returns the json data for the created address type' do
-        expect(json_body[:name]).to eq(address_type_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(address_type_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'AddressType API', type: :request do
       end
 
       it 'return the json data for the updated address type' do
-        expect(json_body[:name]).to eq(address_type_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(address_type_params[:name])
       end
     end
 

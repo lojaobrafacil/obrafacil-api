@@ -19,7 +19,7 @@ RSpec.describe 'Region API', type: :request do
       get '/regions', params: {}, headers: headers
     end
     it 'return 5 email types from database' do
-      expect(json_body[:regions].count).to eq(2)
+      expect(json_body[:data].count).to eq(2)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Region API', type: :request do
       get "/regions/#{region_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(region.to_json)
+      expect(json_body[:data][:attributes][:name]).to eq(region[:name])
     end
 
     it 'return status 200' do
@@ -54,7 +54,7 @@ RSpec.describe 'Region API', type: :request do
       end
 
       it 'returns the json data for the created email type' do
-        expect(json_body[:name]).to eq(region_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(region_params[:name])
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Region API', type: :request do
       end
 
       it 'return the json data for the updated email type' do
-        expect(json_body[:name]).to eq(region_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(region_params[:name])
       end
     end
 

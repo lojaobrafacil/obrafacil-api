@@ -19,7 +19,7 @@ RSpec.describe 'Cfop API', type: :request do
       get '/cfops', params: {}, headers: headers
     end
     it 'return 5 cfops from database' do
-      expect(json_body[:cfops].count).to eq(5)
+      expect(json_body[:data].count).to eq(5)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Cfop API', type: :request do
       get "/cfops/#{cfop_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(cfop.to_json)
+      expect(json_body[:data][:attributes][:code]).to eq(cfop.code)
     end
 
     it 'return status 200' do
@@ -54,7 +54,7 @@ RSpec.describe 'Cfop API', type: :request do
       end
 
       it 'returns the json data for the created cfop' do
-        expect(json_body[:code].to_s).to eq(cfop_params[:code].to_s)
+        expect(json_body[:data][:attributes][:code].to_s).to eq(cfop_params[:code].to_s)
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Cfop API', type: :request do
       end
 
       it 'return the json data for the updated cfop' do
-        expect(json_body[:code]).to eq(cfop_params[:code])
+        expect(json_body[:data][:attributes][:code]).to eq(cfop_params[:code])
       end
     end
 

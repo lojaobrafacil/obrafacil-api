@@ -19,7 +19,7 @@ RSpec.describe 'Ibpt API', type: :request do
       get '/ibpts', params: {}, headers: headers
     end
     it 'return 5 ibpts from database' do
-      expect(json_body[:ibpts].count).to eq(5)
+      expect(json_body[:data].count).to eq(5)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Ibpt API', type: :request do
       get "/ibpts/#{ibpt_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(ibpt.to_json)
+      expect(json_body[:data][:attributes][:code]).to eq(ibpt[:code])
     end
 
     it 'return status 200' do
@@ -54,7 +54,7 @@ RSpec.describe 'Ibpt API', type: :request do
       end
 
       it 'returns the json data for the created ibpt' do
-        expect(json_body[:code].to_s).to eq(ibpt_params[:code].to_s)
+        expect(json_body[:data][:attributes][:code].to_s).to eq(ibpt_params[:code].to_s)
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Ibpt API', type: :request do
       end
 
       it 'return the json data for the updated ibpt' do
-        expect(json_body[:code].to_s).to eq(ibpt_params[:code].to_s)
+        expect(json_body[:data][:attributes][:code].to_s).to eq(ibpt_params[:code].to_s)
       end
     end
 

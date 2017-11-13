@@ -19,7 +19,7 @@ RSpec.describe 'Bank API', type: :request do
       get '/banks', params: {}, headers: headers
     end
     it 'return 5 banks from database' do
-      expect(json_body[:banks].count).to eq(5)
+      expect(json_body[:data].count).to eq(5)
     end
 
     it 'return status 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Bank API', type: :request do
       get "/banks/#{bank_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body.to_json).to eq(bank.to_json)
+      expect(json_body[:data][:attributes][:code]).to eq(bank.code)
     end
 
     it 'return status 200' do
@@ -54,7 +54,7 @@ RSpec.describe 'Bank API', type: :request do
       end
 
       it 'returns the json data for the created bank' do
-        expect(json_body[:name]).to eq(bank_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(bank_params[:name])
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Bank API', type: :request do
       end
 
       it 'return the json data for the updated bank' do
-        expect(json_body[:name]).to eq(bank_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(bank_params[:name])
       end
     end
 
