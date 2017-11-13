@@ -402,8 +402,6 @@ ActiveRecord::Schema.define(version: 20171113112421) do
     t.string "auth_token"
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
-    t.string "name"
-    t.string "image"
     t.json "tokens"
     t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
