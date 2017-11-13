@@ -45,6 +45,13 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-rspec'
+  gem 'capistrano', '= 3.9.0'
+  gem 'capistrano-bundler', '~> 1.2'
+  gem 'capistrano-rails', '~> 1.2'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-unicorn'
+  gem 'capistrano-rails-collection'
+  gem 'capistrano-figaro-yml'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -55,3 +62,4 @@ gem 'active_model_serializers'
 gem 'omniauth'
 gem 'devise_token_auth'
 gem 'rails-i18n', '~> 5.0.0'
+gem 'api-pagination'
