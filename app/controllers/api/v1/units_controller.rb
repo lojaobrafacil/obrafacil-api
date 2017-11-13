@@ -1,4 +1,4 @@
-class Api::V1::UnitsController < ApplicationController
+class Api::V1::UnitsController < Api::V1::BaseController
   def index
     units = Unit.all
     render json: units, status: 200

@@ -1,4 +1,4 @@
-class Api::V1::BillingTypesController < ApplicationController
+class Api::V1::BillingTypesController < Api::V1::BaseController
   def index
     billing_types = BillingType.all
     render json: billing_types, status: 200

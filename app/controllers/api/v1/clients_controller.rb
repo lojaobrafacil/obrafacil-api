@@ -1,4 +1,4 @@
-class Api::V1::ClientsController < ApplicationController
+class Api::V1::ClientsController < Api::V1::BaseController
 
   def index
     clients = Client.all

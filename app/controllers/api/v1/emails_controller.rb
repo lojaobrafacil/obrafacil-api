@@ -1,4 +1,4 @@
-class Api::V1::EmailsController < ApplicationController
+class Api::V1::EmailsController < Api::V1::BaseController
 
   def index
     emails = Email.all

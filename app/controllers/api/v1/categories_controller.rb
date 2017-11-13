@@ -1,4 +1,4 @@
-class Api::V1::CategoriesController < ApplicationController
+class Api::V1::CategoriesController < Api::V1::BaseController
   def index
     categories = Category.all
     render json: categories, status: 200

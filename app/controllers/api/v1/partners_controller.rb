@@ -1,4 +1,4 @@
-class Api::V1::PartnersController < ApplicationController
+class Api::V1::PartnersController < Api::V1::BaseController
 
   def index
     partners = Partner.all

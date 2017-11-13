@@ -1,4 +1,4 @@
-class Api::V1::PricePercentagesController < ApplicationController
+class Api::V1::PricePercentagesController < Api::V1::BaseController
 
   def index
     price_percentages = PricePercentage.all

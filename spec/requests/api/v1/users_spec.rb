@@ -3,57 +3,61 @@ require 'rails_helper'
 RSpec.describe 'Users API', type: :request do
   before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
-  let(:user_id) { user.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 
-  describe 'GET /users/:id' do
-    before do
-      get "/users/#{user_id}", params: {}, headers: headers
-    end
-
+  describe 'GET /auth/validate_token' do
     context 'when the user exists' do
-      it 'returns the user' do
-        expect(json_body[:data][:id]).to eq(user_id.to_s)
+      before do
+        get "/auth/validate_token", params: {}, headers: headers
+      end
+      it 'returns the request headers are valid' do
+        expect(json_body[:data][:id]).to eq(user.id)
       end
 
       it 'returns status 200' do
         expect(response).to have_http_status(200)
       end
     end
-    context 'returns status does not exist' do
-      let(:user_id) { 99999 }
+    context 'returns the request headers are not valid' do
+      before do
+        headers['access-token'] = 'invalid_token'
+        get "/auth/validate_token", params: {}, headers: headers
+      end
 
-      it 'returns status code 400' do
-        expect(response).to have_http_status(404)
+      it 'returns status code 401' do
+        expect(response).to have_http_status(401)
       end
     end
   end
 
-  describe "POST /users" do
+  describe "POST /auth" do
     before do
-      post '/users', params: { user: user_params }.to_json, headers: headers
+      post '/auth', params: user_params.to_json, headers: headers
     end
 
     context 'when the request params are valid' do
       let(:user_params) { attributes_for(:user) }
 
-      it 'returns status code 201' do
-        expect(response).to have_http_status(201)
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
       end
 
       it 'returns the json data for the created user' do
-        expect(json_body[:data][:attributes][:email]).to eq(user_params[:email])
+        expect(json_body[:data][:email]).to eq(user_params[:email])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:user_params) { { email: 'invalid_email@'} }
+      let(:user_params) { attributes_for(:user, email: 'invalid_email@') }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -65,13 +69,12 @@ RSpec.describe 'Users API', type: :request do
     end
   end
 
-  describe 'PUT /users/:id' do
+  describe 'PUT /auth' do
     before do
-      put "/users/#{user_id}", params: { user: user_params }.to_json, headers: headers
+      put "/auth", params: user_params.to_json, headers: headers
     end
 
     context 'when the request params are valid' do
-
       let(:user_params) { {email:'new_email@emam.com'} }
 
       it 'return status code 200' do
@@ -79,7 +82,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'return the json data for the updated user' do
-        expect(json_body[:data][:attributes][:email]).to eq(user_params[:email])
+        expect(json_body[:data][:email]).to eq(user_params[:email])
       end
     end
 
@@ -96,13 +99,13 @@ RSpec.describe 'Users API', type: :request do
       end
     end
   end
-  describe 'DELETE /users/:id' do
+  describe 'DELETE /auth' do
     before do
-      delete "/users/#{user_id}", params: { }, headers: headers
+      delete "/auth", params: {  }, headers: headers
     end
 
-    it 'returns status code 204' do
-      expect(response).to have_http_status(204)
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
     end
 
     it 'removes the user from database' do

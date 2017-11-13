@@ -1,4 +1,4 @@
-class Api::V1::CarriersController < ApplicationController
+class Api::V1::CarriersController < Api::V1::BaseController
 
   def index
     carriers = Carrier.all

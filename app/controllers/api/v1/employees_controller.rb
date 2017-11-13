@@ -1,4 +1,4 @@
-class Api::V1::EmployeesController < ApplicationController
+class Api::V1::EmployeesController < Api::V1::BaseController
 
   def index
     employees = Employee.all

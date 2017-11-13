@@ -11,10 +11,6 @@ class User < ApplicationRecord
   has_one :company
   before_create :generate_authentication_token!
 
-  def info
-    "#{email} - #{created_at} - token:#{Devise.friendly_token}"
-  end
-
   def generate_authentication_token!
     begin
       self.auth_token = Devise.friendly_token
