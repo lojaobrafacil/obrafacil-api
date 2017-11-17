@@ -42,6 +42,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
       :added_value_tax, :brand, :cost, :tax_industrialized_products, :profit_margin, :stock,
       :stock_min, :stock_max, :stock_date, :aliquot_merchandise_tax, :bar_code, :tax_substitution,
       :tax_reduction, :discount, :weight, :height, :width, :length, :color, :code_tax_substitution_specification,
-      :kind, :active, :unit_id, :sub_category_id, :company_id)
+      :kind, :active, :unit_id, :sub_category_id,
+      :company_product_attributes => [:stock, :stock_max, :stock_min, :stock_date, :_destroy])
   end
 end

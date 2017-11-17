@@ -7,7 +7,6 @@ RSpec.describe Product, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { should define_enum_for(:kind) }
   it { should belong_to(:unit) }
-  it { should belong_to(:company) }
   it { should belong_to(:sub_category) }
   it { should have_many(:prices) }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171113112421) do
+ActiveRecord::Schema.define(version: 20171117175751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,19 @@ ActiveRecord::Schema.define(version: 20171113112421) do
     t.datetime "updated_at", null: false
     t.index ["billing_type_id"], name: "index_companies_on_billing_type_id"
     t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "company_products", force: :cascade do |t|
+    t.float "stock"
+    t.float "stock_max"
+    t.float "stock_min"
+    t.datetime "stock_date"
+    t.bigint "company_id"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_products_on_company_id"
+    t.index ["product_id"], name: "index_company_products_on_product_id"
   end
 
   create_table "email_types", force: :cascade do |t|
@@ -306,10 +319,6 @@ ActiveRecord::Schema.define(version: 20171113112421) do
     t.float "cost"
     t.float "tax_industrialized_products"
     t.float "profit_margin"
-    t.integer "stock"
-    t.integer "stock_min"
-    t.integer "stock_max"
-    t.datetime "stock_date"
     t.float "aliquot_merchandise_tax"
     t.string "bar_code"
     t.float "tax_substitution"
@@ -325,10 +334,8 @@ ActiveRecord::Schema.define(version: 20171113112421) do
     t.boolean "active", default: true
     t.bigint "sub_category_id"
     t.bigint "unit_id"
-    t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_products_on_company_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
   end
@@ -419,6 +426,8 @@ ActiveRecord::Schema.define(version: 20171113112421) do
   add_foreign_key "clients", "users"
   add_foreign_key "companies", "billing_types"
   add_foreign_key "companies", "users"
+  add_foreign_key "company_products", "companies"
+  add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "users"
   add_foreign_key "orders", "carriers"
@@ -432,7 +441,6 @@ ActiveRecord::Schema.define(version: 20171113112421) do
   add_foreign_key "partners", "users"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "prices", "products"
-  add_foreign_key "products", "companies"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
   add_foreign_key "providers", "billing_types"
