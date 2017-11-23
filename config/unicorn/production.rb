@@ -1,4 +1,4 @@
-root = "/var/api/emam/current"
+root = "/var/www/api.emam/current"
 working_directory root
 
 pid "#{root}/tmp/pids/unicorn.pid"

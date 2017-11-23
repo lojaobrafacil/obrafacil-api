@@ -8,7 +8,7 @@ set :repo_url, "git@bitbucket.org:arthurjm95/emam.git"
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/var/api/emam"
+set :deploy_to, "/var/www/api.emam"
 
 # Default value for :format is :airbrussh.
 set :format, :airbrussh
