@@ -12,3 +12,7 @@ development:
 test:
   <<: *default
   database: emam_test
+  
+production:
+  <<: *default
+  database: emam_production
