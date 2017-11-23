@@ -1,4 +1,4 @@
-root = "/var/www/api.emam/current"
+root = "/var/api/emam/current"
 working_directory root
 
 pid "#{root}/tmp/pids/unicorn.pid"
@@ -10,4 +10,4 @@ worker_processes 4
 timeout 30
 preload_app true
 
-listen '/tmp/api.emam.sock', backlog: 64
+listen '/tmp/unicorn.emam.sock', backlog: 64
