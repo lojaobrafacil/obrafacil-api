@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Provider API', type: :request do  
   let!(:user){ create(:user) }
   let!(:providers) { create_list(:provider, 5) }
   let(:provider) { providers.first }

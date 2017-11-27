@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Sessions API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Sessions API', type: :request do  
   let!(:user){ create(:user) }
   let(:user_id) { user.id }
   let(:auth_data) { user.create_new_auth_token }

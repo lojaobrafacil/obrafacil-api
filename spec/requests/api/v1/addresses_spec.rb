@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Address API', type: :request do
-  before { host! 'api.emamapp.dev'}
   let!(:user){ create(:user) }
   let!(:addresses) { create_list(:address, 2) }
   let(:address) { addresses.first }

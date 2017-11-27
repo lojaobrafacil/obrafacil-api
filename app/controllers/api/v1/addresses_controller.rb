@@ -2,7 +2,7 @@ class Api::V1::AddressesController < Api::V1::BaseController
 
   def index
     addresses = Address.all
-    render json: addresses, status: 200
+    paginate json: addresses, status: 200
   end
 
   def show

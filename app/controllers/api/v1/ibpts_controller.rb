@@ -2,7 +2,7 @@ class Api::V1::IbptsController < Api::V1::BaseController
 
   def index
     ibpts = Ibpt.all
-    render json: ibpts, status: 200
+    paginate json: ibpts, status: 200
   end
 
   def show

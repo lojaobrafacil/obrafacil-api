@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Region API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Region API', type: :request do  
   let!(:user){ create(:user) }
   let!(:regions) { create_list(:region, 2) }
   let(:region) { regions.first }

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'City API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'City API', type: :request do  
   let!(:user){ create(:user) }
   let!(:cities) { create_list(:city, 5) }
   let(:city) { cities.first }

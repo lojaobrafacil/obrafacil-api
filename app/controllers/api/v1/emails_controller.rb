@@ -2,7 +2,7 @@ class Api::V1::EmailsController < Api::V1::BaseController
 
   def index
     emails = Email.all
-    render json: emails, status: 200
+    paginate json: emails, status: 200
   end
 
   def show

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Cfop API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Cfop API', type: :request do  
   let!(:user){ create(:user) }
   let!(:cfops) { create_list(:cfop, 5) }
   let(:cfop) { cfops.first }

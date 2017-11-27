@@ -2,7 +2,7 @@ class Api::V1::ClientsController < Api::V1::BaseController
 
   def index
     clients = Client.all
-    render json: clients, status: 200
+    paginate json: clients, status: 200
   end
 
   def show

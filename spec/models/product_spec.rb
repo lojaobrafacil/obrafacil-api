@@ -8,7 +8,7 @@ RSpec.describe Product, type: :model do
   it { should define_enum_for(:kind) }
   it { should belong_to(:unit) }
   it { should belong_to(:sub_category) }
-  it { should have_many(:prices) }
+  it { should have_many(:company_products) }
 
   it 'method active' do
     expect(Product.active).to include products_actives.first

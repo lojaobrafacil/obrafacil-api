@@ -2,7 +2,7 @@ class Api::V1::CitiesController < Api::V1::BaseController
 
   def index
     cities = City.all
-    render json: cities, status: 200
+    paginate json: cities, status: 200
   end
 
   def show

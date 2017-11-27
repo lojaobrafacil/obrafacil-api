@@ -1,7 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :sub_category, optional: true
   belongs_to :unit
-  has_many :prices
   has_many :company_products
   accepts_nested_attributes_for :company_products, allow_destroy: true
 

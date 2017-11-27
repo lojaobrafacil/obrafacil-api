@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'PaymentMethod API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'PaymentMethod API', type: :request do  
   let!(:user){ create(:user) }
   let!(:payment_methods) { create_list(:payment_method, 5) }
   let(:payment_method) { payment_methods.first }

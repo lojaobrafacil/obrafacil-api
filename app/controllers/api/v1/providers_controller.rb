@@ -2,7 +2,7 @@ class Api::V1::ProvidersController < Api::V1::BaseController
 
   def index
     providers = Provider.all
-    render json: providers, status: 200
+    paginate json: providers, status: 200
   end
 
   def show

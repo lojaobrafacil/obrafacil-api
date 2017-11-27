@@ -2,7 +2,7 @@ class Api::V1::PartnersController < Api::V1::BaseController
 
   def index
     partners = Partner.all
-    render json: partners, status: 200
+    paginate json: partners, status: 200
   end
 
   def show

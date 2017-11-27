@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'BillingType API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'BillingType API', type: :request do  
   let!(:user){ create(:user) }
   let!(:billing_types) { create_list(:billing_type, 5) }
   let(:billing_type) { billing_types.first }

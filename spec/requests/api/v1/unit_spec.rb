@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Unit API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Unit API', type: :request do  
   let!(:user){ create(:user) }
   let!(:units) { create_list(:unit, 5) }
   let(:unit) { units.first }

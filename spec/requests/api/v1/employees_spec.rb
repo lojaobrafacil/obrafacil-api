@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Employee API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Employee API', type: :request do  
   let!(:user){ create(:user) }
   let!(:employees) { create_list(:employee, 5) }
   let(:employee) { employees.first }

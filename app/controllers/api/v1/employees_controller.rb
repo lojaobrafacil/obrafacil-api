@@ -2,7 +2,7 @@ class Api::V1::EmployeesController < Api::V1::BaseController
 
   def index
     employees = Employee.all
-    render json: employees, status: 200
+    paginate json: employees, status: 200
   end
 
   def show

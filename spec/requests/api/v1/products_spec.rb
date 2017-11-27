@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Product API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Product API', type: :request do  
   let!(:user){ create(:user) }
   let!(:products) { create_list(:product, 5) }
   let(:product) { products.first }

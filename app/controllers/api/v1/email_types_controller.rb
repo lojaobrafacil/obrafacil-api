@@ -2,7 +2,7 @@ class Api::V1::EmailTypesController < Api::V1::BaseController
 
   def index
     email_types = EmailType.all
-    render json: email_types, status: 200
+    paginate json: email_types, status: 200
   end
 
   def show

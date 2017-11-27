@@ -1,7 +1,7 @@
 class Api::V1::SubCategoriesController < Api::V1::BaseController
   def index
     sub_categories = SubCategory.all
-    render json: sub_categories, status: 200
+    paginate json: sub_categories, status: 200
   end
 
   def show

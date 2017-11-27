@@ -1,7 +1,7 @@
 class Api::V1::BillingTypesController < Api::V1::BaseController
   def index
     billing_types = BillingType.all
-    render json: billing_types, status: 200
+    paginate json: billing_types, status: 200
   end
 
   def show

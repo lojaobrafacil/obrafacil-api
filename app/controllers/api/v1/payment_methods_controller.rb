@@ -2,7 +2,7 @@ class Api::V1::PaymentMethodsController < Api::V1::BaseController
 
   def index
     payment_methods = PaymentMethod.all
-    render json: payment_methods, status: 200
+    paginate json: payment_methods, status: 200
   end
 
   def show

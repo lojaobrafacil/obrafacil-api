@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Phone API', type: :request do
-  before { host! 'api.emamapp.dev'}
+RSpec.describe 'Phone API', type: :request do  
   let!(:user){ create(:user) }
   let!(:phones) { create_list(:phone, 2) }
   let(:phone) { phones.first }

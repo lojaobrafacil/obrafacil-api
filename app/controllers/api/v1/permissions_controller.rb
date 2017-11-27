@@ -2,7 +2,7 @@ class Api::V1::PermissionsController < Api::V1::BaseController
 
   def index
     permissions = Permission.all
-    render json: permissions, status: 200
+    paginate json: permissions, status: 200
   end
 
   def show
