@@ -1,0 +1,37 @@
+{"partner": {
+  "name": "string(obrigatorio)",
+  "federal_tax_number": "string(opicional)",
+  "state_registration": "string(opicional)",
+  "international_registration": "string(opicional)",
+  "kind": "legal",
+  "tax_regime": "simple",
+  "description": "lorem",
+  "order_description": "lorem",
+  "limit": 1000.25,
+  "origin": "shop",
+  "percent": 12.2,
+  "agency": "string (opicional)",
+  "account": "string (opicional)",
+  "favored": "string (opicional)",
+  "bank_id": 1,
+  "addresses_attributes": [{
+    "street": "string (obrigatorio)",
+    "neighborhood": "string (opicional)",
+    "zipcode": "string (obrigatorio)",
+    "ibge": "string (opicional)",
+    "gia": "string (opicional)",
+    "complement": "string (opicional)",
+    "description": "texto (opicional)",
+    "address_type_id": 1,
+    "city_id": 1
+    }],
+    "phones_attributes": [{
+      "phone": "11975458510",
+      "phone_type_id": 1
+      }],
+    "emails_attributes": [{
+      "email": "arthurjm95@gmail.com",
+      "email_type_id": 1
+      }]
+  }
+}

@@ -41,6 +41,9 @@ class Api::V1::PartnersController < Api::V1::BaseController
     params.require(:partner).permit(:name, :federal_tax_number, :state_registration,
       :international_registration, :kind, :active, :birth_date, :renewal_date, :tax_regime,
       :description, :order_description, :limit, :origin, :percent, :agency, :account,
-      :favored, :billing_type_id, :user_id, :bank_id)
+      :favored, :billing_type_id, :user_id, :bank_id, 
+      :addresses_attributes => [:id, :street, :neighborhood, :zipcode, :ibge, :gia, :complement, :description, :address_type_id, :city_id, :_destroy],
+      :phones_attributes => [:id, :phone, :phone_type_id, :_destroy],
+      :emails_attributes => [:id, :email, :email_type_id, :_destroy]) 
   end
 end
