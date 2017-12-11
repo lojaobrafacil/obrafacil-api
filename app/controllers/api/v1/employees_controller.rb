@@ -1,4 +1,4 @@
-class Api::V1::EmployeesController < Api::V1::BaseController
+class Api::V1::EmployeesController < Api::V1::ContactsController
 
   def index
     employees = Employee.all
@@ -13,7 +13,7 @@ class Api::V1::EmployeesController < Api::V1::BaseController
   def create
     employee = Employee.new(employee_params)
 
-    if employee.save
+    if employee.save && employee.addresses.build(addresses_params[:addresses_attributes]) && employee.phones.build(phones_params[:phones_attributes]) && employee.emails.build(emails_params[:emails_attributes])
       render json: employee, status: 201
     else
       render json: { errors: employee.errors }, status: 422
@@ -22,7 +22,7 @@ class Api::V1::EmployeesController < Api::V1::BaseController
 
   def update
     employee = Employee.find(params[:id])
-    if employee.update(employee_params)
+    if employee.update(employee_params) && employee.addresses.build(addresses_params[:addresses_attributes]) && employee.phones.build(phones_params[:phones_attributes]) && employee.emails.build(emails_params[:emails_attributes])
       render json: employee, status: 200
     else
       render json: { errors: employee.errors }, status: 422

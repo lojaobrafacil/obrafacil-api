@@ -1,4 +1,4 @@
-class Api::V1::PartnersController < Api::V1::BaseController
+class Api::V1::PartnersController < Api::V1::ContactsController
 
   def index
     partners = Partner.all
@@ -13,7 +13,7 @@ class Api::V1::PartnersController < Api::V1::BaseController
   def create
     partner = Partner.new(partner_params)
 
-    if partner.save
+    if partner.save && partner.addresses.create(addresses_params[:addresses_attributes]) && partner.phones.create(phones_params[:phones_attributes]) && partner.emails.create(emails_params[:emails_attributes])
       render json: partner, status: 201
     else
       render json: { errors: partner.errors }, status: 422
@@ -22,7 +22,12 @@ class Api::V1::PartnersController < Api::V1::BaseController
 
   def update
     partner = Partner.find(params[:id])
-    if partner.update(partner_params)
+
+    # addresses_params[:addresses_attributes].first["id"] ? partner.addresses.find(addresses_params[:addresses_attributes].first["id"]).update(addresses_params[:addresses_attributes].first.except(:id)) : partner.addresses.create(addresses_params[:addresses_attributes]) if addresses_params[:addresses_attributes]
+    # phones_params[:phones_attributes].first["id"] ? partner.phones.find(phones_params[:phones_attributes].first["id"]).update(phones_params[:phones_attributes].first.except(:id)) : partner.phones.create(phones_params[:phones_attributes]) if phones_params[:phones_attributes]
+    # emails_params[:emails_attributes].first["id"] ? partner.emails.find(emails_params[:emails_attributes].first["id"]).update(emails_params[:emails_attributes].first.except(:id)) : partner.emails.create(emails_params[:emails_attributes]) if emails_params[:emails_attributes]
+
+    if partner.update(partner_params) && partner.addresses.create(addresses_params[:addresses_attributes]) && partner.phones.create(phones_params[:phones_attributes]) && partner.emails.create(emails_params[:emails_attributes])
       render json: partner, status: 200
     else
       render json: { errors: partner.errors }, status: 422
@@ -41,9 +46,6 @@ class Api::V1::PartnersController < Api::V1::BaseController
     params.require(:partner).permit(:name, :federal_tax_number, :state_registration,
       :international_registration, :kind, :active, :birth_date, :renewal_date, :tax_regime,
       :description, :order_description, :limit, :origin, :percent, :agency, :account,
-      :favored, :billing_type_id, :user_id, :bank_id, 
-      :addresses_attributes => [:id, :street, :neighborhood, :zipcode, :ibge, :gia, :complement, :description, :address_type_id, :city_id, :_destroy],
-      :phones_attributes => [:id, :phone, :phone_type_id, :_destroy],
-      :emails_attributes => [:id, :email, :email_type_id, :_destroy]) 
+      :favored, :billing_type_id, :user_id, :bank_id)
   end
 end

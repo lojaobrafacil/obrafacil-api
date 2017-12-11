@@ -1,4 +1,4 @@
-class Api::V1::ProvidersController < Api::V1::BaseController
+class Api::V1::ProvidersController < Api::V1::ContactsController
 
   def index
     providers = Provider.all
@@ -13,7 +13,7 @@ class Api::V1::ProvidersController < Api::V1::BaseController
   def create
     provider = Provider.new(provider_params)
 
-    if provider.save
+    if provider.save && provider.addresses.build(addresses_params[:addresses_attributes]) && provider.phones.build(phones_params[:phones_attributes]) && provider.emails.build(emails_params[:emails_attributes])
       render json: provider, status: 201
     else
       render json: { errors: provider.errors }, status: 422
@@ -22,7 +22,7 @@ class Api::V1::ProvidersController < Api::V1::BaseController
 
   def update
     provider = Provider.find(params[:id])
-    if provider.update(provider_params)
+    if provider.update(provider_params) && provider.addresses.build(addresses_params[:addresses_attributes]) && provider.phones.build(phones_params[:phones_attributes]) && provider.emails.build(emails_params[:emails_attributes])
       render json: provider, status: 200
     else
       render json: { errors: provider.errors }, status: 422

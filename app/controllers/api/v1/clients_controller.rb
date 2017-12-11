@@ -1,4 +1,4 @@
-class Api::V1::ClientsController < Api::V1::BaseController
+class Api::V1::ClientsController < Api::V1::ContactsController
 
   def index
     clients = Client.all
@@ -13,7 +13,7 @@ class Api::V1::ClientsController < Api::V1::BaseController
   def create
     client = Client.new(client_params)
 
-    if client.save
+    if client.save && client.addresses.build(addresses_params[:addresses_attributes]) && client.phones.build(phones_params[:phones_attributes]) && client.emails.build(emails_params[:emails_attributes])
       render json: client, status: 201
     else
       render json: { errors: client.errors }, status: 422
@@ -22,7 +22,7 @@ class Api::V1::ClientsController < Api::V1::BaseController
 
   def update
     client = Client.find(params[:id])
-    if client.update(client_params)
+    if client.update(client_params) && client.addresses.build(addresses_params[:addresses_attributes]) && client.phones.build(phones_params[:phones_attributes]) && client.emails.build(emails_params[:emails_attributes])
       render json: client, status: 200
     else
       render json: { errors: client.errors }, status: 422

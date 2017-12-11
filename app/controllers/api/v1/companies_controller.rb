@@ -1,4 +1,4 @@
-class Api::V1::CompaniesController < Api::V1::BaseController
+class Api::V1::CompaniesController < Api::V1::ContactsController
 
   def index
     companies = Company.all
@@ -13,7 +13,7 @@ class Api::V1::CompaniesController < Api::V1::BaseController
   def create
     company = Company.new(company_params)
 
-    if company.save
+    if company.save && company.addresses.build(addresses_params[:addresses_attributes]) && company.phones.build(phones_params[:phones_attributes]) && company.emails.build(emails_params[:emails_attributes])
       render json: company, status: 201
     else
       render json: { errors: company.errors }, status: 422
@@ -22,7 +22,7 @@ class Api::V1::CompaniesController < Api::V1::BaseController
 
   def update
     company = Company.find(params[:id])
-    if company.update(company_params)
+    if company.update(company_params) && company.addresses.build(addresses_params[:addresses_attributes]) && company.phones.build(phones_params[:phones_attributes]) && company.emails.build(emails_params[:emails_attributes])
       render json: company, status: 200
     else
       render json: { errors: company.errors }, status: 422
