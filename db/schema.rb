@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124142942) do
+ActiveRecord::Schema.define(version: 20171211155153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,6 +210,14 @@ ActiveRecord::Schema.define(version: 20171124142942) do
     t.float "international_aliquota"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.bigint "product_id"
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_images_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -430,6 +438,7 @@ ActiveRecord::Schema.define(version: 20171124142942) do
   add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "users"
+  add_foreign_key "images", "products"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
   add_foreign_key "orders", "clients"
