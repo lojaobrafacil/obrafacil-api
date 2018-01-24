@@ -1,7 +1,12 @@
 class Api::V1::BanksController < Api::V1::BaseController
   def index
-    banks = Bank.all
+    banks = Bank.all.order(:id)
     paginate json: banks, status: 200
+  end
+
+  def allbanks
+    banks = Bank.all.order(:id)
+    render json: banks, status: 200    
   end
 
   def show

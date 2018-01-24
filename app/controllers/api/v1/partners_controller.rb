@@ -1,7 +1,7 @@
 class Api::V1::PartnersController < Api::V1::ContactsController
 
   def index
-    partners = Partner.all
+    partners = Partner.all.order(:id)
     paginate json: partners, status: 200
   end
 

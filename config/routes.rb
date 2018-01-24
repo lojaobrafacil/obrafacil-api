@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
         resources :cashiers, only: [:index, :show, :create, :update, :destroy]
         resources :orders, only: [:index, :show, :create, :update, :destroy]
+        get 'allbanks', to: :allbanks, controller: 'banks'
   		end
   	end
 
