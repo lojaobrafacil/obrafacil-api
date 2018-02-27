@@ -5,4 +5,5 @@ class Api::V1::CompanyProductSerializer < ActiveModel::Serializer
   def company_name
     object.company.name
   end
+  
 end
