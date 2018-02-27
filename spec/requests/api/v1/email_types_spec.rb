@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'EmailType API', type: :request do  
+RSpec.describe 'EmailType API', type: :request do
   let!(:user){ create(:user) }
   let!(:email_types) { create_list(:email_type, 5) }
   let(:email_type) { email_types.first }
@@ -18,7 +18,7 @@ RSpec.describe 'EmailType API', type: :request do
       get '/email_types', params: {}, headers: headers
     end
     it 'return 5 email types from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'EmailType API', type: :request do
       get "/email_types/#{email_type_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(email_type[:name])
+      expect(json_body[:name]).to eq(email_type[:name])
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'EmailType API', type: :request do
       end
 
       it 'returns the json data for the created email type' do
-        expect(json_body[:data][:attributes][:name]).to eq(email_type_params[:name])
+        expect(json_body[:name]).to eq(email_type_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'EmailType API', type: :request do
       end
 
       it 'return the json data for the updated email type' do
-        expect(json_body[:data][:attributes][:name]).to eq(email_type_params[:name])
+        expect(json_body[:name]).to eq(email_type_params[:name])
       end
     end
 

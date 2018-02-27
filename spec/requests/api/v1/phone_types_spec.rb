@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'PhoneType API', type: :request do  
+RSpec.describe 'PhoneType API', type: :request do
   let!(:user){ create(:user) }
   let!(:phone_types) { create_list(:phone_type, 5) }
   let(:phone_type) { phone_types.first }
@@ -18,7 +18,7 @@ RSpec.describe 'PhoneType API', type: :request do
       get '/phone_types', params: {}, headers: headers
     end
     it 'return 5 phone types from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'PhoneType API', type: :request do
       get "/phone_types/#{phone_type_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(phone_type[:name])
+      expect(json_body[:name]).to eq(phone_type[:name])
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'PhoneType API', type: :request do
       end
 
       it 'returns the json data for the created phone type' do
-        expect(json_body[:data][:attributes][:name]).to eq(phone_type_params[:name])
+        expect(json_body[:name]).to eq(phone_type_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'PhoneType API', type: :request do
       end
 
       it 'return the json data for the updated phone type' do
-        expect(json_body[:data][:attributes][:name]).to eq(phone_type_params[:name])
+        expect(json_body[:name]).to eq(phone_type_params[:name])
       end
     end
 

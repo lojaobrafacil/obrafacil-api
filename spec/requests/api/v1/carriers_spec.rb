@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Carrier API', type: :request do  
+RSpec.describe 'Carrier API', type: :request do
   let!(:user){ create(:user) }
   let!(:carriers) { create_list(:carrier, 5) }
   let(:carrier) { carriers.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Carrier API', type: :request do
       get '/carriers', params: {}, headers: headers
     end
     it 'return 5 carriers from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Carrier API', type: :request do
       get "/carriers/#{carrier_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(carrier.name)
+      expect(json_body[:name]).to eq(carrier.name)
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Carrier API', type: :request do
       end
 
       it 'returns the json data for the created carrier' do
-        expect(json_body[:data][:attributes][:name]).to eq(carrier_params[:name])
+        expect(json_body[:name]).to eq(carrier_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Carrier API', type: :request do
       end
 
       it 'return the json data for the updated carrier' do
-        expect(json_body[:data][:attributes][:name]).to eq(carrier_params[:name])
+        expect(json_body[:name]).to eq(carrier_params[:name])
       end
     end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Phone API', type: :request do  
+RSpec.describe 'Phone API', type: :request do
   let!(:user){ create(:user) }
   let!(:phones) { create_list(:phone, 2) }
   let(:phone) { phones.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Phone API', type: :request do
       get '/phones', params: {}, headers: headers
     end
     it 'return 2 phone types from database' do
-      expect(json_body[:data].count).to eq(2)
+      expect(json_body.count).to eq(2)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Phone API', type: :request do
       get "/phones/#{phone_id}", params: {}, headers: headers
     end
     it 'return phone from database' do
-      expect(json_body[:data][:attributes][:phone]).to eq(phone[:phone])
+      expect(json_body[:phone]).to eq(phone[:phone])
     end
 
     it 'return status 200' do
@@ -83,7 +83,7 @@ RSpec.describe 'Phone API', type: :request do
       end
 
       it 'return the json data for the updated phone type' do
-        expect(json_body[:data][:attributes][:phone]).to eq(phone_params[:phone])
+        expect(json_body[:phone]).to eq(phone_params[:phone])
       end
     end
 

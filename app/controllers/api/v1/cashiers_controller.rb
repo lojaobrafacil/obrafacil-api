@@ -2,7 +2,7 @@ class Api::V1::CashiersController < Api::V1::BaseController
 
   def index
     cashiers = Cashier.all
-    paginate json: cashiers, status: 200
+    paginate json: cashiers.order(:id), status: 200
   end
 
   def show

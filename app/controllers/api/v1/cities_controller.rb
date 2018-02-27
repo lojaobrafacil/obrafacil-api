@@ -1,8 +1,8 @@
 class Api::V1::CitiesController < Api::V1::BaseController
 
   def index
-    cities = City.all
-    paginate json: cities, status: 200
+    cities = params['state_id'] ? State.find(params['state_id']).cities : City.all
+    render json: cities.order(:id), status: 200
   end
 
   def show

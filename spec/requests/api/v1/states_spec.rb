@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'State API', type: :request do  
+RSpec.describe 'State API', type: :request do
   let!(:user){ create(:user) }
   let!(:states) { create_list(:state, 2) }
   let(:state) { states.first }
@@ -18,7 +18,7 @@ RSpec.describe 'State API', type: :request do
       get '/states', params: {}, headers: headers
     end
     it 'return 5 email types from database' do
-      expect(json_body[:data].count).to eq(2)
+      expect(json_body.count).to eq(2)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'State API', type: :request do
       get "/states/#{state_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(state[:name])
+      expect(json_body[:name]).to eq(state[:name])
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'State API', type: :request do
       end
 
       it 'returns the json data for the created email type' do
-        expect(json_body[:data][:attributes][:name]).to eq(state_params[:name])
+        expect(json_body[:name]).to eq(state_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'State API', type: :request do
       end
 
       it 'return the json data for the updated email type' do
-        expect(json_body[:data][:attributes][:name]).to eq(state_params[:name])
+        expect(json_body[:name]).to eq(state_params[:name])
       end
     end
 

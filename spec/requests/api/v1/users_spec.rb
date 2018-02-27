@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Users API', type: :request do  
+RSpec.describe 'Users API', type: :request do
   let!(:user){ create(:user) }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
@@ -19,7 +19,7 @@ RSpec.describe 'Users API', type: :request do
         get "/auth/validate_token", params: {}, headers: headers
       end
       it 'returns the request headers are valid' do
-        expect(json_body[:data][:id]).to eq(user.id)
+        expect(json_body[:id]).to eq(user.id)
       end
 
       it 'returns status 200' do
@@ -51,7 +51,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns the json data for the created user' do
-        expect(json_body[:data][:email]).to eq(user_params[:email])
+        expect(json_body[:email]).to eq(user_params[:email])
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'return the json data for the updated user' do
-        expect(json_body[:data][:email]).to eq(user_params[:email])
+        expect(json_body[:email]).to eq(user_params[:email])
       end
     end
 

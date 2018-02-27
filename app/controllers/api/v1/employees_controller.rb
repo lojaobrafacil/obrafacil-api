@@ -2,7 +2,7 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
 
   def index
     employees = Employee.all
-    paginate json: employees, status: 200
+    paginate json: employees.order(:id), status: 200
   end
 
   def show
@@ -13,7 +13,8 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
   def create
     employee = Employee.new(employee_params)
 
-    if employee.save && employee.addresses.build(addresses_params[:addresses_attributes]) && employee.phones.build(phones_params[:phones_attributes]) && employee.emails.build(emails_params[:emails_attributes])
+    if employee.save
+      update_contact(employee)
       render json: employee, status: 201
     else
       render json: { errors: employee.errors }, status: 422
@@ -22,7 +23,8 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
 
   def update
     employee = Employee.find(params[:id])
-    if employee.update(employee_params) && employee.addresses.build(addresses_params[:addresses_attributes]) && employee.phones.build(phones_params[:phones_attributes]) && employee.emails.build(emails_params[:emails_attributes])
+    if employee.update(employee_params)
+      update_contact(employee)
       render json: employee, status: 200
     else
       render json: { errors: employee.errors }, status: 422

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Permission API', type: :request do  
+RSpec.describe 'Permission API', type: :request do
   let!(:user){ create(:user) }
   let!(:permissions) { create_list(:permission, 5) }
   let(:permission) { permissions.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Permission API', type: :request do
       get '/permissions', params: {}, headers: headers
     end
     it 'return 5 address types from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Permission API', type: :request do
       get "/permissions/#{permission_id}", params: {}, headers: headers
     end
     it 'return address type from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(permission[:name])
+      expect(json_body[:name]).to eq(permission[:name])
     end
 
     it 'return status 200' do
@@ -52,7 +52,7 @@ RSpec.describe 'Permission API', type: :request do
       end
 
       it 'returns the json data for the created address type' do
-        expect(json_body[:data][:attributes][:name]).to eq(permission_params[:name])
+        expect(json_body[:name]).to eq(permission_params[:name])
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe 'Permission API', type: :request do
       end
 
       it 'return the json data for the updated address type' do
-        expect(json_body[:data][:attributes][:name]).to eq(permission_params[:name])
+        expect(json_body[:name]).to eq(permission_params[:name])
       end
     end
 

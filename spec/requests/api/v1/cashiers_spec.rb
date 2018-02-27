@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Cashier API', type: :request do  
+RSpec.describe 'Cashier API', type: :request do
   let!(:user){ create(:user) }
   let!(:cashiers) { create_list(:cashier, 5) }
   let(:cashier) { cashiers.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Cashier API', type: :request do
       get '/cashiers', params: {}, headers: headers
     end
     it 'return 5 cashiers from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Cashier API', type: :request do
       get "/cashiers/#{cashier_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:'start-date'].to_s.to_time).to eq(cashier.start_date)
+      expect(json_body[:start_date].to_s.to_time).to eq(cashier.start_date)
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Cashier API', type: :request do
       end
 
       it 'returns the json data for the created cashier' do
-        expect(json_body[:data][:attributes][:'start-date'].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
+        expect(json_body[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Cashier API', type: :request do
       end
 
       it 'return the json data for the updated cashier' do
-        expect(json_body[:data][:attributes][:'start-date'].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
+        expect(json_body[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
       end
     end
 

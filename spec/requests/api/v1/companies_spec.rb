@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Company API', type: :request do  
+RSpec.describe 'Company API', type: :request do
   let!(:user){ create(:user) }
   let!(:companies) { create_list(:company, 5) }
   let(:company) { companies.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Company API', type: :request do
       get '/companies', params: {}, headers: headers
     end
     it 'return 5 companies from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Company API', type: :request do
       get "/companies/#{company_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(company.name)
+      expect(json_body[:name]).to eq(company.name)
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Company API', type: :request do
       end
 
       it 'returns the json data for the created company' do
-        expect(json_body[:data][:attributes][:name]).to eq(company_params[:name])
+        expect(json_body[:name]).to eq(company_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Company API', type: :request do
       end
 
       it 'return the json data for the updated company' do
-        expect(json_body[:data][:attributes][:name]).to eq(company_params[:name])
+        expect(json_body[:name]).to eq(company_params[:name])
       end
     end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Category API', type: :request do  
+RSpec.describe 'Category API', type: :request do
   let!(:user){ create(:user) }
   let!(:categories) { create_list(:category, 5) }
   let(:category) { categories.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Category API', type: :request do
       get '/categories', params: {}, headers: headers
     end
     it 'return 5 categories from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Category API', type: :request do
       get "/categories/#{category_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(category.name)
+      expect(json_body[:name]).to eq(category.name)
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Category API', type: :request do
       end
 
       it 'returns the json data for the created category' do
-        expect(json_body[:data][:attributes][:name]).to eq(category_params[:name])
+        expect(json_body[:name]).to eq(category_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Category API', type: :request do
       end
 
       it 'return the json data for the updated category' do
-        expect(json_body[:data][:attributes][:name]).to eq(category_params[:name])
+        expect(json_body[:name]).to eq(category_params[:name])
       end
     end
 

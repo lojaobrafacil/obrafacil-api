@@ -1,7 +1,7 @@
 class Api::V1::SubCategoriesController < Api::V1::BaseController
   def index
-    sub_categories = SubCategory.all
-    paginate json: sub_categories, status: 200
+    sub_categories = params['category'] ? Category.find(params['category']).sub_categories : SubCategory.all
+    paginate json: sub_categories.order(:id), status: 200
   end
 
   def show

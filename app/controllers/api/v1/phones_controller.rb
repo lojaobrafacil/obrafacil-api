@@ -2,7 +2,7 @@ class Api::V1::PhonesController < Api::V1::BaseController
 
   def index
     phones = Phone.all
-    paginate json: phones, status: 200
+    paginate json: phones.order(:id), status: 200
   end
 
   def show

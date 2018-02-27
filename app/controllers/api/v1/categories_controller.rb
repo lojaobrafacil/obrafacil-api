@@ -1,7 +1,7 @@
 class Api::V1::CategoriesController < Api::V1::BaseController
   def index
     categories = Category.all
-    paginate json: categories, status: 200
+    paginate json: categories.order(:id), status: 200
   end
 
   def show

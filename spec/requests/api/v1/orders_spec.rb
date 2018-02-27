@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Order API', type: :request do  
+RSpec.describe 'Order API', type: :request do
   let!(:user){ create(:user) }
   let!(:orders) { create_list(:order, 5) }
   let(:order) { orders.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Order API', type: :request do
       get '/orders', params: {}, headers: headers
     end
     it 'return 5 orders from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Order API', type: :request do
       get "/orders/#{order_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:description]).to eq(order[:description])
+      expect(json_body[:description]).to eq(order[:description])
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Order API', type: :request do
       end
 
       it 'returns the json data for the created order' do
-        expect(json_body[:data][:attributes][:description]).to eq(order_params[:description])
+        expect(json_body[:description]).to eq(order_params[:description])
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Order API', type: :request do
       end
 
       it 'return the json data for the updated order' do
-        expect(json_body[:data][:attributes][:kind]).to eq(order_params[:kind])
+        expect(json_body[:kind]).to eq(order_params[:kind])
       end
     end
 

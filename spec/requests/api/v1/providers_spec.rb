@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider API', type: :request do  
+RSpec.describe 'Provider API', type: :request do
   let!(:user){ create(:user) }
   let!(:providers) { create_list(:provider, 5) }
   let(:provider) { providers.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Provider API', type: :request do
       get '/providers', params: {}, headers: headers
     end
     it 'return 5 providers from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Provider API', type: :request do
       get "/providers/#{provider_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(provider[:name])
+      expect(json_body[:name]).to eq(provider[:name])
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Provider API', type: :request do
       end
 
       it 'returns the json data for the created provider' do
-        expect(json_body[:data][:attributes][:name]).to eq(provider_params[:name])
+        expect(json_body[:name]).to eq(provider_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Provider API', type: :request do
       end
 
       it 'return the json data for the updated provider' do
-        expect(json_body[:data][:attributes][:name]).to eq(provider_params[:name])
+        expect(json_body[:name]).to eq(provider_params[:name])
       end
     end
 

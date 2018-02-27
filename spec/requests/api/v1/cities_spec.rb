@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'City API', type: :request do  
+RSpec.describe 'City API', type: :request do
   let!(:user){ create(:user) }
   let!(:cities) { create_list(:city, 5) }
   let(:city) { cities.first }
@@ -18,7 +18,7 @@ RSpec.describe 'City API', type: :request do
       get '/cities', params: {}, headers: headers
     end
     it 'return 5 cities from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'City API', type: :request do
       get "/cities/#{city_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(city.name)
+      expect(json_body[:name]).to eq(city.name)
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'City API', type: :request do
       end
 
       it 'returns the json data for the created city' do
-        expect(json_body[:data][:attributes][:name]).to eq(city_params[:name])
+        expect(json_body[:name]).to eq(city_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'City API', type: :request do
       end
 
       it 'return the json data for the updated city' do
-        expect(json_body[:data][:attributes][:name]).to eq(city_params[:name])
+        expect(json_body[:name]).to eq(city_params[:name])
       end
     end
 

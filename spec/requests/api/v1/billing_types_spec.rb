@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'BillingType API', type: :request do  
+RSpec.describe 'BillingType API', type: :request do
   let!(:user){ create(:user) }
   let!(:billing_types) { create_list(:billing_type, 5) }
   let(:billing_type) { billing_types.first }
@@ -18,7 +18,7 @@ RSpec.describe 'BillingType API', type: :request do
       get '/billing_types', params: {}, headers: headers
     end
     it 'return 5 billing types from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'BillingType API', type: :request do
       get "/billing_types/#{billing_type_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(billing_type.name)
+      expect(json_body[:name]).to eq(billing_type.name)
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'BillingType API', type: :request do
       end
 
       it 'returns the json data for the created billing type' do
-        expect(json_body[:data][:attributes][:name]).to eq(billing_type_params[:name])
+        expect(json_body[:name]).to eq(billing_type_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'BillingType API', type: :request do
       end
 
       it 'return the json data for the updated billing type' do
-        expect(json_body[:data][:attributes][:name]).to eq(billing_type_params[:name])
+        expect(json_body[:name]).to eq(billing_type_params[:name])
       end
     end
 

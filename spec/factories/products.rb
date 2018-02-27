@@ -4,7 +4,8 @@ FactoryBot.define do
     description { Faker::Commerce.material }
     common_nomenclature_mercosur { Faker::Number.decimal(2) }
     added_value_tax { Faker::Number.decimal(2) }
-    brand { Faker::Commerce.department }
+    sku { Faker::Number.decimal(8) }
+    sku_xml { Faker::Number.decimal(8) }
     cost { Faker::Commerce.price }
     tax_industrialized_products { Faker::Number.decimal(2) }
     profit_margin { Faker::Number.decimal(2) }
@@ -23,5 +24,6 @@ FactoryBot.define do
     active true
     unit_id { create(:unit).id }
     sub_category_id { create(:sub_category).id }
+    provider_id { create(:provider).id }
   end
 end

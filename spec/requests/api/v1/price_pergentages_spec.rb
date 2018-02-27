@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'PricePercentage API', type: :request do  
+RSpec.describe 'PricePercentage API', type: :request do
   let!(:user){ create(:user) }
   let(:headers) do
     {
@@ -18,7 +18,7 @@ RSpec.describe 'PricePercentage API', type: :request do
       get '/price_percentages', params: {}, headers: headers
     end
     it 'return 5 price_percentages from database' do
-      expect(json_body[:data].count).to eq(3)
+      expect(json_body.count).to eq(3)
     end
 
     it 'return status 200' do
@@ -34,7 +34,7 @@ RSpec.describe 'PricePercentage API', type: :request do
       get "/price_percentages/#{price_percentage_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:margin]).to eq(price_percentage[:margin])
+      expect(json_body[:margin]).to eq(price_percentage[:margin])
     end
 
     it 'return status 200' do
@@ -57,7 +57,7 @@ RSpec.describe 'PricePercentage API', type: :request do
       end
 
       it 'returns the json data for the created price_percentage' do
-        expect(json_body[:data][:attributes][:margin].to_s).to eq(price_percentage_params[:margin].to_s)
+        expect(json_body[:margin].to_s).to eq(price_percentage_params[:margin].to_s)
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe 'PricePercentage API', type: :request do
       end
 
       it 'return the json data for the updated price_percentage' do
-        expect(json_body[:data][:attributes][:margin].to_s).to eq(price_percentage_params[:margin].to_s)
+        expect(json_body[:margin].to_s).to eq(price_percentage_params[:margin].to_s)
       end
     end
 

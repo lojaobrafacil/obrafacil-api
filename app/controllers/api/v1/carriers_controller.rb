@@ -2,7 +2,7 @@ class Api::V1::CarriersController < Api::V1::ContactsController
 
   def index
     carriers = Carrier.all
-    paginate json: carriers, status: 200
+    paginate json: carriers.order(:id), status: 200
   end
 
   def show
@@ -13,7 +13,8 @@ class Api::V1::CarriersController < Api::V1::ContactsController
   def create
     carrier = Carrier.new(category_params)
 
-    if carrier.save && carrier.addresses.build(addresses_params[:addresses_attributes]) && carrier.phones.build(phones_params[:phones_attributes]) && carrier.emails.build(emails_params[:emails_attributes])
+    if carrier.save
+      update_contact(carrier)
       render json: carrier, status: 201
     else
       render json: { errors: carrier.errors }, status: 422
@@ -23,7 +24,8 @@ class Api::V1::CarriersController < Api::V1::ContactsController
   def update
     carrier = Carrier.find(params[:id])
 
-    if carrier.update(category_params) && carrier.addresses.build(addresses_params[:addresses_attributes]) && carrier.phones.build(phones_params[:phones_attributes]) && carrier.emails.build(emails_params[:emails_attributes])
+    if carrier.update(category_params)
+      update_contact(carrier)
       render json: carrier, status: 200
     else
       render json: { errors: carrier.errors }, status: 422

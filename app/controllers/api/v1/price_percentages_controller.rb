@@ -2,7 +2,7 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
 
   def index
     price_percentages = PricePercentage.all
-    paginate json: price_percentages, status: 200
+    paginate json: price_percentages.order(:id), status: 200
   end
 
   def show

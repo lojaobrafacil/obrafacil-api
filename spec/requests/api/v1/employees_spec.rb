@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Employee API', type: :request do  
+RSpec.describe 'Employee API', type: :request do
   let!(:user){ create(:user) }
   let!(:employees) { create_list(:employee, 5) }
   let(:employee) { employees.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Employee API', type: :request do
       get '/employees', params: {}, headers: headers
     end
     it 'return 5 employees from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Employee API', type: :request do
       get "/employees/#{employee_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:name]).to eq(employee[:name])
+      expect(json_body[:name]).to eq(employee[:name])
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Employee API', type: :request do
       end
 
       it 'returns the json data for the created employee' do
-        expect(json_body[:data][:attributes][:name]).to eq(employee_params[:name])
+        expect(json_body[:name]).to eq(employee_params[:name])
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Employee API', type: :request do
       end
 
       it 'return the json data for the updated employee' do
-        expect(json_body[:data][:attributes][:name]).to eq(employee_params[:name])
+        expect(json_body[:name]).to eq(employee_params[:name])
       end
     end
 

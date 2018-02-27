@@ -2,7 +2,7 @@ class Api::V1::RegionsController < Api::V1::BaseController
 
   def index
     regions = Region.all
-    paginate json: regions, status: 200
+    paginate json: regions.order(:id), status: 200
   end
 
   def show

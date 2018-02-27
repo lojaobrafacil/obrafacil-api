@@ -2,7 +2,7 @@ class Api::V1::OrdersController < Api::V1::BaseController
 
   def index
     orders = Order.all
-    paginate json: orders, status: 200
+    paginate json: orders.order(:id), status: 200
   end
 
   def show

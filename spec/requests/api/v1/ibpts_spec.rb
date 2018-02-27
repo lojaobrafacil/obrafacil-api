@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Ibpt API', type: :request do  
+RSpec.describe 'Ibpt API', type: :request do
   let!(:user){ create(:user) }
   let!(:ibpts) { create_list(:ibpt, 5) }
   let(:ibpt) { ibpts.first }
@@ -18,7 +18,7 @@ RSpec.describe 'Ibpt API', type: :request do
       get '/ibpts', params: {}, headers: headers
     end
     it 'return 5 ibpts from database' do
-      expect(json_body[:data].count).to eq(5)
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Ibpt API', type: :request do
       get "/ibpts/#{ibpt_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:data][:attributes][:code]).to eq(ibpt[:code])
+      expect(json_body[:code]).to eq(ibpt[:code])
     end
 
     it 'return status 200' do
@@ -53,7 +53,7 @@ RSpec.describe 'Ibpt API', type: :request do
       end
 
       it 'returns the json data for the created ibpt' do
-        expect(json_body[:data][:attributes][:code].to_s).to eq(ibpt_params[:code].to_s)
+        expect(json_body[:code].to_s).to eq(ibpt_params[:code].to_s)
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Ibpt API', type: :request do
       end
 
       it 'return the json data for the updated ibpt' do
-        expect(json_body[:data][:attributes][:code].to_s).to eq(ibpt_params[:code].to_s)
+        expect(json_body[:code].to_s).to eq(ibpt_params[:code].to_s)
       end
     end
 
