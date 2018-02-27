@@ -4,6 +4,4 @@ class Api::V1::PartnerSerializer < ActiveModel::Serializer
   :limit, :origin, :percent, :agency, :account, :favored, :bank, :billing_type, :user, 
   :phones, :emails, :updated_at, :created_at
 
-  has_many :addresses
-
 end
