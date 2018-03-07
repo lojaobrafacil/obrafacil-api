@@ -8,7 +8,6 @@ RSpec.describe Partner, type: :model do
   it { should belong_to(:user) }
   it { should belong_to(:billing_type) }
   it { should define_enum_for(:kind) }
-  it { should define_enum_for(:tax_regime) }
 
   it 'method active' do
     expect(Partner.active).to include partners_actives.first

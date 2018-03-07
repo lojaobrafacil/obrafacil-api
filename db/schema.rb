@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180222174114) do
+ActiveRecord::Schema.define(version: 20180307195823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 20180222174114) do
     t.string "neighborhood"
     t.string "zipcode"
     t.string "ibge"
-    t.string "gia"
     t.string "complement"
     t.string "description"
     t.bigint "address_type_id"
@@ -35,6 +34,7 @@ ActiveRecord::Schema.define(version: 20180222174114) do
     t.string "addressable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "number"
     t.index ["address_type_id"], name: "index_addresses_on_address_type_id"
     t.index ["city_id"], name: "index_addresses_on_city_id"
   end
@@ -239,15 +239,12 @@ ActiveRecord::Schema.define(version: 20180222174114) do
     t.string "name"
     t.string "federal_tax_number"
     t.string "state_registration"
-    t.string "international_registration"
     t.integer "kind"
     t.boolean "active", default: true
     t.datetime "birth_date"
     t.datetime "renewal_date"
-    t.integer "tax_regime"
     t.text "description"
     t.string "order_description"
-    t.float "limit"
     t.integer "origin"
     t.integer "percent"
     t.string "agency"
@@ -337,6 +334,7 @@ ActiveRecord::Schema.define(version: 20180222174114) do
     t.bigint "provider_id"
     t.string "sku"
     t.string "sku_xml"
+    t.string "images", default: [], array: true
     t.index ["provider_id"], name: "index_products_on_provider_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"

@@ -4,7 +4,7 @@ FactoryBot.define do
     neighborhood { Faker::Address.street_name }
     zipcode { Faker::Address.zip_code }
     ibge { Faker::Number.number(8) }
-    gia { Faker::Number.number(8) }
+    number { Faker::Number.number(4) }
     complement { Faker::Address.building_number }
     description { Faker::Lorem.paragraph }
     address_type_id { create(:address_type).id }

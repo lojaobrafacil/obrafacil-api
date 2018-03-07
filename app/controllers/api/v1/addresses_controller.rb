@@ -40,7 +40,7 @@ class Api::V1::AddressesController < Api::V1::BaseController
   private
 
   def address_params
-    params.require(:address).permit(:street, :neighborhood, :zipcode, :ibge, :gia,
+    params.require(:address).permit(:street, :neighborhood, :zipcode, :ibge, :number,
           :complement, :description, :addressable_id, :addressable_type, :address_type_id, :city_id)
   end
 end

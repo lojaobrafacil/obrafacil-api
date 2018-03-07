@@ -2,7 +2,7 @@ class Api::V1::StatesController < Api::V1::BaseController
 
   def index
     states = State.all
-    paginate json: states.order(:id), status: 200
+    render json: states.order(:id), status: 200
   end
 
   def show
