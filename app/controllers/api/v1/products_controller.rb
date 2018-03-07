@@ -48,7 +48,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
       :added_value_tax, :cost, :tax_industrialized_products, :profit_margin,
       :aliquot_merchandise_tax, :bar_code, :tax_substitution, :tax_reduction, :discount,
       :weight, :height, :width, :length, :color, :code_tax_substitution_specification,
-      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, :provider_id)
+      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, :provider_id, images: [])
   end
 
   def company_product_attributes(product)

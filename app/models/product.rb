@@ -8,6 +8,8 @@ class Product < ApplicationRecord
   validates_presence_of :name
   enum kind: [:own, :third_party, :not_marketed]
 
+  mount_uploaders :image, ImageUploader
+  
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
 end

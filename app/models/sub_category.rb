@@ -6,6 +6,9 @@ class SubCategory < ApplicationRecord
 
   private
   def disassociate_products!
-    self.products.destroy_all
+    self.products.each do |product|
+      product.update(sub_category: nil)
+      product.save
+    end
   end
 end
