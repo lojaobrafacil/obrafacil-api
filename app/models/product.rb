@@ -3,6 +3,7 @@ class Product < ApplicationRecord
   belongs_to :unit
   belongs_to :provider, optional: true
   has_many :company_products
+  has_many :images, dependent: :destroy
   accepts_nested_attributes_for :company_products, allow_destroy: true
 
   validates_presence_of :name
