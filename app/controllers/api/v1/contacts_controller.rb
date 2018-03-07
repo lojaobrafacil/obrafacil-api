@@ -2,19 +2,19 @@ class Api::V1::ContactsController < Api::V1::BaseController
 
 
   def addresses_params
-    params.require(:addresses)
+    params.require(:partner)[:addresses]
   end
 
   def phones_params
-    params.require(:phones)
+    params.require(:partner)[:phones]
   end
 
   def emails_params
-    params.require(:emails)
+    params.require(:partner)[:emails]
   end
 
   def update_contact(model)
-    unless params[:addresses].nil? or params[:addresses]
+    unless addresses_params.nil?
       addresses_params.each do |address|
         ad = address.permit(:id, :street, :neighborhood, :zipcode, :ibge, :gia, :complement, :description, :address_type_id, :city_id, :_destroy)
         if ad[:id] != nil
@@ -24,7 +24,7 @@ class Api::V1::ContactsController < Api::V1::BaseController
         end
       end
     end
-    unless params[:phones].nil? or params[:phones]
+    unless phones_params.nil?
       phones_params.each do |phone|
         ph = phone.permit(:id, :phone, :phone_type_id, :_destroy)
         p ph
@@ -35,13 +35,13 @@ class Api::V1::ContactsController < Api::V1::BaseController
         end
       end
     end
-    unless params[:emails].nil? or params[:emails]
+    unless emails_params.nil?
       emails_params.each do |email|
         em = email.permit(:id, :email, :email_type_id, :_destroy)
         if em[:id] != nil
           em[:_destroy] == true ? Email.find(em[:id]).delete : Email.find(em[:id]).update!(em)
         else
-          model.email.create!(em)
+          model.emails.create!(em)
         end
       end
     end
