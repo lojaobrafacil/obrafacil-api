@@ -1,8 +1,12 @@
 class Api::V1::PartnersController < Api::V1::ContactsController
 
   def index
-    partners = Partner.all
-    paginate json: partners.order(:id), status: 200
+    partners = if params['name']
+      Partner.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
+    else
+      Partner.all
+    end
+    paginate json: partners.order(:name), status: 200
   end
 
   def show
