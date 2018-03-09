@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307195823) do
+ActiveRecord::Schema.define(version: 20180309180906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,22 +241,20 @@ ActiveRecord::Schema.define(version: 20180307195823) do
     t.string "state_registration"
     t.integer "kind"
     t.boolean "active", default: true
-    t.datetime "birth_date"
     t.datetime "renewal_date"
     t.text "description"
-    t.string "order_description"
     t.integer "origin"
     t.integer "percent"
     t.string "agency"
     t.string "account"
     t.string "favored"
     t.bigint "bank_id"
-    t.bigint "billing_type_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "stated_date"
+    t.string "ocupation"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
-    t.index ["billing_type_id"], name: "index_partners_on_billing_type_id"
     t.index ["user_id"], name: "index_partners_on_user_id"
   end
 
@@ -334,7 +332,6 @@ ActiveRecord::Schema.define(version: 20180307195823) do
     t.bigint "provider_id"
     t.string "sku"
     t.string "sku_xml"
-    t.string "images", default: [], array: true
     t.index ["provider_id"], name: "index_products_on_provider_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
@@ -410,6 +407,7 @@ ActiveRecord::Schema.define(version: 20180307195823) do
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.json "tokens"
+    t.string "federal_registration"
     t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -437,7 +435,6 @@ ActiveRecord::Schema.define(version: 20180307195823) do
   add_foreign_key "orders", "employees"
   add_foreign_key "orders", "price_percentages"
   add_foreign_key "partners", "banks"
-  add_foreign_key "partners", "billing_types"
   add_foreign_key "partners", "users"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "products", "providers"

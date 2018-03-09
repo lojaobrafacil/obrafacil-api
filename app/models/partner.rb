@@ -1,6 +1,5 @@
 class Partner < ApplicationRecord
   belongs_to :bank
-  belongs_to :billing_type, optional: true
   belongs_to :user, optional: true
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
@@ -10,7 +9,7 @@ class Partner < ApplicationRecord
   accepts_nested_attributes_for :emails, allow_destroy: true
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship]
-  validates_presence_of :name, :kind
+  validates_presence_of :name, :kind, :federal_registration
   include Contact
 
   def self.active; where("active = true").order(:id); end

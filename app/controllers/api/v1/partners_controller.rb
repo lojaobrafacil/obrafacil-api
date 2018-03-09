@@ -16,9 +16,17 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def create
     partner = Partner.new(partner_params)
-
+    
     if partner.save
       update_contact(partner)
+      if user = User.find_by(federal_registration: partner.federal_registration)
+        user.update(partner: partner)
+      else
+        partner.user.create!(email: partner.emails.first.email, 
+                            federal_registration: partner.federal_registration, 
+                            password:"primeirologin", 
+                            password_confirmation:"primeirologin" )
+      end
       render json: partner, status: 201
     else
       render json: { errors: partner.errors }, status: 422
@@ -46,7 +54,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def partner_params
     params.require(:partner).permit(:id, :name, :federal_tax_number, :state_registration, 
-      :kind, :active, :birth_date, :renewal_date, :description, :order_description,
-      :origin, :percent, :agency, :account, :favored, :billing_type_id, :user_id, :bank_id)
+      :kind, :active, :stated_date, :renewal_date, :description, :origin, :percent, :agency, 
+      :ocupation, :account, :favored, :user_id, :bank_id)
   end
 end
