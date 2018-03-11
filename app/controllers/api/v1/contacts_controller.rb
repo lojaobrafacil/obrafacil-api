@@ -3,7 +3,7 @@ class Api::V1::ContactsController < Api::V1::BaseController
   def update_contact(model)
     unless params_contact(model, :addresses).nil?
       params_contact(model, :addresses).each do |address|
-        ad = address.permit(:id, :street, :neighborhood, :zipcode, :ibge, :gia, :complement, :description, :address_type_id, :city_id, :_destroy)
+        ad = address.permit(:id, :street, :neighborhood, :zipcode, :ibge, :number, :complement, :description, :address_type_id, :city_id, :_destroy)
         if ad[:id] != nil
           ad[:_destroy] == true ? Address.find(ad[:id]).delete : Address.find(ad[:id]).update!(ad)
         else
