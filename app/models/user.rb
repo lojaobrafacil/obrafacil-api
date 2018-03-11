@@ -5,12 +5,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  validates_uniqueness_of :auth_token
   has_one :client
   has_one :partner
   has_one :company
+  enum kind: [:admin, :partner]
   before_create :generate_authentication_token!
-  
+
   def generate_authentication_token!
     begin
       self.auth_token = Devise.friendly_token

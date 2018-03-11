@@ -9,7 +9,7 @@ class Partner < ApplicationRecord
   accepts_nested_attributes_for :emails, allow_destroy: true
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship]
-  validates_presence_of :name, :kind, :federal_registration
+  validates_presence_of :name, :kind
   include Contact
 
   def self.active; where("active = true").order(:id); end

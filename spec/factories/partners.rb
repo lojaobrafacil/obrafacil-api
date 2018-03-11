@@ -5,7 +5,7 @@ FactoryBot.define do
     state_registration { Faker::Code.isbn }
     kind { [0,0,0,1,1,1].sample }
     active { true }
-    stated_date { Faker::Date.birthday(18, 65) }
+    started_date { Faker::Date.birthday(18, 65) }
     renewal_date { Faker::Date.forward(10000) }
     description { Faker::Lorem.paragraph }
     ocupation { Faker::Lorem.paragraph }
@@ -14,7 +14,6 @@ FactoryBot.define do
     agency { Faker::Number.number(4) }
     account { Faker::Number.number(7) }
     favored { Faker::Name.name }
-    user_id { create(:user).id }
     bank_id { create(:bank).id }
   end
 end

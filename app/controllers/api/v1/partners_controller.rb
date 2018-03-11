@@ -19,11 +19,11 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     
     if partner.save
       update_contact(partner)
-      if user = User.find_by(federal_registration: partner.federal_registration)
-        user.update(partner: partner)
+      if user = User.find_by(federal_registration: partner.federal_tax_number)
+        user.update(partner: partner) unless user.partner == partner
       else
-        partner.user.create!(email: partner.emails.first.email, 
-                            federal_registration: partner.federal_registration, 
+        partner.build_user(email: partner.emails.first.email, 
+                            federal_registration: partner.federal_tax_number, 
                             password:"primeirologin", 
                             password_confirmation:"primeirologin" )
       end
@@ -54,7 +54,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def partner_params
     params.require(:partner).permit(:id, :name, :federal_tax_number, :state_registration, 
-      :kind, :active, :stated_date, :renewal_date, :description, :origin, :percent, :agency, 
+      :kind, :active, :started_date, :renewal_date, :description, :origin, :percent, :agency, 
       :ocupation, :account, :favored, :user_id, :bank_id)
   end
 end

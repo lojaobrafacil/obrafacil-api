@@ -5,7 +5,6 @@ RSpec.describe Partner, type: :model do
   let!(:partners_inactives) { create_list(:partner, 5, active: false) }
 
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:federal_registration) }
   it { should belong_to(:user) }
   it { should define_enum_for(:kind) }
 

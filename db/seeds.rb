@@ -9,6 +9,8 @@ require 'net/http'
 require 'net/https' # for ruby 1.8.7
 require 'json'
 
+User.create(email:"admhubco@obrafacil.com", federal_registration: 12345678910, kind: 0, password:"obrafaciladm", password_confirmation:"obrafaciladm")
+
 module BRPopulate
   def self.states
     http = Net::HTTP.new('raw.githubusercontent.com', 443); http.use_ssl = true
