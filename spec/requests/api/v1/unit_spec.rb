@@ -10,9 +10,7 @@ RSpec.describe 'Unit API', type: :request do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
+      'Authorization' => user.auth_token
     }
   end
 

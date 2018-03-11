@@ -403,11 +403,13 @@ ActiveRecord::Schema.define(version: 20180309180906) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "auth_token"
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.json "tokens"
     t.string "federal_registration"
     t.integer "kind"
+    t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
