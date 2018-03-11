@@ -2,15 +2,19 @@ require 'rails_helper'
 
 RSpec.describe 'Sessions API', type: :request do  
   let!(:user){ create(:user) }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
-      'Content-type' => Mime[:json].to_s
+      'Content-type' => Mime[:json].to_s,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
-  describe 'POST /sessions' do
+  describe 'POST /auth/sign_in' do
     before do
-    	post '/sessions', params: {session: credencials}.to_json, headers: headers
+    	post '/auth/sign_in', headers: credencials
     end
 
     context 'when the credencials are correct' do
@@ -21,8 +25,9 @@ RSpec.describe 'Sessions API', type: :request do
       end
 
       it 'returns the authentication data in the headers' do
-        user.reload
-        expect(json_body[:auth_token]).to eq(user.auth_token)
+        expect(response.headers).to have_key('access-token')
+        expect(response.headers).to have_key('uid') 
+        expect(response.headers).to have_key('client') 
       end
     end
     context 'returns the json data for the errors' do
@@ -38,19 +43,19 @@ RSpec.describe 'Sessions API', type: :request do
     end
   end
   
-  describe 'DELETE /sessions/:id' do
+  describe 'DELETE /auth/sign_out' do
     let(:auth_token) { user.auth_token }
     before do
-      delete "/sessions/#{auth_token}", params: { }, headers: headers
+      delete "/auth/sign_out", params: { }, headers: headers
     end
 
-    it 'return status code 204' do
-      expect(response).to have_http_status(204)
+    it 'return status code 200' do
+      expect(response).to have_http_status(200)
     end
 
     it 'changes the user auth token' do
       user.reload
-      expect( User.find_by(auth_token: auth_token) ).to be_nil
+      expect(user.valid_token?(auth_data['access-token'], auth_data['client'])).to eq(false)
     end
   end
 end

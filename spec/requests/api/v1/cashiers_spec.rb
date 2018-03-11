@@ -5,11 +5,14 @@ RSpec.describe 'Cashier API', type: :request do
   let!(:cashiers) { create_list(:cashier, 5) }
   let(:cashier) { cashiers.first }
   let(:cashier_id) { cashier.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 

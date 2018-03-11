@@ -5,11 +5,14 @@ RSpec.describe 'Order API', type: :request do
   let!(:orders) { create_list(:order, 5) }
   let(:order) { orders.first }
   let(:order_id) { order.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 

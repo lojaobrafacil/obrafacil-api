@@ -5,11 +5,14 @@ RSpec.describe 'PhoneType API', type: :request do
   let!(:phone_types) { create_list(:phone_type, 5) }
   let(:phone_type) { phone_types.first }
   let(:phone_type_id) { phone_type.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 

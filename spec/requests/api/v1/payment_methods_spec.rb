@@ -5,11 +5,14 @@ RSpec.describe 'PaymentMethod API', type: :request do
   let!(:payment_methods) { create_list(:payment_method, 5) }
   let(:payment_method) { payment_methods.first }
   let(:payment_method_id) { payment_method.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 

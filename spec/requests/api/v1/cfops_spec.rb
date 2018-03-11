@@ -5,11 +5,14 @@ RSpec.describe 'Cfop API', type: :request do
   let!(:cfops) { create_list(:cfop, 5) }
   let(:cfop) { cfops.first }
   let(:cfop_id) { cfop.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 

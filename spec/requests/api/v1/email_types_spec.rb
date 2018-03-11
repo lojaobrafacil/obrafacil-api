@@ -5,11 +5,14 @@ RSpec.describe 'EmailType API', type: :request do
   let!(:email_types) { create_list(:email_type, 5) }
   let(:email_type) { email_types.first }
   let(:email_type_id) { email_type.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 

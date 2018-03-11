@@ -5,11 +5,14 @@ RSpec.describe 'SubCategory API', type: :request do
   let!(:sub_categories) { create_list(:sub_category, 5) }
   let(:sub_category) { sub_categories.first }
   let(:sub_category_id) { sub_category.id }
+  let(:auth_data) { user.create_new_auth_token }  
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 

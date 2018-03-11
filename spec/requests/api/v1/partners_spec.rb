@@ -5,11 +5,14 @@ RSpec.describe 'Partner API', type: :request do
   let!(:partners) { create_list(:partner, 5) }
   let(:partner) { partners.first }
   let(:partner_id) { partner.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v1',
       'Content-type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 
