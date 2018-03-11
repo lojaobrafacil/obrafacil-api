@@ -31,8 +31,12 @@ class Api::V1::SubCategoriesController < Api::V1::BaseController
 
   def destroy
     sub_category = SubCategory.find(params[:id])
-    sub_category.destroy
-    head 204
+    if sub_category.products == []
+      sub_category.destroy
+      head 204
+    else
+      render json: { errors: "SubCategoria nao pode ser deletada pois possue produtos" }, status: 422      
+    end
   end
 
   private

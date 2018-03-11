@@ -211,6 +211,14 @@ ActiveRecord::Schema.define(version: 20180311054533) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "images", force: :cascade do |t|
+    t.bigint "product_id"
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_images_on_product_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "kind"
     t.datetime "exclusion_date"
@@ -332,6 +340,7 @@ ActiveRecord::Schema.define(version: 20180311054533) do
     t.bigint "provider_id"
     t.string "sku"
     t.string "sku_xml"
+    t.string "images", default: [], array: true
     t.index ["provider_id"], name: "index_products_on_provider_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
@@ -427,6 +436,7 @@ ActiveRecord::Schema.define(version: 20180311054533) do
   add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "users"
+  add_foreign_key "images", "products"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
   add_foreign_key "orders", "clients"
