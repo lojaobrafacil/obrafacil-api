@@ -1,9 +1,13 @@
 class Api::V1::PartnersController < Api::V1::ContactsController
 
   def index
-    @partners = policy_scope Partner
-    partners = params[:name] ? @partners.where("LOWER(name) LIKE LOWER(?)", "%#{params[:name]}%") : @partners.all
-    paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description]), status: 200
+    partners = policy_scope Partner
+    if partners&.empty? or partners.nil? 
+      render json: partners, status: 401
+    else
+      partners = params[:name] ? partners.where("LOWER(name) LIKE LOWER(?)", "%#{params[:name]}%") : partners.all
+      paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description]), status: 200
+    end
   end
 
   def show
