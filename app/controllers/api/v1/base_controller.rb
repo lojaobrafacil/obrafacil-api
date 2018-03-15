@@ -4,4 +4,5 @@ class Api::V1::BaseController < ApplicationController
   def pundit_user 
     current_api_v1_user
   end
+  
 end

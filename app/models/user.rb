@@ -10,4 +10,5 @@ class User < ApplicationRecord
   has_one :company
   has_one :employee
   enum kind: [:admin, :normal]
+  validates_uniqueness_of :federal_registration
 end

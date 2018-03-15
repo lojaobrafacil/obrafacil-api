@@ -7,7 +7,11 @@ class Api::V1::ContactsController < Api::V1::BaseController
         if ad[:id] != nil 
           ad[:_destroy] == true ? Address.find(ad[:id]).delete : Address.find(ad[:id]).update!(ad) if Address.find(ad[:id]).addressable == model
         else
-          model.addresses.create!(ad)
+          begin
+            model.addresses.create!(ad)
+          rescue
+            nil
+          end
         end
       end
     end
@@ -18,7 +22,11 @@ class Api::V1::ContactsController < Api::V1::BaseController
         if ph[:id] != nil
           ph[:_destroy] == true ? Phone.find(ph[:id]).delete : Phone.find(ph[:id]).update!(ph) if Phone.find(ph[:id]).phonable == model
         else
-          model.phones.create!(ph)
+          begin
+            model.phones.create!(ph)
+          rescue
+            nil
+          end
         end
       end
     end
@@ -28,7 +36,11 @@ class Api::V1::ContactsController < Api::V1::BaseController
         if em[:id] != nil
           em[:_destroy] == true ? Email.find(em[:id]).delete : Email.find(em[:id]).update!(em) if Email.find(em[:id]).emailable == model
         else
-          model.emails.create!(em)
+          begin
+            model.emails.create!(em)
+          rescue
+            nil
+          end
         end
       end
     end

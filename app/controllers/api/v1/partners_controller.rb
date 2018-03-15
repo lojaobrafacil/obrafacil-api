@@ -24,12 +24,13 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       if user = User.find_by(federal_registration: partner.federal_tax_number)
         user.update(partner: partner) unless user.partner == partner
       else
-        partner.build_user(email: partner.emails.first.email,
+        email = partner.federal_tax_number? ? partner.federal_tax_number.to_s+"@obrafacil.com" : partner.emails.first.email
+        partner.build_user(email: email,
                             federal_registration: partner.federal_tax_number,
                             password:"obrafacil2018",
-                            password_confirmation:"obrafacil2018" )
+                            password_confirmation:"obrafacil2018" ).save unless email&.nil?
       end
-      premio_ideal(partner)
+      # premio_ideal(partner)
       render json: partner, status: 201
     else
       render json: { errors: partner.errors }, status: 422
