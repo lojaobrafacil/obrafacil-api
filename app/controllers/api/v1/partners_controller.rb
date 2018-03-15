@@ -11,7 +11,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   end
 
   def show
-    partner = partner.find(params[:id])
+    partner = Partner.find(params[:id])
     authorize partner
     render json: partner, status: 200
   end
