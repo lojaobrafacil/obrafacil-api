@@ -11,7 +11,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   end
 
   def show
-    partner = policy_scope Partner
+    partner = Partner.find(params[:id])
     render json: partner, status: 200
   end
 
