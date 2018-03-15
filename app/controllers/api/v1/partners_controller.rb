@@ -1,7 +1,7 @@
 class Api::V1::PartnersController < Api::V1::ContactsController
 
   def index
-    partners = policy_scope Partner
+    partners = Partner.all
     if partners&.empty? or partners.nil? 
       render json: partners, status: 401
     else
@@ -12,13 +12,13 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def show
     partner = Partner.find(params[:id])
-    authorize partner
+    # authorize partner
     render json: partner, status: 200
   end
 
   def create
     partner = Partner.new(partner_params)
-    authorize partner
+    # authorize partner
     if partner.save
       update_contact(partner)
       if user = User.find_by(federal_registration: partner.federal_tax_number)
@@ -38,7 +38,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def update
     partner = Partner.find(params[:id])
-    authorize partner
+    # authorize partner
     if partner.update(partner_params)
       update_contact(partner)
       render json: partner, status: 200
@@ -49,7 +49,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def destroy
     partner = Partner.find(params[:id])
-    authorize partner
+    # authorize partner
     partner.destroy
     head 204
   end
@@ -84,8 +84,8 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       "birthDate": valuePremioIdeal(partner.started_date.as_json),
       "gender":0
     }
-    # x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) # homologaçao
-    x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) # produçao
+    x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) # homologaçao
+    # x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) # produçao
     x.body
     else
       "Usuario não foi para premio ideal pois nao possue CPF/CNPJ"
