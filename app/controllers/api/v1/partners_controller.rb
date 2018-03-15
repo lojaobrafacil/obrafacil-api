@@ -11,13 +11,14 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   end
 
   def show
-    partner = Partner.find(params[:id])
+    partners = policy_scope Partner
+    partner = partners.find(params[:id])
     render json: partner, status: 200
   end
 
   def create
     partner = Partner.new(partner_params)
-    # authorize partner
+    authorize partner
     if partner.save
       update_contact(partner)
       if user = User.find_by(federal_registration: partner.federal_tax_number)
