@@ -2,7 +2,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def index
     partners = Partner.all
-    if partners&.empty? or partners.nil? 
+    if partners&.empty? or partners.nil? and Partner.all.size > 0
       render json: partners, status: 401
     else
       partners = params[:name] ? partners.where("LOWER(name) LIKE LOWER(?)", "%#{params[:name]}%") : partners.all
