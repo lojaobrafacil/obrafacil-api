@@ -24,7 +24,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       if user = User.find_by(federal_registration: partner.federal_tax_number)
         user.update(partner: partner) unless user.partner == partner
       else
-        email = partner.federal_tax_number? ? partner.federal_tax_number.to_s+"@obrafacil.com" : partner.emails.first.email
+        email = partner.federal_tax_number? ? partner.federal_tax_number.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
         unless email&.nil?
           partner.build_user(email: email,
                               federal_registration: partner.federal_tax_number,
