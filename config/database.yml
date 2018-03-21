@@ -12,10 +12,3 @@ development:
 test:
   <<: *default
   database: emam_test
-  
-production:
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  database: emam_production
-  username: deploy
