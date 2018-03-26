@@ -58,10 +58,12 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   end
 
   def send_premio
+    resultado = []
     partners = Partner.all
     partners.each do |par|
-      premio_ideal(par)
+      resultado << premio_ideal(par)
     end
+    render json: { result: resultado }, status: 200
   end
 
   private
@@ -76,27 +78,27 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     require "uri"
     require "net/http"
     if partner.federal_tax_number? and partner.federal_tax_number.size > 10
-    body = {
-      "name": valuePremioIdeal(partner.name.as_json),
-      "cpfCnpj": partner.federal_tax_number.as_json,
-      "address": valuePremioIdeal(partner.addresses.first.street.as_json),
-      "number": valuePremioIdeal(partner.addresses.first.number.as_json),
-      "complement": valuePremioIdeal(partner.addresses.first.complement.as_json),
-      "cityRegion": valuePremioIdeal(partner.addresses.first.neighborhood.as_json),
-      "city": valuePremioIdeal(partner.addresses.first.city.name.as_json),
-      "state": valuePremioIdeal(partner.addresses.first.city.state.acronym.as_json),
-      "zipcode": valuePremioIdeal(partner.addresses.first.zipcode.as_json.tr("-","")),
-      "phoneDdd": valuePremioIdeal(partner.phones.first.phone[0..1]),
-      "phoneNumber": valuePremioIdeal(partner.phones.first.phone.as_json[1..9]),
-      "cellDdd": valuePremioIdeal(partner.phones.first.phone[0..1]),
-      "cellNumber": valuePremioIdeal(partner.phones.first.phone.as_json[1..9]),
-      "email": valuePremioIdeal(partner.emails.first.email.as_json),
-      "birthDate": valuePremioIdeal(partner.started_date.as_json),
-      "gender":0
-    }
-    # x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) # homologaçao
-    x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) # produçao
-    x.body
+      body = {
+        "name": valuePremioIdeal(partner.name.as_json),
+        "cpfCnpj": partner.federal_tax_number.as_json,
+        "address": valuePremioIdeal(partner.addresses.first.street.as_json),
+        "number": valuePremioIdeal(partner.addresses.first.number.as_json),
+        "complement": valuePremioIdeal(partner.addresses.first.complement.as_json),
+        "cityRegion": valuePremioIdeal(partner.addresses.first.neighborhood.as_json),
+        "city": valuePremioIdeal(partner.addresses.first.city.name.as_json),
+        "state": valuePremioIdeal(partner.addresses.first.city.state.acronym.as_json),
+        "zipcode": valuePremioIdeal(partner.addresses.first.zipcode.as_json.tr("-","")),
+        "phoneDdd": valuePremioIdeal(partner.phones.first.phone[0..1]),
+        "phoneNumber": valuePremioIdeal(partner.phones.first.phone.as_json[1..9]),
+        "cellDdd": valuePremioIdeal(partner.phones.first.phone[0..1]),
+        "cellNumber": valuePremioIdeal(partner.phones.first.phone.as_json[1..9]),
+        "email": valuePremioIdeal(partner.emails.first.email.as_json),
+        "birthDate": valuePremioIdeal(partner.started_date.as_json),
+        "gender":0
+      }
+      x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) unless Rails.env.production? # homologaçao
+      x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) if Rails.env.production? # produçao
+      x.body
     else
       "Usuario não foi para premio ideal pois nao possue CPF/CNPJ"
     end
