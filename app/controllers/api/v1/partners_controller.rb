@@ -57,6 +57,13 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     head 204
   end
 
+  def send_premio
+    partners = Partner.all
+    partners.each do |par|
+      premio_ideal(par)
+    end
+  end
+
   private
 
   def partner_params
@@ -87,8 +94,8 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       "birthDate": valuePremioIdeal(partner.started_date.as_json),
       "gender":0
     }
-    x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) # homologaçao
-    # x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) # produçao
+    # x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) # homologaçao
+    x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) # produçao
     x.body
     else
       "Usuario não foi para premio ideal pois nao possue CPF/CNPJ"
