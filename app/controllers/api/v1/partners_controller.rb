@@ -81,26 +81,27 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       body = {
         "name": valuePremioIdeal(partner.name.as_json),
         "cpfCnpj": partner.federal_tax_number.as_json,
-        "address": valuePremioIdeal(partner.addresses.first.street.as_json),
-        "number": valuePremioIdeal(partner.addresses.first.number.as_json),
-        "complement": valuePremioIdeal(partner.addresses.first.complement.as_json),
-        "cityRegion": valuePremioIdeal(partner.addresses.first.neighborhood.as_json),
-        "city": valuePremioIdeal(partner.addresses.first.city.name.as_json),
-        "state": valuePremioIdeal(partner.addresses.first.city.state.acronym.as_json),
-        "zipcode": valuePremioIdeal(partner.addresses.first.zipcode.as_json.tr("-","")),
-        "phoneDdd": valuePremioIdeal(partner.phones.first.phone[0..1]),
-        "phoneNumber": valuePremioIdeal(partner.phones.first.phone.as_json[1..9]),
-        "cellDdd": valuePremioIdeal(partner.phones.first.phone[0..1]),
-        "cellNumber": valuePremioIdeal(partner.phones.first.phone.as_json[1..9]),
-        "email": valuePremioIdeal(partner.emails.first.email.as_json),
-        "birthDate": valuePremioIdeal(partner.started_date.as_json),
+        "address": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.street.as_json) : "null",
+        "number": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.number.as_json) : "null",
+        "complement": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.complement.as_json) : "null",
+        "cityRegion": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.neighborhood.as_json) : "null",
+        "city": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.city.name.as_json) : "null",
+        "state": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.city.state.acronym.as_json) : "null",
+        "zipcode": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.zipcode.as_json.tr("-","")) : "null",
+        "phoneDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone[0..1]) : "null",
+        "phoneNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.as_json[1..9]) : "null",
+        "cellDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone[0..1]) : "null",
+        "cellNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.as_json[1..9]) : "null",
+        "email": partner.emails.nil? ? valuePremioIdeal(partner.emails.first.email.as_json) : "null",
+        "birthDate": partner.emails.nil? ? valuePremioIdeal(partner.started_date.as_json) : "null",
         "gender":0
       }
       x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) unless Rails.env.production? # homologaçao
       x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) if Rails.env.production? # produçao
       x.body
+      "ok parceiro: " + partner.id.to_s
     else
-      "Usuario não foi para premio ideal pois nao possue CPF/CNPJ"
+      "Parceiro " + partner.id.to_s + " não foi para premio ideal pois nao possue CPF/CNPJ"
     end
   end
 
