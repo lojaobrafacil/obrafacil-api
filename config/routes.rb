@@ -33,7 +33,6 @@ Rails.application.routes.draw do
         resources :cashiers, only: [:index, :show, :create, :update, :destroy]
         resources :orders, only: [:index, :show, :create, :update, :destroy]
         get 'allbanks', to: :allbanks, controller: 'banks'
-        get 'send_premio', to: :send_premio, controller: 'partners'
   		end
   	end
 

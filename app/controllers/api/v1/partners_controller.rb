@@ -57,16 +57,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     partner.destroy
     head 204
   end
-
-  def send_premio
-    resultado = []
-    partners = Partner.all
-    partners.each do |par|
-      resultado << premio_ideal(par)
-    end
-    render json: { result: resultado }, status: 200
-  end
-
+  
   private
 
   def partner_params
@@ -78,8 +69,8 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   def premio_ideal(partner)
     require "uri"
     require "net/http"
-    p partner
-    if partner.federal_tax_number? and partner.federal_tax_number.size > 10
+    # p partner
+    if partner.federal_tax_number? and partner.federal_tax_number.size >= 10
       body = {
         "name": valuePremioIdeal(partner.name.as_json),
         "cpfCnpj": partner.federal_tax_number.as_json,
@@ -98,12 +89,13 @@ class Api::V1::PartnersController < Api::V1::ContactsController
         "birthDate": valuePremioIdeal(partner.started_date.as_json),
         "gender":0
       }
+      p Rails.env.production?
       x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) unless Rails.env.production? # homologaçao
       x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) if Rails.env.production? # produçao
       x.body
-      "ok parceiro: " + partner.id.to_s
+      p "ok parceiro: " + partner.id.to_s
     else
-      "Parceiro " + partner.id.to_s + " não foi para premio ideal pois nao possue CPF/CNPJ"
+      p "Parceiro " + partner.id.to_s + " não foi para premio ideal pois nao possue CPF/CNPJ"
     end
   end
 
