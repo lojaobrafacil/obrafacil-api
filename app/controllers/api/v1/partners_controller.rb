@@ -90,12 +90,12 @@ class Api::V1::PartnersController < Api::V1::ContactsController
         "city": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.city.name.as_json) : "null",
         "state": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.city.state.acronym.as_json) : "null",
         "zipcode": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.zipcode.as_json.tr("-","")) : "null",
-        "phoneDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone[0..1]) : "null",
-        "phoneNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.as_json[1..9]) : "null",
-        "cellDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ')[0..1].as_json) : "null",
-        "cellNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ').as_json[1..9]) : "null",
+        "phoneDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ').delete("-")[0..1].as_json) : "null",
+        "phoneNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ').delete("-").as_json[1..9]) : "null",
+        "cellDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ').delete("-")[0..1].as_json) : "null",
+        "cellNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ').delete("-").as_json[1..9]) : "null",
         "email": partner.emails.nil? ? valuePremioIdeal(partner.emails.first.email.as_json) : "null",
-        "birthDate": partner.emails.nil? ? valuePremioIdeal(partner.started_date.as_json) : "null",
+        "birthDate": valuePremioIdeal(partner.started_date.as_json),
         "gender":0
       }
       x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) unless Rails.env.production? # homologaçao
