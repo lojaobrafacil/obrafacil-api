@@ -77,6 +77,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   def premio_ideal(partner)
     require "uri"
     require "net/http"
+    p partner
     if partner.federal_tax_number? and partner.federal_tax_number.size > 10
       body = {
         "name": valuePremioIdeal(partner.name.as_json),
