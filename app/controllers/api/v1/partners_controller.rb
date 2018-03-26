@@ -32,7 +32,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
                               password_confirmation:"obrafacil2018" ).save
         end
       end
-      # premio_ideal(partner)
+      premio_ideal(partner)
       render json: partner, status: 201
     else
       render json: { errors: partner.errors }, status: 422
@@ -44,6 +44,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     # authorize partner
     if partner.update(partner_params)
       update_contact(partner)
+      premio_ideal(partner)      
       render json: partner, status: 200
     else
       render json: { errors: partner.errors }, status: 422
@@ -91,8 +92,8 @@ class Api::V1::PartnersController < Api::V1::ContactsController
         "zipcode": partner.addresses.nil? ? valuePremioIdeal(partner.addresses.first.zipcode.as_json.tr("-","")) : "null",
         "phoneDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone[0..1]) : "null",
         "phoneNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.as_json[1..9]) : "null",
-        "cellDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone[0..1]) : "null",
-        "cellNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.as_json[1..9]) : "null",
+        "cellDdd": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ')[0..1].as_json) : "null",
+        "cellNumber": partner.phones.nil? ? valuePremioIdeal(partner.phones.first.phone.delete(' ').as_json[1..9]) : "null",
         "email": partner.emails.nil? ? valuePremioIdeal(partner.emails.first.email.as_json) : "null",
         "birthDate": partner.emails.nil? ? valuePremioIdeal(partner.started_date.as_json) : "null",
         "gender":0
