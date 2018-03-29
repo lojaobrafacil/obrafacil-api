@@ -90,7 +90,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
         "gender":0
       }
       x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) unless Rails.env.production? # homologaçao
-      x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/webapi/api/SingleSignOn/Login?login=deca&password=acesso@deca"), body) if Rails.env.production? # produçao
+      x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) if Rails.env.production? # produçao
       if x.body.include?(":true")
         p "ok parceiro: " + partner.id.to_s
       else
