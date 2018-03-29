@@ -30,7 +30,7 @@ def premio_ideal(partner)
         p x.body
       end
     rescue
-      "erro ao processar " + partner.id.to_s " favor confirmar se o cadastro esta correto"
+      "erro ao processar " + partner.id.to_s + " favor confirmar se o cadastro esta correto"
     end
   else
     p "Parceiro " + partner.id.to_s + " não foi para premio ideal pois nao possue CPF/CNPJ"
