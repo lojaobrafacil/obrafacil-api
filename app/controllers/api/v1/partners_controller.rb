@@ -101,9 +101,5 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       p "Parceiro " + partner.id.to_s + " não foi para premio ideal pois nao possue CPF/CNPJ"
     end
   end
-
-  def valuePremioIdeal(val)
-    val.nil? || val.empty? ? "null" : val
-  end
   
 end
