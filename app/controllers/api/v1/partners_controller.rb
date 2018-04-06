@@ -62,6 +62,8 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     if user = User.find_by(federal_registration: partner.federal_tax_number)
       if partner.active?
         user.update(partner: partner) unless user.partner == partner 
+      else
+        user.destroy unless user.partner.active?
       end
     else
       email = partner.federal_tax_number? ? partner.federal_tax_number.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
