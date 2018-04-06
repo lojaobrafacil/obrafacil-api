@@ -22,17 +22,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     # authorize partner
     if partner.save
       update_contact(partner)
-      if user = User.find_by(federal_registration: partner.federal_tax_number)
-        user.update(partner: partner) unless user.partner == partner
-      else
-        email = partner.federal_tax_number? ? partner.federal_tax_number.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
-        unless email&.nil?
-          partner.build_user(email: email,
-                              federal_registration: partner.federal_tax_number,
-                              password:"obrafacil2018",
-                              password_confirmation:"obrafacil2018" ).save
-        end
-      end
+      update_user(partner)
       premio_ideal(partner)
       render json: partner, status: 201
     else
@@ -45,6 +35,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     # authorize partner
     if partner.update(partner_params)
       update_contact(partner)
+      update_user(partner)
       premio_ideal(partner)      
       render json: partner, status: 200
     else
@@ -67,10 +58,26 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       :ocupation, :account, :favored, :user_id, :bank_id)
   end
 
+  def update_user(partner)
+    if user = User.find_by(federal_registration: partner.federal_tax_number)
+      if partner.active?
+        user.update(partner: partner) unless user.partner == partner 
+      end
+    else
+      email = partner.federal_tax_number? ? partner.federal_tax_number.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
+      unless email&.nil?
+        partner.build_user(email: email,
+                            federal_registration: partner.federal_tax_number,
+                            password:"obrafacil2018",
+                            password_confirmation:"obrafacil2018" ).save
+      end
+    end
+  end
+
   def premio_ideal(partner)
     require "uri"
     require "net/http"
-    if partner.federal_tax_number? and partner.federal_tax_number.size >= 10
+    if partner.federal_tax_number? and partner.federal_tax_number.size >= 10 and partner.active?
       begin
         body = {
           "name": partner.name.as_json,
@@ -93,16 +100,16 @@ class Api::V1::PartnersController < Api::V1::ContactsController
         x = Net::HTTP.post_form(URI.parse("https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) unless Rails.env.production? # homologaçao
         x = Net::HTTP.post_form(URI.parse("https://premioideall.com.br/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"), body) if Rails.env.production? # produçao
         if x.body.include?(":true")
-          p "ok parceiro: " + partner.id.to_s
+          p "ok parceiro: " + partner.name
         else
-          p "Parceiro " + partner.id.to_s + " não foi para premio ideal, erro:"
+          p "Parceiro " + partner.name + " não foi para premio ideal, erro:"
           p x.body
         end
       rescue
-        "erro ao processar " + partner.id.to_s + " favor confirmar se o cadastro esta correto"
+        "erro ao processar " + partner.name + " favor confirmar se o cadastro esta correto"
       end
     else
-      p "Parceiro " + partner.id.to_s + " não foi para premio ideal pois nao possue CPF/CNPJ"
+      p "Parceiro " + partner.name + " não foi para premio ideal pois nao possue CPF/CNPJ ou esta inativo"
     end
   end
   

@@ -10,6 +10,7 @@ class Partner < ApplicationRecord
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship]
   validates_presence_of :name, :kind
+  # validates_uniqueness_of :federal_tax_number, scope: :active 
   include Contact
 
   def self.active; where("active = true").order(:id); end
