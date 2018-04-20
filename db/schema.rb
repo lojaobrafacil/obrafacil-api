@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180315125000) do
+ActiveRecord::Schema.define(version: 20180417183755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,22 +307,12 @@ ActiveRecord::Schema.define(version: 20180315125000) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "common_nomenclature_mercosur"
-    t.float "added_value_tax"
-    t.float "cost"
-    t.float "tax_industrialized_products"
-    t.float "profit_margin"
-    t.float "aliquot_merchandise_tax"
     t.string "bar_code"
-    t.float "tax_substitution"
-    t.float "tax_reduction"
-    t.float "discount"
     t.float "weight"
     t.float "height"
     t.float "width"
     t.float "length"
     t.string "color"
-    t.string "code_tax_substitution_specification"
     t.integer "kind"
     t.boolean "active", default: true
     t.bigint "sub_category_id"
@@ -332,6 +322,11 @@ ActiveRecord::Schema.define(version: 20180315125000) do
     t.bigint "provider_id"
     t.string "sku"
     t.string "sku_xml"
+    t.float "icms"
+    t.integer "ncm"
+    t.float "ipi"
+    t.integer "cest"
+    t.float "reduction"
     t.index ["provider_id"], name: "index_products_on_provider_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"

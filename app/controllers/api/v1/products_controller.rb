@@ -44,29 +44,28 @@ class Api::V1::ProductsController < Api::V1::BaseController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :common_nomenclature_mercosur,
-      :added_value_tax, :cost, :tax_industrialized_products, :profit_margin,
-      :aliquot_merchandise_tax, :bar_code, :tax_substitution, :tax_reduction, :discount,
-      :weight, :height, :width, :length, :color, :code_tax_substitution_specification,
+    params.require(:product).permit(:name, :description, :ncm, :icms, :ipi, :cest, 
+      :bar_code, :reduction, :weight, :height, :width, :length,
       :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, :provider_id)
   end
 
   def company_product_attributes(product)
-    unless params[:company_products].nil?
-      params.require(:company_products).each do |company_product|
-        p company_product
-        cp = company_product.permit(:id, :stock, :stock_max, :company_id, :stock_min, :_destroy)
-        if cp[:id] != nil
-          if cp[:_destroy] == true
-            CompanyProduct.find(cp[:id]).delete
-          else
-            CompanyProduct.find(cp[:id]).update!(cp)
-          end
-        else
-          p "Product.company_products.create!(cp)"
-          product.company_products.create!(cp)
-        end
+    comprod = company_products_params
+    comprod.each do |cp|
+      cp = cp.permit(:id, :stock, :stock_max, :company_id, :stock_min, :_destroy)
+      if cp[:id] != nil
+        cp[:_destroy] == true ? CompanyProduct.find(cp[:id]).delete : CompanyProduct.find(cp[:id]).update!(cp)
+      else
+        product.cps.create!(cp)
       end
+    end
+  end
+
+  def company_products_params
+    begin
+      params.require(:product)["company_products"] ? params.require(:product)["company_products"] : params.require("company_products")
+    rescue
+      []
     end
   end
 end

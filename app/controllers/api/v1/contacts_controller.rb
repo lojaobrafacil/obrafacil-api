@@ -52,7 +52,7 @@ class Api::V1::ContactsController < Api::V1::BaseController
     begin
       params.require(model.class.to_s.downcase.to_sym)[contact_type] ? params.require(model.class.to_s.downcase.to_sym)[contact_type] : params.require(contact_type)
     rescue
-      nil
+      []
     end
   end
 end

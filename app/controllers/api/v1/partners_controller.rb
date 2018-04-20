@@ -46,6 +46,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   def destroy
     partner = Partner.find(params[:id])
     # authorize partner
+    partner.user.destroy unless partner.user.client? && partner.user.company? && partner.user.employee?
     partner.destroy
     head 204
   end
