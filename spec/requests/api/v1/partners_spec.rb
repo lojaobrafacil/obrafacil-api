@@ -31,9 +31,9 @@ RSpec.describe 'Partner API', type: :request do
 
   describe 'GET /partners/:id' do
     before do
-      get "/partners/#{partner_id}", params: {}, headers: headers
+      get "/partners/#{partner.id}", params: {}, headers: headers
     end
-    it 'return address from database' do
+    it 'return partner from database' do
       expect(json_body[:name]).to eq(partner[:name])
     end
 

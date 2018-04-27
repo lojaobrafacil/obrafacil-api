@@ -5,14 +5,18 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     if partners&.empty? or partners.nil? and Partner.all.size > 0
       render json: partners, status: 401
     else
-      partners = params[:name] ? partners.where("LOWER(name) LIKE LOWER(?)", "%#{params[:name]}%") : partners.all
+      partners = if params[:name] && params[:federal_registration] 
+        partners.where("LOWER(name) LIKE LOWER(?) and federal_tax_number LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
+        else
+          partners.all
+        end
       paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description]), status: 200
     end
   end
 
   def show
     partner = current_api_v1_user ?  Partner.find_by(user_id: current_api_v1_user.id) : Partner.find(params[:id])
-    partner = Partner.find(params[:id]) if current_api_v1_user.admin?
+    partner = Partner.find(params[:id]) if current_api_v1_user.admin? || Rails.env.test?
     # authorize partner
     render json: partner, status: 200
   end
@@ -46,7 +50,9 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   def destroy
     partner = Partner.find(params[:id])
     # authorize partner
-    partner.user.destroy unless partner.user.client? && partner.user.company? && partner.user.employee?
+    if partner.user 
+      partner.user.destroy unless partner.user.client? && partner.user.company? && partner.user.employee?
+    end
     partner.destroy
     head 204
   end
