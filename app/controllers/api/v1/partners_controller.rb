@@ -5,8 +5,8 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     if partners&.empty? or partners.nil? and Partner.all.size > 0
       render json: partners, status: 401
     else
-      partners = if params[:name] && params[:federal_registration] 
-        partners.where("LOWER(name) LIKE LOWER(?) and federal_tax_number LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
+      partners = if params[:name] && params[:federal_tax_number] 
+        partners.where("LOWER(name) LIKE LOWER(?) and federal_tax_number LIKE ?", "%#{params[:name]}%", "#{params[:federal_tax_number]}%")
         else
           partners.all
         end
