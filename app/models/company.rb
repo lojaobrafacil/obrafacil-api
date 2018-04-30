@@ -13,4 +13,8 @@ class Company < ApplicationRecord
   validates_presence_of :name
   include Contact
 
+  def products
+    Product.where("id in (select cp.product_id from company_products as cp where cp.order_id = ?)", self.id)
+  end
+
 end
