@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
         mount_devise_token_auth_for 'User', at: 'auth'
         resources :users, only: [:index, :show, :update]
+        put 'reset_password', to: :reset_password, controller: 'users'
         resources :address_types, only: [:index, :show, :create, :update, :destroy]
         resources :email_types, only: [:index, :show, :create, :update, :destroy]
         resources :phone_types, only: [:index, :show, :create, :update, :destroy]

@@ -11,6 +11,14 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: user, status: 200
   end
 
+  def reset_password
+    if User.find_by(federal_registration: params[:federal_registration])&.reset_password(params[:password], params[:password_confirmation])
+      render json: { status: "Ok" }, status: 202 
+    else 
+      render json: { status: "usuario nao existe ou password_confirmation incorreto" }, status: 422
+    end
+  end
+
   def update
     user = User.find(params[:id])
 
