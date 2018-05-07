@@ -6,7 +6,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
     else
       Product.all
     end
-    paginate json: products.order(:id), status: 200
+    paginate json: products.order(:id).as_json(only:[:id, :name, :active, :description]), status: 200
   end
 
   def show
