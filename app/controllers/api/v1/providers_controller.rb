@@ -2,7 +2,7 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
 
   def index
     providers = Provider.all
-    paginate json: providers.order(:id), status: 200
+    paginate json: providers.order(:id).as_json(only:[:id, :name, :fantasy_name, :description]), status: 200
   end
 
   def show
