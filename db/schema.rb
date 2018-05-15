@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503175207) do
+ActiveRecord::Schema.define(version: 20180515162941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,12 +341,6 @@ ActiveRecord::Schema.define(version: 20180503175207) do
     t.datetime "birth_date"
     t.integer "tax_regime"
     t.text "description"
-    t.integer "invoice_sale"
-    t.integer "invoice_return"
-    t.integer "pis_percent"
-    t.integer "confins_percent"
-    t.integer "icmsn_percent"
-    t.integer "between_states_percent"
     t.bigint "billing_type_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false

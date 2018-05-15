@@ -16,7 +16,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
 
   def show
     partner = current_api_v1_user ?  Partner.find_by(user_id: current_api_v1_user.id) : Partner.find(params[:id])
-    partner = Partner.find(params[:id]) if current_api_v1_user&.admin? || Rails.env.production? == false
+    partner = Partner.find(params[:id]) if current_api_v1_user&.admin?
     # authorize partner
     render json: partner, status: 200
   end
