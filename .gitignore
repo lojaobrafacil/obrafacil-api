@@ -16,6 +16,5 @@
 .byebug_history
 .vscode
 coverage
-lib/tasks/dev.rake
 test-partner.json
 *.log
