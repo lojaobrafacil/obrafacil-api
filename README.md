@@ -1,24 +1,14 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+PARA ACESSAR A APLICAÇÃO É NECESSARIO ENVIAR UM SUBDOMINIO API, DESSA FORMA É NECESSARIO CONFIGURAR O ARQUIVOS HOSTS
 
-Things you may want to cover:
+NO LINUX
+    EDITAR O ARQUIVO /etc/hosts
+    ACRESCENTAR 127.0.0.1 api.suarota.dev
 
-* Ruby version
+NO WINDOWS 
+    EDITAR O ARQUIVO C:\Windows\System32\Drivers\etc
+    ACRESCENTAR 127.0.0.1 api.suarota.dev
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+NO MAC
+    EDITAR O ARQUIVO /private/etc/hosts
+    ACRESCENTAR 127.0.0.1 api.suarota.dev
