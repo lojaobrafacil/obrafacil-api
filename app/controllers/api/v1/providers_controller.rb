@@ -5,12 +5,12 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
     if providers&.empty? or providers.nil? and Provider.all.size > 0
       render json: providers, status: 401
     else
-      providers = if params[:name]
-        partners.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE ?", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
-        else
-          providers.all
-        end
-      paginate json: providers.order(:name).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description]), status: 200
+    providers = if params[:name]
+      partners.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE ?", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
+      else
+        providers.all
+      end
+      paginate json: providers.order(:id).as_json(only:[:id, :name, :fantasy_name, :description]), status: 200
     end
   end
 
