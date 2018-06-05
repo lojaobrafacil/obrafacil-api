@@ -1,15 +1,8 @@
 class Api::V1::CommissionsController < Api::V1::BaseController
 
     def index
-        commissions = if Commission.where("partner_id = ?", params[:partner_id])
-            commissions = if params[:started_date] && params[:started_date] > Time.now() 
-                end_date = params[:end_date] ? params[:end_date] : Time.now()
-                commissions.where(:order_date => params[:started_date]..end_date)
-            end
-            paginate json: commissions ||= [] , status: 200
-        else
-            render json: { errors: "partner_id vazio" }, status: 422
-        end
+        commissions = Commission.where("partner_id = ?", params[:partner_id]) if params[:partner_id]
+        paginate json: commissions , status: 200
     end
     
     def create
