@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180515162941) do
+ActiveRecord::Schema.define(version: 20180605165920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,21 @@ ActiveRecord::Schema.define(version: 20180515162941) do
     t.datetime "updated_at", null: false
     t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
     t.index ["user_id"], name: "index_clients_on_user_id"
+  end
+
+  create_table "commissions", force: :cascade do |t|
+    t.bigint "partner_id"
+    t.integer "order_id"
+    t.datetime "order_date"
+    t.float "order_price"
+    t.string "client_name"
+    t.integer "points"
+    t.float "percent"
+    t.datetime "percent_date"
+    t.datetime "sent_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_commissions_on_partner_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -254,6 +269,8 @@ ActiveRecord::Schema.define(version: 20180515162941) do
     t.datetime "updated_at", null: false
     t.datetime "started_date"
     t.string "ocupation"
+    t.float "discount3"
+    t.float "discount8"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["user_id"], name: "index_partners_on_user_id"
   end
@@ -411,6 +428,7 @@ ActiveRecord::Schema.define(version: 20180515162941) do
   add_foreign_key "cities", "states"
   add_foreign_key "clients", "billing_types"
   add_foreign_key "clients", "users"
+  add_foreign_key "commissions", "partners"
   add_foreign_key "companies", "billing_types"
   add_foreign_key "companies", "users"
   add_foreign_key "company_products", "companies"

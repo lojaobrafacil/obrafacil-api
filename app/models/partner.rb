@@ -1,6 +1,7 @@
 class Partner < ApplicationRecord
   belongs_to :bank, optional: true
   belongs_to :user, optional: true
+  has_many :commissions, dependent: :destroy
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
   has_many :emails, dependent: :destroy, as: :emailable
