@@ -3,6 +3,6 @@ class Api::V1::CommissionSerializer < ActiveModel::Serializer
   :points, :percent_date, :percent, :percent_value, :sent_date, :partner_id
 
   def percent_value
-    object.percent ? (object.order_price - object.return_price)*object.percent : 0
+    object.percent ? (object.order_price.to_f - object.return_price.to_f)*object.percent.to_f : 0
   end
 end
