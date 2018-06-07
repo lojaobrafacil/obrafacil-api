@@ -30,7 +30,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       premio_ideal(partner)
       render json: partner, status: 201
     else
-      render json: { error: partner.errors }, status: 422
+      render json: { errors: partner.errors }, status: 422
     end
   end
 
@@ -43,7 +43,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       premio_ideal(partner)      
       render json: partner, status: 200
     else
-      render json: { error: partner.errors }, status: 422
+      render json: { errors: partner.errors }, status: 422
     end
   end
 
