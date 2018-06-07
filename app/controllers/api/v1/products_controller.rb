@@ -1,7 +1,7 @@
 class Api::V1::ProductsController < Api::V1::BaseController
 
   def index
-    products = if params['name'] and params['brand']
+    products = if params['name']
       Product.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
     else
       Product.all
