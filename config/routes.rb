@@ -34,6 +34,8 @@ Rails.application.routes.draw do
         resources :cashiers, only: [:index, :show, :create, :update, :destroy]
         resources :orders, only: [:index, :show, :create, :update, :destroy]
         resources :commissions, only: [:index, :create, :update, :destroy]
+        resources :reports, only: [:index]
+        post 'reports', to: :index, controller: 'reports'
         get 'allbanks', to: :allbanks, controller: 'banks'
   		end
   	end
