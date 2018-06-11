@@ -30,10 +30,10 @@ class Api::V1::ReportsController < ApplicationController
                     end
                     select += " and " if count > 0
                 end
-                send_data model.to_csv(keys), filename: params[:model].pluralize+"-#{Date.today}.csv"
+                send_data model.where(select).to_csv(keys), filename: params[:model].pluralize+"-#{Date.today}.csv"
             end
         else
-            render json: { :errors => [] }, status: 200
+            render json: { :errors => ["model e fields devem ser enviados"] }, status: 200
         end
     end
 
