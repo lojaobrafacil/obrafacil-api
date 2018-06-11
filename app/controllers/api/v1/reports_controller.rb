@@ -25,11 +25,12 @@ class Api::V1::ReportsController < ApplicationController
                             value = value.split(".")
                             select += key + "BETWEEN "+ Time.new(value[0].split("/")[2].to_i,value[0].split("/")[1].to_i, value[0].split("/")[0].to_i).to_s + " AND "+ Time.new(value[1].split("/")[2].to_i,value[1].split("/")[1].to_i, value[1].split("/")[0].to_i).to_s
                         else
-                            select += "1 = 1"
+                            select += ""
                         end
+                        select += " and " if count > 0 && count != fields.size && !value.nil?
                     end
-                    select += " and " if count > 0
                 end
+                select.chomp!(" and ")
                 send_data model.where(select).to_csv(keys), filename: params[:model].pluralize+"-#{Date.today}.csv"
             end
         else
