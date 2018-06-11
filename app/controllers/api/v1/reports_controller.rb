@@ -13,7 +13,7 @@ class Api::V1::ReportsController < ApplicationController
                 fields.each do |item|
                     count-=1
                     item.map do |key, value|
-                        model.has_attribute?(key) ? keys << key : break
+                        model.has_attribute?(key) || key == 'emails' || key == 'phones' || key == 'addresses' ? keys << key : break
                         case Partner.column_for_attribute(key).type
                         when :integer
                             select += key+" = " + value.to_s
@@ -24,16 +24,16 @@ class Api::V1::ReportsController < ApplicationController
                         when :datetime
                             value = value.split(".")
                             select += key + "BETWEEN "+ Time.new(value[0].split("/")[2].to_i,value[0].split("/")[1].to_i, value[0].split("/")[0].to_i).to_s + " AND "+ Time.new(value[1].split("/")[2].to_i,value[1].split("/")[1].to_i, value[1].split("/")[0].to_i).to_s
-                        else 
+                        else
                             select += "1 = 1"
                         end
                     end
                     select += " and " if count > 0
                 end
-                send_data model.to_csv(keys), filename: model.to_s+"-#{Date.today}.csv"
+                send_data model.to_csv(keys), filename: params[:model].pluralize+"-#{Date.today}.csv"
             end
         else
-            render json: { model.classify.pluralize.to_sym => [] }, status: 200
+            render json: { :errors => [] }, status: 200
         end
     end
 
