@@ -17,7 +17,7 @@ module To_csv
         titles.concat(['phone_1', 'phone_type_id_1', 'contact_1', 'phone_2', 'phone_type_id_2', 'contact_2'])
       end
       if attributes.include?('addresses')
-        addresses = true
+        address = true
         attributes.delete('addresses')
         titles.delete('addresses')
         titles.concat(['street_1','neighborhood_1','zipcode_1','ibge_1','complement_1','description_1','address_type_id_1', 'city_id_1', 'street_2','neighborhood_2','zipcode_2','ibge_2','complement_2','description_2','address_type_id_2', 'city_id_2'])
