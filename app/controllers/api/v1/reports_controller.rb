@@ -22,8 +22,8 @@ class Api::V1::ReportsController < ApplicationController
                         when :string
                             select += "lower("+key+") like lower('%" + value.to_s + "%')" unless value.nil?
                         when :datetime
-                            value = value.split(".")
-                            select += key + "BETWEEN "+ Time.new(value[0].split("/")[2].to_i,value[0].split("/")[1].to_i, value[0].split("/")[0].to_i).to_s + " AND "+ Time.new(value[1].split("/")[2].to_i,value[1].split("/")[1].to_i, value[1].split("/")[0].to_i).to_s
+                            value = value.split(".") if value.nil?
+                            select += key + "BETWEEN "+ Time.new(value[0].split("/")[2].to_i,value[0].split("/")[1].to_i, value[0].split("/")[0].to_i).to_s + " AND "+ Time.new(value[1].split("/")[2].to_i,value[1].split("/")[1].to_i, value[1].split("/")[0].to_i).to_s if value.nil?
                         else
                             select += ""
                         end
