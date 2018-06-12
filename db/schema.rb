@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180606135615) do
+ActiveRecord::Schema.define(version: 20180612130135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -270,8 +270,8 @@ ActiveRecord::Schema.define(version: 20180606135615) do
     t.datetime "updated_at", null: false
     t.datetime "started_date"
     t.string "ocupation"
-    t.float "discount3"
-    t.float "discount8"
+    t.string "discount3"
+    t.string "discount8"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["user_id"], name: "index_partners_on_user_id"
   end
