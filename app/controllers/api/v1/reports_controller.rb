@@ -16,14 +16,14 @@ class Api::V1::ReportsController < ApplicationController
                         model.has_attribute?(key) || key == 'emails' || key == 'phones' || key == 'addresses' ? keys << key : break
                         case Partner.column_for_attribute(key).type
                         when :integer
-                            select += key+" = " + value.to_s unless value.nil?
+                            select += key+" = " + value.to_s if !value.nil?
                         when :float
-                            select += key+" = " + value.to_s unless value.nil?
+                            select += key+" = " + value.to_s if !value.nil?
                         when :string
-                            select += "lower("+key+") like lower('%" + value.to_s + "%')" unless value.nil?
+                            select += "lower("+key+") like lower('%" + value.to_s + "%')" if !value.nil?
                         when :datetime
-                            value = value.split(".") if value.nil?
-                            select += key + "BETWEEN "+ Time.new(value[0].split("/")[2].to_i,value[0].split("/")[1].to_i, value[0].split("/")[0].to_i).to_s + " AND "+ Time.new(value[1].split("/")[2].to_i,value[1].split("/")[1].to_i, value[1].split("/")[0].to_i).to_s if value.nil?
+                            value = value.split(".") if !value.nil?
+                            select += key + "BETWEEN "+ Time.new(value[0].split("/")[2].to_i,value[0].split("/")[1].to_i, value[0].split("/")[0].to_i).to_s + " AND "+ Time.new(value[1].split("/")[2].to_i,value[1].split("/")[1].to_i, value[1].split("/")[0].to_i).to_s if !value.nil?
                         else
                             select += ""
                         end
