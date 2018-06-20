@@ -45,27 +45,26 @@ class Api::V1::ProductsController < Api::V1::BaseController
 
   def product_params
     params.require(:product).permit(:name, :description, :ncm, :icms, :ipi, :cest, 
-      :bar_code, :reduction, :weight, :height, :width, :length,
-      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, :provider_id)
+      :bar_code, :reduction, :weight, :height, :width, :length, :provider_id,
+      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id)
   end
 
   def company_product_attributes(product)
-    comprod = company_products_params
-    comprod.each do |cp|
-      cp = cp.permit(:id, :stock, :stock_max, :company_id, :stock_min, :_destroy)
-      if cp[:id] != nil
-        cp[:_destroy] == true ? CompanyProduct.find(cp[:id]).delete : CompanyProduct.find(cp[:id]).update!(cp)
+    company_products_params.each do |cp|
+      cps = cp.permit(:id, :stock, :stock_max, :company_id, :stock_min, :cost, :discount, :st, :margin, :_destroy)
+      if cps[:id] != nil 
+        cps[:_destroy] ? CompanyProduct.find(cps[:id]).delete : CompanyProduct.find(cps[:id]).update!(cps)
       else
-        product.cps.create!(cp)
+        begin
+          product.company_products.create!(cps)
+        rescue 
+          nil
+        end
       end
     end
   end
 
   def company_products_params
-    begin
-      params.require(:product)["company_products"] ? params.require(:product)["company_products"] : params.require("company_products")
-    rescue
-      []
-    end
+      params.require(:product)["company_products"]
   end
 end
