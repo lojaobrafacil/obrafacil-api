@@ -2,7 +2,16 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
 
   def index
     providers = Provider.all
-    paginate json: providers.order(:id), status: 200
+    if providers&.empty? or providers.nil? and Provider.all.size > 0
+      render json: providers, status: 401
+    else
+    providers = if params[:name]
+      providers.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE ?", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
+      else
+        providers.all
+      end
+      paginate json: providers.order(:id).as_json(only:[:id, :name, :fantasy_name, :description]), status: 200
+    end
   end
 
   def show
@@ -15,6 +24,7 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
 
     if provider.save
       update_contact(provider)
+      update_user(provider)      
       render json: provider, status: 201
     else
       render json: { errors: provider.errors }, status: 422
@@ -25,6 +35,7 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
     provider = Provider.find(params[:id])
     if provider.update(provider_params)
       update_contact(provider)
+      update_user(provider)      
       render json: provider, status: 200
     else
       render json: { errors: provider.errors }, status: 422
@@ -37,12 +48,29 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
     head 204
   end
 
+  def update_user(provider)
+    # if user = User.find_by(federal_registration: provider.federal_tax_number)
+    #   if provider.active?
+    #     user.update(provider: provider) unless user.provider == provider 
+    #   else
+    #     user.destroy unless user.provider.active?
+    #   end
+    # else
+    #   email = provider.federal_tax_number? ? provider.federal_tax_number.to_s+"@obrafacil.com" : provider.emails.first.email rescue nil
+    #   unless email&.nil?
+    #     provider.build_user(email: email,
+    #                         federal_registration: provider.federal_tax_number,
+    #                         password:"obrafacil2018",
+    #                         password_confirmation:"obrafacil2018" ).save
+    #   end
+    # end
+  end
+
   private
 
   def provider_params
     params.require(:provider).permit(:name, :fantasy_name, :federal_tax_number,
       :state_registration, :kind, :birth_date, :tax_regime, :description,
-      :invoice_sale, :invoice_return, :pis_percent, :confins_percent,
-      :icmsn_percent, :between_states_percent, :billing_type_id, :user_id)
+      :billing_type_id, :user_id)
   end
 end

@@ -1,12 +1,12 @@
 class Api::V1::ProductsController < Api::V1::BaseController
 
   def index
-    products = if params['name'] and params['brand']
+    products = if params['name']
       Product.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
     else
       Product.all
     end
-    paginate json: products.order(:id), status: 200
+    paginate json: products.order(:id).as_json(only:[:id, :name, :active, :description]), status: 200
   end
 
   def show
@@ -44,29 +44,27 @@ class Api::V1::ProductsController < Api::V1::BaseController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :common_nomenclature_mercosur,
-      :added_value_tax, :cost, :tax_industrialized_products, :profit_margin,
-      :aliquot_merchandise_tax, :bar_code, :tax_substitution, :tax_reduction, :discount,
-      :weight, :height, :width, :length, :color, :code_tax_substitution_specification,
-      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, :provider_id, images: [])
+    params.require(:product).permit(:name, :description, :ncm, :icms, :ipi, :cest, 
+      :bar_code, :reduction, :weight, :height, :width, :length, :provider_id,
+      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, images: [])
   end
 
   def company_product_attributes(product)
-    unless params[:company_products].nil?
-      params.require(:company_products).each do |company_product|
-        p company_product
-        cp = company_product.permit(:id, :stock, :stock_max, :company_id, :stock_min, :_destroy)
-        if cp[:id] != nil
-          if cp[:_destroy] == true
-            CompanyProduct.find(cp[:id]).delete
-          else
-            CompanyProduct.find(cp[:id]).update!(cp)
-          end
-        else
-          p "Product.company_products.create!(cp)"
-          product.company_products.create!(cp)
+    company_products_params.each do |cp|
+      cps = cp.permit(:id, :stock, :stock_max, :company_id, :stock_min, :cost, :discount, :st, :margin, :_destroy)
+      if cps[:id] != nil 
+        cps[:_destroy] ? CompanyProduct.find(cps[:id]).delete : CompanyProduct.find(cps[:id]).update!(cps)
+      else
+        begin
+          product.company_products.create!(cps)
+        rescue 
+          nil
         end
       end
     end
+  end
+
+  def company_products_params
+      params.require(:product)["company_products"]
   end
 end

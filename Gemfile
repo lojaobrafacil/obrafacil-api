@@ -70,3 +70,4 @@ gem 'kaminari'
 gem 'api-pagination'
 gem 'carrierwave'
 gem 'rmagick'
+gem "pundit"

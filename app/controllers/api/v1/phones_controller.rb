@@ -11,15 +11,14 @@ class Api::V1::PhonesController < Api::V1::BaseController
   end
 
   # emails will only be created in the associated controller
-  # def create
-  #   phone = Phone.new(phone_params)
-  #
-  #   if phone.save
-  #     render json: phone, status: 201
-  #   else
-  #     render json: { errors: phone.errors }, status: 422
-  #   end
-  # end
+  def create
+    phone = Phone.new(phone_params)
+    if phone.save
+      render json: phone, status: 201
+    else
+      render json: { errors: phone.errors }, status: 422
+    end
+  end
 
   def update
     phone = Phone.find(params[:id])
@@ -40,6 +39,6 @@ class Api::V1::PhonesController < Api::V1::BaseController
   private
 
   def phone_params
-    params.require(:phone).permit(:phone, :phone_type)
+    params.require(:phone).permit(:phone, :phone_type_id, :phonable_id, :phonable_type)
   end
 end

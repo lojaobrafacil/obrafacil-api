@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   	namespace :api, default: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
       namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
         mount_devise_token_auth_for 'User', at: 'auth'
+        resources :users, only: [:index, :show, :update]
+        put 'reset_password', to: :reset_password, controller: 'users'
         resources :address_types, only: [:index, :show, :create, :update, :destroy]
         resources :email_types, only: [:index, :show, :create, :update, :destroy]
         resources :phone_types, only: [:index, :show, :create, :update, :destroy]
@@ -10,8 +12,8 @@ Rails.application.routes.draw do
         resources :regions, only: [:index, :show, :create, :update, :destroy]
         resources :states, only: [:index, :show, :create, :update, :destroy]
         resources :addresses, only: [:index, :show, :update, :destroy]
-        resources :emails, only: [:index, :show, :update, :destroy]
-        resources :phones, only: [:index, :show, :update, :destroy]
+        resources :emails, only: [:index, :show, :update, :create, :destroy]
+        resources :phones, only: [:index, :show, :update, :create, :destroy]
         resources :billing_types, only: [:index, :show, :create, :update, :destroy]
         resources :banks, only: [:index, :show, :create, :update, :destroy]
         resources :clients, only: [:index, :show, :create, :update, :destroy]
@@ -31,6 +33,8 @@ Rails.application.routes.draw do
         resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
         resources :cashiers, only: [:index, :show, :create, :update, :destroy]
         resources :orders, only: [:index, :show, :create, :update, :destroy]
+        resources :commissions, only: [:index, :create, :update, :destroy]
+        resources :reports, only: [:index]
         get 'allbanks', to: :allbanks, controller: 'banks'
   		end
   	end

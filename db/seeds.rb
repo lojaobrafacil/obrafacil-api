@@ -9,7 +9,7 @@ require 'net/http'
 require 'net/https' # for ruby 1.8.7
 require 'json'
 
-User.create(email:"admhubco@obrafacil.com", federal_registration: 12345678910, kind: 0, password:"obrafaciladm", password_confirmation:"obrafaciladm")
+User.create(email:"12345678910@obrafacil.com", federal_registration: 12345678910, kind: 0, password:"obrafaciladm", password_confirmation:"obrafaciladm")
 
 module BRPopulate
   def self.states
@@ -37,7 +37,6 @@ module BRPopulate
     end
   end
 end
-
 address_type = [
   "comercial",
   "entrega",
@@ -64,45 +63,19 @@ billing_type = [
   "Somente à Vista CNF"
 ]
 
-banks = [[code: "75" , name: "Banco ABN Amro S.A.", slug: "ABN" ,description: "www.abnamro.com.br"],
-[code: "25" , name: "Banco Alfa", slug: "Alfa" ,description: "www.alfanet.com.br"],
-[code: "719", name: "Banco Banif", slug: "Banif" ,description: "www.bancobanif.com.br"],
-[code: "107", name: "Banco BBM", slug: "BBM" ,description: "www.bancobbm.com.br"],
-[code: "318", name: "Banco BMG", slug: "BMG" ,description: "www.bancobmg.com.br"],
-[code: "218", name: "Banco Bonsucesso", slug: "Bonsucesso" ,description: "www.bancobonsucesso.com.br"],
-[code: "208", name: "Banco BTG Pactual", slug: "BTG" ,description: "www.btgpactual.com.br"],
-[code: "263", name: "Banco Cacique", slug: "Cacique" ,description: "www.bancocacique.com.br"],
-[code: "473", name: "Banco Caixa Geral - Brasil", slug: "BCG-Brasil" ,description: "www.bcgbrasil.com.br"],
-[code: "745", name: "Banco Citibank", slug: "Citibank" ,description: "www.citibank.com.br"],
-[code: "721", name: "Banco Credibel", slug: "Credibel" ,description: "www.credibel.com.br"],
-[code: "505", name: "Banco Credit Suisse", slug: "" ,description: "www.credit-suisse.com.br"],
-[code: "707", name: "Banco Daycoval", slug: "Daycoval" ,description: "www.bancodaycoval.com.br"],
-[code: "265", name: "Banco Fator", slug: "Fator" ,description: "www.bancofator.com.br"],
-[code: "224", name: "Banco Fibra", slug: "Fibra" ,description: "www.bancofibra.com.br"],
-[code: "121", name: "Banco Gerador", slug: "Gerador" ,description: "www.bancogerador.com.br"],
-[code: "612", name: "Banco Guanabara", slug: "Guanabara" ,description: "www.bancoguanabara.com.br"],
-[code: "604", name: "Banco Industrial do Brasil", slug: "BI" ,description: "www.bancoindustrial.com.br"],
-[code: "320", name: "Banco Industrial e Comercial", slug: "BICBANCO" ,description: "www.bicbanco.com.br"],
-[code: "653", name: "Banco Indusval", slug: "BI&P" ,description: "www.bip.b.br"],
-[code: "77" , name: "Banco Intermedium", slug: "Intermedium" ,description: "www.intermedium.com.br"],
-[code: "184", name: "Banco Itaú BBA", slug: "Itaú BBA" ,description: "www.itaubba.com.br"],
-[code: "479", name: "Banco ItaúBank", slug: "ItaúBank" ,description: "www.itaubank.com.br"],
-[code: "M09", name: "Banco Itaucred Financiamentos", slug: "Itaucred Financiamentos" ,description: "www.itaucred.com.br"],
-[code: "389", name: "Banco Mercantil do Brasil", slug: "BMB" ,description: "www.mercantildobrasil.com.br"],
-[code: "746", name: "Banco Modal", slug: "Modal" ,description: "www.modal.com.br"],
-[code: "738", name: "Banco Morada", slug: "Morada" ,description: "www.bancomorada.com.br"],
-[code: "623", name: "Banco Pan", slug: "Pan" ,description: "www.bancopan.com.br"],
-[code: "611", name: "Banco Paulista", slug: "Paulista" ,description: "www.bancopaulista.com.br"],
-[code: "643", name: "Banco Pine", slug: "Pine" ,description: "www.pine.com.br"],
-[code: "654", name: "Banco Renner", slug: "Renner" ,description: "www.bancorenner.com.br"],
-[code: "741", name: "Banco Ribeirão Preto", slug: "BRP" ,description: "www.brp.com.br"],
-[code: "422", name: "Banco Safra", slug: "Safra" ,description: "www.safra.com.br"],
-[code: "33" , name: "Banco Santander", slug: "Santander" ,description: "www.santander.com.br"],
-[code: "637", name: "Banco Sofisa", slug: "Sofisa" ,description: "www.sofisa.com.br"],
-[code: "82" , name: "Banco Topázio", slug: "Topázio" ,description: "www.bancotopazio.com.br"],
-[code: "655", name: "Banco Votorantim", slug: "BV" ,description: "www.bancovotorantim.com.br"],
-[code: "237", name: "Bradesco", slug: "Bradesco" ,description: "www.bradesco.com.br"],
-[code: "341", name: "Itaú Unibanco", slug: "Itaú" ,description: "www.itau.com.br"]]
+banks = [{"code":745,"name":"Banco Citibank","slug":"Citibank","description":"www.citibank.com.br"},
+{"code":422,"name":"Banco Safra","slug":"Safra","description":"www.safra.com.br"},
+{"code":33,"name":"Banco Santander","slug":"Santander","description":"www.santander.com.br"},
+{"code":237,"name":"Bradesco","slug":"Bradesco","description":"www.bradesco.com.br"},
+{"code":341,"name":"Itaú Unibanco","slug":"Itaú","description":"www.itau.com.br"},
+{"code":1,"name":"BANCO DO BRASIL S/A","slug":"BRASIL"},
+{"code":104,"name":"CAIXA ECONOMICA FEDERAL","slug":"CEF"},
+{"code":212,"name":"BANCO ORIGINAL S/A","slug":"ORIGINAL"},
+{"code":399,"name":"HSBC BANK BRASIL S/A","slug":"HSBC"},
+{"code":77,"name":"BANCO IRTERMEDIUM S/A","slug":"INTERMEDIUM"},
+{"code":748,"name":"BANCO COOPERATIVO SICRED ","slug":"SICRED"},
+{"code":21,"name":"BANESTE S/A  BANCO DO EST. ESPIRITO SANTO ","slug":"BANESTE"},
+{"code":41,"name":"BANCO DO ESTADO DO RIO GRANDE DO SUL","slug":"BANRISUL"} ]
 
 type_units = [
 [name: "m2", description: "Metro quadrado"],
@@ -154,7 +127,7 @@ p "Criando billing_type ....[OK]"
 p "Criando banks "
 Bank.destroy_all if Bank.all.size > 1
 banks.each do |bank|
-  Bank.create!(code: bank.first[:code].to_i, name: bank.first[:name], slug: bank.first[:slug], description: bank.first[:description])
+  Bank.create!(code: bank[:code].to_i, name: bank[:name], slug: bank[:slug], description: bank[:description])
 end
 p "Criando banks ....[OK]"
 
