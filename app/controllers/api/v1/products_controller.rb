@@ -46,7 +46,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
   def product_params
     params.require(:product).permit(:name, :description, :ncm, :icms, :ipi, :cest, 
       :bar_code, :reduction, :weight, :height, :width, :length, :provider_id,
-      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, images: [])
+      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, {images:[]})
   end
 
   def company_product_attributes(product)
@@ -65,6 +65,6 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end
 
   def company_products_params
-      params.require(:product)["company_products"]
+      params.require(:product)["company_products"] || []
   end
 end

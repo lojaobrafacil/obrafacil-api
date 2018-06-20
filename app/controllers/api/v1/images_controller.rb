@@ -1,10 +1,15 @@
-class ImagesController < Api::V1::BaseController
+class Api::V1::ImagesController < Api::V1::BaseController
   before_action :set_product
 
   def create
-    add_more_images(images_params[:images]))
-    flash[:error] = "Failed uploading images" unless @product.save
-    redirect_to :back
+    add_more_images(images_params)
+    if @product.save
+      response = "Upload realizado com sucesso"
+    else
+      response = "Falha ao fazer o upload" 
+    end
+
+    render json: { response: response }, status: 200
   end
 
   private
@@ -14,12 +19,14 @@ class ImagesController < Api::V1::BaseController
   end
 
   def add_more_images(new_images)
-    images = @product.images # copy the old images 
-    images += new_images # concat old images with new ones
-    @product.images = images # assign back
+    images = @product.images
+    new_images.each do |image|
+      images.build(image)
+    end
+    @product.images = images
   end
 
   def images_params
-    params.require(:product).permit({images: []}) # allow nested params as array
+    params.permit({images: []}) # allow nested params as array
   end
 end
