@@ -34,7 +34,7 @@ class Api::V1::CommissionsController < Api::V1::BaseController
     private
     
     def commission_params
-        params.require(:commission).permit(:partner_id, :order_id, :order_date, :order_price, 
+        params.permit(:partner_id, :order_id, :order_date, :order_price, 
         :client_name, :return_price, :points, :percent, :percent_date, :sent_date)
     end
       

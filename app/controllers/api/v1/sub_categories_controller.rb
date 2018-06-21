@@ -42,6 +42,6 @@ class Api::V1::SubCategoriesController < Api::V1::BaseController
   private
 
   def sub_category_params
-    params.require(:sub_category).permit(:name, :category_id)
+    params.permit(:name, :category_id)
   end
 end

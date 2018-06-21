@@ -38,6 +38,6 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
   private
 
   def price_percentage_params
-    params.require(:price_percentage).permit(:margin, :kind)
+    params.permit(:margin, :kind)
   end
 end

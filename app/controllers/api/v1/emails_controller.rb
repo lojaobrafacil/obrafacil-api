@@ -40,6 +40,6 @@ class Api::V1::EmailsController < Api::V1::BaseController
   private
 
   def email_params
-    params.require(:email).permit(:email, :email_type_id, :emailable_type, :emailable_id, :contact, :email_type_id)    
+    params.permit(:email, :email_type_id, :emailable_type, :emailable_id, :contact, :email_type_id)    
   end
 end

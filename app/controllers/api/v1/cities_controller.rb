@@ -38,6 +38,6 @@ class Api::V1::CitiesController < Api::V1::BaseController
   private
 
   def city_params
-    params.require(:city).permit(:name, :capital, :state_id)
+    params.permit(:name, :capital, :state_id)
   end
 end

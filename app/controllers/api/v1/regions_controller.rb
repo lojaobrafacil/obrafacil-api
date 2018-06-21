@@ -38,6 +38,6 @@ class Api::V1::RegionsController < Api::V1::BaseController
   private
 
   def region_params
-    params.require(:region).permit(:name)
+    params.permit(:name)
   end
 end

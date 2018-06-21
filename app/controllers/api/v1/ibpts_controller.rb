@@ -38,6 +38,6 @@ class Api::V1::IbptsController < Api::V1::BaseController
   private
 
   def ibpt_params
-    params.require(:ibpt).permit(:code, :national_aliquota, :international_aliquota)
+    params.permit(:code, :national_aliquota, :international_aliquota)
   end
 end

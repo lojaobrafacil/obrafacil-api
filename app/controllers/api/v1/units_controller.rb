@@ -38,6 +38,6 @@ class Api::V1::UnitsController < Api::V1::BaseController
   private
 
   def unit_params
-    params.require(:unit).permit(:name, :description)
+    params.permit(:name, :description)
   end
 end

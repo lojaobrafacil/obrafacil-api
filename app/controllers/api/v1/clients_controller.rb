@@ -49,7 +49,7 @@ class Api::V1::ClientsController < Api::V1::ContactsController
   private
 
   def client_params
-    params.require(:client).permit(:name, :federal_tax_number, :state_registration,
+    params.permit(:name, :federal_tax_number, :state_registration,
       :international_registration, :kind, :active, :birth_date, :renewal_date,
       :tax_regime, :description, :order_description, :limit, :billing_type_id, :user_id)
   end

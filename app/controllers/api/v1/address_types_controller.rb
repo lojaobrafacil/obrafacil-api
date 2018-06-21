@@ -39,6 +39,6 @@ class Api::V1::AddressTypesController < Api::V1::BaseController
   private
 
   def address_type_params
-    params.require(:address_type).permit(:name)
+    params.permit(:name)
   end
 end

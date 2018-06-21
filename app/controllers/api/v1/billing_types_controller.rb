@@ -48,6 +48,6 @@ class Api::V1::BillingTypesController < Api::V1::BaseController
   private
 
   def billing_type_params
-    params.require(:billing_type).permit(:name)
+    params.permit(:name)
   end
 end

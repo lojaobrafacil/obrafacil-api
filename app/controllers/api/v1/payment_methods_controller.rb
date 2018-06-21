@@ -37,6 +37,6 @@ class Api::V1::PaymentMethodsController < Api::V1::BaseController
   private
 
   def payment_method_params
-    params.require(:payment_method).permit(:name)
+    params.permit(:name)
   end
 end

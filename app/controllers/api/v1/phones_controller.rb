@@ -39,6 +39,6 @@ class Api::V1::PhonesController < Api::V1::BaseController
   private
 
   def phone_params
-    params.require(:phone).permit(:phone, :phone_type_id, :phonable_id, :phonable_type)
+    params.permit(:phone, :phone_type_id, :phonable_id, :phonable_type)
   end
 end
