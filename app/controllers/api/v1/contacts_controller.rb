@@ -50,7 +50,7 @@ class Api::V1::ContactsController < Api::V1::BaseController
 
   def params_contact(contact_type)
     begin
-      params[contact_type] ? params[contact_type] : params.require(contact_type)
+      params.require(contact_type)
     rescue
       []
     end
