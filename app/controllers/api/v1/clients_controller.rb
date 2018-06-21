@@ -2,7 +2,16 @@ class Api::V1::ClientsController < Api::V1::ContactsController
 
   def index
     clients = Client.all
-    paginate json: clients.order(:id), status: 200
+    if clients&.empty? or clients.nil? and Client.all.size > 0
+      render json: clients, status: 401
+    else
+      clients = if params[:name] && params[:federal_tax_number] 
+        clients.where("LOWER(name) LIKE LOWER(?) and federal_tax_number LIKE ?", "%#{params[:name]}%", "#{params[:federal_tax_number]}%")
+        else
+          clients.all
+        end
+      paginate json: clients.order(:id).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active]), status: 200
+    end
   end
 
   def show
