@@ -57,7 +57,7 @@ GEM
     arel (8.0.0)
     aws-eventstream (1.0.1)
     aws-partitions (1.92.0)
-    aws-sdk-core (3.21.2)
+    aws-sdk-core (3.21.3)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
@@ -101,6 +101,9 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    carrierwave-aws (1.3.0)
+      aws-sdk-s3 (~> 1.0)
+      carrierwave (>= 0.7, < 2.0)
     case_transform (0.2)
       activesupport
     concurrent-ruby (1.0.5)
@@ -297,7 +300,6 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   api-pagination
-  aws-sdk-s3
   byebug
   capistrano (= 3.9.0)
   capistrano-bundler (~> 1.2)
@@ -307,6 +309,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-unicorn
   carrierwave
+  carrierwave-aws
   database_cleaner
   devise
   devise_token_auth

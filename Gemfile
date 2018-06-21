@@ -69,6 +69,5 @@ gem 'rails-i18n', '~> 5.0.0'
 gem 'kaminari'
 gem 'api-pagination'
 gem 'carrierwave'
-gem 'aws-sdk-s3'
-# gem 'rmagick'
 gem "pundit"
+gem 'carrierwave-aws'
