@@ -2,7 +2,7 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
 
   def index
     companies = Company.all
-    paginate json: companies.order(:id), status: 200
+    paginate json: companies.order(:id).as_json(only: [:id, :name, :fantasy_name, :federal_tax_number]), status: 200
   end
 
   def show
