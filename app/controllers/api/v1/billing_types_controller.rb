@@ -1,7 +1,17 @@
 class Api::V1::BillingTypesController < Api::V1::BaseController
+  
   def index
     billing_types = BillingType.all
+    if billing_types&.empty? or billing_types.nil? and BillingType.all.size > 0
+      render json: billing_types, status: 401
+    else
+    billing_types = if params[:name]
+      billing_types.where("LOWER(name) LIKE LOWER(?) and id LIKE ?", "%#{params[:billing_name]}%", "#{params[:billing_type_id]}%")
+      else
+        billing_types.all
+      end
     paginate json: billing_types.order(:id), status: 200
+    end
   end
 
   def show
