@@ -6,7 +6,7 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
       render json: providers, status: 401
     else
     providers = if params[:name]
-      providers.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE ?", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
+      providers.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE LOWER(?)", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
       else
         providers.all
       end
