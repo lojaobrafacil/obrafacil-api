@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619130419) do
+ActiveRecord::Schema.define(version: 20180621140918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -349,6 +349,7 @@ ActiveRecord::Schema.define(version: 20180619130419) do
     t.float "ipi"
     t.integer "cest"
     t.float "reduction"
+    t.float "suggested_price"
     t.index ["provider_id"], name: "index_products_on_provider_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
@@ -423,13 +424,6 @@ ActiveRecord::Schema.define(version: 20180619130419) do
     t.index ["federal_registration"], name: "index_users_on_federal_registration", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
-  end
-
-  create_table "vehicles", force: :cascade do |t|
-    t.string "model"
-    t.string "brand"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "addresses", "address_types"

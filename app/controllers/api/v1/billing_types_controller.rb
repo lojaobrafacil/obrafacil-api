@@ -6,7 +6,7 @@ class Api::V1::BillingTypesController < Api::V1::BaseController
       render json: billing_types, status: 401
     else
     billing_types = if params[:name]
-      billing_types.where("LOWER(name) LIKE LOWER(?) and LOWER(id) LIKE ?", "%#{params[:billing_name]}%", "#{params[:billing_type_id]}%")
+      billing_types.where("LOWER(name) LIKE LOWER(?) and id LIKE ?", "%#{params[:billing_name]}%", "#{params[:billing_type_id]}%")
       else
         billing_types.all
       end
