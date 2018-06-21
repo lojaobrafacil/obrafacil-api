@@ -39,6 +39,6 @@ class Api::V1::PermissionsController < Api::V1::BaseController
   private
 
   def permission_params
-    params.require(:permission).permit(:name)
+    params.permit(:name)
   end
 end

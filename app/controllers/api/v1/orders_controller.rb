@@ -38,7 +38,7 @@ class Api::V1::OrdersController < Api::V1::BaseController
   private
 
   def order_params
-    params.require(:order).permit( :kind, :exclusion_date, :description, :discont,
+    params.permit( :kind, :exclusion_date, :description, :discont,
       :freight, :billing_date, :file, :price_percentage_id, :employee_id, :order_id,
       :client_id, :cashier_id, :carrier_id, :company_id)
   end

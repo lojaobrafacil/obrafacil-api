@@ -38,6 +38,6 @@ class Api::V1::StatesController < Api::V1::BaseController
   private
 
   def state_params
-    params.require(:state).permit(:name, :acronym, :region_id)
+    params.permit(:name, :acronym, :region_id)
   end
 end

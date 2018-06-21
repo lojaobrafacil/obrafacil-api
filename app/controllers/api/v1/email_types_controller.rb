@@ -38,6 +38,6 @@ class Api::V1::EmailTypesController < Api::V1::BaseController
   private
 
   def email_type_params
-    params.require(:email_type).permit(:name)
+    params.permit(:name)
   end
 end

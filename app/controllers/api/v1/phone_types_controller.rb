@@ -38,6 +38,6 @@ class Api::V1::PhoneTypesController < Api::V1::BaseController
   private
 
   def phone_type_params
-    params.require(:phone_type).permit(:name)
+    params.permit(:name)
   end
 end
