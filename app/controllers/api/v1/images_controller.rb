@@ -19,14 +19,15 @@ class Api::V1::ImagesController < Api::V1::BaseController
   end
 
   def add_more_images(new_images)
-    images = @product.images
-    new_images.each do |image|
-      images.build(image)
+    images = []
+    @product.images.each do |image|
+      images += [image.url]
     end
+    images += [new_images[:images].tempfile]
     @product.images = images
   end
 
   def images_params
-    params.permit({images: []}) # allow nested params as array
+    params.permit(:images) # allow nested params as array
   end
 end
