@@ -28,7 +28,6 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end
 
   def update
-    byebug
     product = Product.find(params[:id])
     if product.update(product_params)
       company_product_attributes(product) if params[:company_products]
@@ -69,7 +68,6 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end 
   
   def image_products_attributes(product)
-    byebug
     image_products_params.each do |image|
       image = image.permit(:id, :attachment)
       if image[:id] != nil 
