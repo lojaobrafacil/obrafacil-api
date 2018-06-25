@@ -18,7 +18,9 @@ class Api::V1::ProductsController < Api::V1::BaseController
     product = Product.new(product_params)
 
     if product.save
-      company_product_attributes(product)
+      company_product_attributes(product) if params[:company_products]
+      image_products_attributes(product) if params[:images]
+      byebug
       render json: product, status: 201
     else
       render json: { errors: product.errors }, status: 422
@@ -26,9 +28,11 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end
 
   def update
+    byebug
     product = Product.find(params[:id])
     if product.update(product_params)
-      company_product_attributes(product)
+      company_product_attributes(product) if params[:company_products]
+      image_products_attributes(product) if params[:images]
       render json: product, status: 200
     else
       render json: { errors: product.errors }, status: 422
@@ -46,7 +50,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
   def product_params
     params.permit(:name, :description, :ncm, :icms, :ipi, :cest, 
       :bar_code, :reduction, :weight, :height, :width, :length, :provider_id,
-      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, {images:[]})
+      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id)
   end
 
   def company_product_attributes(product)
@@ -62,9 +66,29 @@ class Api::V1::ProductsController < Api::V1::BaseController
         end
       end
     end
+  end 
+  
+  def image_products_attributes(product)
+    byebug
+    image_products_params.each do |image|
+      image = image.permit(:id, :attachment)
+      if image[:id] != nil 
+        image[:_destroy] ? ImageProduct.find(image[:id]).destroy : ImageProduct.find(image[:id]).update!(image)
+      else
+        begin
+          product.image_products.create!(image)
+        rescue 
+          nil
+        end
+      end
+    end
+  end
+
+  def image_products_params
+    params[:images]
   end
 
   def company_products_params
-      params["company_products"]
+    params[:company_products]
   end
 end

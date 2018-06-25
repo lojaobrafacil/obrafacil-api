@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180621140918) do
+ActiveRecord::Schema.define(version: 20180625125950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,6 +231,14 @@ ActiveRecord::Schema.define(version: 20180621140918) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "image_products", force: :cascade do |t|
+    t.string "attachment"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_image_products_on_product_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "kind"
     t.datetime "exclusion_date"
@@ -350,7 +358,6 @@ ActiveRecord::Schema.define(version: 20180621140918) do
     t.integer "cest"
     t.float "reduction"
     t.float "suggested_price"
-    t.json "images"
     t.index ["provider_id"], name: "index_products_on_provider_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
@@ -442,6 +449,7 @@ ActiveRecord::Schema.define(version: 20180621140918) do
   add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "users"
+  add_foreign_key "image_products", "products"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
   add_foreign_key "orders", "clients"
