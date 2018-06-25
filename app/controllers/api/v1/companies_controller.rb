@@ -1,7 +1,11 @@
 class Api::V1::CompaniesController < Api::V1::ContactsController
 
   def index
-    companies = Company.all
+    companies = if params['name']
+      Company.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
+    else
+      Company.all
+    end
     paginate json: companies.order(:id).as_json(only: [:id, :name, :fantasy_name, :federal_tax_number]), status: 200
   end
 
