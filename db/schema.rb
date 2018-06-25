@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180621140918) do
+ActiveRecord::Schema.define(version: 20180625162735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,7 +149,6 @@ ActiveRecord::Schema.define(version: 20180621140918) do
     t.string "fantasy_name"
     t.string "federal_tax_number"
     t.string "state_registration"
-    t.integer "kind"
     t.datetime "birth_date"
     t.integer "tax_regime"
     t.text "description"
@@ -158,12 +157,9 @@ ActiveRecord::Schema.define(version: 20180621140918) do
     t.integer "pis_percent"
     t.integer "confins_percent"
     t.integer "icmsn_percent"
-    t.integer "between_states_percent"
-    t.bigint "billing_type_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["billing_type_id"], name: "index_companies_on_billing_type_id"
     t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
@@ -350,6 +346,7 @@ ActiveRecord::Schema.define(version: 20180621140918) do
     t.integer "cest"
     t.float "reduction"
     t.float "suggested_price"
+    t.json "images"
     t.index ["provider_id"], name: "index_products_on_provider_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
@@ -435,7 +432,6 @@ ActiveRecord::Schema.define(version: 20180621140918) do
   add_foreign_key "clients", "billing_types"
   add_foreign_key "clients", "users"
   add_foreign_key "commissions", "partners"
-  add_foreign_key "companies", "billing_types"
   add_foreign_key "companies", "users"
   add_foreign_key "company_products", "companies"
   add_foreign_key "company_products", "products"
