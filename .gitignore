@@ -13,6 +13,7 @@ public/uploads
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+.env
 
 .byebug_history
 .vscode
@@ -20,4 +21,8 @@ coverage
 test-partner.json
 public/uploads/
 *.log
+<<<<<<< HEAD
 .env
+=======
+.env
+>>>>>>> 313c2fc1ef27acd7b3db8441bb5737e237380c3f
