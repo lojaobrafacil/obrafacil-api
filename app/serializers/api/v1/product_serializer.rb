@@ -7,7 +7,11 @@ class Api::V1::ProductSerializer < ActiveModel::Serializer
   has_many :company_products
 
   def images
-    object.image_products
+    images = []
+    object.image_products.each do |image|
+      images << image.attachment.first.url
+    end
+    images
   end
 
   def category_id
