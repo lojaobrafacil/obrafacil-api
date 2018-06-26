@@ -18,6 +18,6 @@ public/uploads
 .vscode
 coverage
 test-partner.json
-/uploads/
+public/uploads/
 *.log
 .env
