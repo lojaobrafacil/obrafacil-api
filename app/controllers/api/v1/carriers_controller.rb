@@ -41,6 +41,6 @@ class Api::V1::CarriersController < Api::V1::ContactsController
   private
 
   def category_params
-    params.require(:carrier).permit(:name, :federal_tax_number, :state_registration, :kind, :description, :active)
+    params.permit(:name, :federal_tax_number, :state_registration, :kind, :description, :active)
   end
 end

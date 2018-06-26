@@ -40,7 +40,7 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
   private
 
   def employee_params
-    params.require(:employee).permit(:name, :federal_tax_number, :state_registration,
+    params.permit(:name, :federal_tax_number, :state_registration,
       :active, :birth_date, :renewal_date, :commission_percent, :description, :user_id)
   end
 end

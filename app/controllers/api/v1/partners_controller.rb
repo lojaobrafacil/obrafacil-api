@@ -62,7 +62,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   private
 
   def partner_params
-      params.require(:partner).permit(:id, :name, :federal_tax_number, :state_registration, 
+      params.permit(:id, :name, :federal_tax_number, :state_registration, 
       :kind, :active, :started_date, :renewal_date, :description, :origin, :percent, :agency, 
       :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount8)
   end

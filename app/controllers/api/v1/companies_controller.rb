@@ -44,7 +44,7 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
   private
 
   def company_params
-    params.require(:company).permit(:name, :fantasy_name, :federal_tax_number,
+    params.permit(:name, :fantasy_name, :federal_tax_number,
       :state_registration, :birth_date, :tax_regime, :description,
       :invoice_sale, :invoice_return, :pis_percent, :confins_percent,
       :icmsn_percent, :user_id)

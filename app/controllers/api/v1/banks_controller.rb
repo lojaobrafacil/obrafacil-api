@@ -43,6 +43,6 @@ class Api::V1::BanksController < Api::V1::BaseController
   private
 
   def bank_params
-    params.require(:bank).permit(:code, :name, :slug, :description)
+    params.permit(:code, :name, :slug, :description)
   end
 end

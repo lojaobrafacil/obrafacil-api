@@ -38,6 +38,6 @@ class Api::V1::CfopsController < Api::V1::BaseController
   private
 
   def cfop_params
-    params.require(:cfop).permit(:code, :description)
+    params.permit(:code, :description)
   end
 end

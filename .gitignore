@@ -19,3 +19,4 @@
 coverage
 test-partner.json
 *.log
+.env
