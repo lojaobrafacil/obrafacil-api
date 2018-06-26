@@ -72,3 +72,4 @@ gem 'api-pagination'
 gem 'carrierwave'
 gem "pundit"
 gem 'carrierwave-aws'
+gem "rmagick"
