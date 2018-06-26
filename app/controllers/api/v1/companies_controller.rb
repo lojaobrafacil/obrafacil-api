@@ -1,8 +1,12 @@
 class Api::V1::CompaniesController < Api::V1::ContactsController
 
   def index
-    companies = Company.all
-    paginate json: companies.order(:id), status: 200
+    companies = if params['name']
+      Company.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
+    else
+      Company.all
+    end
+    paginate json: companies.order(:id).as_json(only: [:id, :name, :fantasy_name, :federal_tax_number]), status: 200
   end
 
   def show
@@ -41,8 +45,8 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
 
   def company_params
     params.permit(:name, :fantasy_name, :federal_tax_number,
-      :state_registration, :kind, :birth_date, :tax_regime, :description,
+      :state_registration, :birth_date, :tax_regime, :description,
       :invoice_sale, :invoice_return, :pis_percent, :confins_percent,
-      :icmsn_percent, :between_states_percent, :billing_type_id, :user_id)
+      :icmsn_percent, :user_id)
   end
 end
