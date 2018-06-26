@@ -2,12 +2,9 @@ class Api::V1::ImagesController < Api::V1::BaseController
   before_action :set_product, only: [:create]
 
   def create
-    begin
-      images_params.each do |image|
-        @product.image_products.create!(attachment: [image])
-      end
+    if @product.image_products.create!(attachment: [images_params])
       response = "Upload realizado com sucesso"
-    rescue
+    else
       response = "Falha ao fazer o upload" 
     end
     render json: { response: response }, status: 200
