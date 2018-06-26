@@ -2,7 +2,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
   before_action :set_product, only: [:create]
 
   def create
-    if @product.image_products.create!(attachment: [images_params])
+    if @product.image_products.create!(attachment: images_params)
       response = "Upload realizado com sucesso"
     else
       response = "Falha ao fazer o upload" 

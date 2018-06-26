@@ -1,6 +1,6 @@
 class ImageProduct < ApplicationRecord
   belongs_to :product
 
-  mount_uploaders :attachment, ImageUploader
+  mount_uploader :attachment, ImageUploader
 
 end

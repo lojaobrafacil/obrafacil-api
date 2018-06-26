@@ -9,7 +9,7 @@ class Api::V1::ProductSerializer < ActiveModel::Serializer
   def images
     images = []
     object.image_products.each do |image|
-      images << image.attachment.first.url
+      images << image.attachment.url
     end
     images
   end
