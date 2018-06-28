@@ -33,12 +33,17 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   version :small do
-    process resize_to_fill: [350, 350]
+    process resize_to_fill: [200, 200]
   end
 
   version :medium do
+    process resize_to_fill: [350, 350]
+  end
+
+  version :large do
     process resize_to_fill: [600, 600]
   end
+
   # Create different versions of your uploaded files:
   # version :thumb do
   #   process resize_to_fit: [50, 50]
