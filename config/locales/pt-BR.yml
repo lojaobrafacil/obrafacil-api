@@ -2,25 +2,6 @@ pt-BR:
   activerecord:
     errors:
       messages:
-        already_confirmed: "já foi confirmado"
-        confirmation_period_expired: "precisa ser confirmada em até %{period}, por favor, solicite uma nova"
-        expired: "expirou, por favor, solicite uma nova"
-        not_found: "não encontrado"
-        not_locked: "não foi bloqueado"
-        not_saved:
-          one: "Não foi possível salvar %{resource}: 1 erro"
-          other: "Não foi possível salvar %{resource}: %{count} erros."
-        carrierwave_processing_error: falhou em ser processado
-        carrierwave_integrity_error: não é um tipo de arquivo permitido
-        carrierwave_download_error: não pôde ser baixado
-        extension_whitelist_error: "Não é permitido o envio de arquivos %{extension}, tipos permitidos: %{allowed_types}"
-        extension_blacklist_error: "Não é permitido o envio de arquivos %{extension}, tipos proibidos: %{prohibited_types}"
-        content_type_whitelist_error: "Não é permitido o envio de arquivos %{content_type}"
-        content_type_blacklist_error: "Não é permitido o envio de arquivos %{content_type}"
-        rmagick_processing_error: "Falha ao manipular com RMagick, talvez arquivo não seja uma imagem? Erro original: %{e}"
-        mini_magick_processing_error: "Falha ao manipular com MiniMagick, talvez arquivo não seja uma imagem? Erro original: %{e}"
-        min_size_error: "O tamanho do arquivo deve ser maior do que %{min_size}"
-        max_size_error: "O tamanho do arquivo deve ser inferior a %{max_size}"
         record_invalid: 'A validação falhou: %{errors}'
         restrict_dependent_destroy:
           has_one: Não é possível excluir o registro pois existe um %{record} dependente
@@ -282,3 +263,27 @@ pt-BR:
       send_instructions: "Dentro de minutos, você receberá um email com instruções para o desbloqueio da sua conta."
       send_paranoid_instructions: "Se sua conta existir, você receberá um e-mail com instruções para desbloqueá-la em alguns minutos."
       unlocked: "Sua conta foi desbloqueada com sucesso. Efetue login para continuar."
+
+    errors:
+      messages:
+        already_confirmed: "já foi confirmado"
+        confirmation_period_expired: "precisa ser confirmada em até %{period}, por favor, solicite uma nova"
+        expired: "expirou, por favor, solicite uma nova"
+        not_found: "não encontrado"
+        not_locked: "não foi bloqueado"
+        not_saved:
+          one: "Não foi possível salvar %{resource}: 1 erro"
+          other: "Não foi possível salvar %{resource}: %{count} erros."
+  errors:
+    messages:
+      carrierwave_processing_error: falhou em ser processado
+      carrierwave_integrity_error: não é um tipo de arquivo permitido
+      carrierwave_download_error: não pôde ser baixado
+      extension_whitelist_error: "Não é permitido o envio de arquivos %{extension}, tipos permitidos: %{allowed_types}"
+      extension_blacklist_error: "Não é permitido o envio de arquivos %{extension}, tipos proibidos: %{prohibited_types}"
+      content_type_whitelist_error: "Não é permitido o envio de arquivos %{content_type}"
+      content_type_blacklist_error: "Não é permitido o envio de arquivos %{content_type}"
+      rmagick_processing_error: "Falha ao manipular com RMagick, talvez arquivo não seja uma imagem?"
+      mini_magick_processing_error: "Falha ao manipular com MiniMagick, talvez arquivo não seja uma imagem? Erro original: %{e}"
+      min_size_error: "O tamanho do arquivo deve ser maior do que %{min_size}"
+      max_size_error: "O tamanho do arquivo deve ser inferior a %{max_size}"
