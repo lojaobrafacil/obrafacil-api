@@ -1,6 +1,6 @@
 class Api::V1::SubCategoriesController < Api::V1::BaseController
   def index
-    sub_categories = params['category'] ? Category.find(params['category']).sub_categories : SubCategory.all
+    sub_categories = params['category_id'] ? Category.find(params['category_id']).sub_categories : SubCategory.all
     paginate json: sub_categories.order(:id), status: 200
   end
 
@@ -31,8 +31,12 @@ class Api::V1::SubCategoriesController < Api::V1::BaseController
 
   def destroy
     sub_category = SubCategory.find(params[:id])
-    sub_category.destroy
-    head 204
+    if sub_category.products == []
+      sub_category.destroy
+      head 204
+    else
+      render json: { errors: "SubCategoria nao pode ser deletada pois possue produtos" }, status: 422      
+    end
   end
 
   private
