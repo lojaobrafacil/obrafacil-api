@@ -1,6 +1,6 @@
 class Provider < ApplicationRecord
   belongs_to :billing_type, optional: true
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :products
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
