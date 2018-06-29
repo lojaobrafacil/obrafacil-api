@@ -50,11 +50,7 @@ class Api::V1::ProvidersController < Api::V1::ContactsController
 
   def update_user(provider)
     if user = User.find_by(federal_registration: provider.federal_tax_number)
-      if provider.active?
-        user.update(provider: provider) unless user.provider == provider 
-      else
-        user.destroy unless user.provider.active?
-      end
+      user.update(provider: provider) unless user.provider == provider
     else
       email = provider.federal_tax_number? ? provider.federal_tax_number.to_s+"@obrafacil.com" : provider.emails.first.email rescue nil
       unless email&.nil?
