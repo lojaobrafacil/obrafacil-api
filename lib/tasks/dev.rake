@@ -86,7 +86,6 @@ namespace :dev do
         fantasy_name: Faker::Company.suffix,
         federal_tax_number: fr,
         state_registration: Faker::Number.number(9),
-        kind: [0,1].sample,
         birth_date: Faker::Date.birthday(18, 65),
         tax_regime: ["simple", "normal", "presumed"].sample,
         description: Faker::Lorem.paragraph(2),
