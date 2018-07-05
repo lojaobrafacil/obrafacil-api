@@ -11,6 +11,7 @@ class Partner < ApplicationRecord
   accepts_nested_attributes_for :commissions, allow_destroy: true
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship, :nivaldo]
+  enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind
   # validates_uniqueness_of :federal_tax_number, scope: :active 
   include Contact
