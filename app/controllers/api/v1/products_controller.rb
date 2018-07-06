@@ -20,7 +20,6 @@ class Api::V1::ProductsController < Api::V1::BaseController
     if product.save
       company_product_attributes(product) if params[:company_products]
       image_products_attributes(product) if params[:images]
-      byebug
       render json: product, status: 201
     else
       render json: { errors: product.errors }, status: 422
