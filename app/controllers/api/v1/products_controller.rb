@@ -88,11 +88,12 @@ class Api::V1::ProductsController < Api::V1::BaseController
   def company_products_params
     params[:company_products]
   end
+  
+  def generate_stocks(product)
+    company = Company.all
+      company.each do |cp|
+        CompanyProduct.create(stock: 0, stock_min: 0, stock_max: 0, product_id: product.id, company_id: cp.id)
+      end
+  end
 end
 
-def generate_stocks(product)
-  company = Company.all
-    company.each do |cp|
-      CompanyProduct.create(stock: 0, stock_min: 0, stock_max: 0, product_id: product.id, company_id: cp.id)
-    end
-end
