@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         resources :images, only: [:create, :destroy]
         resources :reports, only: [:index]
         get 'allbanks', to: :allbanks, controller: 'banks'
+        resources :vehicles, only: [:index, :create, :update, :show, :destroy]
   		end
   	end
 
