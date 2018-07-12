@@ -19,6 +19,7 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
 
     if company.save
       update_contact(company)
+      generate_stocks(company)
       render json: company, status: 201
     else
       render json: { errors: company.errors }, status: 422
@@ -48,5 +49,12 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
       :state_registration, :birth_date, :tax_regime, :description,
       :invoice_sale, :invoice_return, :pis_percent, :confins_percent,
       :icmsn_percent, :user_id)
+  end
+  
+  def generate_stocks(company)
+    products = Product.all
+      products.each do |product|
+        product.company_products.create(stock: 0, stock_min: 0, stock_max: 0, company: company)
+      end
   end
 end

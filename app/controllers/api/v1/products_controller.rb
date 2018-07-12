@@ -92,7 +92,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
   def generate_stocks(product)
     company = Company.all
       company.each do |cp|
-        CompanyProduct.create(stock: 0, stock_min: 0, stock_max: 0, product_id: product.id, company_id: cp.id)
+        cp.company_products.create(stock: 0, stock_min: 0, stock_max: 0, product: product)
       end
   end
 end
