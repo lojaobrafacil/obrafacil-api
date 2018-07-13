@@ -33,11 +33,11 @@ Rails.application.routes.draw do
         resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
         resources :cashiers, only: [:index, :show, :create, :update, :destroy]
         resources :orders, only: [:index, :show, :create, :update, :destroy]
+        resources :vehicles, only: [:index, :show, :create, :update, :destroy]
         resources :commissions, only: [:index, :create, :update, :destroy]
         resources :images, only: [:create, :destroy]
         resources :reports, only: [:index]
         get 'allbanks', to: :allbanks, controller: 'banks'
-        resources :vehicles, only: [:index, :create, :update, :show, :destroy]
   		end
   	end
 
