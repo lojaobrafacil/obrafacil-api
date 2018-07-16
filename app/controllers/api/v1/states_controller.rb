@@ -2,7 +2,7 @@ class Api::V1::StatesController < Api::V1::BaseController
 
   def index
     states = State.all
-    render json: states.order(:id).as_json(only: [:id, :name]), status: 200
+    render json: states.order(:id).as_json(only: [:id, :name, :acronym]), status: 200
   end
 
   def show
