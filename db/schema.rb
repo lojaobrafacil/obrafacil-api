@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180705154549) do
+ActiveRecord::Schema.define(version: 20180716130419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,8 @@ ActiveRecord::Schema.define(version: 20180705154549) do
     t.integer "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_price_percentages_on_company_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -432,6 +434,13 @@ ActiveRecord::Schema.define(version: 20180705154549) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "vehicles", force: :cascade do |t|
+    t.string "brand"
+    t.string "model"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "addresses", "address_types"
   add_foreign_key "addresses", "cities"
   add_foreign_key "cashier_payments", "cashiers"
@@ -456,6 +465,7 @@ ActiveRecord::Schema.define(version: 20180705154549) do
   add_foreign_key "partners", "banks"
   add_foreign_key "partners", "users"
   add_foreign_key "phones", "phone_types"
+  add_foreign_key "price_percentages", "companies"
   add_foreign_key "products", "providers"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
