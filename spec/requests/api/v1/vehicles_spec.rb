@@ -47,13 +47,14 @@ RSpec.describe 'Vehicle API', type: :request do
 
   describe 'POST /vehicles' do
     before do
-      post '/vehicles', params: { vehicle: vehicle_params }.to_json , headers: headers
+      post '/vehicles', params: vehicle_params.to_json  , headers: headers
     end
 
     context 'when the request params are valid' do
       let(:vehicle_params) { attributes_for(:vehicle) }
 
       it 'return status code 201' do
+        puts vehicle_params
         expect(response).to have_http_status(201)
       end
 
@@ -77,7 +78,7 @@ RSpec.describe 'Vehicle API', type: :request do
 
   describe 'PUT /vehicles/:id' do
     before do
-      put "/vehicles/#{vehicle_id}", params: { vehicle: vehicle_params }.to_json , headers: headers
+      put "/vehicles/#{vehicle_id}", params: { vehicle_brand: 'volkswagen' }.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
