@@ -6,7 +6,7 @@ RSpec.describe 'Vehicle API', type: :request do
   let(:vehicle) { vehicles.first }
   let(:vehicle_id) { vehicle.id }
   let(:vehicle_model) { vehicle.model}
-  let(:vehicle_brand) { vehicle_brand}
+  let(:vehicle_brand) { vehicle.brand}
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -54,7 +54,6 @@ RSpec.describe 'Vehicle API', type: :request do
       let(:vehicle_params) { attributes_for(:vehicle) }
 
       it 'return status code 201' do
-        puts vehicle_params
         expect(response).to have_http_status(201)
       end
 
@@ -77,12 +76,12 @@ RSpec.describe 'Vehicle API', type: :request do
   end
 
   describe 'PUT /vehicles/:id' do
-    before do
-      put "/vehicles/#{vehicle_id}", params: { vehicle_brand: 'volkswagen' }.to_json , headers: headers
+    before do #checar brand:
+      put "/vehicles/#{vehicle_id}", params: { vehicle:{ brand: vehicle.brand} }.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:vehicle_params) { { brand: 'volkswagen' } }
+      let(:vehicle_params) { { brand: vehicle.brand } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -94,8 +93,7 @@ RSpec.describe 'Vehicle API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:vehicle_params) { { brand: nil } }
-
+      let(:vehicle_params) { { brand: be_nil } } #Checar
       it 'return status code 422' do
         expect(response).to have_http_status(422)
       end
@@ -106,17 +104,17 @@ RSpec.describe 'Vehicle API', type: :request do
     end
   end
 
-  # describe 'DELETE /vehicles/:id' do
-  #   before do
-  #     delete "/vehicles/#{vehicle_id}", params: { } , headers: headers
-  #   end
+  describe 'DELETE /vehicles/:id' do
+    before do
+      delete "/vehicles/#{vehicle_id}", params: { } , headers: headers
+    end
 
-  #   it 'return status code 204' do
-  #     expect(response).to have_http_status(204)
-  #   end
+    it 'return status code 204' do
+      expect(response).to have_http_status(204)
+    end
 
-  #   it 'removes the user from database' do
-  #     expect(Vehicle.find_by(id: vehicle_id)).to be_nil
-  #   end
-  # end
+    it 'removes the user from database' do
+      expect(Vehicle.find_by(id: vehicle_id)).to be_nil
+    end
+  end
 end
