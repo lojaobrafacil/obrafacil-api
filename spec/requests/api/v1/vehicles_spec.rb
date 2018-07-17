@@ -76,8 +76,8 @@ RSpec.describe 'Vehicle API', type: :request do
   end
 
   describe 'PUT /vehicles/:id' do
-    before do #checar brand:
-      put "/vehicles/#{vehicle_id}", params: { vehicle:{ brand: vehicle.brand} }.to_json , headers: headers
+    before do 
+      put "/vehicles/#{vehicle_id}", params: vehicle_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -93,7 +93,7 @@ RSpec.describe 'Vehicle API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:vehicle_params) { { brand: be_nil } } #Checar
+      let(:vehicle_params) { { brand: nil } }
       it 'return status code 422' do
         expect(response).to have_http_status(422)
       end
