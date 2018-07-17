@@ -14,53 +14,22 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
     render json: price_percentage, status: 200
   end
 
-  def create
-    price_percentage = PricePercentage.new(price_percentage_params)
-
-    if price_percentage.save
-      render json: price_percentage, status: 201
-    else
-      render json: { errors: price_percentage.errors }, status: 422
-    end
-  end
-
   def update
-    arr =[] 
-    price_percentages = PricePercentage.where("company_id = #{params[:id]}")
-    price_percentages.each do |price|
-      price.update(price_percentage_params)
-      puts price
-      # arr << price
+    price_percentage_params.each do |price_percentage|
+      pp = price_percentage.permit(:margin, :kind)
+      begin
+        PricePercentage.find_by(company_id: params[:id], kind: pp["kind"]).update(margin: pp["margin"])
+      rescue
+        render json: { errors: "não foi possível Atualizar" }, status: 422
+      end
     end
-    # price_percentage = PricePercentage.find(params[:id])
-    # if price_percentage.update(price_percentage_params)
-    if arr 
-    render json: arr, status: 200
-    else
-      render json: { errors: price_percentage.errors }, status: 422
-    end
-  end
-
-  def destroy
-    price_percentage = PricePercentage.find(params[:id])
-    price_percentage.destroy
-    head 204
+    
+    render json: PricePercentage.where(company_id: params[:id]), status: 200
   end
 
   private
 
   def price_percentage_params
-    params.permit(:margin, :kind, :company_id)
-    # data = params[:_json]
-    # data.each do |items|
-    #   items
-    # end
-    data = require.params(:_json)
-      data.each do |item|
-      pp = item.permit(:id, :margin, :kind)
-      # company.price_percentage.create(pp)
-      pp
-    end
-
+    params.require(:price_percentages)
   end
 end

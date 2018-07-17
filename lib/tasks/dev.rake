@@ -4,14 +4,7 @@ namespace :dev do
 
   desc "Generate DB Faker"
   task generate_db: :environment do
-    p "Criando Porcentagem de preço "
-    (1..5).to_a.each do |kind|
-      PricePercentage.create!(
-        kind: kind,
-        margin: Faker::Number.decimal(2)) unless PricePercentage.find_by(kind:kind)
-    end
-    p "Criando Porcentagem de preço ....[OK]"
-
+    
     p "Criando Clientes "
     (1..20).to_a.each do
       c_email= Faker::Internet.email

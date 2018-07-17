@@ -434,13 +434,6 @@ ActiveRecord::Schema.define(version: 20180716130419) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  create_table "vehicles", force: :cascade do |t|
-    t.string "brand"
-    t.string "model"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   add_foreign_key "addresses", "address_types"
   add_foreign_key "addresses", "cities"
   add_foreign_key "cashier_payments", "cashiers"
