@@ -72,6 +72,7 @@ namespace :dev do
     p "Criando Empregados ....[OK]"
 
     p "Criando Empresas "
+    (1..5).to_a.each do
       c_email= Faker::Internet.email
       fr = Faker::Number.number(8)
       c = Company.create(
@@ -86,6 +87,7 @@ namespace :dev do
         c.emails.create(email: c_email, email_type: EmailType.all.sample)
         c.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
         c.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
+      end
     p "Criando Empresas ....[OK]"
 
     p "Criando Fornecedores "
