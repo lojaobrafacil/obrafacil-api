@@ -1,9 +1,8 @@
 class Api::V1::PricePercentagesController < Api::V1::BaseController
 
   def index
-    price_percentages = if params['company_id']
-      PricePercentage.where("company_id = ?", "#{params['company_id']}")
-      paginate json: price_percentages.order(:id).as_json(only:[:id, :kind, :margin, :company]), status: 200
+    if params['company_id']
+      paginate json: PricePercentage.where("company_id = ?", "#{params['company_id']}").order(:id).as_json(only:[:id, :kind, :margin, :company]), status: 200
     else
       render json: { errors: "Voce deve indicar qual empresa" }, status: 422
     end

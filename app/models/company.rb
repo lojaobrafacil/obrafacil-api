@@ -13,7 +13,7 @@ class Company < ApplicationRecord
   validates_presence_of :name
   include Contact
 
-  after_create :generate_price_percentages
+  after_create :generate_price_percentages, :generate_stocks
 
   def products
     Product.where("id in (select cp.product_id from company_products as cp where cp.order_id = ?)", self.id)
@@ -25,7 +25,7 @@ class Company < ApplicationRecord
     end
   end
 
-  def generate_stocks(company)
+  def generate_stocks
     products = Product.all
     if !products.empty?
       products.each do |product|
