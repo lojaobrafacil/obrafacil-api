@@ -18,7 +18,6 @@ class Api::V1::ProductsController < Api::V1::BaseController
     product = Product.new(product_params)
 
     if product.save
-      generate_stocks(product)
       company_product_attributes(product) if params[:company_products]
       image_products_attributes(product) if params[:images]
       render json: product, status: 201
@@ -89,11 +88,5 @@ class Api::V1::ProductsController < Api::V1::BaseController
     params[:company_products]
   end
   
-  def generate_stocks(product)
-    company = Company.all
-      company.each do |cp|
-        cp.company_products.create(stock: 0, stock_min: 0, stock_max: 0, product: product)
-      end
-  end
 end
 
