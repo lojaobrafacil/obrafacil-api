@@ -23,17 +23,14 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
   end
 
   def update
-    (1..5).each do |kind|
-      Company.find(params[:id].price_percentages.create(kind: kind, margin: 0.0)
+    price_percentage_params.each do |price_percentage|
+      pp = price_percentage.permit(:margin, :kind)
+      begin
+        PricePercentage.find_by(company_id: params[:id], kind: pp["kind"]).update(margin: pp["margin"])
+      rescue
+        nil
+      end
     end
-    # price_percentage_params.each do |price_percentage|
-    #   pp = price_percentage.permit(:margin, :kind)
-    #   begin
-    #     PricePercentage.find_by(company_id: params[:id], kind: pp["kind"]).update(margin: pp["margin"])
-    #   rescue
-    #     nil
-    #   end
-    # end
     
     render json: PricePercentage.where(company_id: params[:id]), status: 200
   end
