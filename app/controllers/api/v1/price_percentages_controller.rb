@@ -7,8 +7,8 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
       pp = {"company_id": company.id, "company_name": company.name, "company_fantasy_name": company.fantasy_name}
       count = 1
       company.price_percentages.each do |price_percentage|
-        pp[("kind "+count.to_s)]= price_percentage.kind
-        pp[("margin "+count.to_s)]= price_percentage.margin
+        pp[("kind_"+count.to_s)]= price_percentage.kind
+        pp[("margin_"+count.to_s)]= price_percentage.margin
         count+=1
       end
       price_percentages << pp
