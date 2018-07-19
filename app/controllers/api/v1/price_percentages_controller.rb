@@ -26,9 +26,9 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
     price_percentage_params.each do |price_percentage|
       pp = price_percentage.permit(:margin, :kind)
       begin
-        pp = PricePercentage.find_by(company_id: params[:id], kind: pp["kind"])
-        if pp 
-          pp.update(margin: pp["margin"])
+        pp1 = PricePercentage.find_by(company_id: params[:id], kind: pp["kind"])
+        if pp1 
+          pp1.update(margin: pp["margin"])
         else
           PricePercentage.create!(margin: pp["margin"], company_id: params[:id], kind: pp["kind"])
         end
