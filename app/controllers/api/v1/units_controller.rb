@@ -35,6 +35,10 @@ class Api::V1::UnitsController < Api::V1::BaseController
     head 204
   end
 
+  def model
+    ""
+  end
+
   private
 
   def unit_params
