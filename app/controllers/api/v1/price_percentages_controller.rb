@@ -1,11 +1,20 @@
 class Api::V1::PricePercentagesController < Api::V1::BaseController
 
   def index
-    if params['company_id']
-      paginate json: PricePercentage.where("company_id = ?", "#{params['company_id']}").order(:id).as_json(only:[:id, :kind, :margin, :company]), status: 200
-    else
-      render json: { errors: "Voce deve indicar qual empresa" }, status: 422
+    price_percentages = []
+
+    Company.all.each do |company|
+      pp = {"company_id": company.id, "company_name": company.name, "company_fantasy_name": company.fantasy_name}
+      count = 1
+      company.price_percentages.each do |price_percentage|
+        pp[("kind "+count.to_s)]= price_percentage.kind
+        pp[("margin "+count.to_s)]= price_percentage.margin
+        count+=1
+      end
+      price_percentages << pp
     end
+
+    render json: price_percentages, status: 200
   end
 
   def show
