@@ -46,7 +46,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
   private
 
   def product_params
-    params.permit(:name, :description, :ncm, :icms, :ipi, :cest, 
+    params.permit(:code, :name, :description, :ncm, :icms, :ipi, :cest, 
       :bar_code, :reduction, :weight, :height, :width, :length, :provider_id,
       :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id)
   end
