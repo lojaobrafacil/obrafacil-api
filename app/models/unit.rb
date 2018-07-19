@@ -3,6 +3,7 @@ class Unit < ApplicationRecord
   has_many :products
 
   def model
-    
+  end
+  def brand
   end
 end
