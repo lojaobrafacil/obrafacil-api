@@ -28,7 +28,7 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
       begin
         PricePercentage.find_by(company_id: params[:id], kind: pp["kind"]).update(margin: pp["margin"])
       rescue
-        render json: { errors: "não foi possível Atualizar" }, status: 422
+        nil
       end
     end
     
