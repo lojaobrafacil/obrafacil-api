@@ -1,7 +1,7 @@
 class Api::V1::UnitsController < Api::V1::BaseController
   def index
     units = Unit.all
-    render json: units, status: 200
+    render json: units.order(:id).as_json(only:[:id, :name, :description]), status: 200
   end
 
   def show
