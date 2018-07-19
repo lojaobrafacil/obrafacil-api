@@ -33,7 +33,7 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
     #   rescue
     #     nil
     #   end
-    end
+    # end
     
     render json: PricePercentage.where(company_id: params[:id]), status: 200
   end
