@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719175152) do
+ActiveRecord::Schema.define(version: 20180720193239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -349,7 +349,6 @@ ActiveRecord::Schema.define(version: 20180719175152) do
     t.bigint "unit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "provider_id"
     t.string "sku"
     t.string "sku_xml"
     t.float "icms"
@@ -359,26 +358,10 @@ ActiveRecord::Schema.define(version: 20180719175152) do
     t.float "reduction"
     t.float "suggested_price"
     t.integer "code"
-    t.index ["provider_id"], name: "index_products_on_provider_id"
+    t.bigint "supplier_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
+    t.index ["supplier_id"], name: "index_products_on_supplier_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
-  end
-
-  create_table "providers", force: :cascade do |t|
-    t.string "name"
-    t.string "fantasy_name"
-    t.string "federal_tax_number"
-    t.string "state_registration"
-    t.integer "kind"
-    t.datetime "birth_date"
-    t.integer "tax_regime"
-    t.text "description"
-    t.bigint "billing_type_id"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["billing_type_id"], name: "index_providers_on_billing_type_id"
-    t.index ["user_id"], name: "index_providers_on_user_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -402,6 +385,23 @@ ActiveRecord::Schema.define(version: 20180719175152) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_sub_categories_on_category_id"
+  end
+
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name"
+    t.string "fantasy_name"
+    t.string "federal_tax_number"
+    t.string "state_registration"
+    t.integer "kind"
+    t.datetime "birth_date"
+    t.integer "tax_regime"
+    t.text "description"
+    t.bigint "billing_type_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["billing_type_id"], name: "index_suppliers_on_billing_type_id"
+    t.index ["user_id"], name: "index_suppliers_on_user_id"
   end
 
   create_table "units", force: :cascade do |t|
@@ -467,11 +467,10 @@ ActiveRecord::Schema.define(version: 20180719175152) do
   add_foreign_key "partners", "users"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "price_percentages", "companies"
-  add_foreign_key "products", "providers"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
-  add_foreign_key "providers", "billing_types"
-  add_foreign_key "providers", "users"
   add_foreign_key "states", "regions"
   add_foreign_key "sub_categories", "categories"
+  add_foreign_key "suppliers", "billing_types"
+  add_foreign_key "suppliers", "users"
 end

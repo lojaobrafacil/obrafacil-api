@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
   belongs_to :sub_category, optional: true
   belongs_to :unit
-  belongs_to :provider
+  belongs_to :supplier
   has_many :company_products, dependent: :destroy
   has_many :image_products, dependent: :destroy
   accepts_nested_attributes_for :company_products, allow_destroy: true
