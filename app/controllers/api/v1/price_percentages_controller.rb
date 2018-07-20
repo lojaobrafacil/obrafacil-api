@@ -6,7 +6,7 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
     Company.all.each do |company|
       pp = {"company_id": company.id, "company_name": company.name, "company_fantasy_name": company.fantasy_name}
       count = 1
-      company.price_percentages.each do |price_percentage|
+      company.price_percentages.order(:kind).each do |price_percentage|
         pp[("kind_"+count.to_s)]= price_percentage.kind
         pp[("margin_"+count.to_s)]= price_percentage.margin
         count+=1
