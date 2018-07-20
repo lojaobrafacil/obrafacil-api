@@ -93,7 +93,7 @@ namespace :dev do
     p "Criando Fornecedores "
       p_email= Faker::Internet.email
       fr = Faker::Number.number(8)
-      p = Provider.create!(
+      p = Supplier.create!(
         name: Faker::Company.name,
         fantasy_name: Faker::Company.suffix,
         federal_tax_number: fr,
@@ -123,7 +123,7 @@ namespace :dev do
         height: Faker::Number.decimal(2),
         width: Faker::Number.decimal(2),
         length: Faker::Number.decimal(2),
-        provider: Provider.all.sample,
+        supplier: Supplier.all.sample,
         sku: Faker::Number.decimal(6),
         sku_xml: Faker::Number.decimal(6),
         kind: ["own", "third_party", "not_marketed"].sample,

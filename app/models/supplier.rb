@@ -1,4 +1,4 @@
-class Provider < ApplicationRecord
+class Supplier < ApplicationRecord
   belongs_to :billing_type, optional: true
   belongs_to :user, optional: true
   has_many :products
