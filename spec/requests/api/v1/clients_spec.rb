@@ -94,7 +94,6 @@ RSpec.describe 'Client API', type: :request do
       let(:client_params)  { {name: nil} }
 
       it 'return status code 422' do
-        puts response.body
         expect(response).to have_http_status(422)
       end
 
