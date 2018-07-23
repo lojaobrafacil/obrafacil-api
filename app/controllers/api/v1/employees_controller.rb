@@ -2,7 +2,7 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
 
   def index
     employees = Employee.all
-    paginate json: employees.order(:id), status: 200
+    paginate json: employees.order(:id).as_json(only: [:id, :name, :federal_tax_number, :state_registration, :active, :description]), status: 200
   end
 
   def show
