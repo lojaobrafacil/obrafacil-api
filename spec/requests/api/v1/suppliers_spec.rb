@@ -45,7 +45,7 @@ RSpec.describe 'Supplier API', type: :request do
 
   describe 'POST /suppliers' do
     before do
-      post '/suppliers', params: { supplier: supplier_params }.to_json , headers: headers
+      post '/suppliers', params: supplier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Supplier API', type: :request do
 
   describe 'PUT /suppliers/:id' do
     before do
-      put "/suppliers/#{supplier_id}", params: { supplier: supplier_params }.to_json , headers: headers
+      put "/suppliers/#{supplier_id}", params: supplier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:supplier_params) { { name: 'Comercial' } }
+      let(:supplier_params) { { name: supplier.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -113,7 +113,7 @@ RSpec.describe 'Supplier API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(supplier.find_by(id: supplier_id)).to be_nil
+      expect(suppliers.find_by(id: supplier_id)).to be_nil
     end
   end
 end
