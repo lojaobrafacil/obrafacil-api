@@ -45,7 +45,7 @@ RSpec.describe 'Ibpt API', type: :request do
 
   describe 'POST /ibpts' do
     before do
-      post '/ibpts', params: { ibpt: ibpt_params }.to_json , headers: headers
+      post '/ibpts', params: ibpt_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Ibpt API', type: :request do
 
   describe 'PUT /ibpts/:id' do
     before do
-      put "/ibpts/#{ibpt_id}", params: { ibpt: ibpt_params }.to_json , headers: headers
+      put "/ibpts/#{ibpt_id}", params: ibpt_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:ibpt_params) { { code: 54458 } }
+      let(:ibpt_params) { { code: ibpt.code } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
