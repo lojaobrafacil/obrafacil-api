@@ -45,7 +45,7 @@ RSpec.describe 'Unit API', type: :request do
 
   describe 'POST /units' do
     before do
-      post '/units', params: { unit: unit_params }.to_json , headers: headers
+      post '/units', params: unit_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Unit API', type: :request do
 
   describe 'PUT /units/:id' do
     before do
-      put "/units/#{unit_id}", params: { unit: unit_params }.to_json , headers: headers
+      put "/units/#{unit_id}", params: unit_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:unit_params) { { name: 'jorge' } }
+      let(:unit_params) { { name: unit.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
