@@ -45,7 +45,7 @@ RSpec.describe 'Product API', type: :request do
 
   describe 'POST /products' do
     before do
-      post '/products', params: { product: product_params }.to_json , headers: headers
+      post '/products', params: product_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
