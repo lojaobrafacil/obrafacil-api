@@ -45,7 +45,7 @@ RSpec.describe 'Region API', type: :request do
 
   describe 'POST /regions' do
     before do
-      post '/regions', params: { region: region_params }.to_json , headers: headers
+      post '/regions', params: region_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Region API', type: :request do
 
   describe 'PUT /regions/:id' do
     before do
-      put "/regions/#{region_id}", params: { region: region_params }.to_json , headers: headers
+      put "/regions/#{region_id}", params: region_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:region_params) { { name: 'Comercial' } }
+      let(:region_params) { { name: region.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -91,7 +91,7 @@ RSpec.describe 'Region API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:region_params) { { name: nil } }
+      let(:region_params) { {name: nil} }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
