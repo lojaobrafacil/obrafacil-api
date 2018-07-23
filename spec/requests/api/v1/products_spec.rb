@@ -75,11 +75,11 @@ RSpec.describe 'Product API', type: :request do
 
   describe 'PUT /products/:id' do
     before do
-      put "/products/#{product_id}", params: { product: product_params }.to_json , headers: headers
+      put "/products/#{product_id}", params:  product_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:product_params) { { name: 'Comercial' } }
+      let(:product_params) { { name: product.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
