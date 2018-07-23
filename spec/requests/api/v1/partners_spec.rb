@@ -45,7 +45,7 @@ RSpec.describe 'Partner API', type: :request do
 
   describe 'POST /partners' do
     before do
-      post '/partners', params: { partner: partner_params }.to_json , headers: headers
+      post '/partners', params: partner_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Partner API', type: :request do
 
   describe 'PUT /partners/:id' do
     before do
-      put "/partners/#{partner_id}", params: { partner: partner_params }.to_json , headers: headers
+      put "/partners/#{partner_id}", params: partner_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:partner_params) { { name: 'jorge' } }
+      let(:partner_params) { { name: partner.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
