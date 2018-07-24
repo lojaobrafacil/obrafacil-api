@@ -45,7 +45,7 @@ RSpec.describe 'Cfop API', type: :request do
 
   describe 'POST /cfops' do
     before do
-      post '/cfops', params: { cfop: cfop_params }.to_json , headers: headers
+      post '/cfops', params: cfop_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'Cfop API', type: :request do
 
   describe 'PUT /cfops/:id' do
     before do
-      put "/cfops/#{cfop_id}", params: { cfop: cfop_params }.to_json , headers: headers
+      put "/cfops/#{cfop_id}", params: cfop_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
