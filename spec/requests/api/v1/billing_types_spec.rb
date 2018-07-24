@@ -45,7 +45,7 @@ RSpec.describe 'BillingType API', type: :request do
 
   describe 'POST /billing_types' do
     before do
-      post '/billing_types', params: { billing_type: billing_type_params }.to_json , headers: headers
+      post '/billing_types', params: billing_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'BillingType API', type: :request do
 
   describe 'PUT /billing_types/:id' do
     before do
-      put "/billing_types/#{billing_type_id}", params: { billing_type: billing_type_params }.to_json , headers: headers
+      put "/billing_types/#{billing_type_id}", params: billing_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
