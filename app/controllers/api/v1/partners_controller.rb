@@ -10,7 +10,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
         else
           partners.all
         end
-      paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description]), status: 200
+      paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description, :cash_redemption]), status: 200
     end
   end
 
