@@ -3,6 +3,7 @@ class Company < ApplicationRecord
   belongs_to :user, optional: true
   has_many :company_products, dependent: :destroy
   has_many :price_percentages, dependent: :destroy
+  has_many :orders
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
   has_many :emails, dependent: :destroy, as: :emailable
