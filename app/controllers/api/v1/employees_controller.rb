@@ -24,6 +24,7 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
 
     if employee.save
       update_contact(employee)
+      update_user(employee)
       render json: employee, status: 201
     else
       render json: { errors: employee.errors }, status: 422
@@ -34,6 +35,7 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
     employee = Employee.find(params[:id])
     if employee.update(employee_params)
       update_contact(employee)
+      update_user(employee)
       render json: employee, status: 200
     else
       render json: { errors: employee.errors }, status: 422
@@ -47,6 +49,25 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
   end
 
   private
+
+  def update_user(employee)
+    if user = User.find_by(federal_registration: employee.federal_tax_number)
+      if employee.active?
+        user.update(employee: employee) unless user.employee == employee 
+      else
+        user.destroy unless user.employee.active?
+      end
+    else
+      email = employee.federal_tax_number? ? employee.federal_tax_number.to_s+"@obrafacil.com" : employee.emails.first.email rescue nil
+      unless email&.nil?
+        employee.build_user(email: email,
+                            federal_registration: employee.federal_tax_number,
+                            kind:1,
+                            password:"obrafacil2018",
+                            password_confirmation:"obrafacil2018" ).save
+      end
+    end
+  end
 
   def employee_params
     params.permit(:name, :federal_tax_number, :state_registration,
