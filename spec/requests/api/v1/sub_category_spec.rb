@@ -45,7 +45,7 @@ RSpec.describe 'SubCategory API', type: :request do
 
   describe 'POST /sub_categories' do
     before do
-      post '/sub_categories', params: { sub_category: sub_category_params }.to_json , headers: headers
+      post '/sub_categories', params: sub_category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'SubCategory API', type: :request do
 
   describe 'PUT /sub_categories/:id' do
     before do
-      put "/sub_categories/#{sub_category_id}", params: { sub_category: sub_category_params }.to_json , headers: headers
+      put "/sub_categories/#{sub_category_id}", params: sub_category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
