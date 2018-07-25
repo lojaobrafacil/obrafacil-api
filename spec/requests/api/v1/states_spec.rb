@@ -45,7 +45,7 @@ RSpec.describe 'State API', type: :request do
 
   describe 'POST /states' do
     before do
-      post '/states', params: { state: state_params }.to_json , headers: headers
+      post '/states', params: state_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'State API', type: :request do
 
   describe 'PUT /states/:id' do
     before do
-      put "/states/#{state_id}", params: { state: state_params }.to_json , headers: headers
+      put "/states/#{state_id}", params: state_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
