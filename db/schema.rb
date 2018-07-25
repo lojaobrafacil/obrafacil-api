@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180720193239) do
+ActiveRecord::Schema.define(version: 20180725195312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,11 +78,11 @@ ActiveRecord::Schema.define(version: 20180720193239) do
   create_table "cashiers", force: :cascade do |t|
     t.datetime "start_date"
     t.datetime "finish_date"
-    t.bigint "employee_id"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_cashiers_on_employee_id"
+    t.bigint "employee_id_id"
+    t.index ["employee_id_id"], name: "index_cashiers_on_employee_id_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -197,18 +197,12 @@ ActiveRecord::Schema.define(version: 20180720193239) do
   end
 
   create_table "employees", force: :cascade do |t|
-    t.string "name"
-    t.string "federal_tax_number"
-    t.string "state_registration"
-    t.boolean "active", default: true
-    t.datetime "birth_date"
-    t.datetime "renewal_date"
-    t.integer "commission_percent"
-    t.text "description"
-    t.bigint "user_id"
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_employees_on_user_id"
+    t.index ["uid", "provider"], name: "index_employees_on_uid_and_provider", unique: true
   end
 
   create_table "employees_permissions", id: false, force: :cascade do |t|
@@ -244,18 +238,18 @@ ActiveRecord::Schema.define(version: 20180720193239) do
     t.datetime "billing_date"
     t.string "file"
     t.bigint "price_percentage_id"
-    t.bigint "employee_id"
     t.bigint "cashier_id"
     t.bigint "client_id"
     t.bigint "carrier_id"
     t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "employee_id_id"
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
     t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
-    t.index ["employee_id"], name: "index_orders_on_employee_id"
+    t.index ["employee_id_id"], name: "index_orders_on_employee_id_id"
     t.index ["price_percentage_id"], name: "index_orders_on_price_percentage_id"
   end
 
@@ -446,7 +440,6 @@ ActiveRecord::Schema.define(version: 20180720193239) do
   add_foreign_key "addresses", "cities"
   add_foreign_key "cashier_payments", "cashiers"
   add_foreign_key "cashier_payments", "payment_methods"
-  add_foreign_key "cashiers", "employees"
   add_foreign_key "cities", "states"
   add_foreign_key "clients", "billing_types"
   add_foreign_key "clients", "users"
@@ -455,13 +448,11 @@ ActiveRecord::Schema.define(version: 20180720193239) do
   add_foreign_key "company_products", "companies"
   add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
-  add_foreign_key "employees", "users"
   add_foreign_key "image_products", "products"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
   add_foreign_key "orders", "clients"
   add_foreign_key "orders", "companies"
-  add_foreign_key "orders", "employees"
   add_foreign_key "orders", "price_percentages"
   add_foreign_key "partners", "banks"
   add_foreign_key "partners", "users"

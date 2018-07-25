@@ -64,7 +64,9 @@ namespace :dev do
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         description: Faker::Lorem.paragraph(2),
         commission_percent: Faker::Number.decimal(2),
-        user: User.create(email: e_email, password:12345678, password_confirmation:12345678, federal_registration:fr))
+        email: fr.to_s+"obrafacil.com",
+        password:12345678, 
+        password_confirmation:12345678)
         e.emails.create(email: e_email, email_type: EmailType.all.sample)
         e.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
         e.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
@@ -108,7 +110,7 @@ namespace :dev do
         p.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
     p "Criando Fornecedores ....[OK]"
 
-    p "Criando products"
+    p "Criando Produtos"
     (1..200).to_a.each do
       Product.create!(
         name: Faker::Commerce.product_name,
@@ -130,7 +132,7 @@ namespace :dev do
         sub_category: SubCategory.find_or_create_by!(name: Faker::Lorem.word, category: Category.find_or_create_by!(name:Faker::Lorem.word)),
         unit: Unit.all.sample)
     end
-    p "Criando products ....[OK]"
+    p "Criando Produtos ....[OK]"
 
     p "Criando Cashiers"
       Cashier.create!(
