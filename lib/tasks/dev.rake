@@ -54,17 +54,17 @@ namespace :dev do
 
     p "Criando Empregados "
     (1..20).to_a.each do
-      e_email= Faker::Internet.email
       fr = Faker::Number.number(8)
+      e_email= fr.to_s.concat("@obrafacil.com")
       e = Employee.create!(
         name: Faker::Name.name,
-        federal_tax_number: fr,
+        federal_registration: fr,
         state_registration: Faker::Number.number(9),
         birth_date: Faker::Date.birthday(18, 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         description: Faker::Lorem.paragraph(2),
         commission_percent: Faker::Number.decimal(2),
-        email: fr.to_s+"obrafacil.com",
+        email: e_email,
         password:12345678, 
         password_confirmation:12345678)
         e.emails.create(email: e_email, email_type: EmailType.all.sample)

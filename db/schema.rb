@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180725195312) do
+ActiveRecord::Schema.define(version: 20180725202320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,8 +81,6 @@ ActiveRecord::Schema.define(version: 20180725195312) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "employee_id_id"
-    t.index ["employee_id_id"], name: "index_cashiers_on_employee_id_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -197,11 +195,32 @@ ActiveRecord::Schema.define(version: 20180725195312) do
   end
 
   create_table "employees", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.boolean "allow_password_change", default: false
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "name"
+    t.string "federal_registration"
+    t.string "state_registration"
+    t.boolean "active"
+    t.datetime "birth_date"
+    t.datetime "renewal_date"
+    t.float "commission_percent"
+    t.text "description"
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_employees_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_employees_on_uid_and_provider", unique: true
   end
 
@@ -244,12 +263,10 @@ ActiveRecord::Schema.define(version: 20180725195312) do
     t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "employee_id_id"
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
     t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
-    t.index ["employee_id_id"], name: "index_orders_on_employee_id_id"
     t.index ["price_percentage_id"], name: "index_orders_on_price_percentage_id"
   end
 
