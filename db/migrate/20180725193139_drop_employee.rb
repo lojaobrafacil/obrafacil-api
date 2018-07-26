@@ -19,7 +19,7 @@ class DropEmployee < ActiveRecord::Migration[5.1]
       t.timestamps
     end
     
-    add_reference :cashiers, :employee_id, index: true
-    add_reference :orders, :employee_id, index: true
+    add_reference :cashiers, :employee, index: true
+    add_reference :orders, :employee, index: true
   end
 end

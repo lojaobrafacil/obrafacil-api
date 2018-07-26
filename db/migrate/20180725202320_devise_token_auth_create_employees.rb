@@ -59,5 +59,8 @@ class DeviseTokenAuthCreateEmployees < ActiveRecord::Migration[5.1]
     add_index :employees, :reset_password_token, unique: true
     # add_index :employees, :confirmation_token,   unique: true
     # add_index :employees, :unlock_token,       unique: true
+    
+    add_reference :cashiers, :employee, index: true
+    add_reference :orders, :employee, index: true
   end
 end

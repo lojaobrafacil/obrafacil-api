@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20180725202320) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "employee_id"
+    t.index ["employee_id"], name: "index_cashiers_on_employee_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -263,10 +265,12 @@ ActiveRecord::Schema.define(version: 20180725202320) do
     t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "employee_id"
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
     t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
+    t.index ["employee_id"], name: "index_orders_on_employee_id"
     t.index ["price_percentage_id"], name: "index_orders_on_price_percentage_id"
   end
 
