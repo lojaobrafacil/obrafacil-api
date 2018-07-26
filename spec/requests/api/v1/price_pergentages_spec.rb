@@ -49,7 +49,7 @@ RSpec.describe 'PricePercentage API', type: :request do
   describe 'POST /price_percentages' do
     PricePercentage.destroy_all
     before do
-      post '/price_percentages', params: { price_percentage: price_percentage_params }.to_json , headers: headers
+      post '/price_percentages', params: price_percentage_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -81,7 +81,7 @@ RSpec.describe 'PricePercentage API', type: :request do
     let(:price_percentage) { create(:price_percentage) }
     let(:price_percentage_id) { price_percentage.id }
     before do
-      put "/price_percentages/#{price_percentage_id}", params: { price_percentage: price_percentage_params }.to_json , headers: headers
+      put "/price_percentages/#{price_percentage_id}", params: price_percentage_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
