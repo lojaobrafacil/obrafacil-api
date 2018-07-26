@@ -55,7 +55,7 @@ namespace :dev do
     p "Criando Empregados "
     (1..20).to_a.each do
       fr = Faker::Number.number(8)
-      e_email= fr.to_s.concat("@obrafacil.com")
+      e_email= fr.to_s + "@obrafacil.com"
       e = Employee.create!(
         name: Faker::Name.name,
         federal_registration: fr,

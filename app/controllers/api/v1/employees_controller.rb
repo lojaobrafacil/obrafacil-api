@@ -1,16 +1,16 @@
 class Api::V1::EmployeesController < Api::V1::ContactsController
 
   def index
-    employees = Client.all
-    if employees&.empty? or employees.nil? and Client.all.size > 0
+    employees = Employee.all
+    if employees&.empty? or employees.nil? and Employee.all.size > 0
       render json: employees, status: 401
     else
-      employees = if params[:name] && params[:federal_tax_number] 
-        employees.where("LOWER(name) LIKE LOWER(?) and federal_tax_number LIKE ?", "%#{params[:name]}%", "#{params[:federal_tax_number]}%")
+      employees = if params[:name] && params[:federal_registration] 
+        employees.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
         else
           employees.all
         end
-      paginate json: employees.order(:id).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description]), status: 200
+      paginate json: employees.order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
     end
   end
 

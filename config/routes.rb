@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :employees
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   	namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
       namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
         mount_devise_token_auth_for 'User', at: 'auth'
-
-  mount_devise_token_auth_for 'Employee', at: 'Employee_auth'
-  as :employee do
-    # Define routes for Employee within this block.
-  end
+        mount_devise_token_auth_for 'Employee', at: 'employee_auth'
+        as :employee do
+          resources :employees, only: [:index, :show, :create, :update, :destroy]
+        end
         resources :users, only: [:index, :show, :update]
         put 'reset_password', to: :reset_password, controller: 'users'
         resources :address_types, only: [:index, :show, :create, :update, :destroy]
@@ -27,7 +25,6 @@ Rails.application.routes.draw do
         resources :companies, only: [:index, :show, :create, :update, :destroy]
         resources :suppliers, only: [:index, :show, :create, :update, :destroy]
         resources :permissions, only: [:index, :show, :create, :update, :destroy]
-        resources :employees, only: [:index, :show, :create, :update, :destroy]
         resources :categories, only: [:index, :show, :create, :update, :destroy]
         resources :sub_categories, only: [:index, :show, :create, :update, :destroy]
         resources :units, only: [:index, :show, :create, :update, :destroy]
