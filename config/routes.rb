@@ -1,12 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   	namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
-      namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
+      namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1) do
         mount_devise_token_auth_for 'User', at: 'auth'
-        mount_devise_token_auth_for 'Employee', at: 'employee_auth'
-        as :employee do
-          resources :employees, only: [:index, :show, :create, :update, :destroy]
-        end
+        resources :employees, only: [:index, :show, :create, :update, :destroy]
         resources :users, only: [:index, :show, :update]
         put 'reset_password', to: :reset_password, controller: 'users'
         resources :address_types, only: [:index, :show, :create, :update, :destroy]
@@ -42,10 +39,8 @@ Rails.application.routes.draw do
         resources :reports, only: [:index]
         get 'allbanks', to: :allbanks, controller: 'banks'
   		end
-    end
-    
-    namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
-      namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 2, default: false) do
+   
+      namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 2, default: true) do
         namespace :admin do
           mount_devise_token_auth_for 'User', at: 'auth'
           resources :employees, only: [:index, :show, :create, :update, :destroy]
@@ -138,6 +133,21 @@ Rails.application.routes.draw do
           resources :phones, only: [:index, :show]
           resources :partners, only: [:show, :update]
           resources :commissions, only: [:index, :create, :update, :destroy]
+          get 'allbanks', to: :allbanks, controller: 'banks'
+        end
+        namespace :clients do
+          mount_devise_token_auth_for 'User', at: 'auth'
+          put 'reset_password', to: :reset_password, controller: 'users'
+          resources :address_types, only: [:index, :show]
+          resources :email_types, only: [:index, :show]
+          resources :phone_types, only: [:index, :show]
+          resources :cities, only: [:index, :show]
+          resources :regions, only: [:index, :show]
+          resources :states, only: [:index, :show]
+          resources :addresses, only: [:index, :show]
+          resources :emails, only: [:index, :show]
+          resources :phones, only: [:index, :show]
+          resources :clients, only: [:show, :update]
           get 'allbanks', to: :allbanks, controller: 'banks'
         end
   		end
