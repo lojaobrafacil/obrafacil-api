@@ -1,4 +1,4 @@
-class Api::V1::IbptsController < Api::V1::BaseController
+class Api::V2::IbptsController < Api::V2::BaseController
 
   def index
     ibpts = Ibpt.all

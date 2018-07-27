@@ -1,4 +1,4 @@
-class Api::V1::CompaniesController < Api::V1::ContactsController
+class Api::V2::CompaniesController < Api::V2::ContactsController
 
   def index
     companies = if params['name']

@@ -1,4 +1,4 @@
-class Api::V1::BaseController < ApplicationController
+class Api::V2::BaseController < ApplicationController
   # before_action :authenticate_api_v1_user!
   before_action :authenticate_api_v1_employee!
   include Pundit

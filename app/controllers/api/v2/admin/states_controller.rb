@@ -1,4 +1,4 @@
-class Api::V1::StatesController < Api::V1::BaseController
+class Api::V2::StatesController < Api::V2::BaseController
 
   def index
     states = State.all

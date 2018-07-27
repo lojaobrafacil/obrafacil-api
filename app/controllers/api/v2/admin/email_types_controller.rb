@@ -1,4 +1,4 @@
-class Api::V1::EmailTypesController < Api::V1::BaseController
+class Api::V2::EmailTypesController < Api::V2::BaseController
 
   def index
     email_types = EmailType.all

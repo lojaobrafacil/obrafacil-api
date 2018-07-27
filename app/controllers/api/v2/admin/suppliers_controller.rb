@@ -1,4 +1,4 @@
-class Api::V1::SuppliersController < Api::V1::ContactsController
+class Api::V2::SuppliersController < Api::V2::ContactsController
 
   def index
     suppliers = Supplier.all

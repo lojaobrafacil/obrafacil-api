@@ -1,4 +1,4 @@
-class Api::V1::OrdersController < Api::V1::BaseController
+class Api::V2::OrdersController < Api::V2::BaseController
 
   def index
     orders = Order.all

@@ -1,4 +1,4 @@
-class Api::V1::ReportsController < ApplicationController
+class Api::V2::ReportsController < ApplicationController
     def index
         model = params[:model].classify.constantize.all if params[:model]
         if model && model.size > 0

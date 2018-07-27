@@ -1,4 +1,4 @@
-class Api::V1::CfopsController < Api::V1::BaseController
+class Api::V2::CfopsController < Api::V2::BaseController
 
   def index
     cfops = Cfop.all

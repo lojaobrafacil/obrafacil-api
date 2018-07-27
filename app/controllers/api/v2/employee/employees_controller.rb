@@ -1,4 +1,4 @@
-class Api::V1::EmployeesController < Api::V1::ContactsController
+class Api::V2::EmployeesController < Api::V2::ContactsController
 
   def index
     employees = Employee.all

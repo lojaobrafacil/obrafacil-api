@@ -1,4 +1,4 @@
-class Api::V1::AddressTypesController < Api::V1::BaseController
+class Api::V2::AddressTypesController < Api::V2::BaseController
 
   def index
     address_types = AddressType.all

@@ -1,4 +1,4 @@
-class Api::V1::RegionsController < Api::V1::BaseController
+class Api::V2::RegionsController < Api::V2::BaseController
 
   def index
     regions = Region.all
