@@ -1,4 +1,4 @@
-class Api::V2::ProductsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::ProductsController < Api::V2::Admin::BaseController
 
   def index
     products = if params['name']

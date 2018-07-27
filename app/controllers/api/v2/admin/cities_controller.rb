@@ -1,4 +1,4 @@
-class Api::V2::CitiesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::CitiesController < Api::V2::Admin::BaseController
 
   def index
     cities = params['state_id'] ? State.find(params['state_id']).cities : City.all

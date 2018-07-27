@@ -1,4 +1,4 @@
-class Api::V2::PhonesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::PhonesController < Api::V2::Admin::BaseController
 
   def index
     phones = Phone.all

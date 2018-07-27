@@ -1,4 +1,4 @@
-class Api::V2::PermissionsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::PermissionsController < Api::V2::Admin::BaseController
 
   def index
     permissions = Permission.all

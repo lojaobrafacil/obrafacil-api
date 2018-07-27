@@ -1,4 +1,4 @@
-class Api::V2::CarriersController < Api::V2::ContactsController
+class Api::V2::Admin::CarriersController < Api::V2::Admin::ContactsController
 
   def index
     carriers = Carrier.all
