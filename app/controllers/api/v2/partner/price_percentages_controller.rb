@@ -1,4 +1,4 @@
-class Api::V2::PricePercentagesController < Api::V2::BaseController
+class Api::V2::PricePercentagesController < Api::V2::Partner::BaseController
 
   def index
     price_percentages = []

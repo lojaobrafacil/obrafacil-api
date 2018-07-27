@@ -1,4 +1,4 @@
-class Api::V2::UsersController < Api::V2::BaseController
+class Api::V2::UsersController < Api::V2::Partner::BaseController
 
   def index
     users = policy_scope User
