@@ -1,4 +1,4 @@
-class Api::V1::ProductSerializer < ActiveModel::Serializer
+class Api::V2::Admin::ProductSerializer < ActiveModel::Serializer
   attributes :id, :code, :name, :description, :ncm, :icms, :ipi, :cest, 
       :bar_code, :reduction, :weight, :height, :width, :length,
       :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id, :supplier_id,

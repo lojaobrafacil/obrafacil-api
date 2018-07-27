@@ -1,4 +1,4 @@
-class Api::V1::SubCategorySerializer < ActiveModel::Serializer
+class Api::V2::Admin::SubCategorySerializer < ActiveModel::Serializer
   attributes :id, :name, :category_id, :category_name, :updated_at, :created_at
 
   def category_name

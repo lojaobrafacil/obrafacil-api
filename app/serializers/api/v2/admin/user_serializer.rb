@@ -1,4 +1,4 @@
-class Api::V1::UserSerializer < ActiveModel::Serializer
+class Api::V2::Admin::UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :federal_registration, :kind,  :client, 
   :partner, :company, :employee, :created_at, :updated_at
 

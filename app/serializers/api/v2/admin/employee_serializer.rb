@@ -1,4 +1,4 @@
-class Api::V1::EmployeeSerializer < ActiveModel::Serializer
+class Api::V2::Admin::EmployeeSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :federal_registration, :state_registration, :active,
   :birth_date, :renewal_date, :commission_percent, :description, :updated_at, :created_at
 

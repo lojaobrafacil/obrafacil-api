@@ -1,3 +1,3 @@
-class Api::V1::CategorySerializer < ActiveModel::Serializer
+class Api::V2::Admin::CategorySerializer < ActiveModel::Serializer
   attributes :id, :name, :updated_at, :created_at
 end

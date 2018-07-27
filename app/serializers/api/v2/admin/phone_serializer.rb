@@ -1,4 +1,4 @@
-class Api::V1::PhoneSerializer < ActiveModel::Serializer
+class Api::V2::Admin::PhoneSerializer < ActiveModel::Serializer
   attributes :id, :phone, :contact, :phone_type_id, :phone_type_name, :updated_at, :created_at
   
   def phone_type_name
