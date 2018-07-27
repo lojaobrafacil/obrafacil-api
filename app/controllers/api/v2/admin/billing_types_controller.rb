@@ -1,4 +1,4 @@
-class Api::V2::BillingTypesController < Api::V2::BaseController
+class Api::V2::BillingTypesController < Api::V2::Admin::BaseController
   
   def index
     billing_types = BillingType.all

@@ -1,4 +1,4 @@
-class Api::V2::ContactsController < Api::V2::BaseController
+class Api::V2::ContactsController < Api::V2::Admin::BaseController
 
   def update_contact(model)
     unless params_contact(:addresses).nil?
