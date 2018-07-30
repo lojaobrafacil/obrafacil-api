@@ -5,12 +5,12 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
     if clients&.empty? or clients.nil? and Client.all.size > 0
       render json: clients, status: 401
     else
-      clients = if params[:name] && params[:federal_tax_number] 
-        clients.where("LOWER(name) LIKE LOWER(?) and federal_tax_number LIKE ?", "%#{params[:name]}%", "#{params[:federal_tax_number]}%")
+      clients = if params[:name] && params[:federal_registration] 
+        clients.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
         else
           clients.all
         end
-      paginate json: clients.order(:id).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description]), status: 200
+      paginate json: clients.order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
     end
   end
 
@@ -49,7 +49,7 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
   private
 
   def client_params
-    params.permit(:name, :federal_tax_number, :state_registration,
+    params.permit(:name, :federal_registration, :state_registration,
       :international_registration, :kind, :active, :birth_date, :renewal_date,
       :tax_regime, :description, :order_description, :limit, :billing_type_id, :user_id)
   end
