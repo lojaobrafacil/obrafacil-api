@@ -45,7 +45,7 @@ RSpec.describe 'PaymentMethod API', type: :request do
 
   describe 'POST /payment_methods' do
     before do
-      post '/payment_methods', params: { payment_method: payment_method_params }.to_json , headers: headers
+      post '/payment_methods', params: payment_method_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'PaymentMethod API', type: :request do
 
   describe 'PUT /payment_methods/:id' do
     before do
-      put "/payment_methods/#{payment_method_id}", params: { payment_method: payment_method_params }.to_json , headers: headers
+      put "/payment_methods/#{payment_method_id}", params: payment_method_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

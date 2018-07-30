@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Provider, type: :model do
-  let!(:provider) { create(:provider) }
+RSpec.describe Supplier, type: :model do
+  let!(:supplier) { create(:supplier) }
 
   it { is_expected.to validate_presence_of(:name) }
   it { should belong_to(:user) }

@@ -75,11 +75,11 @@ RSpec.describe 'Address API', type: :request do
 
   describe 'PUT /addresses/:id' do
     before do
-      put "/addresses/#{address_id}", params: { address: address_params }.to_json , headers: headers
+      put "/addresses/#{address_id}", params: address_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:address_params) { { street: 'Comercial' } }
+      let(:address_params) { { street: address.street } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)

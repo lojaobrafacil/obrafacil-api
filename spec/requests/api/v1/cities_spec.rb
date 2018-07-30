@@ -45,7 +45,7 @@ RSpec.describe 'City API', type: :request do
 
   describe 'POST /cities' do
     before do
-      post '/cities', params: { city: city_params }.to_json , headers: headers
+      post '/cities', params: city_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'City API', type: :request do
 
   describe 'PUT /cities/:id' do
     before do
-      put "/cities/#{city_id}", params: { city: city_params }.to_json , headers: headers
+      put "/cities/#{city_id}", params: city_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:city_params) { { name: 'Comercial' } }
+      let(:city_params) { { name: city.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -91,7 +91,7 @@ RSpec.describe 'City API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:city_params) { { name: nil } }
+      let(:city_params) {{name: nil}}
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)

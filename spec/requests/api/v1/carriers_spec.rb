@@ -45,7 +45,7 @@ RSpec.describe 'Carrier API', type: :request do
 
   describe 'POST /carriers' do
     before do
-      post '/carriers', params: { carrier: carrier_params }.to_json , headers: headers
+      post '/carriers', params: carrier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Carrier API', type: :request do
 
   describe 'PUT /carriers/:id' do
     before do
-      put "/carriers/#{carrier_id}", params: { carrier: carrier_params }.to_json , headers: headers
+      put "/carriers/#{carrier_id}", params: carrier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:carrier_params) { { name: 'Comercial' } }
+      let(:carrier_params) { { name: carrier.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)

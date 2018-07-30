@@ -45,7 +45,7 @@ RSpec.describe 'Cashier API', type: :request do
 
   describe 'POST /cashiers' do
     before do
-      post '/cashiers', params: { cashier: cashier_params }.to_json , headers: headers
+      post '/cashiers', params: cashier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Cashier API', type: :request do
 
   describe 'PUT /cashiers/:id' do
     before do
-      put "/cashiers/#{cashier_id}", params: { cashier: cashier_params }.to_json , headers: headers
+      put "/cashiers/#{cashier_id}", params: cashier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:cashier_params) { { start_date: Time.new + 1.hour } }
+      let(:cashier_params) { { start_date: cashier.start_date } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)

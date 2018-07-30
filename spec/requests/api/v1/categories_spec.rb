@@ -45,7 +45,7 @@ RSpec.describe 'Category API', type: :request do
 
   describe 'POST /categories' do
     before do
-      post '/categories', params: { category: category_params }.to_json , headers: headers
+      post '/categories', params: category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'Category API', type: :request do
 
   describe 'PUT /categories/:id' do
     before do
-      put "/categories/#{category_id}", params: { category: category_params }.to_json , headers: headers
+      put "/categories/#{category_id}", params: category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

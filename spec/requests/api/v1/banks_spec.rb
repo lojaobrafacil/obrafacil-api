@@ -45,7 +45,7 @@ RSpec.describe 'Bank API', type: :request do
 
   describe 'POST /banks' do
     before do
-      post '/banks', params: { bank: bank_params }.to_json , headers: headers
+      post '/banks', params: bank_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Bank API', type: :request do
 
   describe 'PUT /banks/:id' do
     before do
-      put "/banks/#{bank_id}", params: { bank: bank_params }.to_json , headers: headers
+      put "/banks/#{bank_id}", params: bank_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:bank_params) { { name: 'Comercial' } }
+      let(:bank_params) { { name: bank.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)

@@ -45,7 +45,7 @@ RSpec.describe 'Order API', type: :request do
 
   describe 'POST /orders' do
     before do
-      post '/orders', params: { order: order_params }.to_json , headers: headers
+      post '/orders', params: order_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -76,7 +76,7 @@ RSpec.describe 'Order API', type: :request do
   describe 'PUT /orders/:id' do
     before do
       Order.find(order_id).update!(kind: 0)
-      put "/orders/#{order_id}", params: { order: order_params }.to_json , headers: headers
+      put "/orders/#{order_id}", params: order_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

@@ -45,7 +45,7 @@ RSpec.describe 'Company API', type: :request do
 
   describe 'POST /companies' do
     before do
-      post '/companies', params: { company: company_params }.to_json , headers: headers
+      post '/companies', params: company_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'Company API', type: :request do
 
   describe 'PUT /companies/:id' do
     before do
-      put "/companies/#{company_id}", params: { company: company_params }.to_json , headers: headers
+      put "/companies/#{company_id}", params: company_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

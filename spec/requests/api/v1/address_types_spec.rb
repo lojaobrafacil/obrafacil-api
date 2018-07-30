@@ -44,7 +44,7 @@ RSpec.describe 'AddressType API', type: :request do
 
   describe 'POST /address_types' do
     before do
-      post '/address_types', params: { address_type: address_type_params }.to_json , headers: headers
+      post '/address_types', params: address_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -74,7 +74,7 @@ RSpec.describe 'AddressType API', type: :request do
 
   describe 'PUT /address_types/:id' do
     before do
-      put "/address_types/#{address_type_id}", params: { address_type: address_type_params }.to_json , headers: headers
+      put "/address_types/#{address_type_id}", params: address_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

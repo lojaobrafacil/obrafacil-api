@@ -45,7 +45,7 @@ RSpec.describe 'PhoneType API', type: :request do
 
   describe 'POST /phone_types' do
     before do
-      post '/phone_types', params: { phone_type: phone_type_params }.to_json , headers: headers
+      post '/phone_types', params: phone_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'PhoneType API', type: :request do
 
   describe 'PUT /phone_types/:id' do
     before do
-      put "/phone_types/#{phone_type_id}", params: { phone_type: phone_type_params }.to_json , headers: headers
+      put "/phone_types/#{phone_type_id}", params: phone_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
