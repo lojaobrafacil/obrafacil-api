@@ -19,6 +19,6 @@ FactoryBot.define do
     active true
     unit_id { create(:unit).id }
     sub_category_id { create(:sub_category).id }
-    provider_id { create(:provider).id }
+    supplier_id { create(:supplier).id }
   end
 end

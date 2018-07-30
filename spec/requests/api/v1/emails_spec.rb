@@ -75,7 +75,7 @@ RSpec.describe 'Email API', type: :request do
 
   describe 'PUT /emails/:id' do
     before do
-      put "/emails/#{email_id}", params: { email: email_params }.to_json , headers: headers
+      put "/emails/#{email_id}", params: email_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

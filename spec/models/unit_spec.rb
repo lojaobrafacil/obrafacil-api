@@ -8,6 +8,6 @@ RSpec.describe Unit, type: :model do
 
   it 'method full name' do
     unit = create(:unit)
-    expect(unit.full_name).to eq(unit.name << '(' << unit.description << ')')
+    expect(unit.name).to eq(unit.name << '(' << unit.description << ')')
   end
 end

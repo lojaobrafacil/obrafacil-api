@@ -45,7 +45,7 @@ RSpec.describe 'EmailType API', type: :request do
 
   describe 'POST /email_types' do
     before do
-      post '/email_types', params: { email_type: email_type_params }.to_json , headers: headers
+      post '/email_types', params: email_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'EmailType API', type: :request do
 
   describe 'PUT /email_types/:id' do
     before do
-      put "/email_types/#{email_type_id}", params: { email_type: email_type_params }.to_json , headers: headers
+      put "/email_types/#{email_type_id}", params: email_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

@@ -44,7 +44,7 @@ RSpec.describe 'Permission API', type: :request do
 
   describe 'POST /permissions' do
     before do
-      post '/permissions', params: { permission: permission_params }.to_json , headers: headers
+      post '/permissions', params: permission_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -74,11 +74,11 @@ RSpec.describe 'Permission API', type: :request do
 
   describe 'PUT /permissions/:id' do
     before do
-      put "/permissions/#{permission_id}", params: { permission: permission_params }.to_json , headers: headers
+      put "/permissions/#{permission_id}", params: permission_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:permission_params) { { name: 'Comercial' } }
+      let(:permission_params) { { name: permission.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)

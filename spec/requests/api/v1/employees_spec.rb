@@ -45,7 +45,7 @@ RSpec.describe 'Employee API', type: :request do
 
   describe 'POST /employees' do
     before do
-      post '/employees', params: { employee: employee_params }.to_json , headers: headers
+      post '/employees', params: employee_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,7 +75,7 @@ RSpec.describe 'Employee API', type: :request do
 
   describe 'PUT /employees/:id' do
     before do
-      put "/employees/#{employee_id}", params: { employee: employee_params }.to_json , headers: headers
+      put "/employees/#{employee_id}", params: employee_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do

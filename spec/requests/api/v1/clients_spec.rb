@@ -45,7 +45,7 @@ RSpec.describe 'Client API', type: :request do
 
   describe 'POST /clients' do
     before do
-      post '/clients', params: { client: client_params }.to_json , headers: headers
+      post '/clients', params: client_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,11 +75,11 @@ RSpec.describe 'Client API', type: :request do
 
   describe 'PUT /clients/:id' do
     before do
-      put "/clients/#{client_id}", params: { client: client_params }.to_json , headers: headers
+      put "/clients/#{client_id}", params: client_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:client_params) { { name: 'jorge' } }
+      let(:client_params) { { name: client.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -91,7 +91,7 @@ RSpec.describe 'Client API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:client_params) { { name: nil } }
+      let(:client_params)  { {name: nil} }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)

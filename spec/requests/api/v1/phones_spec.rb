@@ -75,11 +75,11 @@ RSpec.describe 'Phone API', type: :request do
 
   describe 'PUT /phones/:id' do
     before do
-      put "/phones/#{phone_id}", params: { phone: phone_params }.to_json , headers: headers
+      put "/phones/#{phone_id}", params: phone_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:phone_params) { { phone: '11975226584' } }
+      let(:phone_params) { { phone: phone.phone } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
