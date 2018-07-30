@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Category API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:categories) { create_list(:category, 5) }
   let(:category) { categories.first }
   let(:category_id) { category.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Category API', type: :request do
     }
   end
 
-  describe 'GET /categories' do
+  describe 'GET /admin/categories' do
     before do
       get '/admin/categories', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Category API', type: :request do
     end
   end
 
-  describe 'GET /categories/:id' do
+  describe 'GET /admin/categories/:id' do
     before do
-      get '/admin/categories/#{category_id}', params: {}, headers: headers
+      get "/admin/categories/#{category_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(category.name)
@@ -43,9 +43,9 @@ RSpec.describe 'Category API', type: :request do
   end
 
 
-  describe 'POST /categories' do
+  describe 'POST /admin/categories' do
     before do
-      post '/admin/categories', params: { category: category_params }.to_json , headers: headers
+      post '/admin/categories', params: category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'Category API', type: :request do
     end
   end
 
-  describe 'PUT /categories/:id' do
+  describe 'PUT /admin/categories/:id' do
     before do
-      put '/admin/categories/#{category_id}', params: { category: category_params }.to_json , headers: headers
+      put "/admin/categories/#{category_id}", params: category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'Category API', type: :request do
     end
   end
 
-  describe 'DELETE /categories/:id' do
+  describe 'DELETE /admin/categories/:id' do
     before do
-      delete '/admin/categories/#{category_id}', params: { } , headers: headers
+      delete "/admin/categories/#{category_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

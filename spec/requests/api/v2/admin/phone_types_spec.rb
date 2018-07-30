@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'PhoneType API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:phone_types) { create_list(:phone_type, 5) }
   let(:phone_type) { phone_types.first }
   let(:phone_type_id) { phone_type.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'PhoneType API', type: :request do
     }
   end
 
-  describe 'GET /phone_types' do
+  describe 'GET /admin/phone_types' do
     before do
       get '/admin/phone_types', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'PhoneType API', type: :request do
     end
   end
 
-  describe 'GET /phone_types/:id' do
+  describe 'GET /admin/phone_types/:id' do
     before do
-      get '/admin/phone_types/#{phone_type_id}', params: {}, headers: headers
+      get "/admin/phone_types/#{phone_type_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(phone_type[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'PhoneType API', type: :request do
   end
 
 
-  describe 'POST /phone_types' do
+  describe 'POST /admin/phone_types' do
     before do
-      post '/admin/phone_types', params: { phone_type: phone_type_params }.to_json , headers: headers
+      post '/admin/phone_types', params: phone_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'PhoneType API', type: :request do
     end
   end
 
-  describe 'PUT /phone_types/:id' do
+  describe 'PUT /admin/phone_types/:id' do
     before do
-      put '/admin/phone_types/#{phone_type_id}', params: { phone_type: phone_type_params }.to_json , headers: headers
+      put "/admin/phone_types/#{phone_type_id}", params: phone_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'PhoneType API', type: :request do
     end
   end
 
-  describe 'DELETE /phone_types/:id' do
+  describe 'DELETE /admin/phone_types/:id' do
     before do
-      delete '/admin/phone_types/#{phone_type_id}', params: { }.to_json , headers: headers
+      delete "/admin/phone_types/#{phone_type_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

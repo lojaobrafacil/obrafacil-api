@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'BillingType API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:billing_types) { create_list(:billing_type, 5) }
   let(:billing_type) { billing_types.first }
   let(:billing_type_id) { billing_type.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'BillingType API', type: :request do
     }
   end
 
-  describe 'GET /billing_types' do
+  describe 'GET /admin/billing_types' do
     before do
       get '/admin/billing_types', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'BillingType API', type: :request do
     end
   end
 
-  describe 'GET /billing_types/:id' do
+  describe 'GET /admin/billing_types/:id' do
     before do
-      get '/admin/billing_types/#{billing_type_id}', params: {}, headers: headers
+      get "/admin/billing_types/#{billing_type_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(billing_type.name)
@@ -43,9 +43,9 @@ RSpec.describe 'BillingType API', type: :request do
   end
 
 
-  describe 'POST /billing_types' do
+  describe 'POST /admin/billing_types' do
     before do
-      post '/admin/billing_types', params: { billing_type: billing_type_params }.to_json , headers: headers
+      post '/admin/billing_types', params: billing_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'BillingType API', type: :request do
     end
   end
 
-  describe 'PUT /billing_types/:id' do
+  describe 'PUT /admin/billing_types/:id' do
     before do
-      put '/admin/billing_types/#{billing_type_id}', params: { billing_type: billing_type_params }.to_json , headers: headers
+      put "/admin/billing_types/#{billing_type_id}", params: billing_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'BillingType API', type: :request do
     end
   end
 
-  describe 'DELETE /billing_types/:id' do
+  describe 'DELETE /admin/billing_types/:id' do
     before do
-      delete '/admin/billing_types/#{billing_type_id}', params: { }.to_json , headers: headers
+      delete "/admin/billing_types/#{billing_type_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

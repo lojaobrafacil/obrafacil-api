@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider API', type: :request do
-  let!(:auth){ create(:employee) }
-  let!(:providers) { create_list(:provider, 5) }
-  let(:provider) { providers.first }
-  let(:provider_id) { provider.id }
-  let(:auth_data) { auth.create_new_auth_token }
+RSpec.describe 'Supplier API', type: :request do
+  let!(:user){ create(:employee) }
+  let!(:suppliers) { create_list(:supplier, 5) }
+  let(:supplier) { suppliers.first }
+  let(:supplier_id) { supplier.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,11 +16,11 @@ RSpec.describe 'Provider API', type: :request do
     }
   end
 
-  describe 'GET /providers' do
+  describe 'GET /admin/suppliers' do
     before do
-      get '/admin/providers', params: {}, headers: headers
+      get '/admin/suppliers', params: {}, headers: headers
     end
-    it 'return 5 providers from database' do
+    it 'return 5 suppliers from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'Provider API', type: :request do
     end
   end
 
-  describe 'GET /providers/:id' do
+  describe 'GET /admin/suppliers/:id' do
     before do
-      get '/admin/providers/#{provider_id}', params: {}, headers: headers
+      get "/admin/suppliers/#{supplier_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(provider[:name])
+      expect(json_body[:name]).to eq(supplier[:name])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Provider API', type: :request do
   end
 
 
-  describe 'POST /providers' do
+  describe 'POST /admin/suppliers' do
     before do
-      post '/admin/providers', params: { provider: provider_params }.to_json , headers: headers
+      post '/admin/suppliers', params: supplier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:provider_params) { attributes_for(:provider) }
+      let(:supplier_params) { attributes_for(:supplier) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created provider' do
-        expect(json_body[:name]).to eq(provider_params[:name])
+      it 'returns the json data for the created supplier' do
+        expect(json_body[:name]).to eq(supplier_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:provider_params) { { name: '' } }
+      let(:supplier_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Provider API', type: :request do
     end
   end
 
-  describe 'PUT /providers/:id' do
+  describe 'PUT /admin/suppliers/:id' do
     before do
-      put '/admin/providers/#{provider_id}', params: { provider: provider_params }.to_json , headers: headers
+      put "/admin/suppliers/#{supplier_id}", params: supplier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:provider_params) { { name: 'Comercial' } }
+      let(:supplier_params) { { name: supplier.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated provider' do
-        expect(json_body[:name]).to eq(provider_params[:name])
+      it 'return the json data for the updated supplier' do
+        expect(json_body[:name]).to eq(supplier_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:provider_params) { { name: nil } }
+      let(:supplier_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Provider API', type: :request do
     end
   end
 
-  describe 'DELETE /providers/:id' do
+  describe 'DELETE /admin/suppliers/:id' do
     before do
-      delete '/admin/providers/#{provider_id}', params: { } , headers: headers
+      delete "/admin/suppliers/#{supplier_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Provider API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Provider.find_by(id: provider_id)).to be_nil
+      expect(Supplier.find_by(id: supplier_id)).to be_nil
     end
   end
 end

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Cfop API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:cfops) { create_list(:cfop, 5) }
   let(:cfop) { cfops.first }
   let(:cfop_id) { cfop.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Cfop API', type: :request do
     }
   end
 
-  describe 'GET /cfops' do
+  describe 'GET /admin/cfops' do
     before do
       get '/admin/cfops', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Cfop API', type: :request do
     end
   end
 
-  describe 'GET /cfops/:id' do
+  describe 'GET /admin/cfops/:id' do
     before do
-      get '/admin/cfops/#{cfop_id}', params: {}, headers: headers
+      get "/admin/cfops/#{cfop_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:code]).to eq(cfop.code)
@@ -43,9 +43,9 @@ RSpec.describe 'Cfop API', type: :request do
   end
 
 
-  describe 'POST /cfops' do
+  describe 'POST /admin/cfops' do
     before do
-      post '/admin/cfops', params: { cfop: cfop_params }.to_json , headers: headers
+      post '/admin/cfops', params: cfop_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'Cfop API', type: :request do
     end
   end
 
-  describe 'PUT /cfops/:id' do
+  describe 'PUT /admin/cfops/:id' do
     before do
-      put '/admin/cfops/#{cfop_id}', params: { cfop: cfop_params }.to_json , headers: headers
+      put "/admin/cfops/#{cfop_id}", params: cfop_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'Cfop API', type: :request do
     end
   end
 
-  describe 'DELETE /cfops/:id' do
+  describe 'DELETE /admin/cfops/:id' do
     before do
-      delete '/admin/cfops/#{cfop_id}', params: { } , headers: headers
+      delete "/admin/cfops/#{cfop_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

@@ -14,10 +14,10 @@ RSpec.describe 'Users API', type: :request do
     }
   end
 
-  describe 'GET /auth/validate_token' do
+  describe 'GET /admin/auth/validate_token' do
     context 'when the user exists' do
       before do
-        get '/admin/auth/validate_token', params: {}, headers: headers
+        get "/admin/auth/validate_token", params: {}, headers: headers
       end
       it 'returns the request headers are valid' do
         expect(json_body[:data][:id]).to eq(user.id)
@@ -30,7 +30,7 @@ RSpec.describe 'Users API', type: :request do
     context 'returns the request headers are not valid' do
       before do
         headers['access-token'] = 'invalid_token'
-        get '/admin/auth/validate_token', params: {}, headers: headers
+        get "/admin/auth/validate_token", params: {}, headers: headers
       end
 
       it 'returns status code 401' do
@@ -39,9 +39,9 @@ RSpec.describe 'Users API', type: :request do
     end
   end
 
-  describe 'PUT /auth' do
+  describe 'PUT /admin/auth' do
     before do
-      put '/admin/auth', params: user_params.to_json, headers: headers
+      put "/admin/auth", params: user_params.to_json, headers: headers
     end
 
     context 'when the request params are valid' do
@@ -69,9 +69,9 @@ RSpec.describe 'Users API', type: :request do
       end
     end
   end
-  describe 'DELETE /auth' do
+  describe 'DELETE /admin/auth' do
     before do
-      delete '/admin/auth', params: {  }, headers: headers
+      delete "/admin/auth", params: {  }, headers: headers
     end
 
     it 'returns status code 200' do

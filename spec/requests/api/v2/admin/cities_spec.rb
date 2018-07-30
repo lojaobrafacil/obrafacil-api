@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'City API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:cities) { create_list(:city, 5) }
   let(:city) { cities.first }
   let(:city_id) { city.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'City API', type: :request do
     }
   end
 
-  describe 'GET /cities' do
+  describe 'GET /admin/cities' do
     before do
       get '/admin/cities', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'City API', type: :request do
     end
   end
 
-  describe 'GET /cities/:id' do
+  describe 'GET /admin/cities/:id' do
     before do
-      get '/admin/cities/#{city_id}', params: {}, headers: headers
+      get "/admin/cities/#{city_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(city.name)
@@ -43,9 +43,9 @@ RSpec.describe 'City API', type: :request do
   end
 
 
-  describe 'POST /cities' do
+  describe 'POST /admin/cities' do
     before do
-      post '/admin/cities', params: { city: city_params }.to_json , headers: headers
+      post '/admin/cities', params: city_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'City API', type: :request do
     end
   end
 
-  describe 'PUT /cities/:id' do
+  describe 'PUT /admin/cities/:id' do
     before do
-      put '/admin/cities/#{city_id}', params: { city: city_params }.to_json , headers: headers
+      put "/admin/cities/#{city_id}", params: city_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:city_params) { { name: 'Comercial' } }
+      let(:city_params) { { name: city.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -91,7 +91,7 @@ RSpec.describe 'City API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:city_params) { { name: nil } }
+      let(:city_params) {{name: nil}}
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'City API', type: :request do
     end
   end
 
-  describe 'DELETE /cities/:id' do
+  describe 'DELETE /admin/cities/:id' do
     before do
-      delete '/admin/cities/#{city_id}', params: { } , headers: headers
+      delete "/admin/cities/#{city_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

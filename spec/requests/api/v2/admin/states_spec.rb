@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'State API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:states) { create_list(:state, 2) }
   let(:state) { states.first }
   let(:state_id) { state.id }
-  let(:auth_data) { auth.create_new_auth_token }  
+  let(:auth_data) { user.create_new_auth_token }  
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'State API', type: :request do
     }
   end
 
-  describe 'GET /states' do
+  describe 'GET /admin/states' do
     before do
       get '/admin/states', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'State API', type: :request do
     end
   end
 
-  describe 'GET /states/:id' do
+  describe 'GET /admin/states/:id' do
     before do
-      get '/admin/states/#{state_id}', params: {}, headers: headers
+      get "/admin/states/#{state_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(state[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'State API', type: :request do
   end
 
 
-  describe 'POST /states' do
+  describe 'POST /admin/states' do
     before do
-      post '/admin/states', params: { state: state_params }.to_json , headers: headers
+      post '/admin/states', params: state_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'State API', type: :request do
     end
   end
 
-  describe 'PUT /states/:id' do
+  describe 'PUT /admin/states/:id' do
     before do
-      put '/admin/states/#{state_id}', params: { state: state_params }.to_json , headers: headers
+      put "/admin/states/#{state_id}", params: state_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'State API', type: :request do
     end
   end
 
-  describe 'DELETE /states/:id' do
+  describe 'DELETE /admin/states/:id' do
     before do
-      delete '/admin/states/#{state_id}', params: { }.to_json , headers: headers
+      delete "/admin/states/#{state_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

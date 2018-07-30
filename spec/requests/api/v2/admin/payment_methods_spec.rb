@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'PaymentMethod API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:payment_methods) { create_list(:payment_method, 5) }
   let(:payment_method) { payment_methods.first }
   let(:payment_method_id) { payment_method.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'PaymentMethod API', type: :request do
     }
   end
 
-  describe 'GET /payment_methods' do
+  describe 'GET /admin/payment_methods' do
     before do
       get '/admin/payment_methods', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'PaymentMethod API', type: :request do
     end
   end
 
-  describe 'GET /payment_methods/:id' do
+  describe 'GET /admin/payment_methods/:id' do
     before do
-      get '/admin/payment_methods/#{payment_method_id}', params: {}, headers: headers
+      get "/admin/payment_methods/#{payment_method_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(payment_method[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'PaymentMethod API', type: :request do
   end
 
 
-  describe 'POST /payment_methods' do
+  describe 'POST /admin/payment_methods' do
     before do
-      post '/admin/payment_methods', params: { payment_method: payment_method_params }.to_json , headers: headers
+      post '/admin/payment_methods', params: payment_method_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'PaymentMethod API', type: :request do
     end
   end
 
-  describe 'PUT /payment_methods/:id' do
+  describe 'PUT /admin/payment_methods/:id' do
     before do
-      put '/admin/payment_methods/#{payment_method_id}', params: { payment_method: payment_method_params }.to_json , headers: headers
+      put "/admin/payment_methods/#{payment_method_id}", params: payment_method_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'PaymentMethod API', type: :request do
     end
   end
 
-  describe 'DELETE /payment_methods/:id' do
+  describe 'DELETE /admin/payment_methods/:id' do
     before do
-      delete '/admin/payment_methods/#{payment_method_id}', params: { } , headers: headers
+      delete "/admin/payment_methods/#{payment_method_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

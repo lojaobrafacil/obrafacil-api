@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Unit API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:units) { create_list(:unit, 5) }
   let(:unit) { units.first }
   let(:unit_id) { unit.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Unit API', type: :request do
     }
   end
 
-  describe 'GET /units' do
+  describe 'GET /admin/units' do
     before do
       get '/admin/units', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Unit API', type: :request do
     end
   end
 
-  describe 'GET /units/:id' do
+  describe 'GET /admin/units/:id' do
     before do
-      get '/admin/units/#{unit_id}', params: {}, headers: headers
+      get "/admin/units/#{unit_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(unit[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'Unit API', type: :request do
   end
 
 
-  describe 'POST /units' do
+  describe 'POST /admin/units' do
     before do
-      post '/admin/units', params: { unit: unit_params }.to_json , headers: headers
+      post '/admin/units', params: unit_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Unit API', type: :request do
     end
   end
 
-  describe 'PUT /units/:id' do
+  describe 'PUT /admin/units/:id' do
     before do
-      put '/admin/units/#{unit_id}', params: { unit: unit_params }.to_json , headers: headers
+      put "/admin/units/#{unit_id}", params: unit_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:unit_params) { { name: 'jorge' } }
+      let(:unit_params) { { name: unit.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Unit API', type: :request do
     end
   end
 
-  describe 'DELETE /units/:id' do
+  describe 'DELETE /admin/units/:id' do
     before do
-      delete '/admin/units/#{unit_id}', params: { } , headers: headers
+      delete "/admin/units/#{unit_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

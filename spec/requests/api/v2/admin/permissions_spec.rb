@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Permission API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:permissions) { create_list(:permission, 5) }
   let(:permission) { permissions.first }
   let(:permission_id) { permission.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Permission API', type: :request do
     }
   end
 
-  describe 'GET /permissions' do
+  describe 'GET /admin/permissions' do
     before do
       get '/admin/permissions', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Permission API', type: :request do
     end
   end
 
-  describe 'GET /permissions/:id' do
+  describe 'GET /admin/permissions/:id' do
     before do
-      get '/admin/permissions/#{permission_id}', params: {}, headers: headers
+      get "/admin/permissions/#{permission_id}", params: {}, headers: headers
     end
     it 'return address type from database' do
       expect(json_body[:name]).to eq(permission[:name])
@@ -42,9 +42,9 @@ RSpec.describe 'Permission API', type: :request do
     end
   end
 
-  describe 'POST /permissions' do
+  describe 'POST /admin/permissions' do
     before do
-      post '/admin/permissions', params: { permission: permission_params }.to_json , headers: headers
+      post '/admin/permissions', params: permission_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -72,13 +72,13 @@ RSpec.describe 'Permission API', type: :request do
     end
   end
 
-  describe 'PUT /permissions/:id' do
+  describe 'PUT /admin/permissions/:id' do
     before do
-      put '/admin/permissions/#{permission_id}', params: { permission: permission_params }.to_json , headers: headers
+      put "/admin/permissions/#{permission_id}", params: permission_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:permission_params) { { name: 'Comercial' } }
+      let(:permission_params) { { name: permission.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -102,9 +102,9 @@ RSpec.describe 'Permission API', type: :request do
     end
   end
 
-  describe 'DELETE /permissions/:id' do
+  describe 'DELETE /admin/permissions/:id' do
     before do
-      delete '/admin/permissions/#{permission_id}', params: { }.to_json , headers: headers
+      delete "/admin/permissions/#{permission_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

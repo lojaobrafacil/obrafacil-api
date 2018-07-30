@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Vehicle API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:vehicles) { create_list(:vehicle, 5) }
   let(:vehicle) { vehicles.first }
   let(:vehicle_id) { vehicle.id }
   let(:vehicle_model) { vehicle.model}
   let(:vehicle_brand) { vehicle.brand}
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -18,7 +18,7 @@ RSpec.describe 'Vehicle API', type: :request do
     }
   end
 
-  describe 'GET /vehicles' do
+  describe 'GET /admin/vehicles' do
     before do
       get '/admin/vehicles', params: {}, headers: headers
     end
@@ -31,9 +31,9 @@ RSpec.describe 'Vehicle API', type: :request do
     end
   end
 
-  describe 'GET /vehicles/:id' do
+  describe 'GET /admin/vehicles/:id' do
     before do
-      get '/admin/vehicles/#{vehicle.id}', params: {}, headers: headers
+      get "/admin/vehicles/#{vehicle.id}", params: {}, headers: headers
     end
     it 'return vehicle from database' do
       expect(json_body[:brand]).to eq(vehicle[:brand])
@@ -45,7 +45,7 @@ RSpec.describe 'Vehicle API', type: :request do
   end
 
 
-  describe 'POST /vehicles' do
+  describe 'POST /admin/vehicles' do
     before do
       post '/admin/vehicles', params: vehicle_params.to_json  , headers: headers
     end
@@ -75,9 +75,9 @@ RSpec.describe 'Vehicle API', type: :request do
     end
   end
 
-  describe 'PUT /vehicles/:id' do
+  describe 'PUT /admin/vehicles/:id' do
     before do 
-      put '/admin/vehicles/#{vehicle_id}', params: vehicle_params.to_json , headers: headers
+      put "/admin/vehicles/#{vehicle_id}", params: vehicle_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -104,9 +104,9 @@ RSpec.describe 'Vehicle API', type: :request do
     end
   end
 
-  describe 'DELETE /vehicles/:id' do
+  describe 'DELETE /admin/vehicles/:id' do
     before do
-      delete '/admin/vehicles/#{vehicle_id}', params: { } , headers: headers
+      delete "/admin/vehicles/#{vehicle_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

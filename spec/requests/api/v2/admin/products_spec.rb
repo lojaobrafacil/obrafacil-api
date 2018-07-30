@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Product API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:products) { create_list(:product, 5) }
   let(:product) { products.first }
   let(:product_id) { product.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Product API', type: :request do
     }
   end
 
-  describe 'GET /products' do
+  describe 'GET /admin/products' do
     before do
       get '/admin/products', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Product API', type: :request do
     end
   end
 
-  describe 'GET /products/:id' do
+  describe 'GET /admin/products/:id' do
     before do
-      get '/admin/products/#{product_id}', params: {}, headers: headers
+      get "/admin/products/#{product_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(product[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'Product API', type: :request do
   end
 
 
-  describe 'POST /products' do
+  describe 'POST /admin/products' do
     before do
-      post '/admin/products', params: { product: product_params }.to_json , headers: headers
+      post '/admin/products', params: product_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Product API', type: :request do
     end
   end
 
-  describe 'PUT /products/:id' do
+  describe 'PUT /admin/products/:id' do
     before do
-      put '/admin/products/#{product_id}', params: { product: product_params }.to_json , headers: headers
+      put "/admin/products/#{product_id}", params:  product_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:product_params) { { name: 'Comercial' } }
+      let(:product_params) { { name: product.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Product API', type: :request do
     end
   end
 
-  describe 'DELETE /products/:id' do
+  describe 'DELETE /admin/products/:id' do
     before do
-      delete '/admin/products/#{product_id}', params: { } , headers: headers
+      delete "/admin/products/#{product_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

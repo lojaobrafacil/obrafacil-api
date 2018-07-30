@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Order API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:orders) { create_list(:order, 5) }
   let(:order) { orders.first }
   let(:order_id) { order.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Order API', type: :request do
     }
   end
 
-  describe 'GET /orders' do
+  describe 'GET /admin/orders' do
     before do
       get '/admin/orders', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Order API', type: :request do
     end
   end
 
-  describe 'GET /orders/:id' do
+  describe 'GET /admin/orders/:id' do
     before do
-      get '/admin/orders/#{order_id}', params: {}, headers: headers
+      get "/admin/orders/#{order_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:description]).to eq(order[:description])
@@ -43,9 +43,9 @@ RSpec.describe 'Order API', type: :request do
   end
 
 
-  describe 'POST /orders' do
+  describe 'POST /admin/orders' do
     before do
-      post '/admin/orders', params: { order: order_params }.to_json , headers: headers
+      post '/admin/orders', params: order_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,14 +73,14 @@ RSpec.describe 'Order API', type: :request do
     end
   end
 
-  describe 'PUT /orders/:id' do
+  describe 'PUT /admin/orders/:id' do
     before do
       Order.find(order_id).update!(kind: 0)
-      put '/admin/orders/#{order_id}', params: { order: order_params }.to_json , headers: headers
+      put "/admin/orders/#{order_id}", params: order_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:order_params) { { kind: 'normal' } }
+      let(:order_params) { { kind: "normal" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -104,9 +104,9 @@ RSpec.describe 'Order API', type: :request do
     end
   end
 
-  describe 'DELETE /orders/:id' do
+  describe 'DELETE /admin/orders/:id' do
     before do
-      delete '/admin/orders/#{order_id}', params: { } , headers: headers
+      delete "/admin/orders/#{order_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

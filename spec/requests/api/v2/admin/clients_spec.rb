@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Client API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:clients) { create_list(:client, 5) }
   let(:client) { clients.first }
   let(:client_id) { client.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Client API', type: :request do
     }
   end
 
-  describe 'GET /clients' do
+  describe 'GET /admin/clients' do
     before do
       get '/admin/clients', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Client API', type: :request do
     end
   end
 
-  describe 'GET /clients/:id' do
+  describe 'GET /admin/clients/:id' do
     before do
-      get '/admin/clients/#{client_id}', params: {}, headers: headers
+      get "/admin/clients/#{client_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(client.name)
@@ -43,9 +43,9 @@ RSpec.describe 'Client API', type: :request do
   end
 
 
-  describe 'POST /clients' do
+  describe 'POST /admin/clients' do
     before do
-      post '/admin/clients', params: { client: client_params }.to_json , headers: headers
+      post '/admin/clients', params: client_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Client API', type: :request do
     end
   end
 
-  describe 'PUT /clients/:id' do
+  describe 'PUT /admin/clients/:id' do
     before do
-      put '/admin/clients/#{client_id}', params: { client: client_params }.to_json , headers: headers
+      put "/admin/clients/#{client_id}", params: client_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:client_params) { { name: 'jorge' } }
+      let(:client_params) { { name: client.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -91,7 +91,7 @@ RSpec.describe 'Client API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:client_params) { { name: nil } }
+      let(:client_params)  { {name: nil} }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Client API', type: :request do
     end
   end
 
-  describe 'DELETE /clients/:id' do
+  describe 'DELETE /admin/clients/:id' do
     before do
-      delete '/admin/clients/#{client_id}', params: { } , headers: headers
+      delete "/admin/clients/#{client_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

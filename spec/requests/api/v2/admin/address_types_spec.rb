@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'AddressType API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:address_types) { create_list(:address_type, 5) }
   let(:address_type) { address_types.first }
   let(:address_type_id) { address_type.id }
-  let(:auth_data) { auth.create_new_auth_token }  
+  let(:auth_data) { user.create_new_auth_token }  
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'AddressType API', type: :request do
     }
   end
 
-  describe 'GET /address_types' do
+  describe 'GET /admin/address_types' do
     before do
       get '/admin/address_types', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'AddressType API', type: :request do
     end
   end
 
-  describe 'GET /address_types/:id' do
+  describe 'GET /admin/address_types/:id' do
     before do
-      get '/admin/address_types/#{address_type_id}', params: {}, headers: headers
+      get "/admin/address_types/#{address_type_id}", params: {}, headers: headers
     end
     it 'return address type from database' do
       expect(json_body[:name]).to eq(address_type.name)
@@ -42,9 +42,9 @@ RSpec.describe 'AddressType API', type: :request do
     end
   end
 
-  describe 'POST /address_types' do
+  describe 'POST /admin/address_types' do
     before do
-      post '/admin/address_types', params: { address_type: address_type_params }.to_json , headers: headers
+      post '/admin/address_types', params: address_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -72,9 +72,9 @@ RSpec.describe 'AddressType API', type: :request do
     end
   end
 
-  describe 'PUT /address_types/:id' do
+  describe 'PUT /admin/address_types/:id' do
     before do
-      put '/admin/address_types/#{address_type_id}', params: { address_type: address_type_params }.to_json , headers: headers
+      put "/admin/address_types/#{address_type_id}", params: address_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -102,9 +102,9 @@ RSpec.describe 'AddressType API', type: :request do
     end
   end
 
-  describe 'DELETE /address_types/:id' do
+  describe 'DELETE /admin/address_types/:id' do
     before do
-      delete '/admin/address_types/#{address_type_id}', params: { }.to_json , headers: headers
+      delete "/admin/address_types/#{address_type_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do
