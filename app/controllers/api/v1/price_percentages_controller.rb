@@ -17,16 +17,23 @@ class Api::V1::PricePercentagesController < Api::V1::BaseController
   end
 
   def update
+    success = false
     price_percentage_params.each do |price_percentage|
       pp = price_percentage.permit(:margin, :kind)
       begin
         PricePercentage.find_by(company_id: params[:id], kind: pp["kind"]).update(margin: pp["margin"])
+        success = true
       rescue
+        success = false
         nil
       end
     end
     price_percentage = percentage_by_company(Company.find(params[:id]))
-    render json: price_percentage, status: 200
+    if success
+      render json: price_percentage, status: 200
+    else 
+      render json: { errors: "não foi possivel atualizar" }, status: 422
+    end
   end
 
   private

@@ -52,51 +52,24 @@ RSpec.describe 'PricePercentage API', type: :request do
     end
   end
 
-  # describe 'POST /price_percentages' do
-  #   PricePercentage.destroy_all
-  #   before do
-  #     post "/price_percentages/#{companyA.id}", params: price_percentage_params.to_json , headers: headers
-  #   end
-    
-  #   context 'when the request params are valid' do
-  #     let(:companyA) { create(:company) }
-  #     let(:price_percentage_params) { attributes_for(:price_percentage) }
-
-  #     it 'return status code 201' do
-  #       expect(response).to have_http_status(201)
-  #     end
-
-  #     it 'returns the json data for the created price_percentage' do
-  #       expect(json_body[:margin].to_s).to eq(price_percentage_params[:margin].to_s)
-  #     end
-  #   end
-
-  #   context 'when the request params are invalid' do
-  #     let(:price_percentage_params) { { margin: '' } }
-
-  #     it 'return status code 422' do
-  #       expect(response).to have_http_status(422)
-  #     end
-
-  #     it 'return the json data for the errors' do
-  #       expect(json_body).to have_key(:errors)
-  #     end
-  #   end
-  # end
-
   describe 'PUT /price_percentages/:id' do
     let(:price_percentage) { create(:price_percentage) }
     let(:price_percentage_id) { price_percentage.id }
-    let(:price_percentage_params) {{ kind_1: 1, kind_2: 2, kind_3: 3, kind_4: 4, kind_5: 5, 
-      margin_1: 0, margin_2: 0, margin_3: 0, margin_4: 0, margin_5: 0,}}
+    let(:price_percentage_params) { {price_percentages: [
+        {kind: 1, margin: 0}, 
+        {kind: 2, margin: 0}, 
+        {kind: 3, margin: 0},
+        {kind: 4, margin: 0},
+        {kind: 5, margin: 0}
+      ]}
+    }
     let(:company) {create(:company)}
 
     before do
-      put "/price_percentages/#{company.id}", params: (price_percentage_params).to_json , headers: headers
+      put "/price_percentages/#{company.id}", params: price_percentage_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:price_percentage_params) { { margin_1: 0.2 } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -108,7 +81,7 @@ RSpec.describe 'PricePercentage API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:price_percentage_params) { { margin: '' } }
+      let(:price_percentage_params) { { price_percentages: [{}] } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
