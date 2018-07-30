@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Region API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:regions) { create_list(:v2_admin_region, 2) }
+  let!(:auth){ create(:employee) }
+  let!(:regions) { create_list(:region, 2) }
   let(:region) { regions.first }
   let(:region_id) { region.id }
   let(:auth_data) { auth.create_new_auth_token }

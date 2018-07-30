@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Sessions API', type: :request do  
-  let!(:auth){ create(:v2_admin_employee) }
+  let!(:auth){ create(:employee) }
   let(:auth_data) { auth.create_new_auth_token }
   let(:headers) do
     {

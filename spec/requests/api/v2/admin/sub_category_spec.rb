@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'SubCategory API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:sub_categories) { create_list(:v2_admin_sub_category, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:sub_categories) { create_list(:sub_category, 5) }
   let(:sub_category) { sub_categories.first }
   let(:sub_category_id) { sub_category.id }
   let(:auth_data) { auth.create_new_auth_token }  

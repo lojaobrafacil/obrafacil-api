@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'PhoneType API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:phone_types) { create_list(:v2_admin_phone_type, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:phone_types) { create_list(:phone_type, 5) }
   let(:phone_type) { phone_types.first }
   let(:phone_type_id) { phone_type.id }
   let(:auth_data) { auth.create_new_auth_token }

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Product API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:products) { create_list(:v2_admin_product, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:products) { create_list(:product, 5) }
   let(:product) { products.first }
   let(:product_id) { product.id }
   let(:auth_data) { auth.create_new_auth_token }

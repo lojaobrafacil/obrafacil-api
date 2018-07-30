@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'AddressType API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:address_types) { create_list(:v2_admin_address_type, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:address_types) { create_list(:address_type, 5) }
   let(:address_type) { address_types.first }
   let(:address_type_id) { address_type.id }
   let(:auth_data) { auth.create_new_auth_token }  

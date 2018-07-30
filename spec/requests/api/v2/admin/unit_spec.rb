@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Unit API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:units) { create_list(:v2_admin_unit, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:units) { create_list(:unit, 5) }
   let(:unit) { units.first }
   let(:unit_id) { unit.id }
   let(:auth_data) { auth.create_new_auth_token }

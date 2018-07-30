@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Permission API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:permissions) { create_list(:v2_admin_permission, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:permissions) { create_list(:permission, 5) }
   let(:permission) { permissions.first }
   let(:permission_id) { permission.id }
   let(:auth_data) { auth.create_new_auth_token }

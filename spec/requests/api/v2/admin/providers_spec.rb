@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Provider API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:providers) { create_list(:v2_admin_provider, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:providers) { create_list(:provider, 5) }
   let(:provider) { providers.first }
   let(:provider_id) { provider.id }
   let(:auth_data) { auth.create_new_auth_token }

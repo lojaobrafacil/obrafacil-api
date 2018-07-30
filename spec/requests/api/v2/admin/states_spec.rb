@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'State API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:states) { create_list(:v2_admin_state, 2) }
+  let!(:auth){ create(:employee) }
+  let!(:states) { create_list(:state, 2) }
   let(:state) { states.first }
   let(:state_id) { state.id }
   let(:auth_data) { auth.create_new_auth_token }  

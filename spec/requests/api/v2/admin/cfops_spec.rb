@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Cfop API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:cfops) { create_list(:v2_admin_cfop, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:cfops) { create_list(:cfop, 5) }
   let(:cfop) { cfops.first }
   let(:cfop_id) { cfop.id }
   let(:auth_data) { auth.create_new_auth_token }

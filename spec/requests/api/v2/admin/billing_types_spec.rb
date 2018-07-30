@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'BillingType API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:billing_types) { create_list(:v2_admin_billing_type, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:billing_types) { create_list(:billing_type, 5) }
   let(:billing_type) { billing_types.first }
   let(:billing_type_id) { billing_type.id }
   let(:auth_data) { auth.create_new_auth_token }

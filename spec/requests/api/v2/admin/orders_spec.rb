@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Order API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:orders) { create_list(:v2_admin_order, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:orders) { create_list(:order, 5) }
   let(:order) { orders.first }
   let(:order_id) { order.id }
   let(:auth_data) { auth.create_new_auth_token }

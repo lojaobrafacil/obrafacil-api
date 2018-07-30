@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Client API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:clients) { create_list(:v2_admin_client, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:clients) { create_list(:client, 5) }
   let(:client) { clients.first }
   let(:client_id) { client.id }
   let(:auth_data) { auth.create_new_auth_token }

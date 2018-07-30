@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Partner API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:partners) { create_list(:v2_admin_partner, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:partners) { create_list(:partner, 5) }
   let(:partner) { partners.first }
   let(:partner_id) { partner.id }
   let(:auth_data) { auth.create_new_auth_token }

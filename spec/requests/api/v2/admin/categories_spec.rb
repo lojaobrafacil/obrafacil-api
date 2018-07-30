@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Category API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:categories) { create_list(:v2_admin_category, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:categories) { create_list(:category, 5) }
   let(:category) { categories.first }
   let(:category_id) { category.id }
   let(:auth_data) { auth.create_new_auth_token }

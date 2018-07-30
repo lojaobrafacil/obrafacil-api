@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Employee API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:employees) { create_list(:v2_admin_employee, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:employees) { create_list(:employee, 5) }
   let(:employee) { employees.first }
   let(:employee_id) { employee.id }
   let(:auth_data) { auth.create_new_auth_token }

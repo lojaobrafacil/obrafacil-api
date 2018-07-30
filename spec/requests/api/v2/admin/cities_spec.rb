@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'City API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:cities) { create_list(:v2_admin_city, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:cities) { create_list(:city, 5) }
   let(:city) { cities.first }
   let(:city_id) { city.id }
   let(:auth_data) { auth.create_new_auth_token }

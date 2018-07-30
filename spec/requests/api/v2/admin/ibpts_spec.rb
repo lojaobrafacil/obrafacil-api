@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Ibpt API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:ibpts) { create_list(:v2_admin_ibpt, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:ibpts) { create_list(:ibpt, 5) }
   let(:ibpt) { ibpts.first }
   let(:ibpt_id) { ibpt.id }
   let(:auth_data) { auth.create_new_auth_token }

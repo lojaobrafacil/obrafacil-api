@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Carrier API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:carriers) { create_list(:v2_admin_carrier, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:carriers) { create_list(:carrier, 5) }
   let(:carrier) { carriers.first }
   let(:carrier_id) { carrier.id }
   let(:auth_data) { auth.create_new_auth_token }

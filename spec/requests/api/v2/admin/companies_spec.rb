@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Company API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:companies) { create_list(:v2_admin_company, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:companies) { create_list(:company, 5) }
   let(:company) { companies.first }
   let(:company_id) { company.id }
   let(:auth_data) { auth.create_new_auth_token }

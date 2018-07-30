@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Cashier API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
-  let!(:cashiers) { create_list(:v2_admin_cashier, 5) }
+  let!(:auth){ create(:employee) }
+  let!(:cashiers) { create_list(:cashier, 5) }
   let(:cashier) { cashiers.first }
   let(:cashier_id) { cashier.id }
   let(:auth_data) { auth.create_new_auth_token }

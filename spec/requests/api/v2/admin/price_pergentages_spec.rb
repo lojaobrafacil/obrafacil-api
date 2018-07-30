@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'PricePercentage API', type: :request do
-  let!(:auth){ create(:v2_admin_employee) }
+  let!(:auth){ create(:employee) }
   let(:auth_data) { auth.create_new_auth_token }
   let(:headers) do
     {
@@ -16,7 +16,7 @@ RSpec.describe 'PricePercentage API', type: :request do
   describe 'GET /price_percentages' do
     before do
       [1,2,3].each do |n|
-        create(:v2_admin_price_percentage, kind: n)
+        create(:price_percentage, kind: n)
       end
       get '/admin/price_percentages', params: {}, headers: headers
     end
@@ -31,7 +31,7 @@ RSpec.describe 'PricePercentage API', type: :request do
 
   describe 'GET /price_percentages/:id' do
     PricePercentage.destroy_all
-    let(:price_percentage) { create(:v2_admin_price_percentage) }
+    let(:price_percentage) { create(:price_percentage) }
     let(:price_percentage_id) { price_percentage.id }
     before do
       get '/admin/price_percentages/#{price_percentage_id}', params: {}, headers: headers
@@ -78,7 +78,7 @@ RSpec.describe 'PricePercentage API', type: :request do
   end
 
   describe 'PUT /price_percentages/:id' do
-    let(:price_percentage) { create(:v2_admin_price_percentage) }
+    let(:price_percentage) { create(:price_percentage) }
     let(:price_percentage_id) { price_percentage.id }
     before do
       put '/admin/price_percentages/#{price_percentage_id}', params: { price_percentage: price_percentage_params }.to_json , headers: headers
@@ -111,7 +111,7 @@ RSpec.describe 'PricePercentage API', type: :request do
 
   describe 'DELETE /price_percentages/:id' do
     PricePercentage.destroy_all
-    let(:price_percentage) { create(:v2_admin_price_percentage) }
+    let(:price_percentage) { create(:price_percentage) }
     let(:price_percentage_id) { price_percentage.id }
     before do
       delete '/admin/price_percentages/#{price_percentage_id}', params: { } , headers: headers
