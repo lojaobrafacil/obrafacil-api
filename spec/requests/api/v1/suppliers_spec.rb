@@ -113,7 +113,7 @@ RSpec.describe 'Supplier API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(suppliers.find_by(id: supplier_id)).to be_nil
+      expect(Supplier.find_by(id: supplier_id)).to be_nil
     end
   end
 end
