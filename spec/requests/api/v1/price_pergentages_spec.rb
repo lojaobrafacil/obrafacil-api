@@ -118,6 +118,6 @@ RSpec.describe 'PricePercentage API', type: :request do
         expect(json_body).to have_key(:errors)
       end
     end
-  end
+  end 
 
 end
