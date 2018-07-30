@@ -1,22 +1,25 @@
 class Api::V2::Admin::BanksController < Api::V2::Admin::BaseController
   def index
     banks = Bank.all.order(:id)
+    authorize [:admin, banks]
     paginate json: banks.as_json(only: [:id, :code, :name, :slug, :description]), status: 200
   end
 
   def allbanks
     banks = Bank.all.order(:id)
+    authorize [:admin, banks]
     render json: banks, status: 200    
   end
 
   def show
     bank = Bank.find(params[:id])
+    authorize [:admin, banks]
     render json: bank, status: 200
   end
 
   def create
     bank = Bank.new(bank_params)
-
+    authorize [:admin, banks]
     if bank.save
       render json: bank, status: 201
     else
@@ -26,7 +29,7 @@ class Api::V2::Admin::BanksController < Api::V2::Admin::BaseController
 
   def update
     bank = Bank.find(params[:id])
-
+    authorize [:admin, banks]
     if bank.update(bank_params)
       render json: bank, status: 200
     else
@@ -36,6 +39,7 @@ class Api::V2::Admin::BanksController < Api::V2::Admin::BaseController
 
   def destroy
     bank = Bank.find(params[:id])
+    authorize [:admin, banks]
     bank.destroy
     head 204
   end

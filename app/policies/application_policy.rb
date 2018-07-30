@@ -3,15 +3,15 @@ class ApplicationPolicy
 
   def initialize(user, record)
     @user = user
-    @record = record
+    @record = record.is_a?(Array) ? record.last : record
   end
 
   def index?
-    user.admin?
+    user
   end
 
   def show?
-    scope.where(:id => record.id).exists? && user.admin?
+    scope.where(:id => record.id).exists? && user
   end
 
   def create?
