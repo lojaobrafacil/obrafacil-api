@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Cashier API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:cashiers) { create_list(:cashier, 5) }
   let(:cashier) { cashiers.first }
   let(:cashier_id) { cashier.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Cashier API', type: :request do
     }
   end
 
-  describe 'GET /cashiers' do
+  describe 'GET /admin/cashiers' do
     before do
       get '/admin/cashiers', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Cashier API', type: :request do
     end
   end
 
-  describe 'GET /cashiers/:id' do
+  describe 'GET /admin/cashiers/:id' do
     before do
-      get '/admin/cashiers/#{cashier_id}', params: {}, headers: headers
+      get "/admin/cashiers/#{cashier_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:start_date].to_s.to_time).to eq(cashier.start_date)
@@ -43,9 +43,9 @@ RSpec.describe 'Cashier API', type: :request do
   end
 
 
-  describe 'POST /cashiers' do
+  describe 'POST /admin/cashiers' do
     before do
-      post '/admin/cashiers', params: { cashier: cashier_params }.to_json , headers: headers
+      post '/admin/cashiers', params: cashier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -56,7 +56,7 @@ RSpec.describe 'Cashier API', type: :request do
       end
 
       it 'returns the json data for the created cashier' do
-        expect(json_body[:start_date].to_time.strftime('%H:%M:%S %d-%m-%Y')).to eq(cashier_params[:start_date].to_time.strftime('%H:%M:%S %d-%m-%Y'))
+        expect(json_body[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
       end
     end
 
@@ -73,20 +73,20 @@ RSpec.describe 'Cashier API', type: :request do
     end
   end
 
-  describe 'PUT /cashiers/:id' do
+  describe 'PUT /admin/cashiers/:id' do
     before do
-      put '/admin/cashiers/#{cashier_id}', params: { cashier: cashier_params }.to_json , headers: headers
+      put "/admin/cashiers/#{cashier_id}", params: cashier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:cashier_params) { { start_date: Time.new + 1.hour } }
+      let(:cashier_params) { { start_date: cashier.start_date } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
       it 'return the json data for the updated cashier' do
-        expect(json_body[:start_date].to_time.strftime('%H:%M:%S %d-%m-%Y')).to eq(cashier_params[:start_date].to_time.strftime('%H:%M:%S %d-%m-%Y'))
+        expect(json_body[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
       end
     end
 
@@ -103,9 +103,9 @@ RSpec.describe 'Cashier API', type: :request do
     end
   end
 
-  describe 'DELETE /cashiers/:id' do
+  describe 'DELETE /admin/cashiers/:id' do
     before do
-      delete '/admin/cashiers/#{cashier_id}', params: { } , headers: headers
+      delete "/admin/cashiers/#{cashier_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

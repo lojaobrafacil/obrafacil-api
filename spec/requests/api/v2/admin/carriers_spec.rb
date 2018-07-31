@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Carrier API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:carriers) { create_list(:carrier, 5) }
   let(:carrier) { carriers.first }
   let(:carrier_id) { carrier.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Carrier API', type: :request do
     }
   end
 
-  describe 'GET /carriers' do
+  describe 'GET /admin/carriers' do
     before do
       get '/admin/carriers', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Carrier API', type: :request do
     end
   end
 
-  describe 'GET /carriers/:id' do
+  describe 'GET /admin/carriers/:id' do
     before do
-      get '/admin/carriers/#{carrier_id}', params: {}, headers: headers
+      get "/admin/carriers/#{carrier_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(carrier.name)
@@ -43,9 +43,9 @@ RSpec.describe 'Carrier API', type: :request do
   end
 
 
-  describe 'POST /carriers' do
+  describe 'POST /admin/carriers' do
     before do
-      post '/admin/carriers', params: { carrier: carrier_params }.to_json , headers: headers
+      post '/admin/carriers', params: carrier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Carrier API', type: :request do
     end
   end
 
-  describe 'PUT /carriers/:id' do
+  describe 'PUT /admin/carriers/:id' do
     before do
-      put '/admin/carriers/#{carrier_id}', params: { carrier: carrier_params }.to_json , headers: headers
+      put "/admin/carriers/#{carrier_id}", params: carrier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:carrier_params) { { name: 'Comercial' } }
+      let(:carrier_params) { { name: carrier.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Carrier API', type: :request do
     end
   end
 
-  describe 'DELETE /carriers/:id' do
+  describe 'DELETE /admin/carriers/:id' do
     before do
-      delete '/admin/carriers/#{carrier_id}', params: { } , headers: headers
+      delete "/admin/carriers/#{carrier_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

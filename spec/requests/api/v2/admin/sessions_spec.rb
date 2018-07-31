@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Sessions API', type: :request do  
-  let!(:auth){ create(:employee) }
-  let(:auth_data) { auth.create_new_auth_token }
+  let!(:user){ create(:employee) }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -12,7 +12,7 @@ RSpec.describe 'Sessions API', type: :request do
       'client' => auth_data['client']
     }
   end
-  describe 'POST /auth/sign_in' do
+  describe 'POST /admin/auth/sign_in' do
     before do
     	post '/admin/auth/sign_in', headers: credencials
     end
@@ -43,10 +43,10 @@ RSpec.describe 'Sessions API', type: :request do
     end
   end
   
-  describe 'DELETE /auth/sign_out' do
+  describe 'DELETE /admin/auth/sign_out' do
     let(:auth_token) { user.auth_token }
     before do
-      delete '/admin/auth/sign_out', params: { }, headers: headers
+      delete "/admin/auth/sign_out", params: { }, headers: headers
     end
 
     it 'return status code 200' do

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Phone API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:phones) { create_list(:phone, 2) }
   let(:phone) { phones.first }
   let(:phone_id) { phone.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Phone API', type: :request do
     }
   end
 
-  describe 'GET /phones' do
+  describe 'GET /admin/phones' do
     before do
       get '/admin/phones', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Phone API', type: :request do
     end
   end
 
-  describe 'GET /phones/:id' do
+  describe 'GET /admin/phones/:id' do
     before do
-      get '/admin/phones/#{phone_id}', params: {}, headers: headers
+      get "/admin/phones/#{phone_id}", params: {}, headers: headers
     end
     it 'return phone from database' do
       expect(json_body[:phone]).to eq(phone[:phone])
@@ -43,7 +43,7 @@ RSpec.describe 'Phone API', type: :request do
   end
 
 # phones will only be created in the associated controller
-  # describe 'POST /phones' do
+  # describe 'POST /admin/phones' do
   #   before do
   #     post '/admin/phones', params: { phone: phone_params }.to_json , headers: headers
   #   end
@@ -73,13 +73,13 @@ RSpec.describe 'Phone API', type: :request do
   #   end
   # end
 
-  describe 'PUT /phones/:id' do
+  describe 'PUT /admin/phones/:id' do
     before do
-      put '/admin/phones/#{phone_id}', params: { phone: phone_params }.to_json , headers: headers
+      put "/admin/phones/#{phone_id}", params: phone_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:phone_params) { { phone: '11975226584' } }
+      let(:phone_params) { { phone: phone.phone } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Phone API', type: :request do
     end
   end
 
-  describe 'DELETE /phones/:id' do
+  describe 'DELETE /admin/phones/:id' do
     before do
-      delete '/admin/phones/#{phone_id}', params: { }.to_json , headers: headers
+      delete "/admin/phones/#{phone_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

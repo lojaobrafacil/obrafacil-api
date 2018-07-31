@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Address API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:addresses) { create_list(:address, 2) }
   let(:address) { addresses.first }
   let(:address_id) { address.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Address API', type: :request do
     }
   end
 
-  describe 'GET /addresses' do
+  describe 'GET /admin/addresses' do
     before do
       get '/admin/addresses', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-  describe 'GET /addresses/:id' do
+  describe 'GET /admin/addresses/:id' do
     before do
-      get '/admin/addresses/#{address_id}', params: {}, headers: headers
+      get "/admin/addresses/#{address_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:street]).to eq(address.street)
@@ -43,7 +43,7 @@ RSpec.describe 'Address API', type: :request do
   end
 
 # addresses will only be created in the associated controller
-  # describe 'POST /addresses' do
+  # describe 'POST /admin/addresses' do
   #   before do
   #     post '/admin/addresses', params: { address: address_params }.to_json , headers: headers
   #   end
@@ -73,13 +73,13 @@ RSpec.describe 'Address API', type: :request do
   #   end
   # end
 
-  describe 'PUT /addresses/:id' do
+  describe 'PUT /admin/addresses/:id' do
     before do
-      put '/admin/addresses/#{address_id}', params: { address: address_params }.to_json , headers: headers
+      put "/admin/addresses/#{address_id}", params: address_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:address_params) { { street: 'Comercial' } }
+      let(:address_params) { { street: address.street } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Address API', type: :request do
     end
   end
 
-  describe 'DELETE /addresses/:id' do
+  describe 'DELETE /admin/addresses/:id' do
     before do
-      delete '/admin/addresses/#{address_id}', params: { }.to_json , headers: headers
+      delete "/admin/addresses/#{address_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

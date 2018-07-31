@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'EmailType API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:email_types) { create_list(:email_type, 5) }
   let(:email_type) { email_types.first }
   let(:email_type_id) { email_type.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'EmailType API', type: :request do
     }
   end
 
-  describe 'GET /email_types' do
+  describe 'GET /admin/email_types' do
     before do
       get '/admin/email_types', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'EmailType API', type: :request do
     end
   end
 
-  describe 'GET /email_types/:id' do
+  describe 'GET /admin/email_types/:id' do
     before do
-      get '/admin/email_types/#{email_type_id}', params: {}, headers: headers
+      get "/admin/email_types/#{email_type_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(email_type[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'EmailType API', type: :request do
   end
 
 
-  describe 'POST /email_types' do
+  describe 'POST /admin/email_types' do
     before do
-      post '/admin/email_types', params: { email_type: email_type_params }.to_json , headers: headers
+      post '/admin/email_types', params: email_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'EmailType API', type: :request do
     end
   end
 
-  describe 'PUT /email_types/:id' do
+  describe 'PUT /admin/email_types/:id' do
     before do
-      put '/admin/email_types/#{email_type_id}', params: { email_type: email_type_params }.to_json , headers: headers
+      put "/admin/email_types/#{email_type_id}", params: email_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'EmailType API', type: :request do
     end
   end
 
-  describe 'DELETE /email_types/:id' do
+  describe 'DELETE /admin/email_types/:id' do
     before do
-      delete '/admin/email_types/#{email_type_id}', params: { }.to_json , headers: headers
+      delete "/admin/email_types/#{email_type_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

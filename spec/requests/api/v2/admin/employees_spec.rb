@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Employee API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:employees) { create_list(:employee, 5) }
   let(:employee) { employees.first }
   let(:employee_id) { employee.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Employee API', type: :request do
     }
   end
 
-  describe 'GET /employees' do
+  describe 'GET /admin/employees' do
     before do
       get '/admin/employees', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Employee API', type: :request do
     end
   end
 
-  describe 'GET /employees/:id' do
+  describe 'GET /admin/employees/:id' do
     before do
-      get '/admin/employees/#{employee_id}', params: {}, headers: headers
+      get "/admin/employees/#{employee_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(employee[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'Employee API', type: :request do
   end
 
 
-  describe 'POST /employees' do
+  describe 'POST /admin/employees' do
     before do
-      post '/admin/employees', params: { employee: employee_params }.to_json , headers: headers
+      post '/admin/employees', params: employee_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'Employee API', type: :request do
     end
   end
 
-  describe 'PUT /employees/:id' do
+  describe 'PUT /admin/employees/:id' do
     before do
-      put '/admin/employees/#{employee_id}', params: { employee: employee_params }.to_json , headers: headers
+      put "/admin/employees/#{employee_id}", params: employee_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'Employee API', type: :request do
     end
   end
 
-  describe 'DELETE /employees/:id' do
+  describe 'DELETE /admin/employees/:id' do
     before do
-      delete '/admin/employees/#{employee_id}', params: { } , headers: headers
+      delete "/admin/employees/#{employee_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

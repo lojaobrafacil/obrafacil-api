@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'SubCategory API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:sub_categories) { create_list(:sub_category, 5) }
   let(:sub_category) { sub_categories.first }
   let(:sub_category_id) { sub_category.id }
-  let(:auth_data) { auth.create_new_auth_token }  
+  let(:auth_data) { user.create_new_auth_token }  
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'SubCategory API', type: :request do
     }
   end
 
-  describe 'GET /sub_categories' do
+  describe 'GET /admin/sub_categories' do
     before do
       get '/admin/sub_categories', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'SubCategory API', type: :request do
     end
   end
 
-  describe 'GET /sub_categories/:id' do
+  describe 'GET /admin/sub_categories/:id' do
     before do
-      get '/admin/sub_categories/#{sub_category_id}', params: {}, headers: headers
+      get "/admin/sub_categories/#{sub_category_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(sub_category[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'SubCategory API', type: :request do
   end
 
 
-  describe 'POST /sub_categories' do
+  describe 'POST /admin/sub_categories' do
     before do
-      post '/admin/sub_categories', params: { sub_category: sub_category_params }.to_json , headers: headers
+      post '/admin/sub_categories', params: sub_category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'SubCategory API', type: :request do
     end
   end
 
-  describe 'PUT /sub_categories/:id' do
+  describe 'PUT /admin/sub_categories/:id' do
     before do
-      put '/admin/sub_categories/#{sub_category_id}', params: { sub_category: sub_category_params }.to_json , headers: headers
+      put "/admin/sub_categories/#{sub_category_id}", params: sub_category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'SubCategory API', type: :request do
     end
   end
 
-  describe 'DELETE /sub_categories/:id' do
+  describe 'DELETE /admin/sub_categories/:id' do
     before do
-      delete '/admin/sub_categories/#{sub_category_id}', params: { } , headers: headers
+      delete "/admin/sub_categories/#{sub_category_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

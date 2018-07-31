@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Ibpt API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:ibpts) { create_list(:ibpt, 5) }
   let(:ibpt) { ibpts.first }
   let(:ibpt_id) { ibpt.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Ibpt API', type: :request do
     }
   end
 
-  describe 'GET /ibpts' do
+  describe 'GET /admin/ibpts' do
     before do
       get '/admin/ibpts', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Ibpt API', type: :request do
     end
   end
 
-  describe 'GET /ibpts/:id' do
+  describe 'GET /admin/ibpts/:id' do
     before do
-      get '/admin/ibpts/#{ibpt_id}', params: {}, headers: headers
+      get "/admin/ibpts/#{ibpt_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:code]).to eq(ibpt[:code])
@@ -43,9 +43,9 @@ RSpec.describe 'Ibpt API', type: :request do
   end
 
 
-  describe 'POST /ibpts' do
+  describe 'POST /admin/ibpts' do
     before do
-      post '/admin/ibpts', params: { ibpt: ibpt_params }.to_json , headers: headers
+      post '/admin/ibpts', params: ibpt_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Ibpt API', type: :request do
     end
   end
 
-  describe 'PUT /ibpts/:id' do
+  describe 'PUT /admin/ibpts/:id' do
     before do
-      put '/admin/ibpts/#{ibpt_id}', params: { ibpt: ibpt_params }.to_json , headers: headers
+      put "/admin/ibpts/#{ibpt_id}", params: ibpt_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:ibpt_params) { { code: 54458 } }
+      let(:ibpt_params) { { code: ibpt.code } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Ibpt API', type: :request do
     end
   end
 
-  describe 'DELETE /ibpts/:id' do
+  describe 'DELETE /admin/ibpts/:id' do
     before do
-      delete '/admin/ibpts/#{ibpt_id}', params: { } , headers: headers
+      delete "/admin/ibpts/#{ibpt_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

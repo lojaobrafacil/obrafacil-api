@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Partner API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:partners) { create_list(:partner, 5) }
   let(:partner) { partners.first }
   let(:partner_id) { partner.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Partner API', type: :request do
     }
   end
 
-  describe 'GET /partners' do
+  describe 'GET /admin/partners' do
     before do
       get '/admin/partners', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Partner API', type: :request do
     end
   end
 
-  describe 'GET /partners/:id' do
+  describe 'GET /admin/partners/:id' do
     before do
-      get '/admin/partners/#{partner.id}', params: {}, headers: headers
+      get "/admin/partners/#{partner.id}", params: {}, headers: headers
     end
     it 'return partner from database' do
       expect(json_body[:name]).to eq(partner[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'Partner API', type: :request do
   end
 
 
-  describe 'POST /partners' do
+  describe 'POST /admin/partners' do
     before do
-      post '/admin/partners', params: { partner: partner_params }.to_json , headers: headers
+      post '/admin/partners', params: partner_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Partner API', type: :request do
     end
   end
 
-  describe 'PUT /partners/:id' do
+  describe 'PUT /admin/partners/:id' do
     before do
-      put '/admin/partners/#{partner_id}', params: { partner: partner_params }.to_json , headers: headers
+      put "/admin/partners/#{partner_id}", params: partner_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:partner_params) { { name: 'jorge' } }
+      let(:partner_params) { { name: partner.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Partner API', type: :request do
     end
   end
 
-  describe 'DELETE /partners/:id' do
+  describe 'DELETE /admin/partners/:id' do
     before do
-      delete '/admin/partners/#{partner_id}', params: { } , headers: headers
+      delete "/admin/partners/#{partner_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

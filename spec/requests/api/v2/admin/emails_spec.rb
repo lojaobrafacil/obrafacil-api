@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Email API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:emails) { create_list(:email, 2) }
   let(:email) { emails.first }
   let(:email_id) { email.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Email API', type: :request do
     }
   end
 
-  describe 'GET /emails' do
+  describe 'GET /admin/emails' do
     before do
       get '/admin/emails', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Email API', type: :request do
     end
   end
 
-  describe 'GET /emails/:id' do
+  describe 'GET /admin/emails/:id' do
     before do
-      get '/admin/emails/#{email_id}', params: {}, headers: headers
+      get "/admin/emails/#{email_id}", params: {}, headers: headers
     end
     it 'return email from database' do
       expect(json_body[:email]).to eq(email.email)
@@ -43,7 +43,7 @@ RSpec.describe 'Email API', type: :request do
   end
 
 # emails will only be created in the associated controller
-  # describe 'POST /emails' do
+  # describe 'POST /admin/emails' do
   #   before do
   #     post '/admin/emails', params: { email: email_params }.to_json , headers: headers
   #   end
@@ -73,9 +73,9 @@ RSpec.describe 'Email API', type: :request do
   #   end
   # end
 
-  describe 'PUT /emails/:id' do
+  describe 'PUT /admin/emails/:id' do
     before do
-      put '/admin/emails/#{email_id}', params: { email: email_params }.to_json , headers: headers
+      put "/admin/emails/#{email_id}", params: email_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'Email API', type: :request do
     end
   end
 
-  describe 'DELETE /emails/:id' do
+  describe 'DELETE /admin/emails/:id' do
     before do
-      delete '/admin/emails/#{email_id}', params: { }.to_json , headers: headers
+      delete "/admin/emails/#{email_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

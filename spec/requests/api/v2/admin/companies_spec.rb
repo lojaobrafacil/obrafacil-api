@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Company API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:companies) { create_list(:company, 5) }
   let(:company) { companies.first }
   let(:company_id) { company.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Company API', type: :request do
     }
   end
 
-  describe 'GET /companies' do
+  describe 'GET /admin/companies' do
     before do
       get '/admin/companies', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Company API', type: :request do
     end
   end
 
-  describe 'GET /companies/:id' do
+  describe 'GET /admin/companies/:id' do
     before do
-      get '/admin/companies/#{company_id}', params: {}, headers: headers
+      get "/admin/companies/#{company_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(company.name)
@@ -43,9 +43,9 @@ RSpec.describe 'Company API', type: :request do
   end
 
 
-  describe 'POST /companies' do
+  describe 'POST /admin/companies' do
     before do
-      post '/admin/companies', params: { company: company_params }.to_json , headers: headers
+      post '/admin/companies', params: company_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,9 +73,9 @@ RSpec.describe 'Company API', type: :request do
     end
   end
 
-  describe 'PUT /companies/:id' do
+  describe 'PUT /admin/companies/:id' do
     before do
-      put '/admin/companies/#{company_id}', params: { company: company_params }.to_json , headers: headers
+      put "/admin/companies/#{company_id}", params: company_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -103,9 +103,9 @@ RSpec.describe 'Company API', type: :request do
     end
   end
 
-  describe 'DELETE /companies/:id' do
+  describe 'DELETE /admin/companies/:id' do
     before do
-      delete '/admin/companies/#{company_id}', params: { } , headers: headers
+      delete "/admin/companies/#{company_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

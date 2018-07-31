@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Bank API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:banks) { create_list(:bank, 5) }
   let(:bank) { banks.first }
   let(:bank_id) { bank.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Bank API', type: :request do
     }
   end
 
-  describe 'GET /banks' do
+  describe 'GET /admin/banks' do
     before do
       get '/admin/banks', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Bank API', type: :request do
     end
   end
 
-  describe 'GET /banks/:id' do
+  describe 'GET /admin/banks/:id' do
     before do
-      get '/admin/banks/#{bank_id}', params: {}, headers: headers
+      get "/admin/banks/#{bank_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:code]).to eq(bank.code)
@@ -43,9 +43,9 @@ RSpec.describe 'Bank API', type: :request do
   end
 
 
-  describe 'POST /banks' do
+  describe 'POST /admin/banks' do
     before do
-      post '/admin/banks', params: { bank: bank_params }.to_json , headers: headers
+      post '/admin/banks', params: bank_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Bank API', type: :request do
     end
   end
 
-  describe 'PUT /banks/:id' do
+  describe 'PUT /admin/banks/:id' do
     before do
-      put '/admin/banks/#{bank_id}', params: { bank: bank_params }.to_json , headers: headers
+      put "/admin/banks/#{bank_id}", params: bank_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:bank_params) { { name: 'Comercial' } }
+      let(:bank_params) { { name: bank.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -103,9 +103,9 @@ RSpec.describe 'Bank API', type: :request do
     end
   end
 
-  describe 'DELETE /banks/:id' do
+  describe 'DELETE /admin/banks/:id' do
     before do
-      delete '/admin/banks/#{bank_id}', params: { } , headers: headers
+      delete "/admin/banks/#{bank_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Region API', type: :request do
-  let!(:auth){ create(:employee) }
+  let!(:user){ create(:employee) }
   let!(:regions) { create_list(:region, 2) }
   let(:region) { regions.first }
   let(:region_id) { region.id }
-  let(:auth_data) { auth.create_new_auth_token }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,7 +16,7 @@ RSpec.describe 'Region API', type: :request do
     }
   end
 
-  describe 'GET /regions' do
+  describe 'GET /admin/regions' do
     before do
       get '/admin/regions', params: {}, headers: headers
     end
@@ -29,9 +29,9 @@ RSpec.describe 'Region API', type: :request do
     end
   end
 
-  describe 'GET /regions/:id' do
+  describe 'GET /admin/regions/:id' do
     before do
-      get '/admin/regions/#{region_id}', params: {}, headers: headers
+      get "/admin/regions/#{region_id}", params: {}, headers: headers
     end
     it 'return address from database' do
       expect(json_body[:name]).to eq(region[:name])
@@ -43,9 +43,9 @@ RSpec.describe 'Region API', type: :request do
   end
 
 
-  describe 'POST /regions' do
+  describe 'POST /admin/regions' do
     before do
-      post '/admin/regions', params: { region: region_params }.to_json , headers: headers
+      post '/admin/regions', params: region_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -73,13 +73,13 @@ RSpec.describe 'Region API', type: :request do
     end
   end
 
-  describe 'PUT /regions/:id' do
+  describe 'PUT /admin/regions/:id' do
     before do
-      put '/admin/regions/#{region_id}', params: { region: region_params }.to_json , headers: headers
+      put "/admin/regions/#{region_id}", params: region_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:region_params) { { name: 'Comercial' } }
+      let(:region_params) { { name: region.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -91,7 +91,7 @@ RSpec.describe 'Region API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:region_params) { { name: nil } }
+      let(:region_params) { {name: nil} }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Region API', type: :request do
     end
   end
 
-  describe 'DELETE /regions/:id' do
+  describe 'DELETE /admin/regions/:id' do
     before do
-      delete '/admin/regions/#{region_id}', params: { }.to_json , headers: headers
+      delete "/admin/regions/#{region_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do

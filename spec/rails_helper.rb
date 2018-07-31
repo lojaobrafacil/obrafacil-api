@@ -30,7 +30,7 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   
   config.before(:all, type: :request) do
-    host! 'api.emamapp.dev'
+    host! 'api.emamapp.test'
   end
 
   config.before(:suite) do
