@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180731135101) do
+ActiveRecord::Schema.define(version: 20180730181803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 20180731135101) do
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.string "fantasy_name"
-    t.string "federal_tax_number"
+    t.string "federal_registration"
     t.string "state_registration"
     t.datetime "birth_date"
     t.integer "tax_regime"
