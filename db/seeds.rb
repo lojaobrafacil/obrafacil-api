@@ -9,7 +9,7 @@ require 'net/http'
 require 'net/https' # for ruby 1.8.7
 require 'json'
 
-User.create(email:"12345678910@obrafacil.com", federal_registration: 12345678910, kind: 0, password:"obrafaciladm", password_confirmation:"obrafaciladm")
+Employee.create(email:"12345678910@obrafacil.com", name: "SysAdmin", password:"obrafaciladm", password_confirmation:"obrafaciladm")
 
 module BRPopulate
   def self.states
