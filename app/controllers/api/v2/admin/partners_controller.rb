@@ -5,12 +5,12 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     if partners&.empty? or partners.nil? and Partner.all.size > 0
       render json: partners, status: 401
     else
-      partners = if params[:name] && params[:federal_tax_number] 
-        partners.where("LOWER(name) LIKE LOWER(?) and federal_tax_number LIKE ?", "%#{params[:name]}%", "#{params[:federal_tax_number]}%")
+      partners = if params[:name] && params[:federal_registration] 
+        partners.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
         else
           partners.all
         end
-      paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_tax_number, :state_registration, :active, :description, :cash_redemption]), status: 200
+      paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description, :cash_redemption]), status: 200
     end
   end
 
@@ -62,23 +62,23 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   private
 
   def partner_params
-      params.permit(:id, :name, :federal_tax_number, :state_registration, 
+      params.permit(:id, :name, :federal_registration, :state_registration, 
       :kind, :active, :started_date, :renewal_date, :description, :origin, :percent, :agency, 
       :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8, :cash_redemption)
   end
 
   def update_user(partner)
-    if user = User.find_by(federal_registration: partner.federal_tax_number)
+    if user = User.find_by(federal_registration: partner.federal_registration)
       if partner.active?
         user.update(partner: partner) unless user.partner == partner 
       else
         user.destroy unless user.partner.active?
       end
     else
-      email = partner.federal_tax_number? ? partner.federal_tax_number.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
+      email = partner.federal_registration? ? partner.federal_registration.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
       unless email&.nil?
         partner.build_user(email: email,
-                            federal_registration: partner.federal_tax_number,
+                            federal_registration: partner.federal_registration,
                             password:"obrafacil2018",
                             password_confirmation:"obrafacil2018" ).save
       end
@@ -88,11 +88,11 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   def premio_ideal(partner)
     require "uri"
     require "net/http"
-    if partner.federal_tax_number? and partner.federal_tax_number.size >= 10 and partner.active?
+    if partner.federal_registration? and partner.federal_registration.size >= 10 and partner.active?
       begin
         body = {
           "name": partner.name.as_json,
-          "cpfCnpj": partner.federal_tax_number.as_json,
+          "cpfCnpj": partner.federal_registration.as_json,
           "address": if partner.addresses.nil? ; "null"; elsif  partner.addresses.first.street.nil? ||  partner.addresses.first.street == ""; "null"; else partner.addresses.first.street.as_json end,
           "number": if partner.addresses.nil? ; "000"; elsif  partner.addresses.first.number.nil? ||  partner.addresses.first.number == ""; "000"; else partner.addresses.first.number.as_json end,
           "complement": if partner.addresses.nil? ; "null"; elsif  partner.addresses.first.complement.nil? ||  partner.addresses.first.complement == ""; "null"; else partner.addresses.first.complement.as_json end,

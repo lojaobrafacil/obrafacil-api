@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180725202320) do
+ActiveRecord::Schema.define(version: 20180731135101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20180725202320) do
 
   create_table "carriers", force: :cascade do |t|
     t.string "name"
-    t.string "federal_tax_number"
+    t.string "federal_registration"
     t.string "state_registration"
     t.integer "kind"
     t.text "description"
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 20180725202320) do
 
   create_table "clients", force: :cascade do |t|
     t.string "name"
-    t.string "federal_tax_number"
+    t.string "federal_registration"
     t.string "state_registration"
     t.string "international_registration"
     t.integer "kind"
@@ -276,7 +276,7 @@ ActiveRecord::Schema.define(version: 20180725202320) do
 
   create_table "partners", force: :cascade do |t|
     t.string "name"
-    t.string "federal_tax_number"
+    t.string "federal_registration"
     t.string "state_registration"
     t.integer "kind"
     t.boolean "active", default: true
@@ -405,7 +405,7 @@ ActiveRecord::Schema.define(version: 20180725202320) do
   create_table "suppliers", force: :cascade do |t|
     t.string "name"
     t.string "fantasy_name"
-    t.string "federal_tax_number"
+    t.string "federal_registration"
     t.string "state_registration"
     t.integer "kind"
     t.datetime "birth_date"
