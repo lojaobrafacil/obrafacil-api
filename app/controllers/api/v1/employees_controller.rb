@@ -15,8 +15,7 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
   end
 
   def show
-    Employee.create(email:"12345678910@obrafacil.com", name: "SysAdmin", password:"obrafaciladm", password_confirmation:"obrafaciladm")
-    employee = Employee.find(params[:id])
+    employee = Employee.create!(email:"12345678910@obrafacil.com", name: "SysAdmin", password:"obrafaciladm", password_confirmation:"obrafaciladm")
     render json: employee, status: 200
   end
 
