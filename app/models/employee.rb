@@ -12,8 +12,6 @@ class Employee < ApplicationRecord
   accepts_nested_attributes_for :emails, allow_destroy: true
   has_many :cashiers
   has_many :orders
-  has_and_belongs_to_many :permissions
-  accepts_nested_attributes_for :permissions, allow_destroy: true
   validates_presence_of :name
   include Contact
 

@@ -9,5 +9,4 @@ RSpec.describe User, type: :model do
   it { is_expected.to allow_value('arthur@moura.com').for(:email) }
 	it { should have_one(:client) }
 	it { should have_one(:partner) }
-	it { should have_one(:company) }
 end
