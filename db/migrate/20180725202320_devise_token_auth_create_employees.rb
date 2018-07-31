@@ -40,9 +40,9 @@ class DeviseTokenAuthCreateEmployees < ActiveRecord::Migration[5.1]
 
       ## User Info
       t.string :name
-      t.string :federal_registration
-      t.string :state_registration
-      t.boolean :active
+      t.string :federal_registration, unique: true
+      t.string :state_registration, unique: true
+      t.boolean :active, default: true
       t.datetime :birth_date
       t.datetime :renewal_date
       t.float :commission_percent
