@@ -49,13 +49,13 @@ class Api::V1::SuppliersController < Api::V1::ContactsController
   end
 
   def update_user(supplier)
-    # if user = User.find_by(federal_registration: supplier.federal_tax_number)
+    # if user = User.find_by(federal_registration: supplier.federal_registration)
     #   user.update(supplier: supplier) unless user.supplier == supplier
     # else
-    #   email = supplier.federal_tax_number? ? supplier.federal_tax_number.to_s+"@obrafacil.com" : supplier.emails.first.email rescue nil
+    #   email = supplier.federal_registration? ? supplier.federal_registration.to_s+"@obrafacil.com" : supplier.emails.first.email rescue nil
     #   unless email&.nil?
     #     supplier.build_user(email: email,
-    #                         federal_registration: supplier.federal_tax_number,
+    #                         federal_registration: supplier.federal_registration,
     #                         password:"obrafacil2018",
     #                         password_confirmation:"obrafacil2018" ).save
     #   end
@@ -65,7 +65,7 @@ class Api::V1::SuppliersController < Api::V1::ContactsController
   private
 
   def supplier_params
-    params.permit(:name, :fantasy_name, :federal_tax_number,
+    params.permit(:name, :fantasy_name, :federal_registration,
       :state_registration, :kind, :birth_date, :tax_regime, :description,
       :billing_type_id, :user_id)
   end
