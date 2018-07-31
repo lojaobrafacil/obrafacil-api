@@ -41,6 +41,6 @@ class Api::V2::Admin::CarriersController < Api::V2::Admin::ContactsController
   private
 
   def category_params
-    params.permit(:name, :federal_tax_number, :state_registration, :kind, :description, :active)
+    params.permit(:name, :federal_registration, :state_registration, :kind, :description, :active)
   end
 end
