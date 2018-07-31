@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ImageProduct, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let (:image_product) { create(:image_product) }
+
+  it { should belong_to(:product) }
+  it { should validate_presence_of(:attachment) }
+  
+
 end
