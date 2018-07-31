@@ -8,6 +8,7 @@ RSpec.describe Employee, type: :model do
   it { is_expected.to validate_presence_of(:password) }
   it { is_expected.to allow_value('arthur@moura.com').for(:email) }
   it { is_expected.to validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:federal_registration).case_insensitive }
   it { should have_many(:emails) }
   it { should have_many(:phones) }
   it { should have_many(:addresses) }

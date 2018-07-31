@@ -213,7 +213,7 @@ ActiveRecord::Schema.define(version: 20180730181803) do
     t.string "name"
     t.string "federal_registration"
     t.string "state_registration"
-    t.boolean "active"
+    t.boolean "active", default: true
     t.datetime "birth_date"
     t.datetime "renewal_date"
     t.float "commission_percent"
