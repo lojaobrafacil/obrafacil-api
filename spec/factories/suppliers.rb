@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :supplier do
     name { Faker::Name.name }
     fantasy_name { Faker::Name.name }
-    federal_tax_number { 1 }
+    federal_registration { 1 }
     state_registration { 1 }
     kind { [0,0,0,1,1,1].sample }
     birth_date { Faker::Date.birthday(18, 65) }

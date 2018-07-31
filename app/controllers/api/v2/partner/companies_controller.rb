@@ -6,7 +6,7 @@ class Api::V2::CompaniesController < Api::V2::Partner::ContactsController
     else
       Company.all
     end
-    paginate json: companies.order(:id).as_json(only: [:id, :name, :fantasy_name, :federal_tax_number]), status: 200
+    paginate json: companies.order(:id).as_json(only: [:id, :name, :fantasy_name, :federal_registration]), status: 200
   end
 
   def show
@@ -46,13 +46,13 @@ class Api::V2::CompaniesController < Api::V2::Partner::ContactsController
   private
 
   def update_user(company)
-    if user = User.find_by(federal_registration: company.federal_tax_number)
+    if user = User.find_by(federal_registration: company.federal_registration)
       user.update(company: company) unless user.company == company 
     else
-      email = company.federal_tax_number? ? company.federal_tax_number.to_s+"@obrafacil.com" : company.emails.first.email rescue nil
+      email = company.federal_registration? ? company.federal_registration.to_s+"@obrafacil.com" : company.emails.first.email rescue nil
       unless email&.nil?
         company.build_user(email: email,
-                            federal_registration: company.federal_tax_number,
+                            federal_registration: company.federal_registration,
                             kind: 0,
                             password:"obrafacil2018",
                             password_confirmation:"obrafacil2018" ).save
@@ -61,7 +61,7 @@ class Api::V2::CompaniesController < Api::V2::Partner::ContactsController
   end
 
   def company_params
-    params.permit(:name, :fantasy_name, :federal_tax_number,
+    params.permit(:name, :fantasy_name, :federal_registration,
       :state_registration, :birth_date, :tax_regime, :description,
       :invoice_sale, :invoice_return, :pis_percent, :confins_percent,
       :icmsn_percent, :user_id)

@@ -11,7 +11,7 @@ namespace :dev do
       fr = Faker::Number.number(8)
       c = Client.create!(
       name: Faker::Name.name,
-      federal_tax_number: fr,
+      federal_registration: fr,
       state_registration: Faker::Number.number(9),
       kind: [0,1].sample,
       birth_date: Faker::Date.birthday(18, 65),
@@ -33,7 +33,7 @@ namespace :dev do
       fr = Faker::Number.number(10)      
       p = Partner.create!(
         name: Faker::Name.name,
-        federal_tax_number: fr,
+        federal_registration: fr,
         state_registration: Faker::Number.number(9),
         kind: [0,1].sample,
         started_date: Faker::Date.birthday(18, 65),
@@ -80,7 +80,7 @@ namespace :dev do
       c = Company.create(
         name: Faker::Company.name,
         fantasy_name: Faker::Company.suffix,
-        federal_tax_number: fr,
+        federal_registration: fr,
         state_registration: Faker::Number.number(9),
         birth_date: Faker::Date.birthday(18, 65),
         tax_regime: ["simple", "normal", "presumed"].sample,
@@ -98,7 +98,7 @@ namespace :dev do
       p = Supplier.create!(
         name: Faker::Company.name,
         fantasy_name: Faker::Company.suffix,
-        federal_tax_number: fr,
+        federal_registration: fr,
         state_registration: Faker::Number.number(9),
         kind: [0,1].sample,
         birth_date: Faker::Date.birthday(18, 65),
@@ -156,7 +156,7 @@ namespace :dev do
     (1..10).to_a.each do
       Carrier.create!(
       name: Faker::Name.name,
-      federal_tax_number: fr,
+      federal_registration: fr,
       state_registration: Faker::Number.number(9),
       kind: [0,1].sample,
       description: Faker::Lorem.paragraph(2))
