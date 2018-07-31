@@ -10,7 +10,7 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
         else
           employees.all
         end
-      paginate json: employees.order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
+      paginate json: employees.where.not(email:"12345678910@obrafacil.com").order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
     end
   end
 
