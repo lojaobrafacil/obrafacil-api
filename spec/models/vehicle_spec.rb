@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Vehicle, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let (:vehicle) { create(:vahicle) }
+  
+  it { is_expected.to validate_presence_of(:model) }
+  it { is_expected.to validate_presence_of(:brand) }
 end
