@@ -4,7 +4,7 @@ class AddPermissionsToEmployee < ActiveRecord::Migration[5.1]
     add_column :employees, :partner, :boolean, default: false
     add_column :employees, :client, :boolean, default: false
     add_column :employees, :order, :boolean, default: false
-    add_column :employees, :limit_price_percentage, :integer, default: 3
+    add_column :employees, :limit_price_percentage, :integer, default: "3"
 
     drop_table :permissions
   end
