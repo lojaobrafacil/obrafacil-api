@@ -64,6 +64,11 @@ namespace :dev do
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         description: Faker::Lorem.paragraph(2),
         commission_percent: Faker::Number.decimal(2),
+        admin: "false",
+        partner: "false",
+        client: "false",
+        order: "false",
+        limit_price_percentage: 3,
         email: e_email,
         password:12345678, 
         password_confirmation:12345678)

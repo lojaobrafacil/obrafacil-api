@@ -50,7 +50,8 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def employee_params
     params.permit(:email, :name, :federal_registration, :state_registration, 
-    :active, :birth_date, :renewal_date, :commission_percent, :description, 
+    :active, :birth_date, :renewal_date, :commission_percent, :description,
+    :admin, :partner, :client, :order, :limit_price_percentage,
     :password, :password_confirmation)
   end
 end

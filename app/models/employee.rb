@@ -12,7 +12,8 @@ class Employee < ApplicationRecord
   accepts_nested_attributes_for :emails, allow_destroy: true
   has_many :cashiers
   has_many :orders
-  validates_presence_of :name, :federal_registration
+  validates_presence_of :name, :federal_registration, :limit_price_percentage
+  validates :admin, :partner, :client, :order, inclusion: { in: [true, false] }
   validates_uniqueness_of :federal_registration, conditions: -> { where.not(active: false) }, case_sensitive: true
   include Contact
 
