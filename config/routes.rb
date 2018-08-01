@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   	namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
-      namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1) do
+      namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
         mount_devise_token_auth_for 'User', at: 'auth'
         resources :employees, only: [:index, :show, :create, :update, :destroy]
         resources :users, only: [:index, :show, :update]
@@ -40,7 +40,7 @@ Rails.application.routes.draw do
         get 'allbanks', to: :allbanks, controller: 'banks'
   		end
    
-      namespace :v2, path: '/', constraints: ApiVersionConstraint.new(version: 2, default: true) do
+      namespace :v2, path: '/', constraints: ApiVersionConstraint.new(version: 2) do
         namespace :admin do
           mount_devise_token_auth_for 'Employee', at: 'auth'
           as :employee do
