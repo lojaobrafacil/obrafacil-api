@@ -80,18 +80,15 @@ namespace :dev do
 
     p "Criando Empresas "
     (1..5).to_a.each do
-      c_email= Faker::Internet.email
-      fr = Faker::Number.number(8)
       c = Company.create(
         name: Faker::Company.name,
         fantasy_name: Faker::Company.suffix,
-        federal_registration: fr,
+        federal_registration: Faker::Number.number(8),
         state_registration: Faker::Number.number(9),
         birth_date: Faker::Date.birthday(18, 65),
         tax_regime: ["simple", "normal", "presumed"].sample,
-        description: Faker::Lorem.paragraph(2),
-        user: User.create(email: fr+'@obrafacil.com', password:12345678, password_confirmation:12345678, federal_registration:fr))
-        c.emails.create(email: c_email, email_type: EmailType.all.sample)
+        description: Faker::Lorem.paragraph(2))
+        c.emails.create(email: Faker::Internet.email, email_type: EmailType.all.sample)
         c.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
         c.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
       end
