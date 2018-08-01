@@ -19,7 +19,6 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
 
     if company.save
       update_contact(company)
-      update_user(company)
       render json: company, status: 201
     else
       render json: { errors: company.errors }, status: 422
@@ -30,7 +29,6 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
     company = Company.find(params[:id])
     if company.update(company_params)
       update_contact(company)
-      update_user(company)
       render json: company, status: 200
     else
       render json: { errors: company.errors }, status: 422
@@ -45,25 +43,10 @@ class Api::V1::CompaniesController < Api::V1::ContactsController
 
   private
 
-  def update_user(company)
-    if user = User.find_by(federal_registration: company.federal_registration)
-      user.update(company: company) unless user.company == company 
-    else
-      email = company.federal_registration? ? company.federal_registration.to_s+"@obrafacil.com" : company.emails.first.email rescue nil
-      unless email&.nil?
-        company.build_user(email: email,
-                            federal_registration: company.federal_registration,
-                            kind: 0,
-                            password:"obrafacil2018",
-                            password_confirmation:"obrafacil2018" ).save
-      end
-    end
-  end
-
   def company_params
     params.permit(:name, :fantasy_name, :federal_registration,
       :state_registration, :birth_date, :tax_regime, :description,
       :invoice_sale, :invoice_return, :pis_percent, :confins_percent,
-      :icmsn_percent, :user_id)
+      :icmsn_percent)
   end
 end

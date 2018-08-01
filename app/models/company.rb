@@ -1,6 +1,5 @@
 class Company < ApplicationRecord
   belongs_to :billing_type, optional: true
-  belongs_to :user, optional: true
   has_many :company_products, dependent: :destroy
   has_many :price_percentages, dependent: :destroy
   has_many :orders
