@@ -7,6 +7,7 @@
 # Ignore bundler config.
 /.bundle
 public/uploads
+public/image_product
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -19,6 +20,5 @@ public/uploads
 .vscode
 coverage
 test-partner.json
-public/uploads/
 *.log
 .env
