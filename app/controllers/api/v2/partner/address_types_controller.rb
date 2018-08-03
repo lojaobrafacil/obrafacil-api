@@ -9,10 +9,4 @@ class Api::V2::AddressTypesController < Api::V2::Partner::BaseController
     address_type = AddressType.find(params[:id])
     render json: address_type, status: 200
   end
-  
-  private
-
-  def address_type_params
-    params.permit(:name)
-  end
 end
