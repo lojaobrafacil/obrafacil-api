@@ -81,15 +81,12 @@ Rails.application.routes.draw do
           resources :reports, only: [:index]
           get 'allbanks', to: :allbanks, controller: 'banks'
         end
-        namespace :partners do
+        namespace :partner, path: '/' do
           mount_devise_token_auth_for 'User', at: 'auth'
           put 'reset_password', to: :reset_password, controller: 'users'
           resources :address_types, only: [:index, :show]
           resources :email_types, only: [:index, :show]
           resources :phone_types, only: [:index, :show]
-          resources :cities, only: [:index, :show]
-          resources :regions, only: [:index, :show]
-          resources :states, only: [:index, :show]
           resources :addresses, only: [:index, :show]
           resources :emails, only: [:index, :show]
           resources :phones, only: [:index, :show]
