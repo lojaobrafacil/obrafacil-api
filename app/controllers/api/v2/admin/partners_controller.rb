@@ -1,8 +1,8 @@
 class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def index
-    partners = Partner.all
-    if partners&.empty? or partners.nil? and Partner.all.size > 0
+    partners = ::Partner.all
+    if partners&.empty? or partners.nil? and ::Partner.all.size > 0
       render json: partners, status: 401
     else
       partners = if params[:name] && params[:federal_registration] 
@@ -15,14 +15,13 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   end
 
   def show
-    partner = current_api_v1_user ?  Partner.find_by(user_id: current_api_v1_user.id) : Partner.find(params[:id])
-    partner = Partner.find(params[:id]) if current_api_v1_user&.admin?
+    partner = ::Partner.find(params[:id])
     # authorize partner
     render json: partner, status: 200
   end
 
   def create
-    partner = Partner.new(partner_params)
+    partner = ::Partner.new(partner_params)
     # authorize partner
     if partner.save
       update_contact(partner)
@@ -35,7 +34,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   end
 
   def update
-    partner = Partner.find(params[:id])
+    partner = ::Partner.find(params[:id])
     # authorize partner
     if partner.update(partner_params)
       update_contact(partner)
@@ -48,7 +47,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   end
 
   def destroy
-    partner = Partner.find(params[:id])
+    partner = ::Partner.find(params[:id])
     # authorize partner
     user = partner.user
     partner.destroy

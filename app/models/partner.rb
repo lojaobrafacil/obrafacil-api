@@ -13,7 +13,7 @@ class Partner < ApplicationRecord
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind
-  # validates_uniqueness_of :federal_registration, scope: :active 
+  validates_uniqueness_of :federal_registration, scope: :active 
   include Contact
 
   def self.active; where("active = true").order(:id); end
