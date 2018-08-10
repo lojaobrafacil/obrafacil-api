@@ -1,37 +1,9 @@
 class Api::V2::PartnersController < Api::V2::Partner::ContactsController
-
-  def index
-    partners = Partner.all
-    if partners&.empty? or partners.nil? and Partner.all.size > 0
-      render json: partners, status: 401
-    else
-      partners = if params[:name] && params[:federal_registration] 
-        partners.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
-        else
-          partners.all
-        end
-      paginate json: partners.order(:name).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description, :cash_redemption]), status: 200
-    end
-  end
-
   def show
     partner = current_api_v1_user ?  Partner.find_by(user_id: current_api_v1_user.id) : Partner.find(params[:id])
     partner = Partner.find(params[:id]) if current_api_v1_user&.admin?
     # authorize partner
     render json: partner, status: 200
-  end
-
-  def create
-    partner = Partner.new(partner_params)
-    # authorize partner
-    if partner.save
-      update_contact(partner)
-      update_user(partner)
-      premio_ideal(partner)
-      render json: partner, status: 201
-    else
-      render json: { errors: partner.errors }, status: 422
-    end
   end
 
   def update
@@ -46,19 +18,7 @@ class Api::V2::PartnersController < Api::V2::Partner::ContactsController
       render json: { errors: partner.errors }, status: 422
     end
   end
-
-  def destroy
-    partner = Partner.find(params[:id])
-    # authorize partner
-    user = partner.user
-    partner.destroy
-    begin
-      user.destroy unless partner.user.client && partner.user.company && partner.user.employee
-    rescue
-    end
-    head 204
-  end
-
+  
   private
 
   def partner_params
