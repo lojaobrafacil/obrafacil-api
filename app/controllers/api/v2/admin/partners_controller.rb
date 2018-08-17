@@ -68,7 +68,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
       :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8, :cash_redemption)
   end
 
-  def update_user(partner, fdr_old, fdr_new)
+  def update_user(partner, fdr_old = 'new', fdr_new = 'new')
     if user = User.find_by(federal_registration: partner.federal_registration)
       if partner.active?
         user.update(partner: partner) unless user.partner == partner

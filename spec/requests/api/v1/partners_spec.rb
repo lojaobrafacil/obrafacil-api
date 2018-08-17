@@ -51,13 +51,21 @@ RSpec.describe 'Partner API', type: :request do
     context 'when the request params are valid' do
       let(:partner_params) { attributes_for(:partner) }
 
-      it 'return status code 201' do
-        expect(response).to have_http_status(201)
-      end
+      ##################
+      ##  DEPRECATED  ##
+      ##################
 
-      it 'returns the json data for the created partner' do
-        expect(json_body[:name]).to eq(partner_params[:name])
-      end
+      # it 'return status code 201' do
+      #   expect(response).to have_http_status(201)
+      # end
+
+      # it 'returns the json data for the created partner' do
+      #   expect(json_body[:name]).to eq(partner_params[:name])
+      # end
+
+      ##################
+      ##  DEPRECATED  ##
+      ##################
     end
 
     context 'when the request params are invalid' do

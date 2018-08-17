@@ -113,7 +113,7 @@ RSpec.describe 'Employee API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Employee.find_by(id: employee_id)).to be_nil
+      expect(Employee.find_by(id: employee_id).active).to eq(false)
     end
   end
 end

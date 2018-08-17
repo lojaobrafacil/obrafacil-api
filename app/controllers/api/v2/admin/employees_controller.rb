@@ -42,14 +42,14 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def destroy
     employee = Employee.find(params[:id])
-    employee.destroy
+    employee.update(active: false)
     head 204
   end
 
   private
 
   def employee_params
-    params.permit(:name, :email, :federal_registration, :state_registration, :active,
+    params.permit(:name, :email, :federal_registration, :state_registration, :active, :password, :password_confirmation,
     :birth_date, :renewal_date, :admin, :partner, :client, :cashier, :nfe, :xml, :product, :order_client, 
     :order_devolution, :order_cost, :order_done, :order_price_reduce, :order_inactive, :order_creation, 
     :limit_price_percentage, :commission_percent, :description)
