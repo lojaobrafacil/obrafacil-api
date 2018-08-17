@@ -1,5 +1,5 @@
 class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
-
+  
   def index
     employees = Employee.all
     if employees&.empty? or employees.nil? and Employee.all.size > 0
@@ -49,9 +49,9 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
   private
 
   def employee_params
-    params.permit(:email, :name, :federal_registration, :state_registration, 
-    :active, :birth_date, :renewal_date, :commission_percent, :description,
-    :admin, :partner, :client, :order, :limit_price_percentage,
-    :password, :password_confirmation)
+    params.permit(:name, :email, :federal_registration, :state_registration, :active,
+    :birth_date, :renewal_date, :admin, :partner, :client, :cashier, :nfe, :xml, :product, :order_client, 
+    :order_devolution, :order_cost, :order_done, :order_price_reduce, :order_inactive, :order_creation, 
+    :limit_price_percentage, :commission_percent, :description)
   end
 end

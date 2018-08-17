@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180801171909) do
+ActiveRecord::Schema.define(version: 20180817141100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,8 +222,18 @@ ActiveRecord::Schema.define(version: 20180801171909) do
     t.boolean "admin", default: false
     t.boolean "partner", default: false
     t.boolean "client", default: false
-    t.boolean "order", default: false
+    t.boolean "order_creation", default: false
     t.integer "limit_price_percentage", default: 3
+    t.boolean "cashier", default: false
+    t.boolean "nfe", default: false
+    t.boolean "xml", default: false
+    t.boolean "product", default: false
+    t.boolean "order_client", default: false
+    t.boolean "order_devolution", default: false
+    t.boolean "order_cost", default: false
+    t.boolean "order_done", default: false
+    t.boolean "order_price_reduce", default: false
+    t.boolean "order_inactive", default: false
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_employees_on_uid_and_provider", unique: true

@@ -10,7 +10,6 @@ RSpec.describe Employee, type: :model do
   it { is_expected.to validate_presence_of(:admin) }
   it { is_expected.to validate_presence_of(:partner) }
   it { is_expected.to validate_presence_of(:client) }
-  it { is_expected.to validate_presence_of(:order) }
   it { is_expected.to validate_presence_of(:limit_price_percentage) }
   it { should validate_uniqueness_of(:federal_registration).case_insensitive }
   it { should have_many(:emails) }
