@@ -37,9 +37,11 @@ class Api::V1::PartnersController < Api::V1::ContactsController
   def update
     partner = Partner.find(params[:id])
     # authorize partner
+    fdr_old = partner.federal_registration
+    fdr_new = partner_params['federal_registration']
     if partner.update(partner_params)
       update_contact(partner)
-      update_user(partner)
+      update_user(partner, fdr_old, fdr_new)
       premio_ideal(partner)      
       render json: partner, status: 200
     else
@@ -67,10 +69,11 @@ class Api::V1::PartnersController < Api::V1::ContactsController
       :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8, :cash_redemption)
   end
 
-  def update_user(partner)
+  def update_user(partner, fdr_old, fdr_new)
     if user = User.find_by(federal_registration: partner.federal_registration)
       if partner.active?
-        user.update(partner: partner) unless user.partner == partner 
+        user.update(partner: partner) unless user.partner == partner
+        user.update(email: fdr_new.to_s+'obrafacil.com', federal_registration: fdr_new) if fdr_old.to_s != fdr_new.to_s 
       else
         user.destroy unless user.partner.active?
       end
