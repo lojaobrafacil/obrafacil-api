@@ -13,7 +13,7 @@ class Employee < ApplicationRecord
   has_many :cashiers
   has_many :orders
   validates_presence_of :name, :federal_registration, :limit_price_percentage
-  validates :admin, :partner, :client, inclusion: { in: [true, false] }
+  validates :admin, :partner, :client, :cashier, :order_creation, :nfe, :xml, :product, :order_client, :order_devolution, :order_cost, :order_done, :order_price_reduce, :order_inactive, inclusion: { in: [true, false] }
   validates_uniqueness_of :federal_registration, conditions: -> { where.not(active: false) }, case_sensitive: true
   include Contact
 
