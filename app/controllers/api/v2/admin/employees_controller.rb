@@ -1,7 +1,7 @@
 class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
-  
+
   def index
-    employees = Employee.all
+    employees = policy_scope [:admin, Employee]
     if employees&.empty? or employees.nil? and Employee.all.size > 0
       render json: employees, status: 401
     else
@@ -16,11 +16,13 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def show
     employee = Employee.find(params[:id])
+    authorize [:admin, employee]
     render json: employee, status: 200
   end
 
   def create
     employee = Employee.new(employee_params)
+    authorize [:admin, employee]
 
     if employee.save
       update_contact(employee)
@@ -32,6 +34,8 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def update
     employee = Employee.find(params[:id])
+    authorize [:admin, employee]
+
     if employee.update(employee_params)
       update_contact(employee)
       render json: employee, status: 200
@@ -42,6 +46,7 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def destroy
     employee = Employee.find(params[:id])
+    authorize [:admin, employee]
     employee.update(active: false)
     head 204
   end
@@ -49,10 +54,6 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
   private
 
   def employee_params
-    params.permit(:name, :email, :federal_registration, :state_registration, :active,
-      :birth_date, :renewal_date, :admin, :change_partners, :change_clients, :change_cashiers, 
-      :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution, :order_cost, 
-      :order_done, :order_price_reduce, :order_inactive, :order_creation, :limit_price_percentage, 
-      :commission_percent, :description)
+    params.permit(policy([:admin, Employee]).permitted_attributes)
   end
 end
