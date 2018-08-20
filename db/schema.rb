@@ -220,14 +220,14 @@ ActiveRecord::Schema.define(version: 20180817141100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
-    t.boolean "partner", default: false
-    t.boolean "client", default: false
+    t.boolean "partners", default: false
+    t.boolean "clients", default: false
     t.boolean "order_creation", default: false
     t.integer "limit_price_percentage", default: 3
     t.boolean "cashier", default: false
     t.boolean "nfe", default: false
     t.boolean "xml", default: false
-    t.boolean "product", default: false
+    t.boolean "products", default: false
     t.boolean "order_client", default: false
     t.boolean "order_devolution", default: false
     t.boolean "order_cost", default: false
