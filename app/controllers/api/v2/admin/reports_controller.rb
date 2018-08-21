@@ -1,5 +1,6 @@
 class Api::V2::ReportsController < ApplicationController
     def index
+      authorize [:admin, Report]
         model = params[:model].classify.constantize.all if params[:model]
         if model && model.size > 0
             if params[:model] && params[:fields] 
