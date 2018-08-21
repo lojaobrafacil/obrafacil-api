@@ -1,6 +1,6 @@
 class Api::V2::Admin::UnitsController < Api::V2::Admin::BaseController
   def index
-    units = Unit.all
+    units = policy_scope [:admin, Unit]
     render json: units.order(:id).as_json(only:[:id, :name, :description]), status: 200
   end
 
@@ -11,7 +11,7 @@ class Api::V2::Admin::UnitsController < Api::V2::Admin::BaseController
 
   def create
     unit = Unit.new(unit_params)
-
+    authorize [:admin, unit]
     if unit.save
       render json: unit, status: 201
     else
@@ -21,7 +21,7 @@ class Api::V2::Admin::UnitsController < Api::V2::Admin::BaseController
 
   def update
     unit = Unit.find(params[:id])
-
+    authorize [:admin, unit]
     if unit.update(unit_params)
       render json: unit, status: 200
     else
@@ -31,6 +31,7 @@ class Api::V2::Admin::UnitsController < Api::V2::Admin::BaseController
 
   def destroy
     unit = Unit.find(params[:id])
+    authorize [:admin, unit]
     unit.destroy
     head 204
   end
@@ -38,6 +39,6 @@ class Api::V2::Admin::UnitsController < Api::V2::Admin::BaseController
   private
 
   def unit_params
-    params.permit(:name, :description)
+    params.permit(policy([:admin, Product]).permitted_attributes)
   end
 end

@@ -7,7 +7,7 @@ class Admin::ApplicationPolicyV2 < ApplicationPolicy
   end
 
   def show?
-    scope.where(:id => record.id).exists? && user
+    scope.where(:id => record.id).exists? && user.admin
   end
 
   def create?
