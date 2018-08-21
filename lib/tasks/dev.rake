@@ -53,6 +53,9 @@ namespace :dev do
     p "Criando Parceiros ....[OK]"
 
     p "Criando Empregados "
+    Employee.create!(email:"partner@partner.com", federal_registration:"11111111111", name: "partner", password:"partner2020", password_confirmation:"partner2020", change_partners: true)
+    Employee.create!(email:"client@client.com", federal_registration:"22222222222", name: "client", password:"client2020", password_confirmation:"client2020", change_clients: true)
+    Employee.create!(email:"product@product.com", federal_registration:"33333333333", name: "product", password:"product2020", password_confirmation:"product2020", change_products: true)
     (1..20).to_a.each do
       fr = Faker::Number.number(8)
       e_email= fr.to_s + "@obrafacil.com"
