@@ -16,7 +16,7 @@ class Admin::EmployeePolicy < Admin::ApplicationPolicyV2
         :order_done, :order_price_reduce, :order_inactive, :order_creation, :limit_price_percentage, 
         :commission_percent, :description]
     else
-      [:name, :email, :federal_registration, :state_registration, :birth_date, :description]
+      [:name, :email, :federal_registration, :state_registration, :birth_date]
     end
   end
 

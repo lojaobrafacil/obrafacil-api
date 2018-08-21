@@ -10,7 +10,7 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
         else
           employees.all
         end
-      paginate json: employees.where.not(email:"12345678910@obrafacil.com").order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
+      paginate json: employees.where.not(email:"admin@admin.com").order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
     end
   end
 
@@ -23,7 +23,7 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
   def create
     employee = Employee.new(employee_params)
     authorize [:admin, employee]
-
+    password = employee_params['federal_registration']
     if employee.save
       update_contact(employee)
       render json: employee, status: 201
