@@ -1,7 +1,11 @@
 class Admin::ProductPolicy < Admin::ApplicationPolicyV2
   
-  def show?
+  def create?
     Product.where(:id => record.id).exists? && (user.change_products || user.admin)
+  end
+
+  def update?
+    create?
   end
 
   def destroy?
