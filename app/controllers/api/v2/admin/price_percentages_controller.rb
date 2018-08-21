@@ -2,22 +2,23 @@ class Api::V2::Admin::PricePercentagesController < Api::V2::Admin::BaseControlle
 
   def index
     price_percentages = []
-
     Company.all.each do |company|
       price_percentage = percentage_by_company(company)      
       price_percentages << price_percentage
     end
-
+    authorize [:admin, PricePercentage]    
     render json: price_percentages, status: 200
   end
 
   def show
     price_percentage = percentage_by_company(Company.find(params[:id]))    
+    authorize [:admin, price_percentage]
     render json: price_percentage, status: 200
   end
 
   def update
     success = false
+    authorize [:admin, PricePercentage]
     price_percentage_params.each do |price_percentage|
       pp = price_percentage.permit(:margin, :kind)
       begin
@@ -50,6 +51,6 @@ class Api::V2::Admin::PricePercentagesController < Api::V2::Admin::BaseControlle
   end
 
   def price_percentage_params
-    params.require(:price_percentages)
+    params.permit(policy([:admin, PricePercentage]).permitted_attributes)    
   end
 end
