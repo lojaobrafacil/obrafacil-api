@@ -8,11 +8,11 @@ class Admin::BankPolicy < Admin::ApplicationPolicyV2
   end
 
   def update?
-    Bank.where(:id => record.id).exists? && user.admin
+    create?
   end
 
   def destroy?
-    user.admin
+    create?
   end
 
   def permitted_attributes
