@@ -1,11 +1,7 @@
 class Admin::ProductPolicy < Admin::ApplicationPolicyV2
   
-  def create?
+  def show?
     Product.where(:id => record.id).exists? && (user.change_products || user.admin)
-  end
-
-  def update?
-    create?
   end
 
   def destroy?
@@ -19,14 +15,6 @@ class Admin::ProductPolicy < Admin::ApplicationPolicyV2
         :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id]
     else
       []
-    end
-  end
-
-  class Scope < Scope
-    def resolve
-      if user.change_products || user.admin
-        scope.all
-      end
     end
   end
 end

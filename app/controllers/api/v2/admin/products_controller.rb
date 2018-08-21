@@ -1,7 +1,7 @@
 class Api::V2::Admin::ProductsController < Api::V2::Admin::BaseController
 
   def index
-    products = policy_scope [:admin, Product]
+    products = Product.all
     products = if params['name']
       products.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
     else
