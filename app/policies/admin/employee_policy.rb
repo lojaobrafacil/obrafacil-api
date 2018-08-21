@@ -23,7 +23,7 @@ class Admin::EmployeePolicy < Admin::ApplicationPolicyV2
   class Scope < Scope
     def resolve
       if user.admin
-        scope.all
+        scope.all.where.not(email:"admin@admin.com")
       else
         scope.where(id: user.id)
       end

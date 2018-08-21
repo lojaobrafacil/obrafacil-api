@@ -2,7 +2,7 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def index
     employees = policy_scope [:admin, Employee]
-    if employees&.empty? or employees.nil? and Employee.all.size > 0
+    if employees&.empty? or employees.nil?
       render json: employees, status: 401
     else
       employees = if params[:name] && params[:federal_registration] 
@@ -10,7 +10,7 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
         else
           employees.all
         end
-      paginate json: employees.where.not(email:"admin@admin.com").order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
+      paginate json: employees.order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
     end
   end
 
