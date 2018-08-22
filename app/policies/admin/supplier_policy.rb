@@ -16,9 +16,7 @@ class Admin::SupplierPolicy < Admin::ApplicationPolicyV2
 
   class Scope < Scope
     def resolve
-      if user.change_products || user.admin
-        scope.all
-      end
+      scope.all
     end
   end
 end

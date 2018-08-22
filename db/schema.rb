@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180817141100) do
+ActiveRecord::Schema.define(version: 20180822161716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,6 +225,7 @@ ActiveRecord::Schema.define(version: 20180817141100) do
     t.boolean "order_creation", default: false
     t.integer "limit_price_percentage", default: 3
     t.boolean "change_cashiers", default: false
+    t.boolean "change_suppliers", default: false
     t.boolean "generate_nfe", default: false
     t.boolean "import_xml", default: false
     t.boolean "change_products", default: false
@@ -419,11 +420,9 @@ ActiveRecord::Schema.define(version: 20180817141100) do
     t.integer "tax_regime"
     t.text "description"
     t.bigint "billing_type_id"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["billing_type_id"], name: "index_suppliers_on_billing_type_id"
-    t.index ["user_id"], name: "index_suppliers_on_user_id"
   end
 
   create_table "units", force: :cascade do |t|
@@ -490,5 +489,4 @@ ActiveRecord::Schema.define(version: 20180817141100) do
   add_foreign_key "states", "regions"
   add_foreign_key "sub_categories", "categories"
   add_foreign_key "suppliers", "billing_types"
-  add_foreign_key "suppliers", "users"
 end

@@ -99,17 +99,15 @@ namespace :dev do
 
     p "Criando Fornecedores "
       p_email= Faker::Internet.email
-      fr = Faker::Number.number(8)
       p = Supplier.create!(
         name: Faker::Company.name,
         fantasy_name: Faker::Company.suffix,
-        federal_registration: fr,
+        federal_registration: Faker::Number.number(8),
         state_registration: Faker::Number.number(9),
         kind: [0,1].sample,
         birth_date: Faker::Date.birthday(18, 65),
         tax_regime: ["simple", "normal", "presumed"].sample,
-        description: Faker::Lorem.paragraph(2),
-        user: User.create(email: fr+'@obrafacil.com', password:12345678, password_confirmation:12345678, federal_registration:fr))
+        description: Faker::Lorem.paragraph(2))
         p.emails.create(email: p_email, email_type: EmailType.all.sample)
         p.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
         p.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
@@ -161,7 +159,7 @@ namespace :dev do
     (1..10).to_a.each do
       Carrier.create!(
       name: Faker::Name.name,
-      federal_registration: fr,
+      federal_registration: Faker::Number.number(8),
       state_registration: Faker::Number.number(9),
       kind: [0,1].sample,
       description: Faker::Lorem.paragraph(2))

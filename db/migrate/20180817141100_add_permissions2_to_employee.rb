@@ -4,6 +4,7 @@ class AddPermissions2ToEmployee < ActiveRecord::Migration[5.1]
     rename_column :employees, :client, :change_clients
     rename_column :employees, :partner, :change_partners
     add_column :employees, :change_cashiers, :boolean, default: false
+    add_column :employees, :change_suppliers, :boolean, default: false
     add_column :employees, :generate_nfe, :boolean, default: false
     add_column :employees, :import_xml, :boolean, default: false
     add_column :employees, :change_products, :boolean, default: false
@@ -20,6 +21,7 @@ class AddPermissions2ToEmployee < ActiveRecord::Migration[5.1]
     rename_column :employees, :change_clients, :client
     rename_column :employees, :change_partners, :partner
     remove_column :employees, :change_cashiers
+    remove_column :employees, :change_suppliers
     remove_column :employees, :generate_nfe
     remove_column :employees, :import_xml
     remove_column :employees, :change_products

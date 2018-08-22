@@ -2,7 +2,7 @@ class Api::V2::Admin::CitiesController < Api::V2::Admin::BaseController
 
   def index
     cities = policy_scope [:admin, City]
-    cities = params['state_id'] ? cities.where(state_id = params['state_id']) : cities.all
+    cities = params['state_id'] ? cities.where("state_id = ?", params['state_id']) : cities.all
     render json: cities.order(:id).as_json(only: [:id, :name]), status: 200
   end
 
