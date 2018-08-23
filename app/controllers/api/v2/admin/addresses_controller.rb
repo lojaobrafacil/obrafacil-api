@@ -10,17 +10,6 @@ class Api::V2::Admin::AddressesController < Api::V2::Admin::BaseController
     render json: address, status: 200
   end
 
-  # emails will only be created in the associated controller
-  # def create
-  #   address = Address.new(address_params)
-  #
-  #   if address.save
-  #     render json: address, status: 201
-  #   else
-  #     render json: { errors: address.errors }, status: 422
-  #   end
-  # end
-
   def update
     address = Address.find(params[:id])
 

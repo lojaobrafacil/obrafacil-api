@@ -10,16 +10,6 @@ class Api::V2::Admin::PhonesController < Api::V2::Admin::BaseController
     render json: phone, status: 200
   end
 
-  # emails will only be created in the associated controller
-  def create
-    phone = Phone.new(phone_params)
-    if phone.save
-      render json: phone, status: 201
-    else
-      render json: { errors: phone.errors }, status: 422
-    end
-  end
-
   def update
     phone = Phone.find(params[:id])
 
