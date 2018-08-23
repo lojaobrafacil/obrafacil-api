@@ -53,6 +53,6 @@ class Api::V2::Admin::PricePercentagesController < Api::V2::Admin::BaseControlle
   end
 
   def price_percentage_params
-    params.permit(policy([:admin, PricePercentage]).permitted_attributes)    
+    params.require(policy([:admin, PricePercentage]).permitted_attributes)    
   end
 end

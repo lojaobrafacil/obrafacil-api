@@ -10,9 +10,7 @@ class Admin::PricePercentagePolicy < Admin::ApplicationPolicyV2
 
   def permitted_attributes
     if user.admin
-      [:price_percentages]
-    else
-      []
+      :price_percentages
     end
   end
 
