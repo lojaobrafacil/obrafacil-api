@@ -3,7 +3,7 @@ class Admin::CompanyPolicy < Admin::ApplicationPolicyV2
   def show?
     Company.where(:id => record.id).exists? && user.admin
   end
-
+  
   def permitted_attributes
     if user.admin
       [:name, :fantasy_name, :federal_registration,

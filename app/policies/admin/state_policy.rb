@@ -1,9 +1,9 @@
 class Admin::StatePolicy < Admin::ApplicationPolicyV2
 
-  def create?
-    State.where(:id => record.id).exists? && user.admin
+  def show?
+    true
   end
-
+  
   def update?
     create?
   end

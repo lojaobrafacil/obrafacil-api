@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Region API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:regions) { create_list(:region, 2) }
   let(:region) { regions.first }
   let(:region_id) { region.id }

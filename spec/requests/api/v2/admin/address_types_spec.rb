@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'AddressType API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:address_types) { create_list(:address_type, 5) }
   let(:address_type) { address_types.first }
   let(:address_type_id) { address_type.id }

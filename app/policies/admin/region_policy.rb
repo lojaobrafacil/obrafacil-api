@@ -1,9 +1,9 @@
 class Admin::RegionPolicy < Admin::ApplicationPolicyV2
 
-  def create?
-    Region.where(:id => record.id).exists? && user.admin
+  def show?
+    true
   end
-
+  
   def update?
     create?
   end

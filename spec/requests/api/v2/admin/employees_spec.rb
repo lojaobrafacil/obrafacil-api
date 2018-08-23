@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Employee API', type: :request do
-  let!(:employees) { create_list(:employee, 5) }
+  let!(:employees) { create_list(:employee, 4) }
   let(:employee) { employees.last }
   let(:employee_id) { employee.id }
-  let!(:user){ employee }
+  let!(:user){ create(:employee, admin:true) }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -49,7 +49,7 @@ RSpec.describe 'Employee API', type: :request do
     end
 
     context 'when the request params are valid' do
-      let(:employee_params) { attributes_for(:employee) }
+      let(:employee_params) { attributes_for(:employee, {password: 12345678, password_confirmation: 12345678}) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)

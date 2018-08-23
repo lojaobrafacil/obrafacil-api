@@ -1,4 +1,5 @@
 class Api::V2::Admin::PricePercentagesController < Api::V2::Admin::BaseController
+  before_action :is_admin?
 
   def index
     price_percentages = []
@@ -6,19 +7,16 @@ class Api::V2::Admin::PricePercentagesController < Api::V2::Admin::BaseControlle
       price_percentage = percentage_by_company(company)      
       price_percentages << price_percentage
     end
-    authorize [:admin, PricePercentage]    
     render json: price_percentages, status: 200
   end
 
   def show
-    price_percentage = percentage_by_company(Company.find(params[:id]))    
-    authorize [:admin, price_percentage]
+    price_percentage = percentage_by_company(Company.find(params[:id]))
     render json: price_percentage, status: 200
   end
 
   def update
     success = false
-    authorize [:admin, PricePercentage]
     price_percentage_params.each do |price_percentage|
       pp = price_percentage.permit(:margin, :kind)
       begin
@@ -38,6 +36,10 @@ class Api::V2::Admin::PricePercentagesController < Api::V2::Admin::BaseControlle
   end
 
   private
+
+  def is_admin?
+    render json: { errors: "Acesso não autorizado" }, status: 401 if !pundit_user.admin
+  end
 
   def percentage_by_company(company)
     price_percentage = {"company_id": company.id, "company_name": company.name, "company_fantasy_name": company.fantasy_name}

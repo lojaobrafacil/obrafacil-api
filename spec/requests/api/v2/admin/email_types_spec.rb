@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'EmailType API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:email_types) { create_list(:email_type, 5) }
   let(:email_type) { email_types.first }
   let(:email_type_id) { email_type.id }

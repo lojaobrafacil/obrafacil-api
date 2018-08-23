@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'State API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:states) { create_list(:state, 2) }
   let(:state) { states.first }
   let(:state_id) { state.id }

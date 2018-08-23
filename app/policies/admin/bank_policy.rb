@@ -2,11 +2,7 @@ class Admin::BankPolicy < Admin::ApplicationPolicyV2
   def show?
     Bank.where(:id => record.id).exists? && (user.change_partners || user.change_clients || user.admin)
   end
-
-  def create?
-    Bank.where(:id => record.id).exists? && user.admin
-  end
-
+  
   def update?
     create?
   end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Bank API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:banks) { create_list(:bank, 5) }
   let(:bank) { banks.first }
   let(:bank_id) { bank.id }

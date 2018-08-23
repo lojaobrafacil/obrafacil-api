@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Client API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:clients) { create_list(:client, 5) }
   let(:client) { clients.first }
   let(:client_id) { client.id }

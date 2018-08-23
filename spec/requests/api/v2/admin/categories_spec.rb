@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Category API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:categories) { create_list(:category, 5) }
   let(:category) { categories.first }
   let(:category_id) { category.id }

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'PricePercentage API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let(:auth_data) { user.create_new_auth_token }
   let(:companies) {}
   let(:headers) do

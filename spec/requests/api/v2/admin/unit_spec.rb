@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Unit API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:units) { create_list(:unit, 5) }
   let(:unit) { units.first }
   let(:unit_id) { unit.id }

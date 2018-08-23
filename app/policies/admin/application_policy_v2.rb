@@ -11,7 +11,7 @@ class Admin::ApplicationPolicyV2 < ApplicationPolicy
   end
 
   def create?
-    show?
+    user.admin
   end
 
   def new?

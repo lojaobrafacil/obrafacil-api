@@ -4,10 +4,6 @@ class Admin::CategoryPolicy < Admin::ApplicationPolicyV2
     true
   end
   
-  def create?
-    Category.where(:id => record.id).exists? && user.admin
-  end
-
   def update?
     create?
   end

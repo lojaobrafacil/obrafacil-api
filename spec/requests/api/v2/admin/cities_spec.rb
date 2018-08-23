@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'City API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:cities) { create_list(:city, 5) }
   let(:city) { cities.first }
   let(:city_id) { city.id }

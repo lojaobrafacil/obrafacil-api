@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'SubCategory API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:sub_categories) { create_list(:sub_category, 5) }
   let(:sub_category) { sub_categories.first }
   let(:sub_category_id) { sub_category.id }

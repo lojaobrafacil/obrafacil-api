@@ -1,7 +1,7 @@
 class Admin::CityPolicy < Admin::ApplicationPolicyV2
 
-  def create?
-    City.where(:id => record.id).exists? && user.admin
+  def show?
+    true
   end
 
   def update?

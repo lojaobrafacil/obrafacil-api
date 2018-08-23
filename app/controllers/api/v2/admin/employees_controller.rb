@@ -23,7 +23,8 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
   def create
     employee = Employee.new(employee_params)
     authorize [:admin, employee]
-    password = employee_params['federal_registration']
+    employee.password = employee_params['federal_registration'].to_s 
+    employee.password_confirmation = employee_params['federal_registration'].to_s 
     if employee.save
       update_contact(employee)
       render json: employee, status: 201

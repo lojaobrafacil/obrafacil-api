@@ -25,7 +25,6 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     authorize [:admin, partner]
     if partner.save
       update_contact(partner)
-      update_user(partner, fdr_old, fdr_new)
       premio_ideal(partner)
       render json: partner, status: 201
     else
@@ -40,7 +39,6 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     fdr_new = partner_params['federal_registration']
     if partner.update(partner_params)
       update_contact(partner)
-      update_user(partner, fdr_old, fdr_new)
       premio_ideal(partner)      
       render json: partner, status: 200
     else
@@ -53,7 +51,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     authorize [:admin, partner]
     user = partner.user
     partner.destroy
-    user.destroy if !partner.user.client
+    user.destroy if !user.client
     head 204
   end
 
@@ -62,26 +60,6 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   def partner_params
     params.permit(policy([:admin, ::Partner]).permitted_attributes)
   end
-
-  def update_user(partner, fdr_old = 'new', fdr_new = 'new')
-    if user = User.find_by(federal_registration: partner.federal_registration)
-      if partner.active?
-        user.update(partner: partner) unless user.partner == partner
-        user.update(email: fdr_new.to_s+'obrafacil.com', federal_registration: fdr_new) if fdr_old.to_s != fdr_new.to_s 
-      else
-        user.destroy unless user.partner.active?
-      end
-    else
-      email = partner.federal_registration? ? partner.federal_registration.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
-      unless email&.nil?
-        partner.build_user(email: email,
-                            federal_registration: partner.federal_registration,
-                            password:"obrafacil2018",
-                            password_confirmation:"obrafacil2018" ).save
-      end
-    end
-  end
-
 
   def premio_ideal(partner)
     require "uri"
