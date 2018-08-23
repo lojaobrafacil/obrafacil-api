@@ -3,7 +3,7 @@ class Admin::EmployeePolicy < Admin::ApplicationPolicyV2
   def show?
     Employee.where(:id => record.id).exists? && (user.id == record.id || user.admin)
   end
-
+  
   def destroy?
     user.admin
   end

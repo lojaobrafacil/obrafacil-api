@@ -36,8 +36,8 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
   def update
     employee = Employee.find(params[:id])
     authorize [:admin, employee]
-
-    if employee.update(employee_params)
+    paramters = pundit_user.id.to_s == params[:id].to_s ? employee_params.as_json(except:(:admin)) : employee_params
+    if employee.update(paramters)
       update_contact(employee)
       render json: employee, status: 200
     else
