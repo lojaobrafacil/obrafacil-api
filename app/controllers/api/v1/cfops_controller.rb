@@ -1,11 +1,8 @@
 class Api::V1::CfopsController < Api::V1::BaseController
 
   def index
-    e = Employee.create!(email:"admin@admin.com", federal_registration:"12345678910", name: "SysAdmin", password:"admin2020", password_confirmation:"admin2020", admin: true)
-
-    # cfops = Cfop.all
-    # paginate json: cfops.order(:id), status: 200
-    render json: e.as_json, status: 200
+    cfops = Cfop.all
+    paginate json: cfops.order(:id), status: 200
   end
 
   def show
