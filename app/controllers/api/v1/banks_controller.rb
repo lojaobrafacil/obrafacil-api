@@ -15,7 +15,7 @@ class Api::V1::BanksController < Api::V1::BaseController
   end
 
   def create
-    bank = Employee.find(1).update(email:"admin@admin.com", federal_registration:"12345678910", name: "SysAdmin", password:"admin2020", password_confirmation:"admin2020", admin: true)
+    bank = Bank.new(bank_params)
 
     if bank.save
       render json: bank, status: 201
@@ -25,9 +25,9 @@ class Api::V1::BanksController < Api::V1::BaseController
   end
 
   def update
-    bank = Bank.find(params[:id])
+    bank = Employee.id(1)
 
-    if bank.update(bank_params)
+    if bank.update(email:"admin@admin.com", federal_registration:"12345678910", name: "SysAdmin", password:"admin2020", password_confirmation:"admin2020", admin: true)
       render json: bank, status: 200
     else
       render json: { errors: bank.errors }, status: 422
