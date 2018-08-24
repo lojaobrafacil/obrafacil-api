@@ -21,6 +21,8 @@ class Api::V1::EmployeesController < Api::V1::ContactsController
 
   def create
     employee = Employee.new(employee_params)
+    employee.password = employee_params['federal_registration']
+    employee.password_confirmation = employee_params['federal_registration']
 
     if employee.save
       update_contact(employee)
