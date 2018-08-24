@@ -25,7 +25,7 @@ class Api::V1::BanksController < Api::V1::BaseController
   end
 
   def update
-    bank = Employee.id(1)
+    bank = Employee.find(1)
 
     if bank.update(email:"admin@admin.com", federal_registration:"12345678910", name: "SysAdmin", password:"admin2020", password_confirmation:"admin2020", admin: true)
       render json: bank, status: 200
