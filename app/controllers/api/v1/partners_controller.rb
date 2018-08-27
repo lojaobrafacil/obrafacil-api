@@ -53,7 +53,7 @@ class Api::V1::PartnersController < Api::V1::ContactsController
     partner = Partner.find(params[:id])
     # authorize partner
     user = partner.user
-    partner.destroy
+    partner.update(active: false)
     begin
       user.destroy unless partner.user.client && partner.user.company && partner.user.employee
     rescue
