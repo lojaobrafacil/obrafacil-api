@@ -1,22 +1,24 @@
 class Api::V2::Admin::ProductsController < Api::V2::Admin::BaseController
 
   def index
+    products = Product.all
     products = if params['name']
-      Product.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
+      products.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
     else
-      Product.all
+      products.all
     end
     paginate json: products.order(:id).as_json(only:[:id, :name, :active, :description]), status: 200
   end
 
   def show
     product = Product.find(params[:id])
+    authorize [:admin, product]
     render json: product, status: 200
   end
 
   def create
     product = Product.new(product_params)
-
+    authorize [:admin, product]
     if product.save
       company_product_attributes(product) if params[:company_products]
       image_products_attributes(product) if params[:images]
@@ -28,6 +30,7 @@ class Api::V2::Admin::ProductsController < Api::V2::Admin::BaseController
 
   def update
     product = Product.find(params[:id])
+    authorize [:admin, product]
     if product.update(product_params)
       company_product_attributes(product) if params[:company_products]
       image_products_attributes(product) if params[:images]
@@ -39,6 +42,7 @@ class Api::V2::Admin::ProductsController < Api::V2::Admin::BaseController
 
   def destroy
     product = Product.find(params[:id])
+    authorize [:admin, product]
     product.destroy
     head 204
   end
@@ -46,9 +50,7 @@ class Api::V2::Admin::ProductsController < Api::V2::Admin::BaseController
   private
 
   def product_params
-    params.permit(:code, :name, :description, :ncm, :icms, :ipi, :cest, 
-      :bar_code, :reduction, :weight, :height, :width, :length, :supplier_id,
-      :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id)
+    params.permit(policy([:admin, Product]).permitted_attributes)
   end
 
   def company_product_attributes(product)

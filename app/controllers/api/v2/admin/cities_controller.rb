@@ -1,18 +1,20 @@
 class Api::V2::Admin::CitiesController < Api::V2::Admin::BaseController
 
   def index
-    cities = params['state_id'] ? State.find(params['state_id']).cities : City.all
+    cities = policy_scope [:admin, City]
+    cities = params['state_id'] ? cities.where("state_id = ?", params['state_id']) : cities.all
     render json: cities.order(:id).as_json(only: [:id, :name]), status: 200
   end
 
   def show
     city = City.find(params[:id])
+    authorize [:admin, city]
     render json: city, status: 200
   end
 
   def create
     city = City.new(city_params)
-
+    authorize [:admin, city]
     if city.save
       render json: city, status: 201
     else
@@ -22,6 +24,7 @@ class Api::V2::Admin::CitiesController < Api::V2::Admin::BaseController
 
   def update
     city = City.find(params[:id])
+    authorize [:admin, city]
     if city.update(city_params)
       render json: city, status: 200
     else
@@ -31,6 +34,7 @@ class Api::V2::Admin::CitiesController < Api::V2::Admin::BaseController
 
   def destroy
     city = City.find(params[:id])
+    authorize [:admin, city]
     city.destroy
     head 204
   end
@@ -38,6 +42,6 @@ class Api::V2::Admin::CitiesController < Api::V2::Admin::BaseController
   private
 
   def city_params
-    params.permit(:name, :capital, :state_id)
+    params.permit(policy([:admin, City]).permitted_attributes)
   end
 end

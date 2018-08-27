@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Company API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:companies) { create_list(:company, 5) }
   let(:company) { companies.first }
   let(:company_id) { company.id }

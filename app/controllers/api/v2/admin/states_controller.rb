@@ -1,18 +1,19 @@
 class Api::V2::Admin::StatesController < Api::V2::Admin::BaseController
 
   def index
-    states = State.all
-    render json: states.order(:id).as_json(only: [:id, :name, :acronym]), status: 200
+    states = policy_scope [:admin, State]
+    render json: states.as_json(only: [:id, :name, :acronym]), status: 200
   end
 
   def show
     state = State.find(params[:id])
+    authorize [:admin, state]
     render json: state, status: 200
   end
 
   def create
     state = State.new(state_params)
-
+    authorize [:admin, state]
     if state.save
       render json: state, status: 201
     else
@@ -22,6 +23,7 @@ class Api::V2::Admin::StatesController < Api::V2::Admin::BaseController
 
   def update
     state = State.find(params[:id])
+    authorize [:admin, state]
     if state.update(state_params)
       render json: state, status: 200
     else
@@ -31,6 +33,7 @@ class Api::V2::Admin::StatesController < Api::V2::Admin::BaseController
 
   def destroy
     state = State.find(params[:id])
+    authorize [:admin, state]
     state.destroy
     head 204
   end
@@ -38,6 +41,6 @@ class Api::V2::Admin::StatesController < Api::V2::Admin::BaseController
   private
 
   def state_params
-    params.permit(:name, :acronym, :region_id)
+    params.permit(policy([:admin, State]).permitted_attributes)
   end
 end

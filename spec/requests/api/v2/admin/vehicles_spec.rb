@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Vehicle API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:vehicles) { create_list(:vehicle, 5) }
   let(:vehicle) { vehicles.first }
   let(:vehicle_id) { vehicle.id }

@@ -1,8 +1,8 @@
 class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def index
-    partners = ::Partner.all
-    if partners&.empty? or partners.nil? and ::Partner.all.size > 0
+    partners = policy_scope [:admin, ::Partner]
+    if partners&.empty? or partners.nil?
       render json: partners, status: 401
     else
       partners = if params[:name] && params[:federal_registration] 
@@ -16,16 +16,15 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def show
     partner = ::Partner.find(params[:id])
-    # authorize partner
+    authorize [:admin, partner]
     render json: partner, status: 200
   end
 
   def create
     partner = ::Partner.new(partner_params)
-    # authorize partner
+    authorize [:admin, partner]
     if partner.save
       update_contact(partner)
-      update_user(partner)
       premio_ideal(partner)
       render json: partner, status: 201
     else
@@ -35,12 +34,11 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def update
     partner = ::Partner.find(params[:id])
-    # authorize partner
+    authorize [:admin, partner]
     fdr_old = partner.federal_registration
     fdr_new = partner_params['federal_registration']
     if partner.update(partner_params)
       update_contact(partner)
-      update_user(partner, fdr_old, fdr_new)
       premio_ideal(partner)      
       render json: partner, status: 200
     else
@@ -50,43 +48,18 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def destroy
     partner = ::Partner.find(params[:id])
-    # authorize partner
+    authorize [:admin, partner]
     user = partner.user
     partner.destroy
-    begin
-      user.destroy unless partner.user.client && partner.user.company && partner.user.employee
-    rescue
-    end
+    user.destroy if !user.client
     head 204
   end
 
   private
 
   def partner_params
-      params.permit(:id, :name, :federal_registration, :state_registration, 
-      :kind, :active, :started_date, :renewal_date, :description, :origin, :percent, :agency, 
-      :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8, :cash_redemption)
+    params.permit(policy([:admin, ::Partner]).permitted_attributes)
   end
-
-  def update_user(partner, fdr_old, fdr_new)
-    if user = User.find_by(federal_registration: partner.federal_registration)
-      if partner.active?
-        user.update(partner: partner) unless user.partner == partner
-        user.update(email: fdr_new.to_s+'obrafacil.com', federal_registration: fdr_new) if fdr_old.to_s != fdr_new.to_s 
-      else
-        user.destroy unless user.partner.active?
-      end
-    else
-      email = partner.federal_registration? ? partner.federal_registration.to_s+"@obrafacil.com" : partner.emails.first.email rescue nil
-      unless email&.nil?
-        partner.build_user(email: email,
-                            federal_registration: partner.federal_registration,
-                            password:"obrafacil2018",
-                            password_confirmation:"obrafacil2018" ).save
-      end
-    end
-  end
-
 
   def premio_ideal(partner)
     require "uri"

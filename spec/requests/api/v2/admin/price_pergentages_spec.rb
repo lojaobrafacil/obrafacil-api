@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'PricePercentage API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let(:auth_data) { user.create_new_auth_token }
   let(:companies) {}
   let(:headers) do
@@ -70,6 +70,14 @@ RSpec.describe 'PricePercentage API', type: :request do
     end
 
     context 'when the request params are valid' do
+      let(:price_percentage_params) { {price_percentages: [
+        {kind: 1, margin: Faker::Number.decimal(2)}, 
+        {kind: 2, margin: Faker::Number.decimal(2)}, 
+        {kind: 3, margin: Faker::Number.decimal(2)},
+        {kind: 4, margin: Faker::Number.decimal(2)},
+        {kind: 5, margin: Faker::Number.decimal(2)}
+      ]}
+    }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)

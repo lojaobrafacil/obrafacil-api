@@ -23,6 +23,6 @@ class Api::V2::Admin::ImagesController < Api::V2::Admin::BaseController
   end  
 
   def images_params
-    params.require(:images) # allow nested params as array
+    params.permit(policy([:admin, Image]).permitted_attributes) # allow nested params as array
   end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'PaymentMethod API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:payment_methods) { create_list(:payment_method, 5) }
   let(:payment_method) { payment_methods.first }
   let(:payment_method_id) { payment_method.id }

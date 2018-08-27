@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Supplier API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:suppliers) { create_list(:supplier, 5) }
   let(:supplier) { suppliers.first }
   let(:supplier_id) { supplier.id }

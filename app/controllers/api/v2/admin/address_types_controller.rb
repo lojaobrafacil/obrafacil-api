@@ -7,12 +7,13 @@ class Api::V2::Admin::AddressTypesController < Api::V2::Admin::BaseController
 
   def show
     address_type = AddressType.find(params[:id])
+    authorize [:admin, address_type]
     render json: address_type, status: 200
   end
 
   def create
     address_type = AddressType.new(address_type_params)
-
+    authorize [:admin, address_type]
     if address_type.save
       render json: address_type, status: 201
     else
@@ -22,7 +23,7 @@ class Api::V2::Admin::AddressTypesController < Api::V2::Admin::BaseController
 
   def update
     address_type = AddressType.find(params[:id])
-
+    authorize [:admin, address_type]
     if address_type.update(address_type_params)
       render json: address_type, status: 200
     else
@@ -32,6 +33,7 @@ class Api::V2::Admin::AddressTypesController < Api::V2::Admin::BaseController
 
   def destroy
     address_type = AddressType.find(params[:id])
+    authorize [:admin, address_type]
     address_type.destroy
     head 204
   end
@@ -39,6 +41,6 @@ class Api::V2::Admin::AddressTypesController < Api::V2::Admin::BaseController
   private
 
   def address_type_params
-    params.permit(:name)
+    params.permit(policy([:admin, AddressType]).permitted_attributes)    
   end
 end

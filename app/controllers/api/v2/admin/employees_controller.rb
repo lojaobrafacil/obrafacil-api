@@ -1,8 +1,8 @@
 class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def index
-    employees = Employee.all
-    if employees&.empty? or employees.nil? and Employee.all.size > 0
+    employees = policy_scope [:admin, Employee]
+    if employees&.empty? or employees.nil?
       render json: employees, status: 401
     else
       employees = if params[:name] && params[:federal_registration] 
@@ -10,18 +10,21 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
         else
           employees.all
         end
-      paginate json: employees.where.not(email:"12345678910@obrafacil.com").order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
+      paginate json: employees.order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
     end
   end
 
   def show
     employee = Employee.find(params[:id])
+    authorize [:admin, employee]
     render json: employee, status: 200
   end
 
   def create
     employee = Employee.new(employee_params)
-
+    authorize [:admin, employee]
+    employee.password = employee_params['federal_registration'].to_s 
+    employee.password_confirmation = employee_params['federal_registration'].to_s 
     if employee.save
       update_contact(employee)
       render json: employee, status: 201
@@ -32,7 +35,9 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def update
     employee = Employee.find(params[:id])
-    if employee.update(employee_params)
+    authorize [:admin, employee]
+    paramters = pundit_user.id.to_s == params[:id].to_s ? employee_params.as_json(except:(:admin)) : employee_params
+    if employee.update(paramters)
       update_contact(employee)
       render json: employee, status: 200
     else
@@ -42,16 +47,14 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def destroy
     employee = Employee.find(params[:id])
-    employee.destroy
+    authorize [:admin, employee]
+    employee.update(active: false)
     head 204
   end
 
   private
 
   def employee_params
-    params.permit(:email, :name, :federal_registration, :state_registration, 
-    :active, :birth_date, :renewal_date, :commission_percent, :description,
-    :admin, :partner, :client, :order, :limit_price_percentage,
-    :password, :password_confirmation)
+    params.permit(policy([:admin, Employee]).permitted_attributes)
   end
 end

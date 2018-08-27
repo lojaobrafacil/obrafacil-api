@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Ibpt API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:ibpts) { create_list(:ibpt, 5) }
   let(:ibpt) { ibpts.first }
   let(:ibpt_id) { ibpt.id }

@@ -9,6 +9,5 @@ FactoryBot.define do
     tax_regime { [0,0,1,1,2,2].sample }
     description { Faker::Lorem.paragraph }
     billing_type_id { create(:billing_type).id }
-    user_id { create(:user).id }
   end
 end

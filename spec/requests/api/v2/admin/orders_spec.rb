@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Order API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:orders) { create_list(:order, 5) }
   let(:order) { orders.first }
   let(:order_id) { order.id }

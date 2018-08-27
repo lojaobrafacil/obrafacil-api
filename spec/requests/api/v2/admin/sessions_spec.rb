@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Sessions API', type: :request do  
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -18,7 +18,7 @@ RSpec.describe 'Sessions API', type: :request do
     end
 
     context 'when the credencials are correct' do
-      let(:credencials) {{email: user.email, password: '12345678'}}
+      let(:credencials) { { email: user.email, password: '12345678', 'Accept'  => 'application/vnd.emam.v2' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200) 
@@ -31,7 +31,7 @@ RSpec.describe 'Sessions API', type: :request do
       end
     end
     context 'returns the json data for the errors' do
-      let(:credencials) { { email: user.email, password: 'invalid_password' } }
+      let(:credencials) { { email: user.email, password: 'invalid_password', 'Accept'  => 'application/vnd.emam.v2' } }
 
       it 'when credencials are incorrect' do
         expect(response).to have_http_status(401)

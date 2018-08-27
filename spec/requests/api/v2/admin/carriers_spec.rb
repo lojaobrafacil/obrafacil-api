@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Carrier API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:carriers) { create_list(:carrier, 5) }
   let(:carrier) { carriers.first }
   let(:carrier_id) { carrier.id }

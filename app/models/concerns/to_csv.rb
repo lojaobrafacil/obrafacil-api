@@ -1,7 +1,7 @@
 require 'csv'
 module To_csv
   def to_csv(attributes)
-    CSV.generate(headers: true) do |csv|
+    CSV.generate(col_sep: ';',headers: true) do |csv|
       email = phone = address = false
       titles = [''].concat(attributes).drop(1)
       if attributes.include?('emails')

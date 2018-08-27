@@ -1,8 +1,8 @@
 class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
 
   def index
-    suppliers = Supplier.all
-    if suppliers&.empty? or suppliers.nil? and Supplier.all.size > 0
+    suppliers = policy_scope [:admin, Supplier]
+    if suppliers&.empty? or suppliers.nil?
       render json: suppliers, status: 401
     else
     suppliers = if params[:name]
@@ -16,15 +16,15 @@ class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
 
   def show
     supplier = Supplier.find(params[:id])
+    authorize [:admin, supplier]
     render json: supplier, status: 200
   end
 
   def create
     supplier = Supplier.new(supplier_params)
-
+    authorize [:admin, supplier]
     if supplier.save
-      update_contact(supplier)
-      update_user(supplier)      
+      update_contact(supplier) 
       render json: supplier, status: 201
     else
       render json: { errors: supplier.errors }, status: 422
@@ -33,9 +33,9 @@ class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
 
   def update
     supplier = Supplier.find(params[:id])
+    authorize [:admin, supplier]
     if supplier.update(supplier_params)
-      update_contact(supplier)
-      update_user(supplier)      
+      update_contact(supplier) 
       render json: supplier, status: 200
     else
       render json: { errors: supplier.errors }, status: 422
@@ -44,29 +44,14 @@ class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
 
   def destroy
     supplier = Supplier.find(params[:id])
+    authorize [:admin, supplier]
     supplier.destroy
     head 204
-  end
-
-  def update_user(supplier)
-    # if user = User.find_by(federal_registration: supplier.federal_registration)
-    #   user.update(supplier: supplier) unless user.supplier == supplier
-    # else
-    #   email = supplier.federal_registration? ? supplier.federal_registration.to_s+"@obrafacil.com" : supplier.emails.first.email rescue nil
-    #   unless email&.nil?
-    #     supplier.build_user(email: email,
-    #                         federal_registration: supplier.federal_registration,
-    #                         password:"obrafacil2018",
-    #                         password_confirmation:"obrafacil2018" ).save
-    #   end
-    # end
   end
 
   private
 
   def supplier_params
-    params.permit(:name, :fantasy_name, :federal_registration,
-      :state_registration, :kind, :birth_date, :tax_regime, :description,
-      :billing_type_id, :user_id)
+    params.permit(policy([:admin, Supplier]).permitted_attributes)
   end
 end

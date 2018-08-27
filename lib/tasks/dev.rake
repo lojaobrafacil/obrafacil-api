@@ -53,6 +53,9 @@ namespace :dev do
     p "Criando Parceiros ....[OK]"
 
     p "Criando Empregados "
+    Employee.create!(email:"partner@partner.com", federal_registration:"11111111111", name: "partner", password:"partner2020", password_confirmation:"partner2020", change_partners: true)
+    Employee.create!(email:"client@client.com", federal_registration:"22222222222", name: "client", password:"client2020", password_confirmation:"client2020", change_clients: true)
+    Employee.create!(email:"product@product.com", federal_registration:"33333333333", name: "product", password:"product2020", password_confirmation:"product2020", change_products: true)
     (1..20).to_a.each do
       fr = Faker::Number.number(8)
       e_email= fr.to_s + "@obrafacil.com"
@@ -65,9 +68,9 @@ namespace :dev do
         description: Faker::Lorem.paragraph(2),
         commission_percent: Faker::Number.decimal(2),
         admin: "false",
-        partner: "false",
-        client: "false",
-        order: "false",
+        change_partners: "false",
+        change_clients: "false",
+        order_creation: "false",
         limit_price_percentage: 3,
         email: e_email,
         password:12345678, 
@@ -96,17 +99,15 @@ namespace :dev do
 
     p "Criando Fornecedores "
       p_email= Faker::Internet.email
-      fr = Faker::Number.number(8)
       p = Supplier.create!(
         name: Faker::Company.name,
         fantasy_name: Faker::Company.suffix,
-        federal_registration: fr,
+        federal_registration: Faker::Number.number(8),
         state_registration: Faker::Number.number(9),
         kind: [0,1].sample,
         birth_date: Faker::Date.birthday(18, 65),
         tax_regime: ["simple", "normal", "presumed"].sample,
-        description: Faker::Lorem.paragraph(2),
-        user: User.create(email: fr+'@obrafacil.com', password:12345678, password_confirmation:12345678, federal_registration:fr))
+        description: Faker::Lorem.paragraph(2))
         p.emails.create(email: p_email, email_type: EmailType.all.sample)
         p.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
         p.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
@@ -158,7 +159,7 @@ namespace :dev do
     (1..10).to_a.each do
       Carrier.create!(
       name: Faker::Name.name,
-      federal_registration: fr,
+      federal_registration: Faker::Number.number(8),
       state_registration: Faker::Number.number(9),
       kind: [0,1].sample,
       description: Faker::Lorem.paragraph(2))

@@ -12,7 +12,26 @@ class Client < ApplicationRecord
   enum tax_regime: [:simple, :normal, :presumed]
   validates_presence_of :name
   include Contact
+  after_save :update_user
 
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
+
+  def update_user
+    if user = User.find_by(federal_registration: self.federal_registration)
+      if self.active?
+        user.update(client: self) unless user.client == self
+        fdr_client = self.federal_registration
+        user.update(email: fdr_client.to_s+'obrafacil.com', federal_registration: fdr_client) if user.federal_registration.to_s != fdr_client.to_s 
+      else
+        user.update!(client:nil)
+        user.destroy if !user.partner&.active?
+      end
+    else
+      self.build_user(email: self.federal_registration.to_s+"@obrafacil.com",
+                      federal_registration: self.federal_registration,
+                      password:"obrafacil2018",
+                      password_confirmation:"obrafacil2018" ).save
+    end
+  end
 end

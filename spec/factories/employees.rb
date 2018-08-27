@@ -9,12 +9,7 @@ FactoryBot.define do
     commission_percent { Faker::Number.decimal(1,2) }
     description { Faker::Lorem.paragraph }
     email { Faker::Internet.email }
-    admin { false }
-    partner { false }
-    client { false }
-    order { false }
-    limit_price_percentage { 3 }
-		password '12345678'
-		password_confirmation '12345678'
+		password { '12345678' }
+		password_confirmation { '12345678' }
   end
 end

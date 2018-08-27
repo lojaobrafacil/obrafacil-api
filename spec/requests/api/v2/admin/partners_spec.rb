@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Partner API', type: :request do
-  let!(:user){ create(:employee) }
+  let!(:user){ create(:employee, admin:true) }
   let!(:partners) { create_list(:partner, 5) }
   let(:partner) { partners.first }
   let(:partner_id) { partner.id }
