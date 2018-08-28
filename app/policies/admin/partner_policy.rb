@@ -4,6 +4,10 @@ class Admin::PartnerPolicy < Admin::ApplicationPolicyV2
     Partner.where(:id => record.id).exists? && (user.change_partners || user.admin)
   end
 
+  def create?
+    user.change_partners || user.admin
+  end
+
   def destroy?
     user.admin
   end
