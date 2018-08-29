@@ -8,6 +8,10 @@ class Admin::EmployeePolicy < Admin::ApplicationPolicyV2
     user.admin
   end
 
+  def change_employee_password?
+    user.id == record.id || user.admin
+  end
+
   def permitted_attributes
     if user.admin
       [:name, :email, :federal_registration, :state_registration, :active,
@@ -17,6 +21,12 @@ class Admin::EmployeePolicy < Admin::ApplicationPolicyV2
         :commission_percent, :description]
     else
       [:name, :email, :federal_registration, :state_registration, :birth_date]
+    end
+  end
+
+  def permitted_password_attributes
+    if user.id == record.id || user.admin
+      [:password, :password_confirmation]
     end
   end
 

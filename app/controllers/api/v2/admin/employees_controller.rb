@@ -51,8 +51,22 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
     employee.update(active: false)
     head 204
   end
+  
+  def change_employee_password
+    employee = Employee.find(params[:id])
+    authorize [:admin, employee]
+    if employee.reset_password(employee_password_params)
+      render json: { status: "Senha atualizada" }, status: 201
+    else 
+      render json: { errors: {error: "Confirmação de senha incorreta"} }, status: 422
+    end
+  end
 
   private
+
+  def employee_password_params
+    params.permit(policy([:admin, Employee]).permitted_password_attributes)
+  end
 
   def employee_params
     params.permit(policy([:admin, Employee]).permitted_attributes)
