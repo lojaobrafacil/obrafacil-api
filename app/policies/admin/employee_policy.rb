@@ -24,12 +24,6 @@ class Admin::EmployeePolicy < Admin::ApplicationPolicyV2
     end
   end
 
-  def permitted_password_attributes
-    if user.id == record.id || user.admin
-      [:password, :password_confirmation]
-    end
-  end
-
   class Scope < Scope
     def resolve
       if user.admin
