@@ -57,6 +57,7 @@ group :development do
   gem 'capistrano3-unicorn'
   gem 'capistrano-rails-collection'
   gem 'capistrano-figaro-yml'
+  gem 'capistrano-sidekiq'
   gem "better_errors"
   gem "binding_of_caller"
 end

@@ -6,7 +6,9 @@
 server "165.227.180.52", user: "deploy", roles: %w{app db web}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-
+set :sidekiq_role, :app  
+set :sidekiq_config, "#{current_path}/config/sidekiq.yml"  
+set :sidekiq_env, 'production'
 
 
 # role-based syntax
