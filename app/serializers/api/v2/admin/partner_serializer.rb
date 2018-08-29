@@ -9,6 +9,6 @@ class Api::V2::Admin::PartnerSerializer < ActiveModel::Serializer
   has_many :emails
 
   def bank_name
-    object.bank ? object.bank.name : nill
+    object.bank ? object.bank.name : nil
   end
 end
