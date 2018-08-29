@@ -13,25 +13,31 @@ class Company < ApplicationRecord
   validates_presence_of :name
   include Contact
 
-  after_create :generate_price_percentages, :generate_stocks
+  # after_create :generate_price_percentages, :generate_stocks
+  after_create :workers
 
   def products
     Product.where("id in (select cp.product_id from company_products as cp where cp.order_id = ?)", self.id)
   end
 
-  def generate_price_percentages
-    (1..5).each do |kind|
-      self.price_percentages.create(kind: kind, margin: 0.0)
-    end
+  def workers
+    CompanyPricesWorker.perform_async(self.id)
+    CompanyStocksWorker.perform_async(self.id)
   end
 
-  def generate_stocks
-    products = Product.all
-    if !products.empty?
-      products.each do |product|
-        product.company_products.create(stock: 0, stock_min: 0, stock_max: 0, company: self)
-      end
-    end
-  end
+  # def generate_price_percentages
+  #   (1..5).each do |kind|
+  #     self.price_percentages.create(kind: kind, margin: 0.0)
+  #   end
+  # end
+
+  # def generate_stocks
+  #   products = Product.all
+  #   if !products.empty?
+  #     products.each do |product|
+  #       product.company_products.create(stock: 0, stock_min: 0, stock_max: 0, company: self)
+  #     end
+  #   end
+  # end
   
 end
