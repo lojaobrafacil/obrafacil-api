@@ -11,7 +11,7 @@ class CompanyJobs
     products = Product.all
     if !products.empty?
       products.each do |product|
-        product.company_products.create(stock: 0, stock_min: 0, stock_max: 0, company: id)
+        product.company_products.create(stock: 0, stock_min: 0, stock_max: 0, company_id: id)
       end
     end
   end
