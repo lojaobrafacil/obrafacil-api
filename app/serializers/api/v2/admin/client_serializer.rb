@@ -8,6 +8,6 @@ class Api::V2::Admin::ClientSerializer < ActiveModel::Serializer
   has_many :emails
 
   def billing_type_name
-    object.billing_type.name if object.billing_type
+    object.billing_type ? object.billing_type.name : nil
   end
 end

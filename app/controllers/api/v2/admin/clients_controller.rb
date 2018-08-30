@@ -2,7 +2,7 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
 
   def index
     clients = policy_scope [:admin, Client]
-    if clients&.empty? or clients.nil?
+    if clients&.empty? or clients.nil? or clients.all.size < 1
       render json: clients, status: 401
     else
       clients = if params[:name] && params[:federal_registration] 
