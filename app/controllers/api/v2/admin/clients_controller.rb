@@ -2,8 +2,8 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
 
   def index
     clients = policy_scope [:admin, Client]
-    if clients&.empty? or clients.nil? or clients.all.size < 1
-      render json: clients, status: 401
+    if clients&.empty? or clients.nil?
+      render json: clients, status: 200
     else
       clients = if params[:name] && params[:federal_registration] 
         clients.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")

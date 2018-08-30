@@ -3,7 +3,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   def index
     partners = policy_scope [:admin, ::Partner]
     if partners&.empty? or partners.nil?
-      render json: partners, status: 401
+      render json: partners, status: 200
     else
       partners = if params[:name] && params[:federal_registration] 
         partners.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")

@@ -3,7 +3,7 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
   def index
     employees = policy_scope [:admin, Employee]
     if employees&.empty? or employees.nil?
-      render json: employees, status: 401
+      render json: employees, status: 200
     else
       employees = if params[:name] && params[:federal_registration] 
         employees.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
