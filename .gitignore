@@ -15,7 +15,7 @@ public/image_product
 !/log/.keep
 !/tmp/.keep
 .env
-
+.idea
 .byebug_history
 .vscode
 coverage
