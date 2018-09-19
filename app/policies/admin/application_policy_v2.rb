@@ -39,7 +39,7 @@ class Admin::ApplicationPolicyV2 < ApplicationPolicy
 
     def initialize(user, scope)
       @user  = user
-      @scope = scope[1]
+      @scope = scope
     end
 
     def resolve
