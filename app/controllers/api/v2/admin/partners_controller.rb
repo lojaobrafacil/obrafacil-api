@@ -31,6 +31,34 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
       render json: { errors: partner.errors }, status: 422
     end
   end
+  
+  def reset
+    c ||= 0
+    params[:id] ? partner = ::Partner.find(params[:id]) : (render json: { errors: "favor informar o id do parceiro"}, status: 422)
+    authorize [:admin, partner]
+    p = partner.as_json
+    e = partner.emails.as_json
+    a = partner.addresses.as_json
+    pp = partner.phones.as_json
+    partner.destroy ? "" : (render json: { errors: "favor informar o id do parceiro"}, status: 422)
+    if p = ::Partner.create(p)
+      pp.each do |phone|
+        p.phones.create(phone)
+      end
+      a.each do |address|
+        p.addresses.create(address)
+      end
+      e.each do |email|
+        p.emails.create(email)
+      end
+      show
+    elsif c > 3
+      reset
+      c += 1
+    else
+      render json: { errors: p.errors, partner: partner }, status: 422
+    end
+  end
 
   def update
     partner = ::Partner.find(params[:id])

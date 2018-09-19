@@ -8,6 +8,10 @@ class Admin::PartnerPolicy < Admin::ApplicationPolicyV2
     user.change_partners || user.admin
   end
 
+  def reset?
+    user.change_partners || user.admin
+  end
+
   def destroy?
     user.admin
   end

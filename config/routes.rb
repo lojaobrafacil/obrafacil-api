@@ -54,6 +54,7 @@ Rails.application.routes.draw do
         resources :users, only: [:index, :show, :update]
         put 'reset_password', to: :reset_password, controller: 'users'
         put 'change_employee_password/:id', to: 'employees#change_employee_password'
+        post 'partners/:id/reset', to: 'partners#reset'
         resources :address_types, only: [:index, :show, :create, :update, :destroy]
         resources :email_types, only: [:index, :show, :create, :update, :destroy]
         resources :phone_types, only: [:index, :show, :create, :update, :destroy]
