@@ -80,8 +80,11 @@ Rails.application.routes.draw do
         resources :commissions, only: [:index, :create, :update, :destroy]
         resources :images, only: [:create, :destroy]
         resources :reports, only: [:index]
-
-
+        
+        namespace :log do
+          resources :premio_ideals, only: [:index, :show]
+          put 'premio_ideals/:id/retry', to: 'premio_ideals#retry'
+        end
 
         put 'reset_password', to: :reset_password, controller: 'users'
         put 'change_employee_password/:id', to: 'employees#change_employee_password'

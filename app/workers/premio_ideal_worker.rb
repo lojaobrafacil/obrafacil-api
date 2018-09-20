@@ -6,7 +6,7 @@ class PremioIdealWorker
     when 'PARTNER'
       SendPartner.new.premio_ideal(id)
     when 'LOG_RETRY'
-      RetryPartner.new.premio_ideal(id)
+      SendPartner.new.retry_by_log(id)
     end
   end
 end
