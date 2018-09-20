@@ -1,5 +1,5 @@
-class Admin::ComissionPolicy < Admin::ApplicationPolicyV2
-  
+class Admin::CommissionPolicy < Admin::ApplicationPolicyV2
+
   def show?
     user.admin
   end

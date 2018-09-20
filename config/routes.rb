@@ -52,18 +52,12 @@ Rails.application.routes.draw do
           resources :employees, only: [:index, :show, :create, :update, :destroy]
         end
         resources :users, only: [:index, :show, :update]
-        put 'reset_password', to: :reset_password, controller: 'users'
-        put 'change_employee_password/:id', to: 'employees#change_employee_password'
-        post 'partners/:id/reset', to: 'partners#reset'
         resources :address_types, only: [:index, :show, :create, :update, :destroy]
         resources :email_types, only: [:index, :show, :create, :update, :destroy]
         resources :phone_types, only: [:index, :show, :create, :update, :destroy]
         resources :cities, only: [:index, :show, :create, :update, :destroy]
         resources :regions, only: [:index, :show, :create, :update, :destroy]
         resources :states, only: [:index, :show, :create, :update, :destroy]
-        # resources :addresses, only: [:index, :show, :update, :destroy]
-        # resources :emails, only: [:index, :show, :update, :create, :destroy]
-        # resources :phones, only: [:index, :show, :update, :create, :destroy]
         resources :billing_types, only: [:index, :show, :create, :update, :destroy]
         resources :banks, only: [:index, :show, :create, :update, :destroy]
         resources :clients, only: [:index, :show, :create, :update, :destroy]
@@ -86,7 +80,14 @@ Rails.application.routes.draw do
         resources :commissions, only: [:index, :create, :update, :destroy]
         resources :images, only: [:create, :destroy]
         resources :reports, only: [:index]
+
+
+
+        put 'reset_password', to: :reset_password, controller: 'users'
+        put 'change_employee_password/:id', to: 'employees#change_employee_password'
+        post 'partners/:id/reset', to: 'partners#reset'
         get 'allbanks', to: :allbanks, controller: 'banks'
+        delete 'commissions/destroy_all/:partner_id', to: 'commissions#destroy_all'
       end
       namespace :partner, path: '/' do
         mount_devise_token_auth_for 'User', at: 'auth'

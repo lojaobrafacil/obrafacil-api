@@ -20,9 +20,9 @@ class Api::V2::Admin::CommissionsController < Api::V2::Admin::BaseController
     commission = Commission.find(params[:id])
     authorize [:admin, commission]
     if commission.update(commission_params)
-    render json: commission, status: 200
+      render json: commission, status: 200
     else
-    render json: { errors: commission.errors }, status: 422
+      render json: { errors: commission.errors }, status: 422
     end
   end
   
@@ -31,6 +31,16 @@ class Api::V2::Admin::CommissionsController < Api::V2::Admin::BaseController
     authorize [:admin, commission]
     commission.destroy
     head 204
+  end
+  
+  def destroy_all
+    commissions = policy_scope [:admin, Commission]
+    if params[:partner_id]&.is_a?(Integer) && c = commissions.where("partner_id = ?", params[:partner_id])
+      c.destroy_all if c.size > 0
+      render json: { success: "Deletado todos as comissoes do parceiro " + params[:partner_id] }, status: 204
+    else
+      render json: { errors: "partner_id necessario" }, status: 422
+    end
   end
   
   private
