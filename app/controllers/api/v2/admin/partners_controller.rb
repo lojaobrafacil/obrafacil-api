@@ -40,7 +40,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     e = partner.emails.as_json
     a = partner.addresses.as_json
     pp = partner.phones.as_json
-    c = partner.commissions.as_json
+    cc = partner.commissions.as_json
     partner.destroy ? "" : (render json: { errors: "favor informar o id do parceiro"}, status: 422)
     if p = ::Partner.create(p)
       pp.each do |phone|
@@ -52,7 +52,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
       e.each do |email|
         p.emails.create(email)
       end
-      c.each do |commission|
+      cc.each do |commission|
         p.commissions.create(commission)
       end
       show
