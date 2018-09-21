@@ -9,8 +9,6 @@ server "165.227.180.52", user: "deploy", roles: %w{app db web}
 set :sidekiq_role, :app  
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"  
 set :sidekiq_env, 'production'
-set :pty,  false
-set :sidekiq_monit_use_sudo, false
 
 # role-based syntax
 # ==================
