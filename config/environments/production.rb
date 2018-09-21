@@ -81,35 +81,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-
-
-
-  :sidekiq_default_hooks => true
-  :sidekiq_pid => File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid') # ensure this path exists in production before deploying.
-  :sidekiq_env => fetch(:rack_env, fetch(:rails_env, fetch(:stage)))
-  :sidekiq_log => File.join(shared_path, 'log', 'sidekiq.log')
-  :sidekiq_options => nil
-  :sidekiq_require => nil
-  :sidekiq_tag => nil
-  :sidekiq_config => nil # if you have a config/sidekiq.yml, do not forget to set this. 
-  :sidekiq_queue => nil
-  :sidekiq_timeout => 10
-  :sidekiq_roles => :app
-  :sidekiq_processes => 1
-  :sidekiq_options_per_process => nil
-  :sidekiq_concurrency => nil
-  # sidekiq monit
-  :sidekiq_monit_templates_path => 'config/deploy/templates'
-  :sidekiq_monit_conf_dir => '/etc/monit/conf.d'
-  :sidekiq_monit_use_sudo => true
-  :monit_bin => '/usr/bin/monit'
-  :sidekiq_monit_default_hooks => true
-  :sidekiq_monit_group => nil
-  :sidekiq_service_name => "sidekiq_#{fetch(:application)}_#{fetch(:sidekiq_env)}" + (index ? "_#{index}" : '') 
-
-  :sidekiq_cmd => "#{fetch(:bundle_cmd, "bundle")} exec sidekiq" # Only for capistrano2.5
-  :sidekiqctl_cmd => "#{fetch(:bundle_cmd, "bundle")} exec sidekiqctl" # Only for capistrano2.5
-  :sidekiq_user => nil #user to run sidekiq as
-
 end
