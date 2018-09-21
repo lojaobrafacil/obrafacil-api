@@ -7,7 +7,7 @@ class Admin::Log::PremioIdealPolicy < Admin::ApplicationPolicyV2
   class Scope < Scope
     def resolve
       if user.change_partners || user.admin
-        scope.all.order(:id)
+        scope.all.order("updated_at DESC")
       else
         []
       end

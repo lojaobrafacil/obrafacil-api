@@ -3,7 +3,7 @@ class Api::V2::Admin::Log::PremioIdealsController < Api::V2::Admin::BaseControll
   def index
     premio_ideals = policy_scope [:admin, ::Log::PremioIdeal]
 
-    render json: premio_ideals.order(:updated_at)
+    render json: premio_ideals
   end
 
   def show
