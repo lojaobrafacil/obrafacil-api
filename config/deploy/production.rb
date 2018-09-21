@@ -10,6 +10,11 @@ set :sidekiq_role, :app
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"  
 set :sidekiq_env, 'production'
 set :pty,  false
+set :sidekiq_monit_use_sudo, false
+set :upstart_service_name, 'sidekiq'
+set :init_system, :upstart
+set :service_unit_name, "sidekiq-#{fetch(:application)}-#{fetch(:stage)}.service"
+set :init_system, :systemd
 
 # role-based syntax
 # ==================
