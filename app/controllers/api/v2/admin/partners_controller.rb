@@ -25,7 +25,8 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     authorize [:admin, partner]
     if partner.save
       update_contact(partner)
-      PremioIdealWorker.perform_async(partner.id.to_s)      
+      # PremioIdealWorker.perform_async(partner.id.to_s)
+      SendPartner.new.premio_ideal(partner.id.to_s)
       render json: partner, status: 201
     else
       render json: { errors: partner.errors }, status: 422
@@ -71,7 +72,8 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     fdr_new = partner_params['federal_registration']
     if partner.update(partner_params)
       update_contact(partner)
-      PremioIdealWorker.perform_async(partner.id.to_s)      
+      # PremioIdealWorker.perform_async(partner.id.to_s)
+      SendPartner.new.premio_ideal(partner.id.to_s)
       render json: partner, status: 200
     else
       render json: { errors: partner.errors }, status: 422
