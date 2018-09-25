@@ -78,4 +78,4 @@ gem 'carrierwave-aws'
 gem "rmagick"
 gem 'dotenv-rails'
 
-gem 'nfe-io'
+# gem 'nfe-io'
