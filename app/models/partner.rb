@@ -34,6 +34,7 @@ class Partner < ApplicationRecord
           password_confirmation:"obrafacil2018" ).save
       end
     else
+      user = self.user
       user.destroy if !user.client&.active?
     end
   end
