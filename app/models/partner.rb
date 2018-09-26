@@ -25,10 +25,7 @@ class Partner < ApplicationRecord
     partner = self
     if partner.active
       if user = partner.user
-        p "=========================================================="
-        p "ENTREI"
-        p "=========================================================="
-        user.update(federal_registration: partner.federal_registration, email: partner.federal_registration.to_s+'obrafacil.com')
+        user.update(federal_registration: partner.federal_registration.to_s, email: partner.federal_registration.to_s+'obrafacil.com')
       elsif user = User.find_by(federal_registration: partner.federal_registration)
         user.update(partner: partner)
       else
