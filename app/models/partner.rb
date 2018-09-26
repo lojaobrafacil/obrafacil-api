@@ -16,7 +16,7 @@ class Partner < ApplicationRecord
   validates_presence_of :name, :kind
   validates_uniqueness_of :federal_registration, scope: :active 
   include Contact
-  after_save :premio_ideal
+  after_save :update_user, :premio_ideal
   before_destroy :remove_relations
 
   def self.active; where("active = true").order(:id); end
@@ -24,6 +24,7 @@ class Partner < ApplicationRecord
 
   def update_user
     partner = self
+    p "entrei"
     if partner.active
       if user = partner.user
         user.update(federal_registration: partner.federal_registration.to_s, email: partner.federal_registration.to_s+'obrafacil.com')
@@ -34,6 +35,12 @@ class Partner < ApplicationRecord
           federal_registration: partner.federal_registration,
           password:"obrafacil2018",
           password_confirmation:"obrafacil2018" ).save
+      end
+    else
+      u = self.user
+      if u
+        u.update(partner:nil)
+        u.destroy
       end
     end
   end

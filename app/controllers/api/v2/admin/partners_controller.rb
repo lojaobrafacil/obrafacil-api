@@ -25,7 +25,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     authorize [:admin, partner]
     if partner.save
       update_contact(partner)
-      partner.update_user
+      # partner.update_user
       render json: partner, status: 201
     else
       render json: { errors: partner.errors }, status: 422
@@ -69,7 +69,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
     authorize [:admin, partner]
     if partner.update(partner_params)
       update_contact(partner)
-      partner.update_user
+      # partner.update_user
       render json: partner, status: 200
     else
       render json: { errors: partner.errors }, status: 422
