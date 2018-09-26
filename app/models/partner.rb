@@ -22,14 +22,16 @@ class Partner < ApplicationRecord
   def self.inactive; where("active = false").order(:id); end
 
   def update_user
-    if self.active?
-      if user = self.user
-        user.update(federal_registration: self.federal_registration, email: self.federal_registration.to_s+'obrafacil.com') if user.federal_registration != self.federal_registration
-      elsif user = User.find_by(federal_registration: self.federal_registration)
-        user.update(partner_id: self.id)
+    partner = self
+    user = partner.user
+    if partner.active?
+      if user
+        user.update(federal_registration: partner.federal_registration, email: partner.federal_registration.to_s+'obrafacil.com')
+      elsif user = User.find_by(federal_registration: partner.federal_registration)
+        user.update(partner: partner)
       else
-        self.build_user(email: self.federal_registration.to_s+"@obrafacil.com",
-          federal_registration: self.federal_registration,
+        partner.build_user(email: partner.federal_registration.to_s+"@obrafacil.com",
+          federal_registration: partner.federal_registration,
           password:"obrafacil2018",
           password_confirmation:"obrafacil2018" ).save
       end
