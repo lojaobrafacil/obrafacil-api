@@ -16,7 +16,7 @@ class Partner < ApplicationRecord
   validates_presence_of :name, :kind
   validates_uniqueness_of :federal_registration, scope: :active 
   include Contact
-  after_save :update_user, :premio_ideal
+  after_save :premio_ideal
   
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
@@ -33,8 +33,6 @@ class Partner < ApplicationRecord
           password:"obrafacil2018",
           password_confirmation:"obrafacil2018" ).save
       end
-    else
-      self.user.update(password: 'desativado', password_confirmation: 'desativado') unless self.user&.client&.active?
     end
   end
 
