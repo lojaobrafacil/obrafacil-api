@@ -1,7 +1,7 @@
 class Partner < ApplicationRecord
   belongs_to :bank, optional: true
   belongs_to :user, optional: true
-  has_many :log_premio_ideals, dependent: :destroy, class_name: 'Log::PremioIdeal'
+  has_many :log_premio_ideals, class_name: 'Log::PremioIdeal', dependent: :destroy
   has_many :commissions, dependent: :destroy
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
@@ -17,7 +17,8 @@ class Partner < ApplicationRecord
   validates_uniqueness_of :federal_registration, scope: :active 
   include Contact
   after_save :premio_ideal
-  
+  before_destroy :remove_relations
+
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
 
@@ -41,21 +42,23 @@ class Partner < ApplicationRecord
     partner_id = self.id
     partner = Partner.find(partner_id)
     body = ""
-    if partner.federal_registration? and partner.federal_registration.size >= 10 and partner.active?
-      begin
-        body = body_params(partner)
-        x = Net::HTTP.post_form(URI.parse(premio_ideal_url), body)
-        status = x.code ? x.code.to_i : 422
-        if status == 200
-          Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: x.msg)
-        else
-          Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: ("Parceiro " + partner.name + " não foi para premio ideal, erro:"))
+    if partner.active?
+      if partner.federal_registration? && partner.federal_registration.size >= 10
+        begin
+          body = body_params(partner)
+          x = Net::HTTP.post_form(URI.parse(premio_ideal_url), body)
+          status = x.code ? x.code.to_i : 422
+          if status == 200
+            Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: x.msg)
+          else
+            Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: ("Parceiro " + partner.name + " não foi para premio ideal, erro:"))
+          end
+        rescue
+          Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, error: ("erro ao processar " + partner.name + " favor confirmar se o cadastro esta correto").as_json, status: 422)
         end
-      rescue
-        Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, error: ("erro ao processar " + partner.name + " favor confirmar se o cadastro esta correto").as_json, status: 422)
+      else
+        Log::PremioIdeal.create!(partner_id: partner_id, error: ("Parceiro " + partner.name + " não foi para premio ideal pois nao possue CPF/CNPJ").as_json, status: status, body: nil)
       end
-    else
-      Log::PremioIdeal.create!(partner_id: partner_id, error: ("Parceiro " + partner.name + " não foi para premio ideal pois nao possue CPF/CNPJ ou esta inativo").as_json, status: status, body: nil)
     end
   end
 
@@ -83,4 +86,21 @@ class Partner < ApplicationRecord
       "gender":0
     }
   end
+
+
+  def remove_relations
+    self.update(active:false)
+    log = self.log_premio_ideals
+    if log
+      log.each do |l|
+        Log::PremioIdeal.find(l.id)
+      end
+    end
+    u = self.user
+    if u
+      u.update(partner:nil)
+      u.destroy
+    end
+  end
 end
+
