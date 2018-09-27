@@ -1,6 +1,6 @@
 class Api::V2::BanksController < Api::V2::Partner::BaseController
-  def allbanks
-    banks = Bank.all.order(:id)
-    render json: banks, status: 200    
+  def show
+    bank = Bank.find(params[:id])
+    render json: bank, status: 200    
   end
 end

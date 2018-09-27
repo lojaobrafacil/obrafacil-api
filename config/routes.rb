@@ -92,20 +92,16 @@ Rails.application.routes.draw do
         get 'allbanks', to: :allbanks, controller: 'banks'
         delete 'commissions/destroy_all/:partner_id', to: 'commissions#destroy_all'
       end
-      namespace :partner, path: '/' do
+
+      
+      namespace :partner do
         mount_devise_token_auth_for 'User', at: 'auth'
         put 'reset_password', to: :reset_password, controller: 'users'
-        resources :address_types, only: [:index, :show]
-        resources :email_types, only: [:index, :show]
-        resources :phone_types, only: [:index, :show]
-        resources :addresses, only: [:index, :show]
-        resources :emails, only: [:index, :show]
-        resources :phones, only: [:index, :show]
-        resources :partners, only: [:show, :update]
-        resources :commissions, only: [:index, :create, :update, :destroy]
-        get 'allbanks', to: :allbanks, controller: 'banks'
+        resources :partners, only: [:index]
+        resources :commissions, only: [:index]
       end
-      namespace :clients do
+
+      namespace :client do
         mount_devise_token_auth_for 'User', at: 'auth'
         put 'reset_password', to: :reset_password, controller: 'users'
         resources :address_types, only: [:index, :show]
