@@ -23,16 +23,14 @@ class Partner < ApplicationRecord
   def self.inactive; where("active = false").order(:id); end
 
   def update_user
-    partner = self
-    p "entrei"
-    if partner.active
-      if user = partner.user
-        user.update(federal_registration: partner.federal_registration.to_s, email: partner.federal_registration.to_s+'obrafacil.com')
-      elsif user = User.find_by(federal_registration: partner.federal_registration)
-        user.update(partner: partner)
+    if self.active
+      if user = self.user
+        user.update(federal_registration: self.federal_registration.to_s, email: self.federal_registration.to_s+'@obrafacil.com') if user.federal_registration != self.federal_registration
+      elsif user = User.find_by(federal_registration: self.federal_registration)
+        user.update(partner: self)
       else
-        partner.build_user(email: partner.federal_registration.to_s+"@obrafacil.com",
-          federal_registration: partner.federal_registration,
+        self.build_user(email: self.federal_registration.to_s+"@obrafacil.com",
+          federal_registration: self.federal_registration,
           password:"obrafacil2018",
           password_confirmation:"obrafacil2018" ).save
       end
@@ -47,24 +45,23 @@ class Partner < ApplicationRecord
 
   def premio_ideal
     partner_id = self.id
-    partner = Partner.find(partner_id)
     body = ""
-    if partner.active?
-      if partner.federal_registration? && partner.federal_registration.size >= 10
+    if self.active?
+      if self.federal_registration? && self.federal_registration.size >= 10
         begin
-          body = body_params(partner)
+          body = body_params(self)
           x = Net::HTTP.post_form(URI.parse(premio_ideal_url), body)
           status = x.code ? x.code.to_i : 422
           if status == 200
             Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: x.msg)
           else
-            Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: ("Parceiro " + partner.name + " não foi para premio ideal, erro:"))
+            Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: ("Parceiro " + self.name + " não foi para premio ideal, erro:"))
           end
         rescue
-          Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, error: ("erro ao processar " + partner.name + " favor confirmar se o cadastro esta correto").as_json, status: 422)
+          Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, error: ("erro ao processar " + self.name + " favor confirmar se o cadastro esta correto").as_json, status: 422)
         end
       else
-        Log::PremioIdeal.create!(partner_id: partner_id, error: ("Parceiro " + partner.name + " não foi para premio ideal pois nao possue CPF/CNPJ").as_json, status: status, body: nil)
+        Log::PremioIdeal.create!(partner_id: partner_id, error: ("Parceiro " + self.name + " não foi para premio ideal pois nao possue CPF/CNPJ").as_json, status: status, body: nil)
       end
     end
   end
