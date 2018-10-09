@@ -1,8 +1,8 @@
 class Phone < ApplicationRecord
   belongs_to :phone_type
   belongs_to :phonable, polymorphic: true
-  validates :phone, format: { with: /\A(\+\d{1,2}\s)?\(\d{2}\)?[\s.-]\d{4,5}[\s.-]\d{4}\z/, message: "can't be blank. format: +XX (XX) XXXXX-XXXX OR (XX) XXXXX-XXXX OR (XX) XXXX-XXXX"} , if: :format_phone!
-  after_save :format_phone!
+  validates :phone, format: { with: /\A(\+\d{1,2}\s)?\(\d{2}\)?[\s.-]\d{4,5}[\s.-]\d{4}\z/, message: "can't be blank. format: +XX (XX) XXXXX-XXXX OR (XX) XXXXX-XXXX OR (XX) XXXX-XXXX"}
+  before_save :format_phone!
 
   def format_phone!
     num = self.phone
