@@ -92,7 +92,6 @@ Rails.application.routes.draw do
         get 'allbanks', to: :allbanks, controller: 'banks'
         delete 'commissions/destroy_all/:partner_id', to: 'commissions#destroy_all'
       end
-
       
       namespace :partner do
         mount_devise_token_auth_for 'User', at: 'auth'
