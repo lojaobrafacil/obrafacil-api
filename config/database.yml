@@ -1,14 +1,18 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  port: <%= ENV['DATABASE_PORT'] || 5432 %>
+  username: <%= ENV['DATABASE_USER'] || 'postgres' %>
+  password: <%= ENV['DATABASE_PASSWORD'] || 'root' %>
+  database: <%= ENV['DATABASE_NAME'] || 'myexp_development' %>
+  pool: <%= ENV['DATABASE_CONNECTION_POOL'] || 10 %>
 
 development:
   <<: *default
-  database: emam_development
 
 test:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: emam_test

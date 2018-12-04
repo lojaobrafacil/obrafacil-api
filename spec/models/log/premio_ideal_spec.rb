@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Log::PremioIdeal, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:log_premio_ideal) { build(:log_premio_ideal) }
+
+  it { should belong_to(:partner) }
 end
