@@ -1,4 +1,7 @@
 require 'rails_helper'
 RSpec.describe PremioIdealWorker, type: :worker do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "enqueues a Company Price worker" do
+    PremioIdealWorker.perform_async(1)
+    expect(PremioIdealWorker.jobs.size).to eq(1)
+  end
 end

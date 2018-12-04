@@ -16,7 +16,7 @@ FactoryBot.define do
     length { Faker::Number.decimal(2) }
     color { Faker::Commerce.color }
     kind { [0,0,1,1,2,2].sample }
-    active true
+    active { true }
     unit_id { create(:unit).id }
     sub_category_id { create(:sub_category).id }
     supplier_id { create(:supplier).id }
