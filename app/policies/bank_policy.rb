@@ -1,4 +1,4 @@
-class Admin::BankPolicy < Admin::ApplicationPolicyV2
+class BankPolicy < ApplicationPolicy
   def show?
     Bank.where(:id => record.id).exists? && (user.change_partners || user.change_clients || user.admin)
   end
