@@ -6,78 +6,75 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
-    namespace :v2, path: '/' do
-      namespace :admin do
-        mount_devise_token_auth_for 'Employee', at: 'auth'
-        as :employee do
-          resources :employees, only: [:index, :show, :create, :update, :destroy]
-        end
-        resources :users, only: [:index, :show, :update]
-        resources :address_types, only: [:index, :show, :create, :update, :destroy]
-        resources :email_types, only: [:index, :show, :create, :update, :destroy]
-        resources :phone_types, only: [:index, :show, :create, :update, :destroy]
-        resources :cities, only: [:index, :show, :create, :update, :destroy]
-        resources :regions, only: [:index, :show, :create, :update, :destroy]
-        resources :states, only: [:index, :show, :create, :update, :destroy]
-        resources :billing_types, only: [:index, :show, :create, :update, :destroy]
-        resources :banks, only: [:index, :show, :create, :update, :destroy]
-        resources :clients, only: [:index, :show, :create, :update, :destroy]
-        resources :partners, only: [:index, :show, :create, :update, :destroy]
-        resources :companies, only: [:index, :show, :create, :update, :destroy]
-        resources :suppliers, only: [:index, :show, :create, :update, :destroy]
-        resources :permissions, only: [:index, :show, :create, :update, :destroy]
-        resources :categories, only: [:index, :show, :create, :update, :destroy]
-        resources :sub_categories, only: [:index, :show, :create, :update, :destroy]
-        resources :units, only: [:index, :show, :create, :update, :destroy]
-        resources :products, only: [:index, :show, :create, :update, :destroy]
-        resources :price_percentages, only: [:index, :show, :create, :update, :destroy]
-        resources :carriers, only: [:index, :show, :create, :update, :destroy]
-        resources :ibpts, only: [:index, :show, :create, :update, :destroy]
-        resources :cfops, only: [:index, :show, :create, :update, :destroy]
-        resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
-        resources :cashiers, only: [:index, :show, :create, :update, :destroy]
-        resources :orders, only: [:index, :show, :create, :update, :destroy]
-        resources :vehicles, only: [:index, :show, :create, :update, :destroy]
-        resources :commissions, only: [:index, :create, :update, :destroy]
-        resources :images, only: [:create, :destroy]
-        resources :reports, only: [:index]
-        resources :phones
-        
-        namespace :log do
-          resources :premio_ideals, only: [:index, :show]
-          put 'premio_ideals/:id/retry', to: 'premio_ideals#retry'
-        end
-
-        put 'reset_password', to: :reset_password, controller: 'users'
-        put 'change_employee_password/:id', to: 'employees#change_employee_password'
-        post 'partners/:id/reset', to: 'partners#reset'
-        get 'allbanks', to: :allbanks, controller: 'banks'
-        delete 'commissions/destroy_all/:partner_id', to: 'commissions#destroy_all'
+    namespace :admin do
+      mount_devise_token_auth_for 'Employee', at: 'auth'
+      as :employee do
+        resources :employees, only: [:index, :show, :create, :update, :destroy]
       end
+      resources :users, only: [:index, :show, :update]
+      resources :address_types, only: [:index, :show, :create, :update, :destroy]
+      resources :email_types, only: [:index, :show, :create, :update, :destroy]
+      resources :phone_types, only: [:index, :show, :create, :update, :destroy]
+      resources :cities, only: [:index, :show, :create, :update, :destroy]
+      resources :regions, only: [:index, :show, :create, :update, :destroy]
+      resources :states, only: [:index, :show, :create, :update, :destroy]
+      resources :billing_types, only: [:index, :show, :create, :update, :destroy]
+      resources :banks, only: [:index, :show, :create, :update, :destroy]
+      resources :clients, only: [:index, :show, :create, :update, :destroy]
+      resources :partners, only: [:index, :show, :create, :update, :destroy]
+      resources :companies, only: [:index, :show, :create, :update, :destroy]
+      resources :suppliers, only: [:index, :show, :create, :update, :destroy]
+      resources :permissions, only: [:index, :show, :create, :update, :destroy]
+      resources :categories, only: [:index, :show, :create, :update, :destroy]
+      resources :sub_categories, only: [:index, :show, :create, :update, :destroy]
+      resources :units, only: [:index, :show, :create, :update, :destroy]
+      resources :products, only: [:index, :show, :create, :update, :destroy]
+      resources :price_percentages, only: [:index, :show, :create, :update, :destroy]
+      resources :carriers, only: [:index, :show, :create, :update, :destroy]
+      resources :ibpts, only: [:index, :show, :create, :update, :destroy]
+      resources :cfops, only: [:index, :show, :create, :update, :destroy]
+      resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
+      resources :cashiers, only: [:index, :show, :create, :update, :destroy]
+      resources :orders, only: [:index, :show, :create, :update, :destroy]
+      resources :vehicles, only: [:index, :show, :create, :update, :destroy]
+      resources :commissions, only: [:index, :create, :update, :destroy]
+      resources :images, only: [:create, :destroy]
+      resources :reports, only: [:index]
+      resources :phones
       
-      namespace :partner do
-        mount_devise_token_auth_for 'User', at: 'auth'
-        put 'reset_password', to: :reset_password, controller: 'users'
-        resources :partners, only: [:index]
-        resources :commissions, only: [:index]
+      namespace :log do
+        resources :premio_ideals, only: [:index, :show]
+        put 'premio_ideals/:id/retry', to: 'premio_ideals#retry'
       end
 
-      namespace :client do
-        mount_devise_token_auth_for 'User', at: 'auth'
-        put 'reset_password', to: :reset_password, controller: 'users'
-        resources :address_types, only: [:index, :show]
-        resources :email_types, only: [:index, :show]
-        resources :phone_types, only: [:index, :show]
-        resources :cities, only: [:index, :show]
-        resources :regions, only: [:index, :show]
-        resources :states, only: [:index, :show]
-        resources :addresses, only: [:index, :show]
-        resources :emails, only: [:index, :show]
-        resources :phones, only: [:index, :show]
-        resources :clients, only: [:show, :update]
-        get 'allbanks', to: :allbanks, controller: 'banks'
-      end
+      put 'reset_password', to: :reset_password, controller: 'users'
+      put 'change_employee_password/:id', to: 'employees#change_employee_password'
+      post 'partners/:id/reset', to: 'partners#reset'
+      get 'allbanks', to: :allbanks, controller: 'banks'
+      delete 'commissions/destroy_all/:partner_id', to: 'commissions#destroy_all'
+    end
+    
+    namespace :partner do
+      mount_devise_token_auth_for 'User', at: 'auth'
+      put 'reset_password', to: :reset_password, controller: 'users'
+      resources :partners, only: [:index]
+      resources :commissions, only: [:index]
+    end
+
+    namespace :client do
+      mount_devise_token_auth_for 'User', at: 'auth'
+      put 'reset_password', to: :reset_password, controller: 'users'
+      resources :address_types, only: [:index, :show]
+      resources :email_types, only: [:index, :show]
+      resources :phone_types, only: [:index, :show]
+      resources :cities, only: [:index, :show]
+      resources :regions, only: [:index, :show]
+      resources :states, only: [:index, :show]
+      resources :addresses, only: [:index, :show]
+      resources :emails, only: [:index, :show]
+      resources :phones, only: [:index, :show]
+      resources :clients, only: [:show, :update]
+      get 'allbanks', to: :allbanks, controller: 'banks'
     end
   end
-
 end
