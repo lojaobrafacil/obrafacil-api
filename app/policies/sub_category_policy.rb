@@ -1,4 +1,4 @@
-class Admin::SubCategoryPolicy < Admin::ApplicationPolicyV2
+class SubCategoryPolicy < ApplicationPolicy
 
   def show?
     true

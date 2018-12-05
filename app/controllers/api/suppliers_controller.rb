@@ -1,7 +1,7 @@
-class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
+class Api::SuppliersController < Api::V2::Admin::ContactsController
 
   def index
-    suppliers = policy_scope [:admin, Supplier]
+    suppliers = policy_scope Supplier
     if suppliers&.empty? or suppliers.nil?
       render json: suppliers, status: 401
     else
@@ -16,13 +16,13 @@ class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
 
   def show
     supplier = Supplier.find(params[:id])
-    authorize [:admin, supplier]
+    authorize supplier
     render json: supplier, status: 200
   end
 
   def create
     supplier = Supplier.new(supplier_params)
-    authorize [:admin, supplier]
+    authorize supplier
     if supplier.save
       update_contact(supplier) 
       render json: supplier, status: 201
@@ -33,7 +33,7 @@ class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
 
   def update
     supplier = Supplier.find(params[:id])
-    authorize [:admin, supplier]
+    authorize supplier
     if supplier.update(supplier_params)
       update_contact(supplier) 
       render json: supplier, status: 200
@@ -44,7 +44,7 @@ class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
 
   def destroy
     supplier = Supplier.find(params[:id])
-    authorize [:admin, supplier]
+    authorize supplier
     supplier.destroy
     head 204
   end
@@ -52,6 +52,6 @@ class Api::V2::Admin::SuppliersController < Api::V2::Admin::ContactsController
   private
 
   def supplier_params
-    params.permit(policy([:admin, Supplier]).permitted_attributes)
+    params.permit(policy(Supplier).permitted_attributes)
   end
 end

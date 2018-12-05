@@ -1,19 +1,19 @@
-class Api::V2::Admin::SubCategoriesController < Api::BaseController
+class Api::SubCategoriesController < Api::BaseController
   def index
-    sub_categories = policy_scope [:admin, SubCategory]
+    sub_categories = policy_scope SubCategory
     sub_categories = params['category_id'] ? SubCategory.where(category_id: params['category_id']) : sub_categories
     paginate json: sub_categories.order(:id), status: 200
   end
 
   def show
     sub_category = SubCategory.find(params[:id])
-    authorize [:admin, SubCategory]
+    authorize SubCategory
     render json: sub_category, status: 200
   end
 
   def create
     sub_category = SubCategory.new(sub_category_params)
-    authorize [:admin, SubCategory]
+    authorize SubCategory
 
     if sub_category.save
       render json: sub_category, status: 201
@@ -24,7 +24,7 @@ class Api::V2::Admin::SubCategoriesController < Api::BaseController
 
   def update
     sub_category = SubCategory.find(params[:id])
-    authorize [:admin, SubCategory]
+    authorize SubCategory
 
     if sub_category.update(sub_category_params)
       render json: sub_category, status: 200
@@ -35,7 +35,7 @@ class Api::V2::Admin::SubCategoriesController < Api::BaseController
 
   def destroy
     sub_category = SubCategory.find(params[:id])
-    authorize [:admin, SubCategory]
+    authorize SubCategory
     if sub_category.products == []
       sub_category.destroy
       head 204
@@ -47,6 +47,6 @@ class Api::V2::Admin::SubCategoriesController < Api::BaseController
   private
 
   def sub_category_params
-    params.permit(policy([:admin, SubCategory]).permitted_attributes)    
+    params.permit(policy(SubCategory).permitted_attributes)    
   end
 end

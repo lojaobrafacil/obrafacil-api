@@ -1,4 +1,4 @@
-class Admin::SupplierPolicy < Admin::ApplicationPolicyV2
+class SupplierPolicy < ApplicationPolicy
   
   def show?
     Supplier.where(:id => record.id).exists? && (user.change_suppliers || user.admin)

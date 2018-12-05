@@ -1,4 +1,4 @@
-class Admin::UnitPolicy < Admin::ApplicationPolicyV2
+class UnitPolicy < ApplicationPolicy
   
   def show?
     Unit.where(:id => record.id).exists? && user.admin
