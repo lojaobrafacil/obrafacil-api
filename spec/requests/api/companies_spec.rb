@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Employee API', type: :request do
-  let!(:employees) { create_list(:employee, 4) }
-  let(:employee) { employees.last }
-  let(:employee_id) { employee.id }
+RSpec.describe 'Company API', type: :request do
   let!(:user){ create(:employee, admin:true) }
+  let!(:companies) { create_list(:company, 5) }
+  let(:company) { companies.first }
+  let(:company_id) { company.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'Employee API', type: :request do
     }
   end
 
-  describe 'GET /admin/employees' do
+  describe 'GET /companies' do
     before do
-      get '/admin/employees', params: {}, headers: headers
+      get '/companies', params: {}, headers: headers
     end
-    it 'return 5 employees from database' do
+    it 'return 5 companies from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'Employee API', type: :request do
     end
   end
 
-  describe 'GET /admin/employees/:id' do
+  describe 'GET /companies/:id' do
     before do
-      get "/admin/employees/#{employee_id}", params: {}, headers: headers
+      get "/companies/#{company_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(employee[:name])
+      expect(json_body[:name]).to eq(company.name)
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Employee API', type: :request do
   end
 
 
-  describe 'POST /admin/employees' do
+  describe 'POST /companies' do
     before do
-      post '/admin/employees', params: employee_params.to_json , headers: headers
+      post '/companies', params: company_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:employee_params) { attributes_for(:employee, {password: 12345678, password_confirmation: 12345678}) }
+      let(:company_params) { attributes_for(:company) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created employee' do
-        expect(json_body[:name]).to eq(employee_params[:name])
+      it 'returns the json data for the created company' do
+        expect(json_body[:name]).to eq(company_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:employee_params) { { name: '' } }
+      let(:company_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Employee API', type: :request do
     end
   end
 
-  describe 'PUT /admin/employees/:id' do
+  describe 'PUT /companies/:id' do
     before do
-      put "/admin/employees/#{employee_id}", params: employee_params.to_json , headers: headers
+      put "/companies/#{company_id}", params: company_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:employee_params) { { name: 'jorge' } }
+      let(:company_params) { { name: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated employee' do
-        expect(json_body[:name]).to eq(employee_params[:name])
+      it 'return the json data for the updated company' do
+        expect(json_body[:name]).to eq(company_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:employee_params) { { name: nil } }
+      let(:company_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Employee API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/employees/:id' do
+  describe 'DELETE /companies/:id' do
     before do
-      delete "/admin/employees/#{employee_id}", params: { } , headers: headers
+      delete "/companies/#{company_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Employee API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Employee.find_by(id: employee_id).active).to eq(false)
+      expect(Company.find_by(id: company_id)).to be_nil
     end
   end
 end

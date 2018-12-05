@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :billing_type do
-    name { Faker::FamilyGuy.character }
+    name { Faker::Name.name }
   end
 end

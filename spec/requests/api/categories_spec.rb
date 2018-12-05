@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'BillingType API', type: :request do
+RSpec.describe 'Category API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:billing_types) { create_list(:billing_type, 5) }
-  let(:billing_type) { billing_types.first }
-  let(:billing_type_id) { billing_type.id }
+  let!(:categories) { create_list(:category, 5) }
+  let(:category) { categories.first }
+  let(:category_id) { category.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'BillingType API', type: :request do
     }
   end
 
-  describe 'GET /admin/billing_types' do
+  describe 'GET /categories' do
     before do
-      get '/admin/billing_types', params: {}, headers: headers
+      get '/categories', params: {}, headers: headers
     end
-    it 'return 5 billing types from database' do
+    it 'return 5 categories from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'BillingType API', type: :request do
     end
   end
 
-  describe 'GET /admin/billing_types/:id' do
+  describe 'GET /categories/:id' do
     before do
-      get "/admin/billing_types/#{billing_type_id}", params: {}, headers: headers
+      get "/categories/#{category_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(billing_type.name)
+      expect(json_body[:name]).to eq(category.name)
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'BillingType API', type: :request do
   end
 
 
-  describe 'POST /admin/billing_types' do
+  describe 'POST /categories' do
     before do
-      post '/admin/billing_types', params: billing_type_params.to_json , headers: headers
+      post '/categories', params: category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:billing_type_params) { attributes_for(:billing_type) }
+      let(:category_params) { attributes_for(:category) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created billing type' do
-        expect(json_body[:name]).to eq(billing_type_params[:name])
+      it 'returns the json data for the created category' do
+        expect(json_body[:name]).to eq(category_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:billing_type_params) { { name: '' } }
+      let(:category_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'BillingType API', type: :request do
     end
   end
 
-  describe 'PUT /admin/billing_types/:id' do
+  describe 'PUT /categories/:id' do
     before do
-      put "/admin/billing_types/#{billing_type_id}", params: billing_type_params.to_json , headers: headers
+      put "/categories/#{category_id}", params: category_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:billing_type_params) { { name: 'Comercial' } }
+      let(:category_params) { { name: 'jorge' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated billing type' do
-        expect(json_body[:name]).to eq(billing_type_params[:name])
+      it 'return the json data for the updated category' do
+        expect(json_body[:name]).to eq(category_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:billing_type_params) { { name: nil } }
+      let(:category_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'BillingType API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/billing_types/:id' do
+  describe 'DELETE /categories/:id' do
     before do
-      delete "/admin/billing_types/#{billing_type_id}", params: { }.to_json , headers: headers
+      delete "/categories/#{category_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'BillingType API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(BillingType.find_by(id: billing_type_id)).to be_nil
+      expect(Category.find_by(id: category_id)).to be_nil
     end
   end
 end

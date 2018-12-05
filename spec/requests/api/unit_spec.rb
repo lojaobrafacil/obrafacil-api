@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Region API', type: :request do
+RSpec.describe 'Unit API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:regions) { create_list(:region, 2) }
-  let(:region) { regions.first }
-  let(:region_id) { region.id }
+  let!(:units) { create_list(:unit, 5) }
+  let(:unit) { units.first }
+  let(:unit_id) { unit.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,12 +16,12 @@ RSpec.describe 'Region API', type: :request do
     }
   end
 
-  describe 'GET /admin/regions' do
+  describe 'GET /units' do
     before do
-      get '/admin/regions', params: {}, headers: headers
+      get '/units', params: {}, headers: headers
     end
-    it 'return 5 email types from database' do
-      expect(json_body.count).to eq(2)
+    it 'return 5 units from database' do
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -29,12 +29,12 @@ RSpec.describe 'Region API', type: :request do
     end
   end
 
-  describe 'GET /admin/regions/:id' do
+  describe 'GET /units/:id' do
     before do
-      get "/admin/regions/#{region_id}", params: {}, headers: headers
+      get "/units/#{unit_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(region[:name])
+      expect(json_body[:name]).to eq(unit[:name])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Region API', type: :request do
   end
 
 
-  describe 'POST /admin/regions' do
+  describe 'POST /units' do
     before do
-      post '/admin/regions', params: region_params.to_json , headers: headers
+      post '/units', params: unit_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:region_params) { attributes_for(:region) }
+      let(:unit_params) { attributes_for(:unit) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created email type' do
-        expect(json_body[:name]).to eq(region_params[:name])
+      it 'returns the json data for the created unit' do
+        expect(json_body[:name]).to eq(unit_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:region_params) { { name: '' } }
+      let(:unit_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Region API', type: :request do
     end
   end
 
-  describe 'PUT /admin/regions/:id' do
+  describe 'PUT /units/:id' do
     before do
-      put "/admin/regions/#{region_id}", params: region_params.to_json , headers: headers
+      put "/units/#{unit_id}", params: unit_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:region_params) { { name: region.name } }
+      let(:unit_params) { { name: unit.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated email type' do
-        expect(json_body[:name]).to eq(region_params[:name])
+      it 'return the json data for the updated unit' do
+        expect(json_body[:name]).to eq(unit_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:region_params) { {name: nil} }
+      let(:unit_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Region API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/regions/:id' do
+  describe 'DELETE /units/:id' do
     before do
-      delete "/admin/regions/#{region_id}", params: { }.to_json , headers: headers
+      delete "/units/#{unit_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Region API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Region.find_by(id: region_id)).to be_nil
+      expect(Unit.find_by(id: unit_id)).to be_nil
     end
   end
 end

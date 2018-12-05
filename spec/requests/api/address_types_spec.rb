@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'SubCategory API', type: :request do
+RSpec.describe 'AddressType API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:sub_categories) { create_list(:sub_category, 5) }
-  let(:sub_category) { sub_categories.first }
-  let(:sub_category_id) { sub_category.id }
+  let!(:address_types) { create_list(:address_type, 5) }
+  let(:address_type) { address_types.first }
+  let(:address_type_id) { address_type.id }
   let(:auth_data) { user.create_new_auth_token }  
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'SubCategory API', type: :request do
     }
   end
 
-  describe 'GET /admin/sub_categories' do
+  describe 'GET /address_types' do
     before do
-      get '/admin/sub_categories', params: {}, headers: headers
+      get '/address_types', params: {}, headers: headers
     end
-    it 'return 5 sub_categories from database' do
+    it 'return 5 address types from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'SubCategory API', type: :request do
     end
   end
 
-  describe 'GET /admin/sub_categories/:id' do
+  describe 'GET /address_types/:id' do
     before do
-      get "/admin/sub_categories/#{sub_category_id}", params: {}, headers: headers
+      get "/address_types/#{address_type_id}", params: {}, headers: headers
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(sub_category[:name])
+    it 'return address type from database' do
+      expect(json_body[:name]).to eq(address_type.name)
     end
 
     it 'return status 200' do
@@ -42,26 +42,25 @@ RSpec.describe 'SubCategory API', type: :request do
     end
   end
 
-
-  describe 'POST /admin/sub_categories' do
+  describe 'POST /address_types' do
     before do
-      post '/admin/sub_categories', params: sub_category_params.to_json , headers: headers
+      post '/address_types', params: address_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:sub_category_params) { attributes_for(:sub_category) }
+      let(:address_type_params) { attributes_for(:address_type) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created sub_category' do
-        expect(json_body[:name]).to eq(sub_category_params[:name])
+      it 'returns the json data for the created address type' do
+        expect(json_body[:name]).to eq(address_type_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:sub_category_params) { { name: '' } }
+      let(:address_type_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +72,25 @@ RSpec.describe 'SubCategory API', type: :request do
     end
   end
 
-  describe 'PUT /admin/sub_categories/:id' do
+  describe 'PUT /address_types/:id' do
     before do
-      put "/admin/sub_categories/#{sub_category_id}", params: sub_category_params.to_json , headers: headers
+      put "/address_types/#{address_type_id}", params: address_type_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:sub_category_params) { { name: 'jorge' } }
+      let(:address_type_params) { { name: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated sub_category' do
-        expect(json_body[:name]).to eq(sub_category_params[:name])
+      it 'return the json data for the updated address type' do
+        expect(json_body[:name]).to eq(address_type_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:sub_category_params) { { name: nil } }
+      let(:address_type_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +102,9 @@ RSpec.describe 'SubCategory API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/sub_categories/:id' do
+  describe 'DELETE /address_types/:id' do
     before do
-      delete "/admin/sub_categories/#{sub_category_id}", params: { } , headers: headers
+      delete "/address_types/#{address_type_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +112,7 @@ RSpec.describe 'SubCategory API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(SubCategory.find_by(id: sub_category_id)).to be_nil
+      expect(AddressType.find_by(id: address_type_id)).to be_nil
     end
   end
 end

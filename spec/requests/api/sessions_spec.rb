@@ -12,9 +12,9 @@ RSpec.describe 'Sessions API', type: :request do
       'client' => auth_data['client']
     }
   end
-  describe 'POST /admin/auth/sign_in' do
+  describe 'POST /auth/sign_in' do
     before do
-    	post '/admin/auth/sign_in', headers: credencials
+    	post '/auth/sign_in', headers: credencials
     end
 
     context 'when the credencials are correct' do
@@ -43,10 +43,10 @@ RSpec.describe 'Sessions API', type: :request do
     end
   end
   
-  describe 'DELETE /admin/auth/sign_out' do
+  describe 'DELETE /auth/sign_out' do
     let(:auth_token) { user.auth_token }
     before do
-      delete "/admin/auth/sign_out", params: { }, headers: headers
+      delete "/auth/sign_out", params: { }, headers: headers
     end
 
     it 'return status code 200' do

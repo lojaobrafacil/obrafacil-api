@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Category API', type: :request do
+RSpec.describe 'PaymentMethod API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:categories) { create_list(:category, 5) }
-  let(:category) { categories.first }
-  let(:category_id) { category.id }
+  let!(:payment_methods) { create_list(:payment_method, 5) }
+  let(:payment_method) { payment_methods.first }
+  let(:payment_method_id) { payment_method.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'Category API', type: :request do
     }
   end
 
-  describe 'GET /admin/categories' do
+  describe 'GET /payment_methods' do
     before do
-      get '/admin/categories', params: {}, headers: headers
+      get '/payment_methods', params: {}, headers: headers
     end
-    it 'return 5 categories from database' do
+    it 'return 5 payment_methods from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'Category API', type: :request do
     end
   end
 
-  describe 'GET /admin/categories/:id' do
+  describe 'GET /payment_methods/:id' do
     before do
-      get "/admin/categories/#{category_id}", params: {}, headers: headers
+      get "/payment_methods/#{payment_method_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(category.name)
+      expect(json_body[:name]).to eq(payment_method[:name])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Category API', type: :request do
   end
 
 
-  describe 'POST /admin/categories' do
+  describe 'POST /payment_methods' do
     before do
-      post '/admin/categories', params: category_params.to_json , headers: headers
+      post '/payment_methods', params: payment_method_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:category_params) { attributes_for(:category) }
+      let(:payment_method_params) { attributes_for(:payment_method) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created category' do
-        expect(json_body[:name]).to eq(category_params[:name])
+      it 'returns the json data for the created payment_method' do
+        expect(json_body[:name]).to eq(payment_method_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:category_params) { { name: '' } }
+      let(:payment_method_params) { { name:nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Category API', type: :request do
     end
   end
 
-  describe 'PUT /admin/categories/:id' do
+  describe 'PUT /payment_methods/:id' do
     before do
-      put "/admin/categories/#{category_id}", params: category_params.to_json , headers: headers
+      put "/payment_methods/#{payment_method_id}", params: payment_method_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:category_params) { { name: 'jorge' } }
+      let(:payment_method_params) { { name: 'jorge' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated category' do
-        expect(json_body[:name]).to eq(category_params[:name])
+      it 'return the json data for the updated payment_method' do
+        expect(json_body[:name]).to eq(payment_method_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:category_params) { { name: nil } }
+      let(:payment_method_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Category API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/categories/:id' do
+  describe 'DELETE /payment_methods/:id' do
     before do
-      delete "/admin/categories/#{category_id}", params: { } , headers: headers
+      delete "/payment_methods/#{payment_method_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Category API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Category.find_by(id: category_id)).to be_nil
+      expect(PaymentMethod.find_by(id: payment_method_id)).to be_nil
     end
   end
 end

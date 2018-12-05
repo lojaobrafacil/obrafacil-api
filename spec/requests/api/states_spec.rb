@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Carrier API', type: :request do
+RSpec.describe 'State API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:carriers) { create_list(:carrier, 5) }
-  let(:carrier) { carriers.first }
-  let(:carrier_id) { carrier.id }
-  let(:auth_data) { user.create_new_auth_token }
+  let!(:states) { create_list(:state, 2) }
+  let(:state) { states.first }
+  let(:state_id) { state.id }
+  let(:auth_data) { user.create_new_auth_token }  
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,12 +16,12 @@ RSpec.describe 'Carrier API', type: :request do
     }
   end
 
-  describe 'GET /admin/carriers' do
+  describe 'GET /states' do
     before do
-      get '/admin/carriers', params: {}, headers: headers
+      get '/states', params: {}, headers: headers
     end
-    it 'return 5 carriers from database' do
-      expect(json_body.count).to eq(5)
+    it 'return 5 email types from database' do
+      expect(json_body.count).to eq(2)
     end
 
     it 'return status 200' do
@@ -29,12 +29,12 @@ RSpec.describe 'Carrier API', type: :request do
     end
   end
 
-  describe 'GET /admin/carriers/:id' do
+  describe 'GET /states/:id' do
     before do
-      get "/admin/carriers/#{carrier_id}", params: {}, headers: headers
+      get "/states/#{state_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(carrier.name)
+      expect(json_body[:name]).to eq(state[:name])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Carrier API', type: :request do
   end
 
 
-  describe 'POST /admin/carriers' do
+  describe 'POST /states' do
     before do
-      post '/admin/carriers', params: carrier_params.to_json , headers: headers
+      post '/states', params: state_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:carrier_params) { attributes_for(:carrier) }
+      let(:state_params) { attributes_for(:state) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created carrier' do
-        expect(json_body[:name]).to eq(carrier_params[:name])
+      it 'returns the json data for the created email type' do
+        expect(json_body[:name]).to eq(state_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:carrier_params) { { name: '' } }
+      let(:state_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Carrier API', type: :request do
     end
   end
 
-  describe 'PUT /admin/carriers/:id' do
+  describe 'PUT /states/:id' do
     before do
-      put "/admin/carriers/#{carrier_id}", params: carrier_params.to_json , headers: headers
+      put "/states/#{state_id}", params: state_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:carrier_params) { { name: carrier.name } }
+      let(:state_params) { { name: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated carrier' do
-        expect(json_body[:name]).to eq(carrier_params[:name])
+      it 'return the json data for the updated email type' do
+        expect(json_body[:name]).to eq(state_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:carrier_params) { { name: nil } }
+      let(:state_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Carrier API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/carriers/:id' do
+  describe 'DELETE /states/:id' do
     before do
-      delete "/admin/carriers/#{carrier_id}", params: { } , headers: headers
+      delete "/states/#{state_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Carrier API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Carrier.find_by(id: carrier_id)).to be_nil
+      expect(State.find_by(id: state_id)).to be_nil
     end
   end
 end

@@ -274,19 +274,6 @@ ActiveRecord::Schema.define(version: 2018_12_05_043645) do
     t.index ["product_id"], name: "index_image_products_on_product_id"
   end
 
-  create_table "log_company_products", force: :cascade do |t|
-    t.integer "kind", default: 1
-    t.integer "amount", null: false
-    t.float "cost"
-    t.text "description"
-    t.bigint "company_product_id"
-    t.integer "order_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_product_id"], name: "index_log_company_products_on_company_product_id"
-    t.index ["order_id"], name: "index_log_company_products_on_order_id"
-  end
-
   create_table "log_premio_ideals", force: :cascade do |t|
     t.integer "status"
     t.text "error"
@@ -482,6 +469,7 @@ ActiveRecord::Schema.define(version: 2018_12_05_043645) do
     t.string "uid", default: "", null: false
     t.json "tokens"
     t.string "federal_registration"
+    t.integer "kind"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["federal_registration"], name: "index_users_on_federal_registration", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -507,7 +495,6 @@ ActiveRecord::Schema.define(version: 2018_12_05_043645) do
   add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
   add_foreign_key "image_products", "products"
-  add_foreign_key "log_company_products", "company_products"
   add_foreign_key "log_premio_ideals", "partners"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"

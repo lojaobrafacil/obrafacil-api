@@ -18,9 +18,9 @@ RSpec.describe 'Vehicle API', type: :request do
     }
   end
 
-  describe 'GET /admin/vehicles' do
+  describe 'GET /vehicles' do
     before do
-      get '/admin/vehicles', params: {}, headers: headers
+      get '/vehicles', params: {}, headers: headers
     end
     it 'return 5 vehicles from database' do
       expect(json_body.count).to eq(5)
@@ -31,9 +31,9 @@ RSpec.describe 'Vehicle API', type: :request do
     end
   end
 
-  describe 'GET /admin/vehicles/:id' do
+  describe 'GET /vehicles/:id' do
     before do
-      get "/admin/vehicles/#{vehicle.id}", params: {}, headers: headers
+      get "/vehicles/#{vehicle.id}", params: {}, headers: headers
     end
     it 'return vehicle from database' do
       expect(json_body[:brand]).to eq(vehicle[:brand])
@@ -45,9 +45,9 @@ RSpec.describe 'Vehicle API', type: :request do
   end
 
 
-  describe 'POST /admin/vehicles' do
+  describe 'POST /vehicles' do
     before do
-      post '/admin/vehicles', params: vehicle_params.to_json  , headers: headers
+      post '/vehicles', params: vehicle_params.to_json  , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -75,9 +75,9 @@ RSpec.describe 'Vehicle API', type: :request do
     end
   end
 
-  describe 'PUT /admin/vehicles/:id' do
+  describe 'PUT /vehicles/:id' do
     before do 
-      put "/admin/vehicles/#{vehicle_id}", params: vehicle_params.to_json , headers: headers
+      put "/vehicles/#{vehicle_id}", params: vehicle_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
@@ -104,9 +104,9 @@ RSpec.describe 'Vehicle API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/vehicles/:id' do
+  describe 'DELETE /vehicles/:id' do
     before do
-      delete "/admin/vehicles/#{vehicle_id}", params: { } , headers: headers
+      delete "/vehicles/#{vehicle_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do

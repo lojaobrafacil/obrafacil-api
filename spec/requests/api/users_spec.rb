@@ -14,10 +14,10 @@
 #     }
 #   end
 
-#   describe 'GET /admin/auth/validate_token' do
+#   describe 'GET /auth/validate_token' do
 #     context 'when the user exists' do
 #       before do
-#         get "/admin/auth/validate_token", params: {}, headers: headers
+#         get "/auth/validate_token", params: {}, headers: headers
 #       end
 #       it 'returns the request headers are valid' do
 #         expect(json_body[:data][:id]).to eq(user.id)
@@ -30,7 +30,7 @@
 #     context 'returns the request headers are not valid' do
 #       before do
 #         headers['access-token'] = 'invalid_token'
-#         get "/admin/auth/validate_token", params: {}, headers: headers
+#         get "/auth/validate_token", params: {}, headers: headers
 #       end
 
 #       it 'returns status code 401' do
@@ -39,9 +39,9 @@
 #     end
 #   end
 
-#   describe 'PUT /admin/auth' do
+#   describe 'PUT /auth' do
 #     before do
-#       put "/admin/auth", params: user_params.to_json, headers: headers
+#       put "/auth", params: user_params.to_json, headers: headers
 #     end
 
 #     context 'when the request params are valid' do
@@ -69,9 +69,9 @@
 #       end
 #     end
 #   end
-#   describe 'DELETE /admin/auth' do
+#   describe 'DELETE /auth' do
 #     before do
-#       delete "/admin/auth", params: {  }, headers: headers
+#       delete "/auth", params: {  }, headers: headers
 #     end
 
 #     it 'returns status code 200' do

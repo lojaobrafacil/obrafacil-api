@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'State API', type: :request do
+RSpec.describe 'Partner API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:states) { create_list(:state, 2) }
-  let(:state) { states.first }
-  let(:state_id) { state.id }
-  let(:auth_data) { user.create_new_auth_token }  
+  let!(:partners) { create_list(:partner, 5) }
+  let(:partner) { partners.first }
+  let(:partner_id) { partner.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept'  => 'application/vnd.emam.v2',
@@ -16,12 +16,12 @@ RSpec.describe 'State API', type: :request do
     }
   end
 
-  describe 'GET /admin/states' do
+  describe 'GET /partners' do
     before do
-      get '/admin/states', params: {}, headers: headers
+      get '/partners', params: {}, headers: headers
     end
-    it 'return 5 email types from database' do
-      expect(json_body.count).to eq(2)
+    it 'return 5 partners from database' do
+      expect(json_body.count).to eq(5)
     end
 
     it 'return status 200' do
@@ -29,12 +29,12 @@ RSpec.describe 'State API', type: :request do
     end
   end
 
-  describe 'GET /admin/states/:id' do
+  describe 'GET /partners/:id' do
     before do
-      get "/admin/states/#{state_id}", params: {}, headers: headers
+      get "/partners/#{partner.id}", params: {}, headers: headers
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(state[:name])
+    it 'return partner from database' do
+      expect(json_body[:name]).to eq(partner[:name])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'State API', type: :request do
   end
 
 
-  describe 'POST /admin/states' do
+  describe 'POST /partners' do
     before do
-      post '/admin/states', params: state_params.to_json , headers: headers
+      post '/partners', params: partner_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:state_params) { attributes_for(:state) }
+      let(:partner_params) { attributes_for(:partner) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created email type' do
-        expect(json_body[:name]).to eq(state_params[:name])
+      it 'returns the json data for the created partner' do
+        expect(json_body[:name]).to eq(partner_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:state_params) { { name: '' } }
+      let(:partner_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'State API', type: :request do
     end
   end
 
-  describe 'PUT /admin/states/:id' do
+  describe 'PUT /partners/:id' do
     before do
-      put "/admin/states/#{state_id}", params: state_params.to_json , headers: headers
+      put "/partners/#{partner_id}", params: partner_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:state_params) { { name: 'Comercial' } }
+      let(:partner_params) { { name: partner.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated email type' do
-        expect(json_body[:name]).to eq(state_params[:name])
+      it 'return the json data for the updated partner' do
+        expect(json_body[:name]).to eq(partner_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:state_params) { { name: nil } }
+      let(:partner_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'State API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/states/:id' do
+  describe 'DELETE /partners/:id' do
     before do
-      delete "/admin/states/#{state_id}", params: { }.to_json , headers: headers
+      delete "/partners/#{partner_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'State API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(State.find_by(id: state_id)).to be_nil
+      expect(Partner.find_by(id: partner_id)).to be_nil
     end
   end
 end

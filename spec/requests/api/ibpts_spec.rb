@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Bank API', type: :request do
+RSpec.describe 'Ibpt API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:banks) { create_list(:bank, 5) }
-  let(:bank) { banks.first }
-  let(:bank_id) { bank.id }
+  let!(:ibpts) { create_list(:ibpt, 5) }
+  let(:ibpt) { ibpts.first }
+  let(:ibpt_id) { ibpt.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'Bank API', type: :request do
     }
   end
 
-  describe 'GET /admin/banks' do
+  describe 'GET /ibpts' do
     before do
-      get '/admin/banks', params: {}, headers: headers
+      get '/ibpts', params: {}, headers: headers
     end
-    it 'return 5 banks from database' do
+    it 'return 5 ibpts from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'Bank API', type: :request do
     end
   end
 
-  describe 'GET /admin/banks/:id' do
+  describe 'GET /ibpts/:id' do
     before do
-      get "/admin/banks/#{bank_id}", params: {}, headers: headers
+      get "/ibpts/#{ibpt_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:code]).to eq(bank.code)
+      expect(json_body[:code]).to eq(ibpt[:code])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Bank API', type: :request do
   end
 
 
-  describe 'POST /admin/banks' do
+  describe 'POST /ibpts' do
     before do
-      post '/admin/banks', params: bank_params.to_json , headers: headers
+      post '/ibpts', params: ibpt_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:bank_params) { attributes_for(:bank) }
+      let(:ibpt_params) { attributes_for(:ibpt) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created bank' do
-        expect(json_body[:name]).to eq(bank_params[:name])
+      it 'returns the json data for the created ibpt' do
+        expect(json_body[:code].to_s).to eq(ibpt_params[:code].to_s)
       end
     end
 
     context 'when the request params are invalid' do
-      let(:bank_params) { { name: '' } }
+      let(:ibpt_params) { { code: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Bank API', type: :request do
     end
   end
 
-  describe 'PUT /admin/banks/:id' do
+  describe 'PUT /ibpts/:id' do
     before do
-      put "/admin/banks/#{bank_id}", params: bank_params.to_json , headers: headers
+      put "/ibpts/#{ibpt_id}", params: ibpt_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:bank_params) { { name: bank.name } }
+      let(:ibpt_params) { { code: ibpt.code } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated bank' do
-        expect(json_body[:name]).to eq(bank_params[:name])
+      it 'return the json data for the updated ibpt' do
+        expect(json_body[:code].to_s).to eq(ibpt_params[:code].to_s)
       end
     end
 
     context 'when the request params are invalid' do
-      let(:bank_params) { { name: nil } }
+      let(:ibpt_params) { { code: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Bank API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/banks/:id' do
+  describe 'DELETE /ibpts/:id' do
     before do
-      delete "/admin/banks/#{bank_id}", params: { } , headers: headers
+      delete "/ibpts/#{ibpt_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Bank API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Bank.find_by(id: bank_id)).to be_nil
+      expect(Ibpt.find_by(id: ibpt_id)).to be_nil
     end
   end
 end

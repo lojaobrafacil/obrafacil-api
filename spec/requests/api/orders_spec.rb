@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Cashier API', type: :request do
+RSpec.describe 'Order API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:cashiers) { create_list(:cashier, 5) }
-  let(:cashier) { cashiers.first }
-  let(:cashier_id) { cashier.id }
+  let!(:orders) { create_list(:order, 5) }
+  let(:order) { orders.first }
+  let(:order_id) { order.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'Cashier API', type: :request do
     }
   end
 
-  describe 'GET /admin/cashiers' do
+  describe 'GET /orders' do
     before do
-      get '/admin/cashiers', params: {}, headers: headers
+      get '/orders', params: {}, headers: headers
     end
-    it 'return 5 cashiers from database' do
+    it 'return 5 orders from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'Cashier API', type: :request do
     end
   end
 
-  describe 'GET /admin/cashiers/:id' do
+  describe 'GET /orders/:id' do
     before do
-      get "/admin/cashiers/#{cashier_id}", params: {}, headers: headers
+      get "/orders/#{order_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:start_date].to_s.to_time).to eq(cashier.start_date)
+      expect(json_body[:description]).to eq(order[:description])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Cashier API', type: :request do
   end
 
 
-  describe 'POST /admin/cashiers' do
+  describe 'POST /orders' do
     before do
-      post '/admin/cashiers', params: cashier_params.to_json , headers: headers
+      post '/orders', params: order_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:cashier_params) { attributes_for(:cashier) }
+      let(:order_params) { attributes_for(:order) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created cashier' do
-        expect(json_body[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
+      it 'returns the json data for the created order' do
+        expect(json_body[:description]).to eq(order_params[:description])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:cashier_params) { { start_date: nil } }
+      let(:order_params) { { kind: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,26 @@ RSpec.describe 'Cashier API', type: :request do
     end
   end
 
-  describe 'PUT /admin/cashiers/:id' do
+  describe 'PUT /orders/:id' do
     before do
-      put "/admin/cashiers/#{cashier_id}", params: cashier_params.to_json , headers: headers
+      Order.find(order_id).update!(kind: 0)
+      put "/orders/#{order_id}", params: order_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:cashier_params) { { start_date: cashier.start_date } }
+      let(:order_params) { { kind: "normal" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated cashier' do
-        expect(json_body[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y")).to eq(cashier_params[:start_date].to_time.strftime("%H:%M:%S %d-%m-%Y"))
+      it 'return the json data for the updated order' do
+        expect(json_body[:kind]).to eq(order_params[:kind])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:cashier_params) { { start_date: nil } }
+      let(:order_params) { { kind: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +104,9 @@ RSpec.describe 'Cashier API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/cashiers/:id' do
+  describe 'DELETE /orders/:id' do
     before do
-      delete "/admin/cashiers/#{cashier_id}", params: { } , headers: headers
+      delete "/orders/#{order_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +114,7 @@ RSpec.describe 'Cashier API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Cashier.find_by(id: cashier_id)).to be_nil
+      expect(Order.find_by(id: order_id)).to be_nil
     end
   end
 end

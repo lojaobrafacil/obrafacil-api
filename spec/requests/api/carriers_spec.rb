@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Product API', type: :request do
+RSpec.describe 'Carrier API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:products) { create_list(:product, 5) }
-  let(:product) { products.first }
-  let(:product_id) { product.id }
+  let!(:carriers) { create_list(:carrier, 5) }
+  let(:carrier) { carriers.first }
+  let(:carrier_id) { carrier.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'Product API', type: :request do
     }
   end
 
-  describe 'GET /admin/products' do
+  describe 'GET /carriers' do
     before do
-      get '/admin/products', params: {}, headers: headers
+      get '/carriers', params: {}, headers: headers
     end
-    it 'return 5 products from database' do
+    it 'return 5 carriers from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'Product API', type: :request do
     end
   end
 
-  describe 'GET /admin/products/:id' do
+  describe 'GET /carriers/:id' do
     before do
-      get "/admin/products/#{product_id}", params: {}, headers: headers
+      get "/carriers/#{carrier_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(product[:name])
+      expect(json_body[:name]).to eq(carrier.name)
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Product API', type: :request do
   end
 
 
-  describe 'POST /admin/products' do
+  describe 'POST /carriers' do
     before do
-      post '/admin/products', params: product_params.to_json , headers: headers
+      post '/carriers', params: carrier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:product_params) { attributes_for(:product) }
+      let(:carrier_params) { attributes_for(:carrier) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created product' do
-        expect(json_body[:name]).to eq(product_params[:name])
+      it 'returns the json data for the created carrier' do
+        expect(json_body[:name]).to eq(carrier_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:product_params) { { name: '' } }
+      let(:carrier_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Product API', type: :request do
     end
   end
 
-  describe 'PUT /admin/products/:id' do
+  describe 'PUT /carriers/:id' do
     before do
-      put "/admin/products/#{product_id}", params:  product_params.to_json , headers: headers
+      put "/carriers/#{carrier_id}", params: carrier_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:product_params) { { name: product.name } }
+      let(:carrier_params) { { name: carrier.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated product' do
-        expect(json_body[:name]).to eq(product_params[:name])
+      it 'return the json data for the updated carrier' do
+        expect(json_body[:name]).to eq(carrier_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:product_params) { { name: nil } }
+      let(:carrier_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Product API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/products/:id' do
+  describe 'DELETE /carriers/:id' do
     before do
-      delete "/admin/products/#{product_id}", params: { } , headers: headers
+      delete "/carriers/#{carrier_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Product API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Product.find_by(id: product_id)).to be_nil
+      expect(Carrier.find_by(id: carrier_id)).to be_nil
     end
   end
 end

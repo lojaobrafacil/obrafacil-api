@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Order API', type: :request do
+RSpec.describe 'Region API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:orders) { create_list(:order, 5) }
-  let(:order) { orders.first }
-  let(:order_id) { order.id }
+  let!(:regions) { create_list(:region, 2) }
+  let(:region) { regions.first }
+  let(:region_id) { region.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,12 +16,12 @@ RSpec.describe 'Order API', type: :request do
     }
   end
 
-  describe 'GET /admin/orders' do
+  describe 'GET /regions' do
     before do
-      get '/admin/orders', params: {}, headers: headers
+      get '/regions', params: {}, headers: headers
     end
-    it 'return 5 orders from database' do
-      expect(json_body.count).to eq(5)
+    it 'return 5 email types from database' do
+      expect(json_body.count).to eq(2)
     end
 
     it 'return status 200' do
@@ -29,12 +29,12 @@ RSpec.describe 'Order API', type: :request do
     end
   end
 
-  describe 'GET /admin/orders/:id' do
+  describe 'GET /regions/:id' do
     before do
-      get "/admin/orders/#{order_id}", params: {}, headers: headers
+      get "/regions/#{region_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:description]).to eq(order[:description])
+      expect(json_body[:name]).to eq(region[:name])
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Order API', type: :request do
   end
 
 
-  describe 'POST /admin/orders' do
+  describe 'POST /regions' do
     before do
-      post '/admin/orders', params: order_params.to_json , headers: headers
+      post '/regions', params: region_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:order_params) { attributes_for(:order) }
+      let(:region_params) { attributes_for(:region) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created order' do
-        expect(json_body[:description]).to eq(order_params[:description])
+      it 'returns the json data for the created email type' do
+        expect(json_body[:name]).to eq(region_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:order_params) { { kind: nil } }
+      let(:region_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,26 +73,25 @@ RSpec.describe 'Order API', type: :request do
     end
   end
 
-  describe 'PUT /admin/orders/:id' do
+  describe 'PUT /regions/:id' do
     before do
-      Order.find(order_id).update!(kind: 0)
-      put "/admin/orders/#{order_id}", params: order_params.to_json , headers: headers
+      put "/regions/#{region_id}", params: region_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:order_params) { { kind: "normal" } }
+      let(:region_params) { { name: region.name } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated order' do
-        expect(json_body[:kind]).to eq(order_params[:kind])
+      it 'return the json data for the updated email type' do
+        expect(json_body[:name]).to eq(region_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:order_params) { { kind: nil } }
+      let(:region_params) { {name: nil} }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -104,9 +103,9 @@ RSpec.describe 'Order API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/orders/:id' do
+  describe 'DELETE /regions/:id' do
     before do
-      delete "/admin/orders/#{order_id}", params: { } , headers: headers
+      delete "/regions/#{region_id}", params: { }.to_json , headers: headers
     end
 
     it 'return status code 204' do
@@ -114,7 +113,7 @@ RSpec.describe 'Order API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Order.find_by(id: order_id)).to be_nil
+      expect(Region.find_by(id: region_id)).to be_nil
     end
   end
 end

@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Unit API', type: :request do
+RSpec.describe 'Cfop API', type: :request do
   let!(:user){ create(:employee, admin:true) }
-  let!(:units) { create_list(:unit, 5) }
-  let(:unit) { units.first }
-  let(:unit_id) { unit.id }
+  let!(:cfops) { create_list(:cfop, 5) }
+  let(:cfop) { cfops.first }
+  let(:cfop_id) { cfop.id }
   let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
@@ -16,11 +16,11 @@ RSpec.describe 'Unit API', type: :request do
     }
   end
 
-  describe 'GET /admin/units' do
+  describe 'GET /cfops' do
     before do
-      get '/admin/units', params: {}, headers: headers
+      get '/cfops', params: {}, headers: headers
     end
-    it 'return 5 units from database' do
+    it 'return 5 cfops from database' do
       expect(json_body.count).to eq(5)
     end
 
@@ -29,12 +29,12 @@ RSpec.describe 'Unit API', type: :request do
     end
   end
 
-  describe 'GET /admin/units/:id' do
+  describe 'GET /cfops/:id' do
     before do
-      get "/admin/units/#{unit_id}", params: {}, headers: headers
+      get "/cfops/#{cfop_id}", params: {}, headers: headers
     end
     it 'return address from database' do
-      expect(json_body[:name]).to eq(unit[:name])
+      expect(json_body[:code]).to eq(cfop.code)
     end
 
     it 'return status 200' do
@@ -43,25 +43,25 @@ RSpec.describe 'Unit API', type: :request do
   end
 
 
-  describe 'POST /admin/units' do
+  describe 'POST /cfops' do
     before do
-      post '/admin/units', params: unit_params.to_json , headers: headers
+      post '/cfops', params: cfop_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:unit_params) { attributes_for(:unit) }
+      let(:cfop_params) { attributes_for(:cfop) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created unit' do
-        expect(json_body[:name]).to eq(unit_params[:name])
+      it 'returns the json data for the created cfop' do
+        expect(json_body[:code].to_s).to eq(cfop_params[:code].to_s)
       end
     end
 
     context 'when the request params are invalid' do
-      let(:unit_params) { { name: '' } }
+      let(:cfop_params) { { code: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -73,25 +73,25 @@ RSpec.describe 'Unit API', type: :request do
     end
   end
 
-  describe 'PUT /admin/units/:id' do
+  describe 'PUT /cfops/:id' do
     before do
-      put "/admin/units/#{unit_id}", params: unit_params.to_json , headers: headers
+      put "/cfops/#{cfop_id}", params: cfop_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:unit_params) { { name: unit.name } }
+      let(:cfop_params) { { code: 15245 } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated unit' do
-        expect(json_body[:name]).to eq(unit_params[:name])
+      it 'return the json data for the updated cfop' do
+        expect(json_body[:code]).to eq(cfop_params[:code])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:unit_params) { { name: nil } }
+      let(:cfop_params) { { code: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -103,9 +103,9 @@ RSpec.describe 'Unit API', type: :request do
     end
   end
 
-  describe 'DELETE /admin/units/:id' do
+  describe 'DELETE /cfops/:id' do
     before do
-      delete "/admin/units/#{unit_id}", params: { } , headers: headers
+      delete "/cfops/#{cfop_id}", params: { } , headers: headers
     end
 
     it 'return status code 204' do
@@ -113,7 +113,7 @@ RSpec.describe 'Unit API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Unit.find_by(id: unit_id)).to be_nil
+      expect(Cfop.find_by(id: cfop_id)).to be_nil
     end
   end
 end

@@ -14,12 +14,12 @@ RSpec.describe 'PricePercentage API', type: :request do
     }
   end
 
-  describe 'GET /admin/price_percentages' do
+  describe 'GET /price_percentages' do
     before do
       [1,2,3].each do |n|
         create(:price_percentage, kind: n)
       end
-      get '/admin/price_percentages', params: {}, headers: headers
+      get '/price_percentages', params: {}, headers: headers
     end
     it 'return 5 price_percentages from database' do
       expect(json_body.count).to eq(3)
@@ -30,13 +30,13 @@ RSpec.describe 'PricePercentage API', type: :request do
     end
   end
 
-  describe 'GET /admin/price_percentages/:id' do
+  describe 'GET /price_percentages/:id' do
     PricePercentage.destroy_all
     let(:price_percentage) { create(:price_percentage) }
     let(:price_percentage_id) { price_percentage.id }
     let(:company) { create(:company) }
     before do
-      get "/admin/price_percentages/#{company.id}", params: {}, headers: headers
+      get "/price_percentages/#{company.id}", params: {}, headers: headers
     end
     it 'return price percentages kind from database' do
       expect(json_body[:kind_1]).to eq(1)
@@ -52,7 +52,7 @@ RSpec.describe 'PricePercentage API', type: :request do
     end
   end
 
-  describe 'PUT /admin/price_percentages/:id' do
+  describe 'PUT /price_percentages/:id' do
     let(:price_percentage) { create(:price_percentage) }
     let(:price_percentage_id) { price_percentage.id }
     let(:price_percentage_params) { {price_percentages: [
@@ -66,7 +66,7 @@ RSpec.describe 'PricePercentage API', type: :request do
     let(:company) {create(:company)}
 
     before do
-      put "/admin/price_percentages/#{company.id}", params: price_percentage_params.to_json , headers: headers
+      put "/price_percentages/#{company.id}", params: price_percentage_params.to_json , headers: headers
     end
 
     context 'when the request params are valid' do
