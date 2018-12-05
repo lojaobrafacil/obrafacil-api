@@ -6,13 +6,17 @@ class Api::PhoneSerializer < ActiveModel::Serializer
   end
   
   def phone
-    num = object.phone
-    if num&.size == 13
-      num.split("+55")[1].insert(0, '(').insert(3, ') ').insert(9, '-')
-    elsif num&.size == 14
-      num.split("+55")[1].insert(0, '(').insert(3, ') ').insert(10, '-')
-    else
-      num
+    begin
+      num = object.phone
+      if num&.size == 13
+        num.split("+55")[1].insert(0, '(').insert(3, ') ').insert(9, '-')
+      elsif num&.size == 14
+        num.split("+55")[1].insert(0, '(').insert(3, ') ').insert(10, '-')
+      else
+        num
+      end
+    rescue
+      object.phone
     end
   end
 end

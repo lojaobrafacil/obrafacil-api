@@ -1,7 +1,7 @@
 class ApiPolicy < ApplicationPolicy
 
   def show?
-    if is_api? || user.admin
+    if is_api || user.admin
       return Api.where(:id => record.id).exists?
     else
       return false
@@ -9,7 +9,7 @@ class ApiPolicy < ApplicationPolicy
   end
   
   def create?
-    if is_api?
+    if is_api
       return true
     else
       return user.admin
@@ -25,7 +25,7 @@ class ApiPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if is_api? || user.admin
+    if is_api || user.admin
       [:name, :federal_registration]
     else
       []
@@ -34,7 +34,7 @@ class ApiPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if is_api? || user.admin
+      if is_api || user.admin
         scope.all.order(:id)
       else
         []

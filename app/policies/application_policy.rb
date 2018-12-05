@@ -1,8 +1,9 @@
 class ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :is_api, :record
 
   def initialize(user, record)
     @user = user
+    @is_api = user.class.to_s == "Api"
     @record = record.is_a?(Array) ? record.last : record
   end
 
@@ -49,10 +50,6 @@ class ApplicationPolicy
     def resolve
       scope
     end
-  end
-  
-  def is_api?
-    user.class.to_s == "Api"
   end
   
 end
