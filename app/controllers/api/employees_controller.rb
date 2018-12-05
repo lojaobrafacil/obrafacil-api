@@ -1,4 +1,4 @@
-class Api::EmployeesController < Api::V2::Admin::ContactsController
+class Api::EmployeesController < Api::ContactsController
 
   def index
     employees = policy_scope Employee

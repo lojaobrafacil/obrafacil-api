@@ -1,4 +1,4 @@
-class Api::PartnersController < Api::V2::Admin::ContactsController
+class Api::PartnersController < Api::ContactsController
 
   def index
     partners = policy_scope ::Partner

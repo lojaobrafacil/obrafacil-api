@@ -1,4 +1,4 @@
-class Api::ClientsController < Api::V2::Admin::ContactsController
+class Api::ClientsController < Api::ContactsController
 
   def index
     clients = policy_scope Client

@@ -1,4 +1,4 @@
-class Api::CompaniesController < Api::V2::Admin::ContactsController
+class Api::CompaniesController < Api::ContactsController
 
   def index
     companies = policy_scope Company 
