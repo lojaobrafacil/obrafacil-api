@@ -1,4 +1,4 @@
-class Admin::CarrierPolicy < Admin::ApplicationPolicyV2
+class CarrierPolicy < Admin::ApplicationPolicyV2
   
   def show?
     Carrier.where(:id => record.id).exists? && user.admin
