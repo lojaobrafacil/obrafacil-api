@@ -1,10 +1,10 @@
 class Api::ApisController < ApplicationController
 
-  before_action :authenticate_admin_or_api!
+  # before_action :authenticate_admin_or_api!
 
   def index
     @apis = Api.all #policy_scope Api
-    paginate json: @apis.order(:id), status: 200
+    paginate json: @apis.order(:id).as_json(only: [:id, :name, :federal_registration, :active]), status: 200
   end
 
   def show
