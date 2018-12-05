@@ -1,4 +1,4 @@
-class Admin::AddressTypePolicy < Admin::ApplicationPolicyV2
+class AddressTypePolicy < ApplicationPolicy
   
   def show?
     AddressType.where(:id => record.id).exists? && user.admin
