@@ -1,4 +1,4 @@
-class Admin::OrderPolicy < Admin::ApplicationPolicyV2
+class OrderPolicy < ApplicationPolicy
 
   def show?
     Order.where(:id => record.id).exists? && (user.change_products || user.admin)

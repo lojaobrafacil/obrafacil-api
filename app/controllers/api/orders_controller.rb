@@ -1,19 +1,19 @@
-class Api::V2::Admin::OrdersController < Api::BaseController
+class Api::OrdersController < Api::BaseController
 
   def index
-    orders = policy_scope [:admin, Order]
+    orders = policy_scope Order
     paginate json: orders.order(:id), status: 200
   end
 
   def show
     order = Order.find(params[:id])
-    authorize [:admin, order]
+    authorize order
     render json: order, status: 200
   end
 
   def create
     order = Order.new(order_params)
-    authorize [:admin, order]
+    authorize order
     if order.save
       render json: order, status: 201
     else
@@ -23,7 +23,7 @@ class Api::V2::Admin::OrdersController < Api::BaseController
 
   def update
     order = Order.find(params[:id])
-    authorize [:admin, order]
+    authorize order
     if order.update(order_params)
       render json: order, status: 200
     else
@@ -33,7 +33,7 @@ class Api::V2::Admin::OrdersController < Api::BaseController
 
   def destroy
     order = Order.find(params[:id])
-    authorize [:admin, order]
+    authorize order
     order.destroy
     head 204
   end
@@ -41,6 +41,6 @@ class Api::V2::Admin::OrdersController < Api::BaseController
   private
 
   def order_params
-    params.permit(policy([:admin, ::Partner]).permitted_attributes)
+    params.permit(policy(Order).permitted_attributes)
   end
 end

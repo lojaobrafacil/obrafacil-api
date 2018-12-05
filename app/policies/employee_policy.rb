@@ -1,4 +1,4 @@
-class Admin::EmployeePolicy < Admin::ApplicationPolicyV2
+class EmployeePolicy < ApplicationPolicy
   
   def show?
     Employee.where(:id => record.id).exists? && (user.id == record.id || user.admin)

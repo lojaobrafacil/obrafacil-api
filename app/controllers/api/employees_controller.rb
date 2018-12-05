@@ -1,7 +1,7 @@
-class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
+class Api::EmployeesController < Api::V2::Admin::ContactsController
 
   def index
-    employees = policy_scope [:admin, Employee]
+    employees = policy_scope Employee
     if employees&.empty? or employees.nil?
       render json: employees, status: 200
     else
@@ -16,13 +16,13 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def show
     employee = Employee.find(params[:id])
-    authorize [:admin, employee]
+    authorize employee
     render json: employee, status: 200
   end
 
   def create
     employee = Employee.new(employee_params)
-    authorize [:admin, employee]
+    authorize employee
     employee.password = employee_params['federal_registration'].to_s 
     employee.password_confirmation = employee_params['federal_registration'].to_s 
     if employee.save
@@ -35,7 +35,7 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def update
     employee = Employee.find(params[:id])
-    authorize [:admin, employee]
+    authorize employee
     paramters = pundit_user.id.to_s == params[:id].to_s ? employee_params.as_json(except:(:admin)) : employee_params
     if employee.update(paramters)
       update_contact(employee)
@@ -47,14 +47,14 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
 
   def destroy
     employee = Employee.find(params[:id])
-    authorize [:admin, employee]
+    authorize employee
     employee.update(active: false)
     head 204
   end
   
   def change_employee_password
     employee = Employee.find(params[:id])
-    authorize [:admin, employee]
+    authorize employee
     if employee.update(employee_password_params)
       render json: { status: "Senha atualizada" }, status: 201
     else 
@@ -69,6 +69,6 @@ class Api::V2::Admin::EmployeesController < Api::V2::Admin::ContactsController
   end
 
   def employee_params
-    params.permit(policy([:admin, Employee]).permitted_attributes)
+    params.permit(policy(Employee).permitted_attributes)
   end
 end
