@@ -1,7 +1,0 @@
-class Api::V2::Admin::SubCategorySerializer < ActiveModel::Serializer
-  attributes :id, :name, :category_id, :category_name, :updated_at, :created_at
-
-  def category_name
-    object.category.name
-  end
-end
