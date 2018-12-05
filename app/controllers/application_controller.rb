@@ -3,10 +3,10 @@ class ApplicationController < ActionController::API
 
   def authenticate_admin_or_api!
     if params[:access_id] && params[:access_key]
-      current_user = Api.find_by(access_id: params[:access_id], access_key: params[:access_key])
-      if current_user&.active
+      @current_user = Api.find_by(access_id: params[:access_id], access_key: params[:access_key])
+      if @current_user&.active
         return true
-      elsif !current_user&.active
+      elsif !@current_user&.active
         return render json: { error: I18n.t('devise.failure.inactive') }, status: 422
       else
         return render json: { error: I18n.t('devise.failure.unauthenticated') }, status: 422
