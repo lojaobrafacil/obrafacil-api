@@ -9,39 +9,39 @@ Rails.application.routes.draw do
   namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
     mount_devise_token_auth_for 'Employee', at: 'auth'
     as :employee do
-      resources :employees, only: [:index, :show, :create, :update, :destroy]
+      resources :employees
     end
     resources :users, only: [:index, :show, :update]
-    resources :address_types, only: [:index, :show, :create, :update, :destroy]
-    resources :email_types, only: [:index, :show, :create, :update, :destroy]
-    resources :phone_types, only: [:index, :show, :create, :update, :destroy]
-    resources :cities, only: [:index, :show, :create, :update, :destroy]
-    resources :regions, only: [:index, :show, :create, :update, :destroy]
-    resources :states, only: [:index, :show, :create, :update, :destroy]
-    resources :billing_types, only: [:index, :show, :create, :update, :destroy]
-    resources :banks, only: [:index, :show, :create, :update, :destroy]
-    resources :clients, only: [:index, :show, :create, :update, :destroy]
-    resources :partners, only: [:index, :show, :create, :update, :destroy]
-    resources :companies, only: [:index, :show, :create, :update, :destroy]
-    resources :suppliers, only: [:index, :show, :create, :update, :destroy]
-    resources :permissions, only: [:index, :show, :create, :update, :destroy]
-    resources :categories, only: [:index, :show, :create, :update, :destroy]
-    resources :sub_categories, only: [:index, :show, :create, :update, :destroy]
-    resources :units, only: [:index, :show, :create, :update, :destroy]
-    resources :products, only: [:index, :show, :create, :update, :destroy]
-    resources :price_percentages, only: [:index, :show, :create, :update, :destroy]
-    resources :carriers, only: [:index, :show, :create, :update, :destroy]
-    resources :ibpts, only: [:index, :show, :create, :update, :destroy]
-    resources :cfops, only: [:index, :show, :create, :update, :destroy]
-    resources :payment_methods, only: [:index, :show, :create, :update, :destroy]
-    resources :cashiers, only: [:index, :show, :create, :update, :destroy]
-    resources :orders, only: [:index, :show, :create, :update, :destroy]
-    resources :vehicles, only: [:index, :show, :create, :update, :destroy]
+    resources :address_types
+    resources :email_types
+    resources :phone_types
+    resources :cities
+    resources :regions
+    resources :states
+    resources :billing_types
+    resources :banks
+    resources :clients
+    resources :partners
+    resources :companies
+    resources :suppliers
+    resources :permissions
+    resources :categories
+    resources :sub_categories
+    resources :units
+    resources :products
+    resources :price_percentages
+    resources :carriers
+    resources :ibpts
+    resources :cfops
+    resources :payment_methods
+    resources :cashiers
+    resources :orders
+    resources :vehicles
     resources :commissions, only: [:index, :create, :update, :destroy]
     resources :images, only: [:create, :destroy]
     resources :reports, only: [:index]
-    resources :phones
-    
+    resources :apis
+        
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
       put 'premio_ideals/:id/retry', to: 'premio_ideals#retry'

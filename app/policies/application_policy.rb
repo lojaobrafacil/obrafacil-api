@@ -50,4 +50,9 @@ class ApplicationPolicy
       scope
     end
   end
+  
+  def is_api?
+    user.class.to_s == "Api"
+  end
+  
 end
