@@ -1,4 +1,4 @@
-class Admin::ClientPolicy < Admin::ApplicationPolicyV2
+class ClientPolicy < ApplicationPolicy
   
   def show?
     Client.where(:id => record.id).exists? && (user.change_clients || user.admin)

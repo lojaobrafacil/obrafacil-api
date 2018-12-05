@@ -1,7 +1,7 @@
-class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
+class Api::ClientsController < Api::V2::Admin::ContactsController
 
   def index
-    clients = policy_scope [:admin, Client]
+    clients = policy_scope Client
     if clients&.empty? or clients.nil?
       render json: clients, status: 200
     else
@@ -16,13 +16,13 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
 
   def show
     client = Client.find(params[:id])
-    authorize [:admin, client]
+    authorize client
     render json: client, status: 200
   end
 
   def create
     client = Client.new(client_params)
-    authorize [:admin, client]
+    authorize client
     if client.save
       update_contact(client)
       render json: client, status: 201
@@ -33,7 +33,7 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
 
   def update
     client = Client.find(params[:id])
-    authorize [:admin, client]
+    authorize client
     if client.update(client_params)
       update_contact(client)
       render json: client, status: 200
@@ -44,7 +44,7 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
 
   def destroy
     client = Client.find(params[:id])
-    authorize [:admin, client]
+    authorize client
     user = client.user
     client.destroy
     user.destroy if user.partner
@@ -54,6 +54,6 @@ class Api::V2::Admin::ClientsController < Api::V2::Admin::ContactsController
   private
 
   def client_params
-    params.permit(policy([:admin, Client]).permitted_attributes)
+    params.permit(policy(Client).permitted_attributes)
   end
 end
