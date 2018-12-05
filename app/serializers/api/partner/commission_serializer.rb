@@ -1,4 +1,4 @@
-class Api::V2::Partner::CommissionSerializer < ActiveModel::Serializer
+class Api::Partner::CommissionSerializer < ActiveModel::Serializer
   attributes :id, :order_id, :order_date, :client_name, :order_price, :return_price,
   :points, :percent_date, :percent, :percent_value, :sent_date, :partner_id
 

@@ -1,4 +1,4 @@
-class Api::V2::Partner::PartnerSerializer < ActiveModel::Serializer
+class Api::Partner::PartnerSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :agency, :account,
   :favored, :bank_name, :discount3, :discount5, :discount8
 
