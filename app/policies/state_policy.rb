@@ -1,4 +1,4 @@
-class Admin::RegionPolicy < Admin::ApplicationPolicyV2
+class StatePolicy < ApplicationPolicy
 
   def show?
     true
@@ -14,7 +14,7 @@ class Admin::RegionPolicy < Admin::ApplicationPolicyV2
 
   def permitted_attributes
     if user.admin
-      [:name]
+      [:name, :acronym,:region_id]
     else
       []
     end

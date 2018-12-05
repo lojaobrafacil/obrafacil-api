@@ -1,19 +1,19 @@
-class Api::V2::Admin::RegionsController < Api::BaseController
+class Api::RegionsController < Api::BaseController
 
   def index
-    regions = policy_scope [:admin, Region]
+    regions = policy_scope Region
     paginate json: regions, status: 200
   end
 
   def show
     region = Region.find(params[:id])
-    authorize [:admin, region]
+    authorize region
     render json: region, status: 200
   end
 
   def create
     region = Region.new(region_params)
-    authorize [:admin, region]
+    authorize region
     if region.save
       render json: region, status: 201
     else
@@ -23,7 +23,7 @@ class Api::V2::Admin::RegionsController < Api::BaseController
 
   def update
     region = Region.find(params[:id])
-    authorize [:admin, region]
+    authorize region
     if region.update(region_params)
       render json: region, status: 200
     else
@@ -33,7 +33,7 @@ class Api::V2::Admin::RegionsController < Api::BaseController
 
   def destroy
     region = Region.find(params[:id])
-    authorize [:admin, region]
+    authorize region
     region.destroy
     head 204
   end
@@ -41,6 +41,6 @@ class Api::V2::Admin::RegionsController < Api::BaseController
   private
 
   def region_params
-    params.permit(policy([:admin, Region]).permitted_attributes)
+    params.permit(policy(Region).permitted_attributes)
   end
 end

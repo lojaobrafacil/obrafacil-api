@@ -1,4 +1,4 @@
-class Admin::ReportPolicy < Admin::ApplicationPolicyV2
+class ReportPolicy < ApplicationPolicy
 
   def index?
     user.change_partners || user.admin
