@@ -1,4 +1,4 @@
-class Api::V2::BanksController < Api::V2::Partner::BaseController
+class Api::Partner::BanksController < Api::Partner::BaseController
   def show
     bank = Bank.find(params[:id])
     render json: bank, status: 200    
