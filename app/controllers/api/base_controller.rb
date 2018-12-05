@@ -1,8 +1,8 @@
 class Api::BaseController < ApplicationController
-  # before_action :authenticate_api_v2_admin_employee!
+  before_action :authenticate_admin_or_api!
   include Pundit
   def pundit_user
-    current_api_v2_admin_employee
+    current_user ||= current_api_employee
   end
   
 end
