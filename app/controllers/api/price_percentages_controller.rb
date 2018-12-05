@@ -1,4 +1,4 @@
-class Api::V2::Admin::PricePercentagesController < Api::BaseController
+class Api::PricePercentagesController < Api::BaseController
   before_action :is_admin?
 
   def index
@@ -53,6 +53,6 @@ class Api::V2::Admin::PricePercentagesController < Api::BaseController
   end
 
   def price_percentage_params
-    params.require(policy([:admin, PricePercentage]).permitted_attributes)    
+    params.require(policy(PricePercentage).permitted_attributes)    
   end
 end

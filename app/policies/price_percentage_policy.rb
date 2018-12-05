@@ -1,4 +1,4 @@
-class Admin::PricePercentagePolicy < Admin::ApplicationPolicyV2
+class PricePercentagePolicy < ApplicationPolicy
 
   def index?
     user.admin

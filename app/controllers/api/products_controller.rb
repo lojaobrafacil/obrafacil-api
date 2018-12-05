@@ -1,4 +1,4 @@
-class Api::V2::Admin::ProductsController < Api::BaseController
+class Api::ProductsController < Api::BaseController
 
   def index
     products = Product.all
@@ -12,13 +12,13 @@ class Api::V2::Admin::ProductsController < Api::BaseController
 
   def show
     product = Product.find(params[:id])
-    authorize [:admin, product]
+    authorize product
     render json: product, status: 200
   end
 
   def create
     product = Product.new(product_params)
-    authorize [:admin, product]
+    authorize product
     if product.save
       company_product_attributes(product) if params[:company_products]
       image_products_attributes(product) if params[:images]
@@ -30,7 +30,7 @@ class Api::V2::Admin::ProductsController < Api::BaseController
 
   def update
     product = Product.find(params[:id])
-    authorize [:admin, product]
+    authorize product
     if product.update(product_params)
       company_product_attributes(product) if params[:company_products]
       image_products_attributes(product) if params[:images]
@@ -42,7 +42,7 @@ class Api::V2::Admin::ProductsController < Api::BaseController
 
   def destroy
     product = Product.find(params[:id])
-    authorize [:admin, product]
+    authorize product
     product.destroy
     head 204
   end
@@ -50,7 +50,7 @@ class Api::V2::Admin::ProductsController < Api::BaseController
   private
 
   def product_params
-    params.permit(policy([:admin, Product]).permitted_attributes)
+    params.permit(policy(Product).permitted_attributes)
   end
 
   def company_product_attributes(product)
