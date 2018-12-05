@@ -1,4 +1,4 @@
-class Admin::ProductPolicy < Admin::ApplicationPolicyV2
+class ProductPolicy < ApplicationPolicy
 
   def create?
     Product.where(:id => record.id).exists? && (user.change_products || user.admin)

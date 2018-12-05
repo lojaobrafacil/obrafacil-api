@@ -1,4 +1,4 @@
-class Api::V2::Admin::ImagesController < Api::BaseController
+class Api::ImagesController < Api::BaseController
   before_action :set_product, only: [:create]
 
   def create
@@ -23,6 +23,6 @@ class Api::V2::Admin::ImagesController < Api::BaseController
   end  
 
   def images_params
-    params.permit(policy([:admin, Image]).permitted_attributes) # allow nested params as array
+    params.permit(policy(Image).permitted_attributes) # allow nested params as array
   end
 end
