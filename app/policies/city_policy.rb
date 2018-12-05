@@ -1,4 +1,4 @@
-class Admin::CityPolicy < Admin::ApplicationPolicyV2
+class CityPolicy < ApplicationPolicy
 
   def show?
     true
