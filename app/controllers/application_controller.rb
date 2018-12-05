@@ -15,4 +15,12 @@ class ApplicationController < ActionController::API
       authenticate_api_employee!
     end
   end
+
+  def version
+    render(json: {
+      current: 200,
+      minimum: 200,
+      title: 'HUBCO API V2'
+    })
+  end
 end
