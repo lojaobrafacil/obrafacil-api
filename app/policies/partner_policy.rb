@@ -1,4 +1,4 @@
-class Admin::PartnerPolicy < Admin::ApplicationPolicyV2
+class PartnerPolicy < ApplicationPolicy
   
   def show?
     Partner.where(:id => record.id).exists? && (user.change_partners || user.admin)

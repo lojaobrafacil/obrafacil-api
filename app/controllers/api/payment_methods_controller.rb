@@ -1,4 +1,4 @@
-class Api::V2::Admin::PaymentMethodsController < Api::BaseController
+class Api::PaymentMethodsController < Api::BaseController
 
   def index
     payment_methods = PaymentMethod.all

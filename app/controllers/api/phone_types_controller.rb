@@ -1,4 +1,4 @@
-class Api::V2::Admin::PhoneTypesController < Api::BaseController
+class Api::PhoneTypesController < Api::BaseController
 
   def index
     phone_types = PhoneType.all
@@ -7,13 +7,13 @@ class Api::V2::Admin::PhoneTypesController < Api::BaseController
 
   def show
     phone_type = PhoneType.find(params[:id])
-    authorize [:admin, phone_type]
+    authorize phone_type
     render json: phone_type, status: 200
   end
 
   def create
     phone_type = PhoneType.new(phone_type_params)
-    authorize [:admin, phone_type]
+    authorize phone_type
     if phone_type.save
       render json: phone_type, status: 201
     else
@@ -23,7 +23,7 @@ class Api::V2::Admin::PhoneTypesController < Api::BaseController
 
   def update
     phone_type = PhoneType.find(params[:id])
-    authorize [:admin, phone_type]
+    authorize phone_type
     if phone_type.update(phone_type_params)
       render json: phone_type, status: 200
     else
@@ -33,7 +33,7 @@ class Api::V2::Admin::PhoneTypesController < Api::BaseController
 
   def destroy
     phone_type = PhoneType.find(params[:id])
-    authorize [:admin, phone_type]
+    authorize phone_type
     phone_type.destroy
     head 204
   end
@@ -41,6 +41,6 @@ class Api::V2::Admin::PhoneTypesController < Api::BaseController
   private
 
   def phone_type_params
-    params.permit(policy([:admin, PhoneType]).permitted_attributes)
+    params.permit(policy(PhoneType).permitted_attributes)
   end
 end

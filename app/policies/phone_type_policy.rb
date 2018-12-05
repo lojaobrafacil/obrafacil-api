@@ -1,4 +1,4 @@
-class Admin::PhoneTypePolicy < Admin::ApplicationPolicyV2
+class PhoneTypePolicy < ApplicationPolicy
   
   def show?
     PhoneType.where(:id => record.id).exists? && user.admin

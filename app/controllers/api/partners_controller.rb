@@ -1,7 +1,7 @@
-class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
+class Api::PartnersController < Api::V2::Admin::ContactsController
 
   def index
-    partners = policy_scope [:admin, ::Partner]
+    partners = policy_scope ::Partner
     if partners&.empty? or partners.nil?
       render json: partners, status: 200
     else
@@ -16,13 +16,13 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def show
     partner = ::Partner.find(params[:id])
-    authorize [:admin, partner]
+    authorize partner
     render json: partner, status: 200
   end
 
   def create
     partner = ::Partner.new(partner_params)
-    authorize [:admin, partner]
+    authorize partner
     if partner.save
       update_contact(partner)
       # partner.update_user
@@ -35,7 +35,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   def reset
     c ||= 0
     params[:id] ? partner = ::Partner.find(params[:id]) : (render json: { errors: "favor informar o id do parceiro"}, status: 422)
-    authorize [:admin, partner]
+    authorize partner
     p = partner.as_json
     e = partner.emails.as_json
     a = partner.addresses.as_json
@@ -66,7 +66,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def update
     partner = ::Partner.find(params[:id])
-    authorize [:admin, partner]
+    authorize partner
     if partner.update(partner_params)
       update_contact(partner)
       # partner.update_user
@@ -78,7 +78,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
 
   def destroy
     partner = ::Partner.find(params[:id])
-    authorize [:admin, partner]
+    authorize partner
     user = partner.user
     partner.destroy
     user.destroy if !user.client
@@ -88,7 +88,7 @@ class Api::V2::Admin::PartnersController < Api::V2::Admin::ContactsController
   private
 
   def partner_params
-    params.permit(policy([:admin, ::Partner]).permitted_attributes)
+    params.permit(policy(::Partner).permitted_attributes)
   end
   
 end
