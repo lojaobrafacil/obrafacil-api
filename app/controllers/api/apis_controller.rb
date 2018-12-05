@@ -1,4 +1,4 @@
-class Api::ApisController < ApplicationController
+class Api::ApisController < Api::BaseController
 
   # before_action :authenticate_admin_or_api!
 
