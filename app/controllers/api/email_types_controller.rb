@@ -1,4 +1,4 @@
-class Api::V2::Admin::EmailTypesController < Api::BaseController
+class Api::EmailTypesController < Api::BaseController
 
   def index
     email_types = EmailType.all
@@ -7,13 +7,13 @@ class Api::V2::Admin::EmailTypesController < Api::BaseController
 
   def show
     email_type = EmailType.find(params[:id])
-    authorize [:admin, email_type]
+    authorize email_type
     render json: email_type, status: 200
   end
 
   def create
     email_type = EmailType.new(email_type_params)
-    authorize [:admin, email_type]
+    authorize email_type
     if email_type.save
       render json: email_type, status: 201
     else
@@ -23,7 +23,7 @@ class Api::V2::Admin::EmailTypesController < Api::BaseController
 
   def update
     email_type = EmailType.find(params[:id])
-    authorize [:admin, email_type]
+    authorize email_type
     if email_type.update(email_type_params)
       render json: email_type, status: 200
     else
@@ -33,7 +33,7 @@ class Api::V2::Admin::EmailTypesController < Api::BaseController
 
   def destroy
     email_type = EmailType.find(params[:id])
-    authorize [:admin, email_type]
+    authorize email_type
     email_type.destroy
     head 204
   end
@@ -41,6 +41,6 @@ class Api::V2::Admin::EmailTypesController < Api::BaseController
   private
 
   def email_type_params
-    params.permit(policy([:admin, EmailType]).permitted_attributes)
+    params.permit(policy(EmailType).permitted_attributes)
   end
 end

@@ -1,4 +1,4 @@
-class Admin::CompanyPolicy < Admin::ApplicationPolicyV2
+class CompanyPolicy < ApplicationPolicy
   
   def show?
     Company.where(:id => record.id).exists? && user.admin

@@ -1,7 +1,7 @@
-class Api::V2::Admin::CompaniesController < Api::V2::Admin::ContactsController
+class Api::CompaniesController < Api::V2::Admin::ContactsController
 
   def index
-    companies = policy_scope [:admin, Company] 
+    companies = policy_scope Company 
     companies = if params['name']
       companies.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
     else
@@ -12,13 +12,13 @@ class Api::V2::Admin::CompaniesController < Api::V2::Admin::ContactsController
 
   def show
     company = Company.find(params[:id])
-    authorize [:admin, company]
+    authorize company
     render json: company, status: 200
   end
 
   def create
     company = Company.new(company_params)
-    authorize [:admin, company]
+    authorize company
     if company.save
       update_contact(company)
       render json: company, status: 201
@@ -29,7 +29,7 @@ class Api::V2::Admin::CompaniesController < Api::V2::Admin::ContactsController
 
   def update
     company = Company.find(params[:id])
-    authorize [:admin, company]
+    authorize company
     if company.update(company_params)
       update_contact(company)
       render json: company, status: 200
@@ -40,7 +40,7 @@ class Api::V2::Admin::CompaniesController < Api::V2::Admin::ContactsController
 
   def destroy
     company = Company.find(params[:id])
-    authorize [:admin, company]
+    authorize company
     company.destroy
     head 204
   end
@@ -48,6 +48,6 @@ class Api::V2::Admin::CompaniesController < Api::V2::Admin::ContactsController
   private
 
   def company_params
-    params.permit(policy([:admin, Company]).permitted_attributes)
+    params.permit(policy(Company).permitted_attributes)
   end
 end

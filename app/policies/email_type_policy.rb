@@ -1,4 +1,4 @@
-class Admin::EmailTypePolicy < Admin::ApplicationPolicyV2
+class EmailTypePolicy < ApplicationPolicy
   
   def show?
     EmailType.where(:id => record.id).exists? && user.admin
