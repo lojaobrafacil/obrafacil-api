@@ -1,7 +1,7 @@
-class Api::V2::Admin::UsersController < Api::BaseController
+class Api::UsersController < Api::BaseController
 
   def reset_password
-    authorize [:admin, User]
+    authorize User
     user = User.where(federal_registration: params[:federal_registration]).first
     if user && user.reset_password(params[:password], params[:password_confirmation])
       render json: { status: "Ok" }, status: 205
@@ -13,6 +13,6 @@ class Api::V2::Admin::UsersController < Api::BaseController
   private
 
   def user_params
-    params.permit(policy([:admin, User]).permitted_attributes)
+    params.permit(policy(User).permitted_attributes)
   end
 end

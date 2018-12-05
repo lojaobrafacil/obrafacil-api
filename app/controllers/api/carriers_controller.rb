@@ -1,4 +1,4 @@
-class Api::V2::CarriersController < Api::V2::Admin::ContactsController
+class Api::CarriersController < Api::V2::Admin::ContactsController
 
   def index
     carriers = policy_scope Carrier

@@ -1,4 +1,4 @@
-class Admin::UserPolicy < Admin::ApplicationPolicyV2
+class UserPolicy < ApplicationPolicy
 
   def reset_password?
     user.change_partners || user.admin?
