@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
-    namespace :v2, path: '/', constraints: ApiVersionConstraint.new(version: 2, default: true) do
+    namespace :v2, path: '/' do
       namespace :admin do
         mount_devise_token_auth_for 'Employee', at: 'auth'
         as :employee do

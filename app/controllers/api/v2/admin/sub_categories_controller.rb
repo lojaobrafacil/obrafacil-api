@@ -1,4 +1,4 @@
-class Api::V2::Admin::SubCategoriesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::SubCategoriesController < Api::BaseController
   def index
     sub_categories = policy_scope [:admin, SubCategory]
     sub_categories = params['category_id'] ? SubCategory.where(category_id: params['category_id']) : sub_categories

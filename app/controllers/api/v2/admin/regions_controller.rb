@@ -1,4 +1,4 @@
-class Api::V2::Admin::RegionsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::RegionsController < Api::BaseController
 
   def index
     regions = policy_scope [:admin, Region]

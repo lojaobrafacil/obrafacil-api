@@ -1,4 +1,4 @@
-class Api::V2::Admin::VehiclesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::VehiclesController < Api::BaseController
   def index 
     vehicles = Vehicle.all
     paginate json: vehicles.order(:id), status: 200

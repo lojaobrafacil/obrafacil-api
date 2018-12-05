@@ -1,4 +1,4 @@
-class Api::V2::Admin::PricePercentagesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::PricePercentagesController < Api::BaseController
   before_action :is_admin?
 
   def index

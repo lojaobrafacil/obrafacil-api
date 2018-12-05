@@ -1,4 +1,4 @@
-class Api::V2::Admin::UsersController < Api::V2::Admin::BaseController
+class Api::V2::Admin::UsersController < Api::BaseController
 
   def reset_password
     authorize [:admin, User]

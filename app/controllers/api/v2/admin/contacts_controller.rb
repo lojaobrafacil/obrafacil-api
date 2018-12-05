@@ -1,4 +1,4 @@
-class Api::V2::Admin::ContactsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::ContactsController < Api::BaseController
 
   def update_contact(model)
     authorize [:admin, model]

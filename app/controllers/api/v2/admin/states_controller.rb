@@ -1,4 +1,4 @@
-class Api::V2::Admin::StatesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::StatesController < Api::BaseController
 
   def index
     states = policy_scope [:admin, State]

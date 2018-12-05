@@ -1,4 +1,4 @@
-class Api::V2::Admin::ImagesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::ImagesController < Api::BaseController
   before_action :set_product, only: [:create]
 
   def create

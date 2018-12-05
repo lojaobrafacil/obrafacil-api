@@ -1,4 +1,4 @@
-class Api::V2::Admin::Log::PremioIdealsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::Log::PremioIdealsController < Api::BaseController
 
   def index
     premio_ideals = policy_scope [:admin, ::Log::PremioIdeal]

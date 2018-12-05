@@ -1,4 +1,4 @@
-class Api::V2::Admin::CommissionsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::CommissionsController < Api::BaseController
 
   def index
     commissions = policy_scope [:admin, Commission]

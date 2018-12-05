@@ -1,4 +1,4 @@
-class Api::V2::Admin::EmailsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::EmailsController < Api::BaseController
 
   def index
     emails = Email.all

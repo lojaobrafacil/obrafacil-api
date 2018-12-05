@@ -1,4 +1,4 @@
-class Api::V2::Admin::OrdersController < Api::V2::Admin::BaseController
+class Api::V2::Admin::OrdersController < Api::BaseController
 
   def index
     orders = policy_scope [:admin, Order]

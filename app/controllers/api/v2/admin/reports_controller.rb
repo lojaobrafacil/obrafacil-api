@@ -1,4 +1,4 @@
-class Api::V2::Admin::ReportsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::ReportsController < Api::BaseController
   def index
       model = params[:model].classify.constantize.all if params[:model]
       if model && model.size > 0 && (pundit_user.change_partners || pundit_user.admin)

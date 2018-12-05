@@ -1,4 +1,4 @@
-class Api::V2::Admin::CashiersController < Api::V2::Admin::BaseController
+class Api::V2::Admin::CashiersController < Api::BaseController
 
   def index
     cashiers = Cashier.all

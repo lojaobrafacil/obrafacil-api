@@ -1,4 +1,4 @@
-class Api::V2::Admin::CitiesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::CitiesController < Api::BaseController
 
   def index
     cities = policy_scope [:admin, City]

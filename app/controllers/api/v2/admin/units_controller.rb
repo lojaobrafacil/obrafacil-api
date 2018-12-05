@@ -1,4 +1,4 @@
-class Api::V2::Admin::UnitsController < Api::V2::Admin::BaseController
+class Api::V2::Admin::UnitsController < Api::BaseController
   def index
     units = policy_scope [:admin, Unit]
     render json: units.order(:id).as_json(only:[:id, :name, :description]), status: 200

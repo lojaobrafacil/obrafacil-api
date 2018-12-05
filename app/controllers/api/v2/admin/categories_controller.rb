@@ -1,4 +1,4 @@
-class Api::V2::Admin::CategoriesController < Api::V2::Admin::BaseController
+class Api::V2::Admin::CategoriesController < Api::BaseController
   def index
     categories = policy_scope [:admin, Category]
     render json: categories.order(:id), status: 200

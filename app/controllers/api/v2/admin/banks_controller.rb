@@ -1,4 +1,4 @@
-class Api::V2::Admin::BanksController < Api::V2::Admin::BaseController
+class Api::V2::Admin::BanksController < Api::BaseController
   def index
     banks = policy_scope [:admin, Bank]
     paginate json: banks.as_json(only: [:id, :code, :name, :slug, :description]), status: 200
