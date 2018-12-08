@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
- 
-  Rails.application.routes.draw do
-    mount Sidekiq::Web => '/sidekiq'
-  end
+  
+  mount Sidekiq::Web => '/sidekiq'
+  mount Rswag::Api::Engine => '/docs'
+  mount Rswag::Ui::Engine => '/docs'
+  
   get "version" => "application#version"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do

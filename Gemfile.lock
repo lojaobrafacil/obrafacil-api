@@ -55,6 +55,8 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
     airbrussh (1.3.1)
       sshkit (>= 1.6.1, != 1.7.0)
     api-pagination (4.8.1)
@@ -158,6 +160,8 @@ GEM
     jmespath (1.4.0)
     json (2.1.0)
     json (2.1.0-java)
+    json-schema (2.8.1)
+      addressable (>= 2.4)
     jsonapi-renderer (0.2.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
@@ -210,6 +214,7 @@ GEM
     pg (0.19.0)
     pg (0.19.0-x64-mingw32)
     pg (0.19.0-x86-mingw32)
+    public_suffix (3.0.3)
     puma (3.11.4)
     puma (3.11.4-java)
     pundit (2.0.0)
@@ -274,6 +279,15 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    rswag-api (2.0.5)
+      railties (>= 3.1, < 6.0)
+    rswag-specs (2.0.5)
+      activesupport (>= 3.1, < 6.0)
+      json-schema (~> 2.2)
+      railties (>= 3.1, < 6.0)
+    rswag-ui (2.0.5)
+      actionpack (>= 3.1, < 6.0)
+      railties (>= 3.1, < 6.0)
     ruby_dep (1.5.0)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
@@ -362,6 +376,9 @@ DEPENDENCIES
   redis (~> 3.0)
   rmagick
   rspec-rails (~> 3.6)
+  rswag-api
+  rswag-specs
+  rswag-ui
   shoulda-matchers (~> 3.1)
   sidekiq
   simplecov
