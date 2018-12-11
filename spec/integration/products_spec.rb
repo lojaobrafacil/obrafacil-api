@@ -53,11 +53,16 @@ describe 'Products API' do
             kind: { type: :string, example: "third_party", description: "pode ser own, third_party ou not_marketed"},
             active: { type: :string, example: true },
             unit_id: { type: :string, example: 11 },
+            unit_name: { type: :string, example: 'DZ' },
             sku: { type: :string, example: "123456" },
             sku_xml: { type: :string, example: "123456" },
             sub_category_id: { type: :string, example: 1 },
+            sub_category_name: { type: :string, example: 'consequuntur' },
             supplier_id: { type: :string, example: 1 },
-            category_id: { type: :string, example: 1},
+            supplier_name: { type: :string, example: 'Brites LTDA' },
+            supplier_fantasy_name: { type: :string, example: 'Brites' },
+            category_id: { type: :string, example: 1 },
+            category_name: { type: :string, example: 'ex' },
             company_products: { type: :array, items: { type: :object, 
               properties: {
                   id: { type: :string },
@@ -113,8 +118,7 @@ describe 'Products API' do
             sku: { type: :string, example: "123456" },
             sku_xml: { type: :string, example: "123456" },
             sub_category_id: { type: :string, example: 1 },
-            supplier_id: { type: :string, example: 1 },
-            category_id: { type: :string, example: 1}
+            supplier_id: { type: :string, example: 1 }
           },
           required: [ 'name', 'kind' ]
         }
@@ -165,7 +169,6 @@ describe 'Products API' do
             sku_xml: { type: :string, example: "123456" },
             sub_category_id: { type: :integer, example: 1 },
             supplier_id: { type: :integer, example: 1 },
-            category_id: { type: :integer, example: 1},
             company_products: { type: :array, items: { type: :object, 
               properties: {
                   id: { type: :integer },
