@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_05_043645) do
+ActiveRecord::Schema.define(version: 2018_12_11_171532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 2018_12_05_043645) do
     t.float "discount"
     t.float "st"
     t.float "margin"
+    t.integer "code"
     t.index ["company_id"], name: "index_company_products_on_company_id"
     t.index ["product_id"], name: "index_company_products_on_product_id"
   end
@@ -400,7 +401,6 @@ ActiveRecord::Schema.define(version: 2018_12_05_043645) do
     t.integer "cest"
     t.float "reduction"
     t.float "suggested_price"
-    t.integer "code"
     t.bigint "supplier_id"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"

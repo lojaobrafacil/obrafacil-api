@@ -37,7 +37,6 @@ describe 'Products API' do
         schema type: :object,
           properties: {
             id: { type: :string, example: 1 },
-            code: { type: :string, example: 111, description: "Codigo interno da fogoes shop" },
             name: { type: :string, example: Faker::Commerce.product_name },
             description: { type: :string, example: Faker::Commerce.material },
             ncm: { type: :string, example: Faker::Number.decimal(2) },
@@ -66,6 +65,7 @@ describe 'Products API' do
             company_products: { type: :array, items: { type: :object, 
               properties: {
                   id: { type: :string },
+                  code: { type: :string, example: 111, description: "Codigo interno da FogoesShop/ObraFacil" },
                   stock: { type: :string, example: 0.0 },
                   stock_min: { type: :string, example: 0.0 },
                   stock_max: { type: :string, example: 0.0 },
@@ -99,7 +99,6 @@ describe 'Products API' do
       parameter name: :product, in: :body, schema: {
         type: :object,
           properties: {
-            code: { type: :string, example: 111, description: "Codigo interno da fogoes shop"},
             name: { type: :string, example: Faker::Commerce.product_name },
             description: { type: :string, example: Faker::Commerce.material },
             ncm: { type: :string, example: Faker::Number.decimal(2) },
@@ -148,7 +147,6 @@ describe 'Products API' do
         type: :object,
           properties: {
             id: { type: :integer },
-            code: { type: :integer, example: 111, description: "Codigo interno da fogoes shop" },
             name: { type: :string, example: Faker::Commerce.product_name },
             description: { type: :string, example: Faker::Commerce.material },
             ncm: { type: :float, example: Faker::Number.decimal(2) },
@@ -172,6 +170,7 @@ describe 'Products API' do
             company_products: { type: :array, items: { type: :object, 
               properties: {
                   id: { type: :integer },
+                  code: { type: :string, example: 111, description: "Codigo interno da FogoesShop/ObraFacil" },
                   stock: { type: :integer, example: 0.0 },
                   stock_min: { type: :integer, example: 0.0 },
                   stock_max: { type: :integer, example: 0.0 },

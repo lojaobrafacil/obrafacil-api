@@ -1,5 +1,5 @@
 class Api::ProductSerializer < ActiveModel::Serializer
-  attributes :id, :code, :name, :description, :ncm, :icms, :ipi, :cest, 
+  attributes :id, :name, :description, :ncm, :icms, :ipi, :cest, 
       :bar_code, :reduction, :weight, :height, :width, :length,
       :kind, :active, :unit_id, :unit_name, :sku, :sku_xml, :sub_category_id, 
       :sub_category_name, :supplier_id, :supplier_name, :supplier_fantasy_name, 

@@ -55,7 +55,7 @@ class Api::ProductsController < Api::BaseController
 
   def company_product_attributes(product)
     company_products_params.each do |cp|
-      cps = cp.permit(:id, :stock, :stock_max, :company_id, :stock_min, :cost, :discount, :st, :margin, :_destroy)
+      cps = cp.permit(:id, :code, :stock, :stock_max, :company_id, :stock_min, :cost, :discount, :st, :margin, :_destroy)
       if cps[:id] != nil 
         cps[:_destroy] ? CompanyProduct.find(cps[:id]).delete : CompanyProduct.find(cps[:id]).update!(cps)
       else

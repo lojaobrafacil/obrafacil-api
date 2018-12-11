@@ -52,4 +52,7 @@ class ApplicationPolicy
     end
   end
   
+  def is_api?
+    @user.is_a?(Api)
+  end
 end
