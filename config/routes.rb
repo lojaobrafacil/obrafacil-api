@@ -42,8 +42,8 @@ Rails.application.routes.draw do
     resources :images, only: [:create, :destroy]
     resources :reports, only: [:index]
     resources :apis
-    resources :stocks, only: [:index, :show, :update]
-    put "products/:product_id/stocks", to: "stocks#update_code_by_product"
+    resources :company_products, only: [:index, :show, :update]
+    put "products/:product_id/company_products", to: "company_products#update_code_by_product"
         
     namespace :log do
       resources :premio_ideals, only: [:index, :show]

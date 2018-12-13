@@ -1,39 +1,39 @@
 class Api::CompanyProductsController < Api::ContactsController
 
   def index
-    @company_products = policy_scope CompanyProducts
+    @company_products = policy_scope CompanyProduct
     paginate json: @company_products
   end
 
   def show
-    @company_products = CompanyProducts.find_by(id: params[:id])
-    authorize company_products
-    render json: company, status: 200
+    @company_product = CompanyProduct.find_by(id: params[:id])
+    authorize @company_product
+    render json: @company_product, status: 200
   end
 
   def update
-    @company_products = CompanyProducts.find_by(id: params[:id])
-    authorize company_products
-    if @company_products.update(company_product_params)
-      render json: @company_products, status: 200
+    @company_product = CompanyProduct.find_by(id: params[:id])
+    authorize @company_product
+    if @company_product.update(company_product_params)
+      render json: @company_product, status: 200
     else
-      render json: { errors: @company_products.errors }, status: 422
+      render json: { errors: @company_product.errors }, status: 422
     end
   end
 
   def update_code_by_product
-    @company_products = CompanyProducts.where(product_id: params[:product_id])
-    authorize company_products
-    if @company_products.update_all(code: params[:code])
-      render json: @company_products, status: 200
+    @company_product = CompanyProduct.where(product_id: params[:product_id])
+    authorize @company_product
+    if @company_product.update_all(code: params[:code])
+      render json: @company_product, status: 200
     else
-      render json: { errors: @company_products.errors }, status: 422
+      render json: { errors: @company_product.errors }, status: 422
     end
   end
 
   private
 
   def company_product_params
-    params.permit(policy(CompanyProducts).permitted_attributes)
+    params.permit(policy(CompanyProduct).permitted_attributes)
   end
 end

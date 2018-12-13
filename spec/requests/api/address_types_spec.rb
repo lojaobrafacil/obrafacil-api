@@ -1,24 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe 'AddressType API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:address_types) { create_list(:address_type, 5) }
-  let(:address_type) { address_types.first }
-  let(:address_type_id) { address_type.id }
-  let(:auth_data) { user.create_new_auth_token }  
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @address_types = create_list(:address_type, 5)
+    @address_type = @address_types.first
+    @address_type_id = @address_type.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /address_types' do
     before do
-      get '/address_types', params: {}, headers: headers
+      get "/address_types#{@auth_data}", params: {}
     end
     it 'return 5 address types from database' do
       expect(json_body.count).to eq(5)
@@ -31,10 +24,10 @@ RSpec.describe 'AddressType API', type: :request do
 
   describe 'GET /address_types/:id' do
     before do
-      get "/address_types/#{address_type_id}", params: {}, headers: headers
+      get "/address_types/#{@address_type_id}#{@auth_data}", params: {}
     end
     it 'return address type from database' do
-      expect(json_body[:name]).to eq(address_type.name)
+      expect(json_body[:name]).to eq(@address_type.name)
     end
 
     it 'return status 200' do
@@ -44,7 +37,7 @@ RSpec.describe 'AddressType API', type: :request do
 
   describe 'POST /address_types' do
     before do
-      post '/address_types', params: address_type_params.to_json , headers: headers
+      post "/address_types#{@auth_data}", params: address_type_params 
     end
 
     context 'when the request params are valid' do
@@ -74,7 +67,7 @@ RSpec.describe 'AddressType API', type: :request do
 
   describe 'PUT /address_types/:id' do
     before do
-      put "/address_types/#{address_type_id}", params: address_type_params.to_json , headers: headers
+      put "/address_types/#{@address_type_id}#{@auth_data}", params: address_type_params 
     end
 
     context 'when the request params are valid' do
@@ -104,7 +97,7 @@ RSpec.describe 'AddressType API', type: :request do
 
   describe 'DELETE /address_types/:id' do
     before do
-      delete "/address_types/#{address_type_id}", params: { }.to_json , headers: headers
+      delete "/address_types/#{@address_type_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -112,7 +105,7 @@ RSpec.describe 'AddressType API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(AddressType.find_by(id: address_type_id)).to be_nil
+      expect(AddressType.find_by(id: @address_type_id)).to be_nil
     end
   end
 end

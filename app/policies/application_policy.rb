@@ -51,8 +51,4 @@ class ApplicationPolicy
       scope
     end
   end
-  
-  def is_api?
-    @user.is_a?(Api)
-  end
 end
