@@ -48,12 +48,12 @@ RSpec.describe 'Vehicle API', type: :request do
       end
 
       it 'returns the json data for the created vehicle' do
-        expect(json_body[:name]).to eq(vehicle_params[:name])
+        expect(json_body[:model]).to eq(vehicle_params[:model])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:vehicle_params) { { name: '' } }
+      let(:vehicle_params) { { model: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -71,19 +71,19 @@ RSpec.describe 'Vehicle API', type: :request do
     end
 
     context 'when the request params are valid' do
-      let(:vehicle_params) { { name: "Novo" } }
+      let(:vehicle_params) { { model: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
       it 'return the json data for the updated vehicle' do
-        expect(json_body[:name]).to eq(vehicle_params[:name])
+        expect(json_body[:model]).to eq(vehicle_params[:model])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:vehicle_params) { { name: nil } }
+      let(:vehicle_params) { { model: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
