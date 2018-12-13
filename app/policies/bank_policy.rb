@@ -1,6 +1,6 @@
 class BankPolicy < ApplicationPolicy
   def show?
-    Bank.where(:id => record.id).exists? && (user.change_partners || user.change_clients || user.admin)
+    Bank.where(:id => record.id).exists? && (user.is_a?(Api) || user.change_partners || user.change_clients || user.admin)
   end
   
   def update?
@@ -12,7 +12,7 @@ class BankPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user.admin
+    if user.is_a?(Api) || user.admin
       [:code, :name, :slug, :description]
     else
       []
@@ -21,7 +21,7 @@ class BankPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.change_partners || user.change_clients || user.admin
+      if user.is_a?(Api) || user.change_partners || user.change_clients || user.admin
         scope.all.order(:id)
       else
         []

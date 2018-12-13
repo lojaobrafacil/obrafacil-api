@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Bank API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:banks) { create_list(:bank, 5) }
-  let(:bank) { banks.first }
-  let(:bank_id) { bank.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @banks = create_list(:bank, 5)
+    @bank = @banks.first
+    @bank_id = @bank.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /banks' do
     before do
-      get '/banks', params: {}, headers: headers
+      get "/banks#{@auth_data}", params: {}
     end
-    it 'return 5 banks from database' do
+    it 'return 5 address types from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /banks/:id' do
     before do
-      get "/banks/#{bank_id}", params: {}, headers: headers
+      get "/banks/#{@bank_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:code]).to eq(bank.code)
+    it 'return address type from database' do
+      expect(json_body.size).to eq(Api::BankSerializer.new(@bank).attributes.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /banks' do
     before do
-      post '/banks', params: bank_params.to_json , headers: headers
+      post "/banks#{@auth_data}", params: bank_params 
     end
 
     context 'when the request params are valid' do
@@ -55,7 +47,7 @@ RSpec.describe 'Bank API', type: :request do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created bank' do
+      it 'returns the json data for the created address type' do
         expect(json_body[:name]).to eq(bank_params[:name])
       end
     end
@@ -75,17 +67,17 @@ RSpec.describe 'Bank API', type: :request do
 
   describe 'PUT /banks/:id' do
     before do
-      put "/banks/#{bank_id}", params: bank_params.to_json , headers: headers
+      put "/banks/#{@bank_id}#{@auth_data}", params: bank_params 
     end
 
     context 'when the request params are valid' do
-      let(:bank_params) { { name: bank.name } }
+      let(:bank_params) { { name: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated bank' do
+      it 'return the json data for the updated address type' do
         expect(json_body[:name]).to eq(bank_params[:name])
       end
     end
@@ -105,7 +97,7 @@ RSpec.describe 'Bank API', type: :request do
 
   describe 'DELETE /banks/:id' do
     before do
-      delete "/banks/#{bank_id}", params: { } , headers: headers
+      delete "/banks/#{@bank_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'Bank API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Bank.find_by(id: bank_id)).to be_nil
+      expect(Bank.find_by(id: @bank_id)).to be_nil
     end
   end
 end

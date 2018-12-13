@@ -8,6 +8,8 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'simplecov'
 require 'sidekiq/testing'
+require 'pundit/rspec'
+include ActiveModel::Serialization
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -29,10 +31,10 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+SimpleCov.start 'rails'
 RSpec.configure do |config|
   Sidekiq::Testing.fake!
 
-  SimpleCov.start 'rails'
   config.before(:all, type: :request) do
     host! 'api.emamapp.test'
   end
@@ -85,5 +87,7 @@ Shoulda::Matchers.configure do |config|
     # Choose a test framework:
     with.test_framework :rspec
     with.library :rails
+    with.library :active_record
+    with.library :active_model
   end
 end
