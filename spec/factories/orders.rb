@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :order do
-    kind { [0,0,0,1,1,1].sample }
+    kind { ["budget", "normal"].sample }
     exclusion_date { nil }
     description { Faker::Lorem.sentence }
     discont { Faker::Number.decimal(2) }

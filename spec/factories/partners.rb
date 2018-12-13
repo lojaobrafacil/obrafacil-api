@@ -3,13 +3,13 @@ FactoryBot.define do
     name { Faker::Name.name }
     federal_registration { Faker::Code.isbn }
     state_registration { Faker::Code.isbn }
-    kind { [0,0,0,1,1,1].sample }
+    kind { ["physical", "legal"].sample }
     active { true }
     started_date { Faker::Date.birthday(18, 65) }
     renewal_date { Faker::Date.forward(10000) }
     description { Faker::Lorem.paragraph }
     ocupation { Faker::Lorem.paragraph }
-    origin { [0,0,1,1,2,2].sample }
+    origin { ["shop", "internet", "relationship", "nivaldo"].sample }
     percent { Faker::Number.decimal(0, 2) }
     agency { Faker::Number.number(4) }
     account { Faker::Number.number(7) }

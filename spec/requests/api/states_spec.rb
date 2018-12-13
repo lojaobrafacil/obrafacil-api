@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'State API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:states) { create_list(:state, 2) }
-  let(:state) { states.first }
-  let(:state_id) { state.id }
-  let(:auth_data) { user.create_new_auth_token }  
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @states = create_list(:state, 5)
+    @state = @states.first
+    @state_id = @state.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /states' do
     before do
-      get '/states', params: {}, headers: headers
+      get "/states#{@auth_data}", params: {}
     end
-    it 'return 5 email types from database' do
-      expect(json_body.count).to eq(2)
+    it 'return 5 states from database' do
+      expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /states/:id' do
     before do
-      get "/states/#{state_id}", params: {}, headers: headers
+      get "/states/#{@state_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(state[:name])
+    it 'return state from database' do
+      expect(json_body.size).to eq(Api::StateSerializer.new(@state).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /states' do
     before do
-      post '/states', params: state_params.to_json , headers: headers
+      post "/states#{@auth_data}", params: state_params 
     end
 
     context 'when the request params are valid' do
@@ -55,7 +47,7 @@ RSpec.describe 'State API', type: :request do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created email type' do
+      it 'returns the json data for the created state' do
         expect(json_body[:name]).to eq(state_params[:name])
       end
     end
@@ -75,17 +67,17 @@ RSpec.describe 'State API', type: :request do
 
   describe 'PUT /states/:id' do
     before do
-      put "/states/#{state_id}", params: state_params.to_json , headers: headers
+      put "/states/#{@state_id}#{@auth_data}", params: state_params 
     end
 
     context 'when the request params are valid' do
-      let(:state_params) { { name: 'Comercial' } }
+      let(:state_params) { { name: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated email type' do
+      it 'return the json data for the updated state' do
         expect(json_body[:name]).to eq(state_params[:name])
       end
     end
@@ -105,7 +97,7 @@ RSpec.describe 'State API', type: :request do
 
   describe 'DELETE /states/:id' do
     before do
-      delete "/states/#{state_id}", params: { }.to_json , headers: headers
+      delete "/states/#{@state_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'State API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(State.find_by(id: state_id)).to be_nil
+      expect(State.find_by(id: @state_id)).to be_nil
     end
   end
 end

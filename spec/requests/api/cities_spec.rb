@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'City API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:cities) { create_list(:city, 5) }
-  let(:city) { cities.first }
-  let(:city_id) { city.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @cities = create_list(:city, 5)
+    @city = @cities.first
+    @city_id = @city.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /cities' do
     before do
-      get '/cities', params: {}, headers: headers
+      get "/cities#{@auth_data}", params: {}
     end
     it 'return 5 cities from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /cities/:id' do
     before do
-      get "/cities/#{city_id}", params: {}, headers: headers
+      get "/cities/#{@city_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(city.name)
+    it 'return city from database' do
+      expect(json_body.size).to eq(Api::CitySerializer.new(@city).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /cities' do
     before do
-      post '/cities', params: city_params.to_json , headers: headers
+      post "/cities#{@auth_data}", params: city_params 
     end
 
     context 'when the request params are valid' do
@@ -75,11 +67,11 @@ RSpec.describe 'City API', type: :request do
 
   describe 'PUT /cities/:id' do
     before do
-      put "/cities/#{city_id}", params: city_params.to_json , headers: headers
+      put "/cities/#{@city_id}#{@auth_data}", params: city_params 
     end
 
     context 'when the request params are valid' do
-      let(:city_params) { { name: city.name } }
+      let(:city_params) { { name: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -91,7 +83,7 @@ RSpec.describe 'City API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:city_params) {{name: nil}}
+      let(:city_params) { { name: nil } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -105,7 +97,7 @@ RSpec.describe 'City API', type: :request do
 
   describe 'DELETE /cities/:id' do
     before do
-      delete "/cities/#{city_id}", params: { } , headers: headers
+      delete "/cities/#{@city_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'City API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(City.find_by(id: city_id)).to be_nil
+      expect(City.find_by(id: @city_id)).to be_nil
     end
   end
 end

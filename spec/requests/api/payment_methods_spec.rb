@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'PaymentMethod API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:payment_methods) { create_list(:payment_method, 5) }
-  let(:payment_method) { payment_methods.first }
-  let(:payment_method_id) { payment_method.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @payment_methods = create_list(:payment_method, 5)
+    @payment_method = @payment_methods.first
+    @payment_method_id = @payment_method.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /payment_methods' do
     before do
-      get '/payment_methods', params: {}, headers: headers
+      get "/payment_methods#{@auth_data}", params: {}
     end
-    it 'return 5 payment_methods from database' do
+    it 'return 5 payment methods from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /payment_methods/:id' do
     before do
-      get "/payment_methods/#{payment_method_id}", params: {}, headers: headers
+      get "/payment_methods/#{@payment_method_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(payment_method[:name])
+    it 'return payment method from database' do
+      expect(json_body.size).to eq(Api::PaymentMethodSerializer.new(@payment_method).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /payment_methods' do
     before do
-      post '/payment_methods', params: payment_method_params.to_json , headers: headers
+      post "/payment_methods#{@auth_data}", params: payment_method_params 
     end
 
     context 'when the request params are valid' do
@@ -55,13 +47,13 @@ RSpec.describe 'PaymentMethod API', type: :request do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created payment_method' do
+      it 'returns the json data for the created payment method' do
         expect(json_body[:name]).to eq(payment_method_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:payment_method_params) { { name:nil } }
+      let(:payment_method_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -75,17 +67,17 @@ RSpec.describe 'PaymentMethod API', type: :request do
 
   describe 'PUT /payment_methods/:id' do
     before do
-      put "/payment_methods/#{payment_method_id}", params: payment_method_params.to_json , headers: headers
+      put "/payment_methods/#{@payment_method_id}#{@auth_data}", params: payment_method_params 
     end
 
     context 'when the request params are valid' do
-      let(:payment_method_params) { { name: 'jorge' } }
+      let(:payment_method_params) { { name: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated payment_method' do
+      it 'return the json data for the updated payment method' do
         expect(json_body[:name]).to eq(payment_method_params[:name])
       end
     end
@@ -105,7 +97,7 @@ RSpec.describe 'PaymentMethod API', type: :request do
 
   describe 'DELETE /payment_methods/:id' do
     before do
-      delete "/payment_methods/#{payment_method_id}", params: { } , headers: headers
+      delete "/payment_methods/#{@payment_method_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'PaymentMethod API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(PaymentMethod.find_by(id: payment_method_id)).to be_nil
+      expect(PaymentMethod.find_by(id: @payment_method_id)).to be_nil
     end
   end
 end

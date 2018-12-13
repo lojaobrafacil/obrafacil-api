@@ -5,7 +5,7 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.admin
+    user.is_a?(Api) || user.admin
   end
 
   def permitted_attributes

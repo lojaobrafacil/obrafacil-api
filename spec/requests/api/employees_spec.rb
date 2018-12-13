@@ -1,55 +1,47 @@
 require 'rails_helper'
 
 RSpec.describe 'Employee API', type: :request do
-  let!(:employees) { create_list(:employee, 4) }
-  let(:employee) { employees.last }
-  let(:employee_id) { employee.id }
-  let!(:user){ create(:employee, admin:true) }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @employees = create_list(:employee, 5)
+    @employee = @employees.first
+    @employee_id = @employee.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /employees' do
     before do
-      get '/employees', params: {}, headers: headers
+      get "/employees#{@auth_data}", params: {}
     end
     it 'return 5 employees from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /employees/:id' do
     before do
-      get "/employees/#{employee_id}", params: {}, headers: headers
+      get "/employees/#{@employee_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(employee[:name])
+    it 'return employee from database' do
+      expect(json_body.size).to eq(Api::EmployeeSerializer.new(@employee).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /employees' do
     before do
-      post '/employees', params: employee_params.to_json , headers: headers
+      post "/employees#{@auth_data}", params: employee_params 
     end
 
     context 'when the request params are valid' do
-      let(:employee_params) { attributes_for(:employee, {password: 12345678, password_confirmation: 12345678}) }
+      let(:employee_params) { attributes_for(:employee) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
@@ -75,11 +67,11 @@ RSpec.describe 'Employee API', type: :request do
 
   describe 'PUT /employees/:id' do
     before do
-      put "/employees/#{employee_id}", params: employee_params.to_json , headers: headers
+      put "/employees/#{@employee_id}#{@auth_data}", params: employee_params 
     end
 
     context 'when the request params are valid' do
-      let(:employee_params) { { name: 'jorge' } }
+      let(:employee_params) { { name: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -105,7 +97,7 @@ RSpec.describe 'Employee API', type: :request do
 
   describe 'DELETE /employees/:id' do
     before do
-      delete "/employees/#{employee_id}", params: { } , headers: headers
+      delete "/employees/#{@employee_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'Employee API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Employee.find_by(id: employee_id).active).to eq(false)
+      expect(Employee.find_by(id: @employee_id).active).to eq(false)
     end
   end
 end

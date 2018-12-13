@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Partner API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:partners) { create_list(:partner, 5) }
-  let(:partner) { partners.first }
-  let(:partner_id) { partner.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @partners = create_list(:partner, 5)
+    @partner = @partners.first
+    @partner_id = @partner.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /partners' do
     before do
-      get '/partners', params: {}, headers: headers
+      get "/partners#{@auth_data}", params: {}
     end
     it 'return 5 partners from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /partners/:id' do
     before do
-      get "/partners/#{partner.id}", params: {}, headers: headers
+      get "/partners/#{@partner_id}#{@auth_data}", params: {}
     end
     it 'return partner from database' do
-      expect(json_body[:name]).to eq(partner[:name])
+      expect(json_body.size).to eq(Api::PartnerSerializer.new(@partner).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /partners' do
     before do
-      post '/partners', params: partner_params.to_json , headers: headers
+      post "/partners#{@auth_data}", params: partner_params 
     end
 
     context 'when the request params are valid' do
@@ -75,11 +67,11 @@ RSpec.describe 'Partner API', type: :request do
 
   describe 'PUT /partners/:id' do
     before do
-      put "/partners/#{partner_id}", params: partner_params.to_json , headers: headers
+      put "/partners/#{@partner_id}#{@auth_data}", params: partner_params 
     end
 
     context 'when the request params are valid' do
-      let(:partner_params) { { name: partner.name } }
+      let(:partner_params) { { name: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -105,7 +97,7 @@ RSpec.describe 'Partner API', type: :request do
 
   describe 'DELETE /partners/:id' do
     before do
-      delete "/partners/#{partner_id}", params: { } , headers: headers
+      delete "/partners/#{@partner_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'Partner API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Partner.find_by(id: partner_id)).to be_nil
+      expect(Partner.find_by(id: @partner_id)).to be_nil
     end
   end
 end

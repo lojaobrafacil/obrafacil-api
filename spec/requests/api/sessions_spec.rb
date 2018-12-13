@@ -1,24 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe 'Sessions API', type: :request do  
-  let!(:user){ create(:employee, admin:true) }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
+  before do 
+    @user = create(:employee, admin:true)
+    @auth_data = @user.create_new_auth_token
+    @headers = {
       'Accept'  => 'application/vnd.emam.v2',
       'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
+      'access-token' => @auth_data['access-token'],
+      'uid' => @auth_data['uid'],
+      'client' => @auth_data['client']
     }
   end
+
   describe 'POST /auth/sign_in' do
     before do
     	post '/auth/sign_in', headers: credencials
     end
 
     context 'when the credencials are correct' do
-      let(:credencials) { { email: user.email, password: '12345678', 'Accept'  => 'application/vnd.emam.v2' } }
+      let(:credencials) { { email: @user.email, password: '12345678' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200) 
@@ -31,7 +32,7 @@ RSpec.describe 'Sessions API', type: :request do
       end
     end
     context 'returns the json data for the errors' do
-      let(:credencials) { { email: user.email, password: 'invalid_password', 'Accept'  => 'application/vnd.emam.v2' } }
+      let(:credencials) { { email: @user.email, password: 'invalid_password' } }
 
       it 'when credencials are incorrect' do
         expect(response).to have_http_status(401)
@@ -44,9 +45,9 @@ RSpec.describe 'Sessions API', type: :request do
   end
   
   describe 'DELETE /auth/sign_out' do
-    let(:auth_token) { user.auth_token }
+    let(:auth_token) { @user.auth_token }
     before do
-      delete "/auth/sign_out", params: { }, headers: headers
+      delete "/auth/sign_out", params: { }, headers: @headers
     end
 
     it 'return status code 200' do
@@ -54,8 +55,8 @@ RSpec.describe 'Sessions API', type: :request do
     end
 
     it 'changes the user auth token' do
-      user.reload
-      expect(user.valid_token?(auth_data['access-token'], auth_data['client'])).to eq(false)
+      @user.reload
+      expect(@user.valid_token?(@auth_data['access-token'], @auth_data['client'])).to eq(false)
     end
   end
 end

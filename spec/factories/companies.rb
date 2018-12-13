@@ -5,7 +5,7 @@ FactoryBot.define do
     federal_registration { 1 }
     state_registration { 1 }
     birth_date { Faker::Date.birthday(18, 65) }
-    tax_regime { [0,0,1,1,2,2].sample }
+    tax_regime { ["simple", "normal", "presumed"].sample }
     description { Faker::Lorem.paragraph }
     invoice_sale { 1 }
     invoice_return { 1 }

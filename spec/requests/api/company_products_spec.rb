@@ -13,7 +13,7 @@ RSpec.describe 'CompanyProduct API', type: :request do
     before do
       get "/company_products#{@auth_data}", params: {}
     end
-    it 'return 5 address types from database' do
+    it 'return 5 company products from database' do
       expect(json_body.count).to eq(15)
     end
 
@@ -27,7 +27,7 @@ RSpec.describe 'CompanyProduct API', type: :request do
       get "/company_products/#{@company_product_id}#{@auth_data}", params: {}
     end
 
-    it 'return address type from database' do
+    it 'return company product from database' do
       expect(json_body[:stock]).to eq(@company_product.stock)
     end
 
@@ -48,7 +48,7 @@ RSpec.describe 'CompanyProduct API', type: :request do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated address type' do
+      it 'return the json data for the updated company product' do
         expect(json_body[:stock]).to eq(company_product_params[:stock])
       end
     end

@@ -1,53 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Vehicle API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:vehicles) { create_list(:vehicle, 5) }
-  let(:vehicle) { vehicles.first }
-  let(:vehicle_id) { vehicle.id }
-  let(:vehicle_model) { vehicle.model}
-  let(:vehicle_brand) { vehicle.brand}
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @vehicles = create_list(:vehicle, 5)
+    @vehicle = @vehicles.first
+    @vehicle_id = @vehicle.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /vehicles' do
     before do
-      get '/vehicles', params: {}, headers: headers
+      get "/vehicles#{@auth_data}", params: {}
     end
     it 'return 5 vehicles from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /vehicles/:id' do
     before do
-      get "/vehicles/#{vehicle.id}", params: {}, headers: headers
+      get "/vehicles/#{@vehicle_id}#{@auth_data}", params: {}
     end
     it 'return vehicle from database' do
-      expect(json_body[:brand]).to eq(vehicle[:brand])
+      expect(json_body.size).to eq(Api::VehicleSerializer.new(@vehicle).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /vehicles' do
     before do
-      post '/vehicles', params: vehicle_params.to_json  , headers: headers
+      post "/vehicles#{@auth_data}", params: vehicle_params 
     end
 
     context 'when the request params are valid' do
@@ -58,12 +48,12 @@ RSpec.describe 'Vehicle API', type: :request do
       end
 
       it 'returns the json data for the created vehicle' do
-        expect(json_body[:brand]).to eq(vehicle_params[:brand])
+        expect(json_body[:name]).to eq(vehicle_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:vehicle_params) { { brand: '' } }
+      let(:vehicle_params) { { name: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -76,24 +66,25 @@ RSpec.describe 'Vehicle API', type: :request do
   end
 
   describe 'PUT /vehicles/:id' do
-    before do 
-      put "/vehicles/#{vehicle_id}", params: vehicle_params.to_json , headers: headers
+    before do
+      put "/vehicles/#{@vehicle_id}#{@auth_data}", params: vehicle_params 
     end
 
     context 'when the request params are valid' do
-      let(:vehicle_params) { { brand: vehicle.brand } }
+      let(:vehicle_params) { { name: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end
 
       it 'return the json data for the updated vehicle' do
-        expect(json_body[:brand]).to eq(vehicle_params[:brand])
+        expect(json_body[:name]).to eq(vehicle_params[:name])
       end
     end
 
     context 'when the request params are invalid' do
-      let(:vehicle_params) { { brand: nil } }
+      let(:vehicle_params) { { name: nil } }
+
       it 'return status code 422' do
         expect(response).to have_http_status(422)
       end
@@ -106,7 +97,7 @@ RSpec.describe 'Vehicle API', type: :request do
 
   describe 'DELETE /vehicles/:id' do
     before do
-      delete "/vehicles/#{vehicle_id}", params: { } , headers: headers
+      delete "/vehicles/#{@vehicle_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -114,7 +105,7 @@ RSpec.describe 'Vehicle API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Vehicle.find_by(id: vehicle_id)).to be_nil
+      expect(Vehicle.find_by(id: @vehicle_id)).to be_nil
     end
   end
 end

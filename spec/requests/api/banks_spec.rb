@@ -13,7 +13,7 @@ RSpec.describe 'Bank API', type: :request do
     before do
       get "/banks#{@auth_data}", params: {}
     end
-    it 'return 5 address types from database' do
+    it 'return 5 banks from database' do
       expect(json_body.count).to eq(5)
     end
     
@@ -26,8 +26,8 @@ RSpec.describe 'Bank API', type: :request do
     before do
       get "/banks/#{@bank_id}#{@auth_data}", params: {}
     end
-    it 'return address type from database' do
-      expect(json_body.size).to eq(Api::BankSerializer.new(@bank).attributes.size)
+    it 'return bank from database' do
+      expect(json_body.size).to eq(Api::BankSerializer.new(@bank).as_json.size)
     end
 
     it 'return status 200' do
@@ -47,7 +47,7 @@ RSpec.describe 'Bank API', type: :request do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns the json data for the created address type' do
+      it 'returns the json data for the created bank' do
         expect(json_body[:name]).to eq(bank_params[:name])
       end
     end
@@ -77,7 +77,7 @@ RSpec.describe 'Bank API', type: :request do
         expect(response).to have_http_status(200)
       end
 
-      it 'return the json data for the updated address type' do
+      it 'return the json data for the updated bank' do
         expect(json_body[:name]).to eq(bank_params[:name])
       end
     end

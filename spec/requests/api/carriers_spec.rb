@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Carrier API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:carriers) { create_list(:carrier, 5) }
-  let(:carrier) { carriers.first }
-  let(:carrier_id) { carrier.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @carriers = create_list(:carrier, 5)
+    @carrier = @carriers.first
+    @carrier_id = @carrier.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /carriers' do
     before do
-      get '/carriers', params: {}, headers: headers
+      get "/carriers#{@auth_data}", params: {}
     end
     it 'return 5 carriers from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /carriers/:id' do
     before do
-      get "/carriers/#{carrier_id}", params: {}, headers: headers
+      get "/carriers/#{@carrier_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(carrier.name)
+    it 'return carrier from database' do
+      expect(json_body.size).to eq(Api::CarrierSerializer.new(@carrier).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /carriers' do
     before do
-      post '/carriers', params: carrier_params.to_json , headers: headers
+      post "/carriers#{@auth_data}", params: carrier_params 
     end
 
     context 'when the request params are valid' do
@@ -75,11 +67,11 @@ RSpec.describe 'Carrier API', type: :request do
 
   describe 'PUT /carriers/:id' do
     before do
-      put "/carriers/#{carrier_id}", params: carrier_params.to_json , headers: headers
+      put "/carriers/#{@carrier_id}#{@auth_data}", params: carrier_params 
     end
 
     context 'when the request params are valid' do
-      let(:carrier_params) { { name: carrier.name } }
+      let(:carrier_params) { { name: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -105,7 +97,7 @@ RSpec.describe 'Carrier API', type: :request do
 
   describe 'DELETE /carriers/:id' do
     before do
-      delete "/carriers/#{carrier_id}", params: { } , headers: headers
+      delete "/carriers/#{@carrier_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'Carrier API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Carrier.find_by(id: carrier_id)).to be_nil
+      expect(Carrier.find_by(id: @carrier_id)).to be_nil
     end
   end
 end

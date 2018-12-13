@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Order API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:orders) { create_list(:order, 5) }
-  let(:order) { orders.first }
-  let(:order_id) { order.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @orders = create_list(:order, 5)
+    @order = @orders.first
+    @order_id = @order.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /orders' do
     before do
-      get '/orders', params: {}, headers: headers
+      get "/orders#{@auth_data}", params: {}
     end
     it 'return 5 orders from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /orders/:id' do
     before do
-      get "/orders/#{order_id}", params: {}, headers: headers
+      get "/orders/#{@order_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:description]).to eq(order[:description])
+    it 'return order from database' do
+      expect(json_body.size).to eq(Api::OrderSerializer.new(@order).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /orders' do
     before do
-      post '/orders', params: order_params.to_json , headers: headers
+      post "/orders#{@auth_data}", params: order_params 
     end
 
     context 'when the request params are valid' do
@@ -61,7 +53,7 @@ RSpec.describe 'Order API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:order_params) { { kind: nil } }
+      let(:order_params) { { description: '' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
@@ -75,12 +67,11 @@ RSpec.describe 'Order API', type: :request do
 
   describe 'PUT /orders/:id' do
     before do
-      Order.find(order_id).update!(kind: 0)
-      put "/orders/#{order_id}", params: order_params.to_json , headers: headers
+      put "/orders/#{@order_id}#{@auth_data}", params: order_params 
     end
 
     context 'when the request params are valid' do
-      let(:order_params) { { kind: "normal" } }
+      let(:order_params) { { kind: "budget" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -106,7 +97,7 @@ RSpec.describe 'Order API', type: :request do
 
   describe 'DELETE /orders/:id' do
     before do
-      delete "/orders/#{order_id}", params: { } , headers: headers
+      delete "/orders/#{@order_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -114,7 +105,7 @@ RSpec.describe 'Order API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Order.find_by(id: order_id)).to be_nil
+      expect(Order.find_by(id: @order_id)).to be_nil
     end
   end
 end

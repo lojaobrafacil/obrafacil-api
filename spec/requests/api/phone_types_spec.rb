@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'PhoneType API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:phone_types) { create_list(:phone_type, 5) }
-  let(:phone_type) { phone_types.first }
-  let(:phone_type_id) { phone_type.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @phone_types = create_list(:phone_type, 5)
+    @phone_type = @phone_types.first
+    @phone_type_id = @phone_type.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /phone_types' do
     before do
-      get '/phone_types', params: {}, headers: headers
+      get "/phone_types#{@auth_data}", params: {}
     end
     it 'return 5 phone types from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /phone_types/:id' do
     before do
-      get "/phone_types/#{phone_type_id}", params: {}, headers: headers
+      get "/phone_types/#{@phone_type_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(phone_type[:name])
+    it 'return phone type from database' do
+      expect(json_body.size).to eq(Api::PhoneTypeSerializer.new(@phone_type).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /phone_types' do
     before do
-      post '/phone_types', params: phone_type_params.to_json , headers: headers
+      post "/phone_types#{@auth_data}", params: phone_type_params 
     end
 
     context 'when the request params are valid' do
@@ -75,11 +67,11 @@ RSpec.describe 'PhoneType API', type: :request do
 
   describe 'PUT /phone_types/:id' do
     before do
-      put "/phone_types/#{phone_type_id}", params: phone_type_params.to_json , headers: headers
+      put "/phone_types/#{@phone_type_id}#{@auth_data}", params: phone_type_params 
     end
 
     context 'when the request params are valid' do
-      let(:phone_type_params) { { name: 'Comercial' } }
+      let(:phone_type_params) { { name: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -105,7 +97,7 @@ RSpec.describe 'PhoneType API', type: :request do
 
   describe 'DELETE /phone_types/:id' do
     before do
-      delete "/phone_types/#{phone_type_id}", params: { }.to_json , headers: headers
+      delete "/phone_types/#{@phone_type_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'PhoneType API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(PhoneType.find_by(id: phone_type_id)).to be_nil
+      expect(PhoneType.find_by(id: @phone_type_id)).to be_nil
     end
   end
 end

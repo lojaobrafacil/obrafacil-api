@@ -1,7 +1,7 @@
 class PricePercentagePolicy < ApplicationPolicy
 
   def index?
-    user.admin
+    user.is_a?(Api) || user.admin
   end
 
   def show?
@@ -9,8 +9,8 @@ class PricePercentagePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user.admin
-      :price_percentages
+    if user.is_a?(Api) || user.admin
+      [:price_percentages]
     end
   end
 

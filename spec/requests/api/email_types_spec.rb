@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'EmailType API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:email_types) { create_list(:email_type, 5) }
-  let(:email_type) { email_types.first }
-  let(:email_type_id) { email_type.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @email_types = create_list(:email_type, 5)
+    @email_type = @email_types.first
+    @email_type_id = @email_type.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /email_types' do
     before do
-      get '/email_types', params: {}, headers: headers
+      get "/email_types#{@auth_data}", params: {}
     end
     it 'return 5 email types from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /email_types/:id' do
     before do
-      get "/email_types/#{email_type_id}", params: {}, headers: headers
+      get "/email_types/#{@email_type_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(email_type[:name])
+    it 'return email type from database' do
+      expect(json_body.size).to eq(Api::EmailTypeSerializer.new(@email_type).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /email_types' do
     before do
-      post '/email_types', params: email_type_params.to_json , headers: headers
+      post "/email_types#{@auth_data}", params: email_type_params 
     end
 
     context 'when the request params are valid' do
@@ -75,11 +67,11 @@ RSpec.describe 'EmailType API', type: :request do
 
   describe 'PUT /email_types/:id' do
     before do
-      put "/email_types/#{email_type_id}", params: email_type_params.to_json , headers: headers
+      put "/email_types/#{@email_type_id}#{@auth_data}", params: email_type_params 
     end
 
     context 'when the request params are valid' do
-      let(:email_type_params) { { name: 'Comercial' } }
+      let(:email_type_params) { { name: "Novo" } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -105,7 +97,7 @@ RSpec.describe 'EmailType API', type: :request do
 
   describe 'DELETE /email_types/:id' do
     before do
-      delete "/email_types/#{email_type_id}", params: { }.to_json , headers: headers
+      delete "/email_types/#{@email_type_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'EmailType API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(EmailType.find_by(id: email_type_id)).to be_nil
+      expect(EmailType.find_by(id: @email_type_id)).to be_nil
     end
   end
 end

@@ -15,7 +15,7 @@ FactoryBot.define do
     width { Faker::Number.decimal(2) }
     length { Faker::Number.decimal(2) }
     color { Faker::Commerce.color }
-    kind { [0,0,1,1,2,2].sample }
+    kind { ["own", "third_party", "not_marketed"].sample }
     active { true }
     unit_id { create(:unit).id }
     sub_category_id { create(:sub_category).id }

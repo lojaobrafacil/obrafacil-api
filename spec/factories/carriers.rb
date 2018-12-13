@@ -3,7 +3,7 @@ FactoryBot.define do
     name { Faker::Name.name }
     federal_registration { Faker::Code.isbn }
     state_registration { Faker::Code.isbn }
-    kind { [0,0,0,1,1,1].sample }
+    kind { 'physical' }
     description { Faker::Lorem.sentence }
     active { true }
   end

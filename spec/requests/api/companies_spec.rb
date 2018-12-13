@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Company API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:companies) { create_list(:company, 5) }
-  let(:company) { companies.first }
-  let(:company_id) { company.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @companies = create_list(:company, 5)
+    @company = @companies.first
+    @company_id = @company.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /companies' do
     before do
-      get '/companies', params: {}, headers: headers
+      get "/companies#{@auth_data}", params: {}
     end
-    it 'return 5 companies from database' do
+    it 'return 5 companys from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /companies/:id' do
     before do
-      get "/companies/#{company_id}", params: {}, headers: headers
+      get "/companies/#{@company_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(company.name)
+    it 'return company from database' do
+      expect(json_body.size).to eq(Api::CompanySerializer.new(@company).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /companies' do
     before do
-      post '/companies', params: company_params.to_json , headers: headers
+      post "/companies#{@auth_data}", params: company_params 
     end
 
     context 'when the request params are valid' do
@@ -75,7 +67,7 @@ RSpec.describe 'Company API', type: :request do
 
   describe 'PUT /companies/:id' do
     before do
-      put "/companies/#{company_id}", params: company_params.to_json , headers: headers
+      put "/companies/#{@company_id}#{@auth_data}", params: company_params 
     end
 
     context 'when the request params are valid' do
@@ -105,7 +97,7 @@ RSpec.describe 'Company API', type: :request do
 
   describe 'DELETE /companies/:id' do
     before do
-      delete "/companies/#{company_id}", params: { } , headers: headers
+      delete "/companies/#{@company_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'Company API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Company.find_by(id: company_id)).to be_nil
+      expect(Company.find_by(id: @company_id)).to be_nil
     end
   end
 end

@@ -1,51 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Category API', type: :request do
-  let!(:user){ create(:employee, admin:true) }
-  let!(:categories) { create_list(:category, 5) }
-  let(:category) { categories.first }
-  let(:category_id) { category.id }
-  let(:auth_data) { user.create_new_auth_token }
-  let(:headers) do
-    {
-      'Accept'  => 'application/vnd.emam.v2',
-      'Content-type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
-    }
+  before do 
+    @api = create(:api)
+    @categories = create_list(:category, 5)
+    @category = @categories.first
+    @category_id = @category.id
+    @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
   end
 
   describe 'GET /categories' do
     before do
-      get '/categories', params: {}, headers: headers
+      get "/categories#{@auth_data}", params: {}
     end
     it 'return 5 categories from database' do
       expect(json_body.count).to eq(5)
     end
-
+    
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   describe 'GET /categories/:id' do
     before do
-      get "/categories/#{category_id}", params: {}, headers: headers
+      get "/categories/#{@category_id}#{@auth_data}", params: {}
     end
-    it 'return address from database' do
-      expect(json_body[:name]).to eq(category.name)
+    it 'return category from database' do
+      expect(json_body.size).to eq(Api::CategorySerializer.new(@category).as_json.size)
     end
 
     it 'return status 200' do
       expect(response).to have_http_status(200)
     end
   end
-
 
   describe 'POST /categories' do
     before do
-      post '/categories', params: category_params.to_json , headers: headers
+      post "/categories#{@auth_data}", params: category_params 
     end
 
     context 'when the request params are valid' do
@@ -75,11 +67,11 @@ RSpec.describe 'Category API', type: :request do
 
   describe 'PUT /categories/:id' do
     before do
-      put "/categories/#{category_id}", params: category_params.to_json , headers: headers
+      put "/categories/#{@category_id}#{@auth_data}", params: category_params 
     end
 
     context 'when the request params are valid' do
-      let(:category_params) { { name: 'jorge' } }
+      let(:category_params) { { name: 'Comercial' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(200)
@@ -105,7 +97,7 @@ RSpec.describe 'Category API', type: :request do
 
   describe 'DELETE /categories/:id' do
     before do
-      delete "/categories/#{category_id}", params: { } , headers: headers
+      delete "/categories/#{@category_id}#{@auth_data}", params: { }.to_json 
     end
 
     it 'return status code 204' do
@@ -113,7 +105,7 @@ RSpec.describe 'Category API', type: :request do
     end
 
     it 'removes the user from database' do
-      expect(Category.find_by(id: category_id)).to be_nil
+      expect(Category.find_by(id: @category_id)).to be_nil
     end
   end
 end
