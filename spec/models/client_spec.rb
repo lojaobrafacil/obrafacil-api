@@ -5,8 +5,8 @@ RSpec.describe Client, type: :model do
   let!(:clients_inactives) { create_list(:client, 5, active: false) }
 
   it { is_expected.to validate_presence_of(:name) }
-  it { should belong_to(:user) }
-  it { should belong_to(:billing_type) }
+  it { should belong_to(:user).required(false) }
+  it { should belong_to(:billing_type).required(false) }
   it { should have_many(:phones) }
   it { should have_many(:addresses) }
   it { should have_many(:emails) }

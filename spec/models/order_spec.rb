@@ -5,11 +5,11 @@ RSpec.describe Order, type: :model do
 
   it { should define_enum_for(:kind) }
   it { is_expected.to validate_presence_of(:kind) }
-  it { should belong_to(:price_percentage) }
-  it { should belong_to(:employee) }
-  it { should belong_to(:cashier) }
-  it { should belong_to(:client) }
-  it { should belong_to(:carrier) }
-  it { should belong_to(:company) }
+  it { should belong_to(:price_percentage).required(false) }
+  it { should belong_to(:employee).required(false) }
+  it { should belong_to(:cashier).required(false) }
+  it { should belong_to(:client).required(false) }
+  it { should belong_to(:carrier).required(false) }
+  it { should belong_to(:company).required(false) }
 
 end

@@ -8,7 +8,7 @@ RSpec.describe Cashier, type: :model do
   it { is_expected.to validate_presence_of(:finish_date) }
   it { is_expected.to validate_uniqueness_of(:start_date) }
   it { is_expected.to validate_uniqueness_of(:finish_date) }
-  it { should belong_to(:employee) }
+  it { should belong_to(:employee).required(false) }
 
   it 'method active' do
     expect(Cashier.active).to include cashiers_actives.first
