@@ -1,8 +1,8 @@
 class Api::CfopsController < Api::BaseController
 
   def index
-    @@cfops = Cfop.all
-    paginate json: @@cfops.order(:id), status: 200
+    @cfops = Cfop.all
+    paginate json: @cfops.order(:id), status: 200
   end
 
   def show
