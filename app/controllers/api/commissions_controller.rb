@@ -7,7 +7,7 @@ class Api::CommissionsController < Api::BaseController
   end
   
   def create
-    @commission = Partner.find(commission_params[:partner_id]).@commissions.new(commission_params.as_json(except:(:partner_id)))
+    @commission = Partner.find(commission_params[:partner_id]).commissions.new(commission_params.as_json(except:(:partner_id)))
     authorize @commission
     if @commission.save
     render json: @commission, status: 201
