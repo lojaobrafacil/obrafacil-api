@@ -52,7 +52,7 @@ describe 'Banks API' do
 
       response 422, 'invalid request' do
         auth_api
-        let(:bank) { { name: 'foo' } }
+        let(:bank) { { code: 422 } }
         run_test!
       end
     end
@@ -76,7 +76,7 @@ describe 'Banks API' do
             description: { type: :string }
           }
 
-        let(:bank) { create(:bank) }
+        let(:id) { create(:bank).id }
         run_test!
       end
 
@@ -108,13 +108,15 @@ describe 'Banks API' do
 
       response 200, 'bank updated' do
         auth_api
-        let(:bank) { create(:bank) }
+        let(:bank) { {code: 200, name: "test"} }
+        let(:id) { create(:bank).id }
         run_test!
       end
 
       response 422, 'invalid request' do
         auth_api
         let(:bank) { { name: nil } }
+        let(:id) { create(:bank).id }
         run_test!
       end
     end
@@ -133,9 +135,9 @@ describe 'Banks API' do
         run_test!
       end
 
-      response 422, 'invalid request' do
+      response 404, 'invalid request' do
         auth_api
-        let(:id) { nil }
+        let(:id) { 'invalid' }
         run_test!
       end
     end

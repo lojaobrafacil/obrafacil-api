@@ -34,7 +34,6 @@ describe 'Units API' do
 
       response 200, 'unit found' do
         auth_api
-        let(:id) { create(:unit).id }
         schema type: :object,
           properties: {
             id: { type: :integer, example: 1},
@@ -43,7 +42,7 @@ describe 'Units API' do
             updated_at: { type: :string, example: "2018-03-15T16:54:07.552Z"},
             created_at: { type: :string, example: "2018-03-15T16:54:07.552Z"}
           }
-
+        let(:id) { create(:unit).id }
         run_test!
       end
 
@@ -79,7 +78,8 @@ describe 'Units API' do
       end
 
       response 422, 'invalid request' do
-        let(:unit) { { name: 'foo' } }
+        auth_api
+        let(:unit) { { name: nil } }
         run_test!
       end
     end
@@ -105,13 +105,15 @@ describe 'Units API' do
 
       response 200, 'unit updated' do
         auth_api
-        let(:unit) { create(:unit) }
+        let(:id) { create(:unit).id }
+        let(:unit) { {name: 'String'} }
         run_test!
       end
 
       response 422, 'invalid request' do
         auth_api
-        let(:unit) { { name: 'foo' } }
+        let(:id) { create(:unit).id }
+        let(:unit) { { name: nil } }
         run_test!
       end
     end
@@ -126,13 +128,13 @@ describe 'Units API' do
 
       response 204, 'unit destroyed' do
         auth_api
-        let(:unit) { }
+        let(:id) { create(:unit).id }
         run_test!
       end
 
-      response 422, 'invalid request' do
+      response 404, 'invalid request' do
         auth_api
-        let(:unit) { { id: nil } }
+        let(:id) { 'invalid' }
         run_test!
       end
     end

@@ -1,17 +1,14 @@
 class Api::UnitsController < Api::BaseController
+  before_action :set_unit, only: [:show, :update, :destroy]
+
   def index
     @units = policy_scope Unit
     render json: @units.order(:id).as_json(only:[:id, :name, :description]), status: 200
   end
 
   def show
-    @unit = Unit.find_by(id: params[:id])
-    if @unit
-      authorize @unit
-      render json: @unit, status: 200
-    else
-      head 404
-    end
+    authorize @unit
+    render json: @unit, status: 200
   end
 
   def create
@@ -25,7 +22,6 @@ class Api::UnitsController < Api::BaseController
   end
 
   def update
-    @unit = Unit.find(params[:id])
     authorize @unit
     if @unit.update(unit_params)
       render json: @unit, status: 200
@@ -35,7 +31,6 @@ class Api::UnitsController < Api::BaseController
   end
 
   def destroy
-    @unit = Unit.find(params[:id])
     authorize @unit
     @unit.destroy
     head 204
@@ -43,7 +38,12 @@ class Api::UnitsController < Api::BaseController
 
   private
 
+  def set_unit
+    @unit = Unit.find_by(id: params[:id])
+    head 404 unless @unit
+  end
+
   def unit_params
-    params.permit(policy(Product).permitted_attributes)
+    params.permit(policy(Unit).permitted_attributes)
   end
 end

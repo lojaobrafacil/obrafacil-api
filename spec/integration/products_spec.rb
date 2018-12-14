@@ -36,35 +36,35 @@ describe 'Products API' do
         auth_api
         schema type: :object,
           properties: {
-            id: { type: :string, example: 1 },
+            id: { type: :integer, example: 1 },
             name: { type: :string, example: Faker::Commerce.product_name },
             description: { type: :string, example: Faker::Commerce.material },
-            ncm: { type: :string, example: Faker::Number.decimal(2) },
-            icms: { type: :string, example: Faker::Number.decimal(2) },
-            ipi: { type: :string, example: Faker::Number.decimal(2) },
-            cest: { type: :string, example: Faker::Number.decimal(2) },
+            ncm: { type: :integer, example: Faker::Number.decimal(2) },
+            icms: { type: :number, example: Faker::Number.decimal(2) },
+            ipi: { type: :number, example: Faker::Number.decimal(2) },
+            cest: { type: :number, example: Faker::Number.decimal(2) },
             bar_code: { type: :string, example: "7894916512510" },
-            reduction: { type: :string, example: Faker::Number.decimal(2) },
-            weight: { type: :string, example: Faker::Number.decimal(2) },
-            height: { type: :string, example: Faker::Number.decimal(2) },
-            width: { type: :string, example: Faker::Number.decimal(2) },
-            length: { type: :string, example: Faker::Number.decimal(2) },
+            reduction: { type: :number, example: Faker::Number.decimal(2) },
+            weight: { type: :number, example: Faker::Number.decimal(2) },
+            height: { type: :number, example: Faker::Number.decimal(2) },
+            width: { type: :number, example: Faker::Number.decimal(2) },
+            length: { type: :number, example: Faker::Number.decimal(2) },
             kind: { type: :string, example: "third_party", description: "pode ser own, third_party ou not_marketed"},
-            active: { type: :string, example: true },
-            unit_id: { type: :string, example: 11 },
+            active: { type: :boolean, example: true },
+            unit_id: { type: :integer, example: 11 },
             unit_name: { type: :string, example: 'DZ' },
             sku: { type: :string, example: "123456" },
             sku_xml: { type: :string, example: "123456" },
-            sub_category_id: { type: :string, example: 1 },
+            sub_category_id: { type: :integer, example: 1 },
             sub_category_name: { type: :string, example: 'consequuntur' },
-            supplier_id: { type: :string, example: 1 },
+            supplier_id: { type: :integer, example: 1 },
             supplier_name: { type: :string, example: 'Brites LTDA' },
             supplier_fantasy_name: { type: :string, example: 'Brites' },
-            category_id: { type: :string, example: 1 },
+            category_id: { type: :integer, example: 1 },
             category_name: { type: :string, example: 'ex' },
             company_products: { type: :array, items: { type: :object, 
               properties: {
-                  id: { type: :string },
+                  id: { type: :integer },
                   code: { type: :string, example: 111, description: "Codigo interno da FogoesShop/ObraFacil" },
                   stock: { type: :string, example: 0.0 },
                   stock_min: { type: :string, example: 0.0 },
@@ -78,7 +78,7 @@ describe 'Products API' do
             }
           }
 
-        let(:id) { 1 }
+        let(:id) { create(:product).id }
         run_test!
       end
 
@@ -124,13 +124,13 @@ describe 'Products API' do
 
       response 201, 'product created' do
         auth_api
-        let(:product) { FactoryBot.attributes_for(:product) }
+        let(:product) { attributes_for(:product) }
         run_test!
       end
 
       response 422, 'invalid request' do
         auth_api
-        let(:product) { { name: 'foo' } }
+        let(:product) { { name: nil } }
         run_test!
       end
     end
@@ -187,13 +187,22 @@ describe 'Products API' do
 
       response 200, 'product updated' do
         auth_api
-        let(:id) { FactoryBot.create(:product).id }
+        let(:id) { create(:product).id }
+        let(:product) { {name: "String"} }
+        run_test!
+      end
+
+      response 404, 'invalid request' do
+        auth_api
+        let(:id) { 'invalid' }
+        let(:product) { {name: nil} }
         run_test!
       end
 
       response 422, 'invalid request' do
         auth_api
-        let(:id) { nil }
+        let(:id) { create(:product).id }
+        let(:product) { {name: nil} }
         run_test!
       end
     end
@@ -212,7 +221,7 @@ describe 'Products API' do
         run_test!
       end
 
-      response 422, 'invalid request' do
+      response 404, 'invalid request' do
         auth_api
         let(:id) { 'invalid' }
         run_test!

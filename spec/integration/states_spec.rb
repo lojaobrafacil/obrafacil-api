@@ -50,7 +50,7 @@ describe 'States API' do
             created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" }
           }
 
-        let(:state) { create(:state) }
+        let(:id) { create(:state).id }
         run_test!
       end
 

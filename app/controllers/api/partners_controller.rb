@@ -1,4 +1,5 @@
 class Api::PartnersController < Api::ContactsController
+  before_action :set_partner, only: [:show, :update, :destroy, :reset]
 
   def index
     @partners = policy_scope ::Partner
@@ -15,13 +16,8 @@ class Api::PartnersController < Api::ContactsController
   end
 
   def show
-    @partner = ::Partner.find_by(id: params[:id])
-    if @partner
-      authorize @partner
-      render json: @partner, status: 200
-    else
-      head 404
-    end
+    authorize @partner
+    render json: @partner, status: 200
   end
 
   def create
@@ -29,7 +25,6 @@ class Api::PartnersController < Api::ContactsController
     authorize @partner
     if @partner.save
       update_contact(@partner)
-      # @partner.update_user
       render json: @partner, status: 201
     else
       render json: { errors: @partner.errors }, status: 422
@@ -38,14 +33,13 @@ class Api::PartnersController < Api::ContactsController
   
   def reset
     c ||= 0
-    params[:id] ? @partner = ::Partner.find(params[:id]) : (render json: { errors: "favor informar o id do parceiro"}, status: 422)
     authorize @partner
     p = @partner.as_json
     e = @partner.emails.as_json
     a = @partner.addresses.as_json
     pp = @partner.phones.as_json
     cc = @partner.commissions.as_json
-    @partner.destroy ? "" : (render json: { errors: "favor informar o id do parceiro"}, status: 422)
+    @partner.destroy
     if p = ::Partner.create(p)
       pp.each do |phone|
         p.phones.create(phone)
@@ -69,11 +63,9 @@ class Api::PartnersController < Api::ContactsController
   end
 
   def update
-    @partner = ::Partner.find(params[:id])
     authorize @partner
     if @partner.update(partner_params)
       update_contact(@partner)
-      # @partner.update_user
       render json: @partner, status: 200
     else
       render json: { errors: @partner.errors }, status: 422
@@ -81,7 +73,6 @@ class Api::PartnersController < Api::ContactsController
   end
 
   def destroy
-    @partner = ::Partner.find(params[:id])
     authorize @partner
     user = @partner.user
     @partner.destroy
@@ -90,6 +81,11 @@ class Api::PartnersController < Api::ContactsController
   end
 
   private
+
+  def set_partner
+    @partner = ::Partner.find_by(id: params[:id])
+    head 404 unless @partner
+  end
 
   def partner_params
     params.permit(policy(::Partner).permitted_attributes)

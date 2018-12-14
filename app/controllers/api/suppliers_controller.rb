@@ -1,27 +1,19 @@
 class Api::SuppliersController < Api::ContactsController
+  before_action :set_supplier, only: [:show, :update, :destroy]
 
   def index
     @suppliers = policy_scope Supplier
-    if @suppliers&.empty? or @suppliers.nil?
-      render json: @suppliers, status: 401
-    else
     @suppliers = if params[:name]
-      @suppliers.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE LOWER(?)", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
-      else
-        @suppliers.all
-      end
-      paginate json: @suppliers.order(:id).as_json(only:[:id, :name, :fantasy_name, :description]), status: 200
+    @suppliers.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE LOWER(?)", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
+    else
+      @suppliers.all
     end
+    paginate json: @suppliers.as_json(only:[:id, :name, :fantasy_name, :description]), status: 200
   end
 
   def show
-    @supplier = Supplier.find_by(id: params[:id])
-    if @supplier
-      authorize @supplier
-      render json: @supplier, status: 200
-    else
-      head 404
-    end
+    authorize @supplier
+    render json: @supplier, status: 200
   end
 
   def create
@@ -36,7 +28,6 @@ class Api::SuppliersController < Api::ContactsController
   end
 
   def update
-    @supplier = Supplier.find(params[:id])
     authorize @supplier
     if @supplier.update(supplier_params)
       update_contact(@supplier) 
@@ -47,13 +38,17 @@ class Api::SuppliersController < Api::ContactsController
   end
 
   def destroy
-    @supplier = Supplier.find(params[:id])
     authorize @supplier
     @supplier.destroy
     head 204
   end
 
   private
+
+  def set_supplier
+    @supplier = Supplier.find_by(id: params[:id])
+    head 404 unless @supplier
+  end
 
   def supplier_params
     params.permit(policy(Supplier).permitted_attributes)

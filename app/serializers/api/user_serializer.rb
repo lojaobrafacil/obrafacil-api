@@ -1,28 +1,12 @@
 class Api::UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :federal_registration, :kind,  :client, 
-  :partner, :company, :employee, :created_at, :updated_at
+  attributes :id, :email, :federal_registration, :kind, 
+  :partner_id, :client_id, :created_at, :updated_at
 
-  def admin
-    object.admin?
-  end
-
-  def client
-    object.client ? true : false
-  end
-
-  def partner
-    object.partner ? true : false
-  end
-
-  def company
-    object.company ? true : false
-  end
-
-  def employee
-    object.employee ? true : false
-  end
-  
   def partner_id
     object.partner.id if object.partner
+  end
+
+  def client_id
+    object.client.id if object.client
   end
 end

@@ -12,7 +12,7 @@ describe 'Suppliers API' do
 
       response 200, 'supplier found' do
         auth_api
-        let(:supplier) { create_list(:supplier,5) }
+        let(:suppliers) { FactoryBot.create_list(:supplier,5) }
         schema type: :array,
           items: { type: :object, properties: {
             id: { type: :integer },
@@ -39,81 +39,62 @@ describe 'Suppliers API' do
           properties: {
             id: { type: :integer },
             name: { type: :string },
+            fantasy_name: { type: :string },
             federal_registration: { type: :string },
             state_registration: { type: :string },
-            kind: { type: :string },
-            active: { type: :boolean },
-            started_date: { type: :string },
-            renewal_date: { type: :string },
+            kind: { type: :string, 'x-nullable': true  },
+            birth_date: { type: :string },
+            tax_regime: { type: :string },
             description: { type: :string },
-            origin: { type: :string },
-            percent: { type: :string },
-            agency: { type: :string },
-            account: { type: :string },
-            favored: { type: :string },
-            bank_id: { type: :integer },
-            ocupation: { type: :string },
-            user: { type: :object, 
-              properties: {
-                id: { type: :integer },
-                email: { type: :string },
-                created_at: { type: :string },
-                updated_at: { type: :string },
-                provider: { type: :string },
-                uid: { type: :string },
-                federal_registration: { type: :string },
-                kind: { type: :string }
-              }
-            },
-            discount3: { type: :string },
-            discount5: { type: :string },
-            discount8: { type: :string },
-            cash_redemption: { type: :string },
+            billing_type_id: { type: :integer },
             updated_at: { type: :string },
             created_at: { type: :string },
-            addresses: { type: :object, 
-              properties: {
-                id: { type: :integer },
-                street: { type: :string },
-                number: { type: :string },
-                complement: { type: :string },
-                neighborhood: { type: :string },
-                zipcode: { type: :integer },
-                ibge: { type: :string },
-                description: { type: :string },
-                address_type_id: { type: :integer },
-                address_type_name: { type: :string },
-                city_id: { type: :integer },
-                city_name: { type: :string },
-                state_id: { type: :integer },
-                state_name: { type: :string }
+            addresses: {  type: :array,
+              items: { type: :object, properties: {
+                  id: { type: :integer },
+                  street: { type: :string },
+                  number: { type: :string },
+                  complement: { type: :string },
+                  neighborhood: { type: :string },
+                  zipcode: { type: :integer },
+                  ibge: { type: :string },
+                  description: { type: :string },
+                  address_type_id: { type: :integer },
+                  address_type_name: { type: :string },
+                  city_id: { type: :integer },
+                  city_name: { type: :string },
+                  state_id: { type: :integer },
+                  state_name: { type: :string }
+                }
               }
             },
-            phones: { type: :object, 
-              properties: {
-                id: { type: :integer },
-                phone: { type: :string },
-                contact: { type: :string },
-                phone_type_id: { type: :integer },
-                phone_type_name: { type: :string },
-                updated_at: { type: :string },
-                created_at: { type: :string }
+            phones: {  type: :array,
+              items: { type: :object, properties: {
+                  id: { type: :integer },
+                  phone: { type: :string },
+                  contact: { type: :string },
+                  phone_type_id: { type: :integer },
+                  phone_type_name: { type: :string },
+                  updated_at: { type: :string },
+                  created_at: { type: :string }
+                }
               }
             },
-            emails: { type: :object, 
-              properties: {
-                id: { type: :integer },
-                email: { type: :string },
-                contact: { type: :string },
-                email_type_id: { type: :integer },
-                email_type_name: { type: :string },
-                updated_at: { type: :string },
-                created_at: { type: :string }
+            emails: {  type: :array,
+              items: { type: :object, properties: {
+                  id: { type: :integer },
+                  email: { type: :string },
+                  contact: { type: :string },
+                  email_type_id: { type: :integer },
+                  email_type_name: { type: :string },
+                  updated_at: { type: :string },
+                  created_at: { type: :string }
+                }
               }
             }
           }
 
-        let(:supplier) { create(:supplier) }
+        let(:id) { create(:supplier).id }
         run_test!
       end
 
@@ -185,7 +166,7 @@ describe 'Suppliers API' do
 
       response 422, 'invalid request' do
         auth_api
-        let(:supplier) { { name: 'foo' } }
+        let(:supplier) { { name: nil } }
         run_test!
       end
     end
@@ -247,12 +228,21 @@ describe 'Suppliers API' do
       response 200, 'supplier updated' do
         auth_api
         let(:supplier) { {name: 'newname'} }
+        let(:id) { create(:supplier).id }
+        run_test!
+      end
+
+      response 404, 'Not Found' do
+        auth_api
+        let(:id) { 'invalid' }
+        let(:supplier) { { name: nil } }
         run_test!
       end
 
       response 422, 'invalid request' do
         auth_api
         let(:supplier) { { name: nil } }
+        let(:id) { create(:supplier).id }
         run_test!
       end
     end
@@ -271,7 +261,7 @@ describe 'Suppliers API' do
         run_test!
       end
 
-      response 422, 'invalid request' do
+      response 404, 'invalid request' do
         auth_api
         let(:id) { 'invalid' }
         run_test!

@@ -1,4 +1,5 @@
 class Api::ProductsController < Api::BaseController
+  before_action :set_product, only: [:show, :update, :destroy]
 
   def index
     @products = Product.all
@@ -11,13 +12,8 @@ class Api::ProductsController < Api::BaseController
   end
 
   def show
-    @product = Product.find_by(id: params[:id])
-    if @product
-      authorize @product
-      render json: @product, status: 200
-    else
-      head 404
-    end
+    authorize @product
+    render json: @product, status: 200
   end
 
   def create
@@ -33,7 +29,6 @@ class Api::ProductsController < Api::BaseController
   end
 
   def update
-    @product = Product.find(params[:id])
     authorize @product
     if @product.update(product_params)
       company_product_attributes(@product) if params[:company_products]
@@ -45,13 +40,17 @@ class Api::ProductsController < Api::BaseController
   end
 
   def destroy
-    @product = Product.find(params[:id])
     authorize @product
     @product.destroy
     head 204
   end
 
   private
+
+  def set_product
+    @product = Product.find_by(id: params[:id])
+    head 404 unless @product
+  end
 
   def product_params
     params.permit(policy(Product).permitted_attributes)

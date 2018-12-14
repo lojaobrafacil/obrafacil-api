@@ -43,7 +43,7 @@ describe 'Regions API' do
             created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" }
           }
 
-        let(:region) { create(:region) }
+        let(:id) { create(:region).id }
         run_test!
       end
 
