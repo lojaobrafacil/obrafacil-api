@@ -8,9 +8,13 @@ class Api::ApisController < Api::BaseController
   end
 
   def show
-    @api = Api.find(params[:id])
-    authorize @api
-    render json: @api, status: 200
+    @api = Api.find_by(id: params[:id])
+    if @api
+      authorize @api
+      render json: @api, status: 200
+    else
+      head 404
+    end
   end
 
   def create

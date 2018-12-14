@@ -17,13 +17,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -82,13 +82,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -100,19 +100,19 @@
               "properties": {
                 "code": {
                   "type": "integer",
-                  "example": "3947"
+                  "example": "1444"
                 },
                 "name": {
                   "type": "string",
-                  "example": "ABN AMRO FUND MANAGERS LIMITED"
+                  "example": "ABC INTERNATIONAL BANK PLC"
                 },
                 "slug": {
                   "type": "string",
-                  "example": "ALKEN ASSET MANAGEMENT"
+                  "example": "ABG SUNDAL COLLIER LIMITED"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Id voluptas est. Neque eaque eum. Quo ullam ex."
+                  "example": "Recusandae voluptate omnis. Totam delectus atque. Animi libero quia."
                 }
               },
               "required": [
@@ -144,13 +144,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -201,13 +201,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -225,7 +225,7 @@
               "properties": {
                 "code": {
                   "type": "integer",
-                  "example": "7738"
+                  "example": "1114"
                 },
                 "name": {
                   "type": "string",
@@ -233,11 +233,11 @@
                 },
                 "slug": {
                   "type": "string",
-                  "example": "ALLIED BANK PHILIPPINES (UK) PLC"
+                  "example": "ABN AMRO HOARE GOVETT CORPORATE FINANCE LTD."
                 },
                 "description": {
                   "type": "string",
-                  "example": "Nobis vero molestiae. Rerum autem repellat. Aspernatur quae aperiam."
+                  "example": "Sit nobis numquam. Deserunt hic soluta. Nisi incidunt aperiam."
                 }
               },
               "required": [
@@ -267,13 +267,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -306,13 +306,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -372,13 +372,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -462,13 +462,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -533,13 +533,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -551,15 +551,15 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Ana Júlia Viveiros"
+                  "example": "Ana Laura Banheira"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "658789699-5"
+                  "example": "567064330-5"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "930896478-9"
+                  "example": "323112613-4"
                 },
                 "kind": {
                   "type": "string",
@@ -570,15 +570,15 @@
                 },
                 "started_date": {
                   "type": "string",
-                  "example": "1993-07-25"
+                  "example": "1982-10-27"
                 },
                 "renewal_date": {
                   "type": "string",
-                  "example": "2019-05-27"
+                  "example": "2021-07-01"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Et quia neque. Totam eveniet repellendus. Voluptas necessitatibus natus."
+                  "example": "Aliquam et eos. Voluptatem libero quibusdam. Quaerat totam aut."
                 },
                 "origin": {
                   "type": "string",
@@ -586,26 +586,26 @@
                 },
                 "percent": {
                   "type": "string",
-                  "example": ".01"
+                  "example": ".09"
                 },
                 "agency": {
                   "type": "string",
-                  "example": "7945"
+                  "example": "4894"
                 },
                 "account": {
                   "type": "string",
-                  "example": "3119301"
+                  "example": "1938186"
                 },
                 "favored": {
                   "type": "string",
-                  "example": "Bruna Carvalheira"
+                  "example": "Manuela de Sá"
                 },
                 "bank_id": {
                   "type": "integer"
                 },
                 "ocupation": {
                   "type": "string",
-                  "example": "Hospitalidade"
+                  "example": "Tecnologia"
                 },
                 "cash_redemption": {
                   "type": "string",
@@ -616,31 +616,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Rua Maria Laura"
+                      "example": "Viela Laís Xavier"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Marginal Enzo Passarinho"
+                      "example": "Alameda Ígor Ornelas"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "76622286"
+                      "example": "95204737"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "94709541"
+                      "example": "81477068"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "4170"
+                      "example": "8720"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "104"
+                      "example": "72366"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Repellendus maiores modi. Repellat repudiandae porro. Ea iure dolor."
+                      "example": "Mollitia ullam iure. Dolores explicabo voluptatem. Et dolores et."
                     },
                     "address_type_id": {
                       "type": "integer"
@@ -655,11 +655,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(51) 1450-2165"
+                      "example": "(65) 3591-6455"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Srta. Eduardo Bentes"
+                      "example": "Srta. Gabriela Godinho"
                     },
                     "phone_type_id": {
                       "type": "integer"
@@ -671,11 +671,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "tracycummings@ko.com"
+                      "example": "mac@wehnerwisoky.info"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Fabrício Aragão Neto"
+                      "example": "Kléber Vieira"
                     },
                     "email_type_id": {
                       "type": "integer"
@@ -713,13 +713,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -949,13 +949,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -973,15 +973,15 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Pietra Fontes"
+                  "example": "Dra. Washington Rocha"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "847189221-9"
+                  "example": "277108168-7"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "783738081-9"
+                  "example": "641830777-1"
                 },
                 "kind": {
                   "type": "string",
@@ -992,15 +992,15 @@
                 },
                 "started_date": {
                   "type": "string",
-                  "example": "1973-06-21"
+                  "example": "1966-12-14"
                 },
                 "renewal_date": {
                   "type": "string",
-                  "example": "2025-12-28"
+                  "example": "2026-07-31"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Soluta autem maiores. Pariatur culpa vero. Laboriosam corporis voluptas."
+                  "example": "Quibusdam aut a. Sit dolorem in. Odio neque quis."
                 },
                 "origin": {
                   "type": "string",
@@ -1008,26 +1008,26 @@
                 },
                 "percent": {
                   "type": "string",
-                  "example": ".09"
+                  "example": ".02"
                 },
                 "agency": {
                   "type": "string",
-                  "example": "2654"
+                  "example": "3139"
                 },
                 "account": {
                   "type": "string",
-                  "example": "2416290"
+                  "example": "6011493"
                 },
                 "favored": {
                   "type": "string",
-                  "example": "Luana Diegues Neto"
+                  "example": "Fernanda Godins"
                 },
                 "bank_id": {
                   "type": "integer"
                 },
                 "ocupation": {
                   "type": "string",
-                  "example": "Contabilidade"
+                  "example": "Consultoria"
                 },
                 "cash_redemption": {
                   "type": "string",
@@ -1038,23 +1038,23 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Rodovia Felipe Madeira"
+                      "example": "Rodovia Morgana"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Alameda Laura"
+                      "example": "Avenida Erick"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "89510016"
+                      "example": "65510969"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "32573362"
+                      "example": "84388897"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "9004"
+                      "example": "3849"
                     },
                     "ibge": {
                       "type": "string",
@@ -1062,7 +1062,7 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Sint aut in. Velit ipsum porro. Expedita aut eos."
+                      "example": "Blanditiis numquam quaerat. Iusto et quaerat. Aut animi in."
                     },
                     "address_type_id": {
                       "type": "integer"
@@ -1077,11 +1077,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(93) 6268-4683"
+                      "example": "(69) 9648-5125"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Heitor Vidal"
+                      "example": "Dr. Bárbara Silva"
                     },
                     "phone_type_id": {
                       "type": "integer"
@@ -1093,11 +1093,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "everettkrajcik@cruickshankfarrell.org"
+                      "example": "alexiaoberbrunner@bernierkoelpin.name"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Elísio Fernandes"
+                      "example": "Davi Luca Monteiro"
                     },
                     "email_type_id": {
                       "type": "integer"
@@ -1133,13 +1133,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1172,13 +1172,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1234,13 +1234,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1250,34 +1250,29 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "type": "string",
-                  "example": 111,
-                  "description": "Codigo interno da fogoes shop"
-                },
                 "name": {
                   "type": "string",
-                  "example": "Aerodynamic Granite Bench"
+                  "example": "Small Linen Table"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Iron"
+                  "example": "Copper"
                 },
                 "ncm": {
                   "type": "string",
-                  "example": "30.02"
+                  "example": "36.06"
                 },
                 "icms": {
                   "type": "string",
-                  "example": "66.02"
+                  "example": "73.06"
                 },
                 "ipi": {
                   "type": "string",
-                  "example": "64.03"
+                  "example": "89.01"
                 },
                 "cest": {
                   "type": "string",
-                  "example": "33.06"
+                  "example": "64.05"
                 },
                 "bar_code": {
                   "type": "string",
@@ -1285,23 +1280,23 @@
                 },
                 "reduction": {
                   "type": "string",
-                  "example": "10.01"
+                  "example": "30.01"
                 },
                 "weight": {
                   "type": "string",
-                  "example": "28.01"
+                  "example": "82.07"
                 },
                 "height": {
                   "type": "string",
-                  "example": "84.09"
+                  "example": "65.09"
                 },
                 "width": {
                   "type": "string",
-                  "example": "94.07"
+                  "example": "42.01"
                 },
                 "length": {
                   "type": "string",
-                  "example": "25.04"
+                  "example": "70.01"
                 },
                 "kind": {
                   "type": "string",
@@ -1362,13 +1357,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1389,34 +1384,29 @@
                   "type": "string",
                   "example": 1
                 },
-                "code": {
-                  "type": "string",
-                  "example": 111,
-                  "description": "Codigo interno da fogoes shop"
-                },
                 "name": {
                   "type": "string",
-                  "example": "Ergonomic Silk Plate"
+                  "example": "Durable Wool Coat"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Wooden"
+                  "example": "Leather"
                 },
                 "ncm": {
                   "type": "string",
-                  "example": "75.08"
+                  "example": "75.06"
                 },
                 "icms": {
                   "type": "string",
-                  "example": "81.02"
+                  "example": "70.02"
                 },
                 "ipi": {
                   "type": "string",
-                  "example": "69.04"
+                  "example": "93.03"
                 },
                 "cest": {
                   "type": "string",
-                  "example": "15.08"
+                  "example": "66.05"
                 },
                 "bar_code": {
                   "type": "string",
@@ -1424,23 +1414,23 @@
                 },
                 "reduction": {
                   "type": "string",
-                  "example": "13.09"
+                  "example": "58.09"
                 },
                 "weight": {
                   "type": "string",
-                  "example": "16.03"
+                  "example": "48.01"
                 },
                 "height": {
                   "type": "string",
-                  "example": "78.07"
+                  "example": "33.03"
                 },
                 "width": {
                   "type": "string",
-                  "example": "19.01"
+                  "example": "76.05"
                 },
                 "length": {
                   "type": "string",
-                  "example": "67.04"
+                  "example": "33.07"
                 },
                 "kind": {
                   "type": "string",
@@ -1503,6 +1493,11 @@
                       "id": {
                         "type": "string"
                       },
+                      "code": {
+                        "type": "string",
+                        "example": 111,
+                        "description": "Codigo interno da FogoesShop/ObraFacil"
+                      },
                       "stock": {
                         "type": "string",
                         "example": 0.0
@@ -1549,13 +1544,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1574,38 +1569,33 @@
                 "id": {
                   "type": "integer"
                 },
-                "code": {
-                  "type": "integer",
-                  "example": 111,
-                  "description": "Codigo interno da fogoes shop"
-                },
                 "name": {
                   "type": "string",
-                  "example": "Ergonomic Granite Hat"
+                  "example": "Ergonomic Silk Clock"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Copper"
+                  "example": "Marble"
                 },
                 "ncm": {
                   "type": "float",
-                  "example": "66.03"
+                  "example": "62.04"
                 },
                 "icms": {
                   "type": "float",
-                  "example": "60.03"
+                  "example": "81.08"
                 },
                 "ipi": {
                   "type": "float",
-                  "example": "98.09"
+                  "example": "29.03"
                 },
                 "cest": {
                   "type": "float",
-                  "example": "57.07"
+                  "example": "83.01"
                 },
                 "color": {
                   "type": "string",
-                  "example": "#b0e1a6"
+                  "example": "#8cdd68"
                 },
                 "bar_code": {
                   "type": "string",
@@ -1613,23 +1603,23 @@
                 },
                 "reduction": {
                   "type": "string",
-                  "example": "49.06"
+                  "example": "55.04"
                 },
                 "weight": {
                   "type": "float",
-                  "example": "43.03"
+                  "example": "52.08"
                 },
                 "height": {
                   "type": "float",
-                  "example": "79.01"
+                  "example": "66.04"
                 },
                 "width": {
                   "type": "float",
-                  "example": "22.05"
+                  "example": "36.06"
                 },
                 "length": {
                   "type": "float",
-                  "example": "51.01"
+                  "example": "39.04"
                 },
                 "kind": {
                   "type": "string",
@@ -1667,6 +1657,11 @@
                     "properties": {
                       "id": {
                         "type": "integer"
+                      },
+                      "code": {
+                        "type": "string",
+                        "example": 111,
+                        "description": "Codigo interno da FogoesShop/ObraFacil"
                       },
                       "stock": {
                         "type": "integer",
@@ -1726,13 +1721,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1765,13 +1760,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1833,13 +1828,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1893,13 +1888,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -1957,13 +1952,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2041,13 +2036,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2103,13 +2098,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2121,19 +2116,19 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Warley Crespo"
+                  "example": "Luiza Jaques Filho"
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Kaique Bernardes"
+                  "example": "Maria Valentina de Quadros"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "926081925-3"
+                  "example": "293398893-3"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "699430696-8"
+                  "example": "241411840-7"
                 },
                 "kind": {
                   "type": "string",
@@ -2142,11 +2137,11 @@
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1963-01-06"
+                  "example": "1970-08-30"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2024-07-16"
+                  "example": "2036-02-08"
                 },
                 "description": {
                   "type": "string",
@@ -2161,31 +2156,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Avenida Elísio"
+                      "example": "Alameda Arthur Pires"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Viela Maitê"
+                      "example": "Ponte Murilo Galego"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "32699523"
+                      "example": "92929179"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "77670876"
+                      "example": "65189928"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "3354"
+                      "example": "5214"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "47501"
+                      "example": "s/n"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Minus non libero. Explicabo earum ducimus. Repellat et doloribus."
+                      "example": "Non nam quam. Est blanditiis eveniet. Ut corporis laboriosam."
                     },
                     "address_type_id": {
                       "type": "integer",
@@ -2206,11 +2201,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(63) 7462-0067"
+                      "example": "(27) 2105-4290"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Marina Roriz Neto"
+                      "example": "Rodrigo Caseira"
                     },
                     "phone_type_id": {
                       "type": "integer",
@@ -2227,11 +2222,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "rodger@reilly.co"
+                      "example": "neida@block.io"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Raul Ximenes"
+                      "example": "Dr. João Gabriel Passarinho"
                     },
                     "email_type_id": {
                       "type": "integer",
@@ -2275,13 +2270,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2511,13 +2506,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2535,19 +2530,19 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Raul Junqueira"
+                  "example": "Fabrício Aroeira Filho"
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Nathan Santos"
+                  "example": "Rebeca Porto"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "924436027-6"
+                  "example": "995153261-6"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "782846389-8"
+                  "example": "746764635-6"
                 },
                 "kind": {
                   "type": "string",
@@ -2556,11 +2551,11 @@
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1988-01-09"
+                  "example": "1980-11-17"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2020-03-02"
+                  "example": "2034-03-22"
                 },
                 "description": {
                   "type": "string",
@@ -2575,31 +2570,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Avenida Maria Luiza Almeida"
+                      "example": "Travessa Enzo Saraiva"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Avenida Mércia"
+                      "example": "Avenida Yago"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "51751171"
+                      "example": "22985535"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "56382279"
+                      "example": "72170896"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "6862"
+                      "example": "7926"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "26931"
+                      "example": "s/n"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Est autem fugit. Eos libero quia. Minus dolorem officiis."
+                      "example": "Aliquid tempora aut. Pariatur occaecati recusandae. Ut tenetur ut."
                     },
                     "address_type_id": {
                       "type": "integer",
@@ -2620,11 +2615,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(82) 8841-3754"
+                      "example": "(77) 8824-9771"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Tertuliano Paes"
+                      "example": "Sr. Esther Álvares"
                     },
                     "phone_type_id": {
                       "type": "integer",
@@ -2641,11 +2636,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "leslihamill@boyer.net"
+                      "example": "lashellhamill@mosciski.com"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Yasmin Albuquerque"
+                      "example": "Ayla Souza"
                     },
                     "email_type_id": {
                       "type": "integer",
@@ -2687,13 +2682,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2726,13 +2721,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2788,13 +2783,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },
@@ -2850,13 +2845,13 @@
         "parameters": [
           {
             "name": "access_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-id"
           },
           {
             "name": "access_key",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "description": "your-access-key"
           },

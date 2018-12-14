@@ -24,8 +24,8 @@ RSpec.configure do |config|
   }
 
   def params_auth
-    parameter name: :access_id, in: :header, type: :string, description: 'your-access-id'
-    parameter name: :access_key, in: :header, type: :string, description: 'your-access-key'
+    parameter name: :access_id, in: :query, type: :string, description: 'your-access-id'
+    parameter name: :access_key, in: :query, type: :string, description: 'your-access-key'
   end
 
   def auth_api

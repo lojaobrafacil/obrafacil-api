@@ -12,16 +12,16 @@ describe 'Banks API' do
 
       response 200, 'bank found' do
         auth_api
-        let(:bank) { create_list(:bank,5) }
         schema type: :array,
           items: { type: :object, properties: {
-              id: { type: :integer },
-              code: { type: :integer },
-              name: { type: :string },
-              slug: { type: :string },
-              description: { type: :string }
-            }
+            id: { type: :integer },
+            code: { type: :integer },
+            name: { type: :string },
+            slug: { type: :string },
+            description: { type: :string }
           }
+        }
+        let(:bank) { create_list(:bank,5) }
         run_test!
       end
     end

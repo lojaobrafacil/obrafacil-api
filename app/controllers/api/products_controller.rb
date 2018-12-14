@@ -1,49 +1,53 @@
 class Api::ProductsController < Api::BaseController
 
   def index
-    products = Product.all
-    products = if params['name']
-      products.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
+    @products = Product.all
+    @products = if params['name']
+      @products.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
     else
-      products.all
+      @products.all
     end
-    paginate json: products.order(:id).as_json(only:[:id, :name, :active, :description]), status: 200
+    paginate json: @products.order(:id).as_json(only:[:id, :name, :active, :description]), status: 200
   end
 
   def show
-    product = Product.find(params[:id])
-    authorize product
-    render json: product, status: 200
+    @product = Product.find_by(id: params[:id])
+    if @product
+      authorize @product
+      render json: @product, status: 200
+    else
+      head 404
+    end
   end
 
   def create
-    product = Product.new(product_params)
-    authorize product
-    if product.save
-      company_product_attributes(product) if params[:company_products]
-      image_products_attributes(product) if params[:images]
-      render json: product, status: 201
+    @product = Product.new(product_params)
+    authorize @product
+    if @product.save
+      company_product_attributes(@product) if params[:company_products]
+      image_products_attributes(@product) if params[:images]
+      render json: @product, status: 201
     else
-      render json: { errors: product.errors }, status: 422
+      render json: { errors: @product.errors }, status: 422
     end
   end
 
   def update
-    product = Product.find(params[:id])
-    authorize product
-    if product.update(product_params)
-      company_product_attributes(product) if params[:company_products]
-      image_products_attributes(product) if params[:images]
-      render json: product, status: 200
+    @product = Product.find(params[:id])
+    authorize @product
+    if @product.update(product_params)
+      company_product_attributes(@product) if params[:company_products]
+      image_products_attributes(@product) if params[:images]
+      render json: @product, status: 200
     else
-      render json: { errors: product.errors }, status: 422
+      render json: { errors: @product.errors }, status: 422
     end
   end
 
   def destroy
-    product = Product.find(params[:id])
-    authorize product
-    product.destroy
+    @product = Product.find(params[:id])
+    authorize @product
+    @product.destroy
     head 204
   end
 

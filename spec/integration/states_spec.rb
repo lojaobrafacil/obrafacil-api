@@ -33,6 +33,7 @@ describe 'States API' do
       parameter name: :id, :in => :path, :type => :string
 
       response 200, 'state found' do
+        auth_api
         schema type: :object,
           properties: {
             id: { type: :integer, example: 1 },
@@ -54,6 +55,7 @@ describe 'States API' do
       end
 
       response 404, 'state not found' do
+        auth_api
         let(:id) { 'invalid' }
         run_test!
       end

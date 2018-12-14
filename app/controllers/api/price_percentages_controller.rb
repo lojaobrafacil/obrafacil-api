@@ -12,7 +12,11 @@ class Api::PricePercentagesController < Api::BaseController
 
   def show
     @price_percentage = percentage_by_company(Company.find(params[:id]))
-    render json: @price_percentage, status: 200
+    if @price_percentage
+      render json: @price_percentage, status: 200
+    else
+      head 404
+    end
   end
 
   def update

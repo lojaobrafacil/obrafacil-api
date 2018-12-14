@@ -118,6 +118,7 @@ describe 'Suppliers API' do
       end
 
       response 404, 'supplier not found' do
+        auth_api
         let(:id) { 'invalid' }
         run_test!
       end

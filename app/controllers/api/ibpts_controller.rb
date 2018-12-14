@@ -1,37 +1,41 @@
 class Api::IbptsController < Api::BaseController
 
   def index
-    ibpts = Ibpt.all
-    paginate json: ibpts.order(:id), status: 200
+    @ibpts = Ibpt.all
+    paginate json: @ibpts.order(:id), status: 200
   end
 
   def show
-    ibpt = Ibpt.find(params[:id])
-    render json: ibpt, status: 200
+    @ibpt = Ibpt.find_by(id: params[:id])
+    if @ibpt
+      render json: @ibpt, status: 200
+    else
+      head 404
+    end
   end
 
   def create
-    ibpt = Ibpt.new(ibpt_params)
+    @ibpt = Ibpt.new(ibpt_params)
 
-    if ibpt.save
-      render json: ibpt, status: 201
+    if @ibpt.save
+      render json: @ibpt, status: 201
     else
-      render json: { errors: ibpt.errors }, status: 422
+      render json: { errors: @ibpt.errors }, status: 422
     end
   end
 
   def update
-    ibpt = Ibpt.find(params[:id])
-    if ibpt.update(ibpt_params)
-      render json: ibpt, status: 200
+    @ibpt = Ibpt.find(params[:id])
+    if @ibpt.update(ibpt_params)
+      render json: @ibpt, status: 200
     else
-      render json: { errors: ibpt.errors }, status: 422
+      render json: { errors: @ibpt.errors }, status: 422
     end
   end
 
   def destroy
-    ibpt = Ibpt.find(params[:id])
-    ibpt.destroy
+    @ibpt = Ibpt.find(params[:id])
+    @ibpt.destroy
     head 204
   end
 

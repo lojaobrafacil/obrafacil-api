@@ -18,7 +18,12 @@ class Employee < ApplicationRecord
             :order_cost, :order_done, :order_price_reduce, 
             :order_inactive, inclusion: { in: [true, false] }
   validates_uniqueness_of :federal_registration, conditions: -> { where.not(active: false) }, case_sensitive: true
+  before_save :valid_federal_registration
   include Contact
+
+  def valid_federal_registration
+    self.federal_registration.gsub!(/[^0-9[a-z]+]\s*/, "")
+  end
 
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end

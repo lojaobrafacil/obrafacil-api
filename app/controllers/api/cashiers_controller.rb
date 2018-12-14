@@ -1,38 +1,42 @@
 class Api::CashiersController < Api::BaseController
 
   def index
-    cashiers = Cashier.all
-    paginate json: cashiers.order(:id), status: 200
+    @cashiers = Cashier.all
+    paginate json: @cashiers.order(:id), status: 200
   end
 
   def show
-    cashier = Cashier.find(params[:id])
-    render json: cashier, status: 200
+    @cashier = Cashier.find_by(id: params[:id])
+    if @cashier
+      render json: @cashier, status: 200
+    else
+      head 404
+    end
   end
 
   def create
-    cashier = Cashier.new(cashier_params)
+    @cashier = Cashier.new(cashier_params)
 
-    if cashier.save
-      render json: cashier, status: 201
+    if @cashier.save
+      render json: @cashier, status: 201
     else
-      render json: { errors: cashier.errors }, status: 422
+      render json: { errors: @cashier.errors }, status: 422
     end
   end
 
   def update
-    cashier = Cashier.find(params[:id])
+    @cashier = Cashier.find(params[:id])
 
-    if cashier.update(cashier_params)
-      render json: cashier, status: 200
+    if @cashier.update(cashier_params)
+      render json: @cashier, status: 200
     else
-      render json: { errors: cashier.errors }, status: 422
+      render json: { errors: @cashier.errors }, status: 422
     end
   end
 
   def destroy
-    cashier = Cashier.find(params[:id])
-    cashier.destroy
+    @cashier = Cashier.find(params[:id])
+    @cashier.destroy
     head 204
   end
 

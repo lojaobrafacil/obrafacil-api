@@ -7,8 +7,12 @@ class Api::CompanyProductsController < Api::ContactsController
 
   def show
     @company_product = CompanyProduct.find_by(id: params[:id])
-    authorize @company_product
-    render json: @company_product, status: 200
+    if @company_product
+      authorize @company_product
+      render json: @company_product, status: 200
+    else
+      head 404
+    end
   end
 
   def update

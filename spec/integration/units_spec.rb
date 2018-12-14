@@ -34,7 +34,7 @@ describe 'Units API' do
 
       response 200, 'unit found' do
         auth_api
-        let(:unit) { create(:unit) }
+        let(:id) { create(:unit).id }
         schema type: :object,
           properties: {
             id: { type: :integer, example: 1},
@@ -48,6 +48,7 @@ describe 'Units API' do
       end
 
       response 404, 'unit not found' do
+        auth_api
         let(:id) { 'invalid' }
         run_test!
       end
@@ -88,9 +89,7 @@ describe 'Units API' do
     put 'Updates a unit' do
       tags 'Units'
       consumes 'application/json'
-      parameter name: :Accept, in: :header, type: :string, description: 'application/vnd.emam.v2'
-      parameter name: :access_id, in: :header, type: :string, description: 'your-access-id'
-      parameter name: :access_key, in: :header, type: :string, description: 'your-access-key'
+      params_auth
       parameter name: :id, :in => :path, :type => :string
 
       parameter name: :unit, in: :body, schema: {
@@ -105,11 +104,13 @@ describe 'Units API' do
       }
 
       response 200, 'unit updated' do
+        auth_api
         let(:unit) { create(:unit) }
         run_test!
       end
 
       response 422, 'invalid request' do
+        auth_api
         let(:unit) { { name: 'foo' } }
         run_test!
       end
@@ -120,17 +121,17 @@ describe 'Units API' do
     delete 'Destroy a unit' do
       tags 'Units'
       consumes 'application/json'
-      parameter name: :Accept, in: :header, type: :string, description: 'application/vnd.emam.v2'
-      parameter name: :access_id, in: :header, type: :string, description: 'your-access-id'
-      parameter name: :access_key, in: :header, type: :string, description: 'your-access-key'
+      params_auth
       parameter name: :id, :in => :path, :type => :string
 
       response 204, 'unit destroyed' do
+        auth_api
         let(:unit) { }
         run_test!
       end
 
       response 422, 'invalid request' do
+        auth_api
         let(:unit) { { id: nil } }
         run_test!
       end
