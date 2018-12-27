@@ -62,6 +62,7 @@ group :development do
   gem 'capistrano-sidekiq'
   gem "better_errors"
   gem "binding_of_caller"
+  gem 'awesome_print'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
