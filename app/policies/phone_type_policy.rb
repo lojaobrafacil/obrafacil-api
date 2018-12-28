@@ -1,5 +1,4 @@
 class PhoneTypePolicy < ApplicationPolicy
-  
   def show?
     PhoneType.where(:id => record.id).exists? && (user.is_a?(Api) || user.admin)
   end

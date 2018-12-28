@@ -1,5 +1,5 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Commission, type: :model do
-  it { should belong_to(:partner) } 
+  it { should belong_to(:partner) }
 end

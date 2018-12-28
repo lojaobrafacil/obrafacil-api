@@ -1,5 +1,4 @@
 class CompanyJobs
-
   def generate_price_percentages(id)
     company = Company.find(id)
     (1..5).each do |kind|
@@ -15,5 +14,4 @@ class CompanyJobs
       end
     end
   end
-
 end

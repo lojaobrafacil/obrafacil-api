@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
-  require 'sidekiq/web'
-  
-  mount Sidekiq::Web => '/sidekiq'
-  mount Rswag::Api::Engine => '/docs'
-  mount Rswag::Ui::Engine => '/docs'
-  
+  require "sidekiq/web"
+
+  mount Sidekiq::Web => "/sidekiq"
+  mount Rswag::Api::Engine => "/docs"
+  mount Rswag::Ui::Engine => "/docs"
+
   get "version" => "application#version"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  namespace :api, default: { format: [:json, :'form-data'] }, constraints: { subdomain: 'api' }, path: '/' do
-    mount_devise_token_auth_for 'Employee', at: 'auth'
+  namespace :api, default: {format: [:json, :'form-data']}, constraints: {subdomain: "api"}, path: "/" do
+    mount_devise_token_auth_for "Employee", at: "auth"
     as :employee do
       resources :employees
     end
@@ -44,28 +44,28 @@ Rails.application.routes.draw do
     resources :apis
     resources :company_products, only: [:index, :show, :update]
     put "products/:product_id/company_products", to: "company_products#update_code_by_product"
-        
+
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
-      put 'premio_ideals/:id/retry', to: 'premio_ideals#retry'
+      put "premio_ideals/:id/retry", to: "premio_ideals#retry"
     end
 
-    put 'reset_password', to: :reset_password, controller: 'users'
-    put 'change_employee_password/:id', to: 'employees#change_employee_password'
-    post 'partners/:id/reset', to: 'partners#reset'
-    get 'allbanks', to: :allbanks, controller: 'banks'
-    delete 'commissions/destroy_all/:partner_id', to: 'commissions#destroy_all'
-    
+    put "reset_password", to: :reset_password, controller: "users"
+    put "change_employee_password/:id", to: "employees#change_employee_password"
+    post "partners/:id/reset", to: "partners#reset"
+    get "allbanks", to: :allbanks, controller: "banks"
+    delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
+
     namespace :partner do
-      mount_devise_token_auth_for 'User', at: 'auth'
-      put 'reset_password', to: :reset_password, controller: 'users'
+      mount_devise_token_auth_for "User", at: "auth"
+      put "reset_password", to: :reset_password, controller: "users"
       resources :partners, only: [:index]
       resources :commissions, only: [:index]
     end
 
     namespace :client do
-      mount_devise_token_auth_for 'User', at: 'auth'
-      put 'reset_password', to: :reset_password, controller: 'users'
+      mount_devise_token_auth_for "User", at: "auth"
+      put "reset_password", to: :reset_password, controller: "users"
       resources :address_types, only: [:index, :show]
       resources :email_types, only: [:index, :show]
       resources :phone_types, only: [:index, :show]
@@ -76,7 +76,7 @@ Rails.application.routes.draw do
       resources :emails, only: [:index, :show]
       resources :phones, only: [:index, :show]
       resources :clients, only: [:show, :update]
-      get 'allbanks', to: :allbanks, controller: 'banks'
+      get "allbanks", to: :allbanks, controller: "banks"
     end
   end
 end

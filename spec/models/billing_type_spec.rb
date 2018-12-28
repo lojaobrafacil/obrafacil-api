@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe BillingType, type: :model do
   let(:billing_type) { build(:billing_type) }

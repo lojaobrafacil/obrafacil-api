@@ -7,11 +7,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    origins "*"
 
-    resource '*',
+    resource "*",
       :headers => :any,
-      :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client', 'Per-Page', 'Link', 'Total'],
+      :expose => ["access-token", "expiry", "token-type", "uid", "client", "Per-Page", "Link", "Total"],
       :methods => [:get, :post, :options, :delete, :put]
   end
 end

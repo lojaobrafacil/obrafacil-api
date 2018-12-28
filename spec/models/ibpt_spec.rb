@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Ibpt, type: :model do
   let(:ibnt) { build(:ibnt) }

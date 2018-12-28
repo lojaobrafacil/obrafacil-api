@@ -1,5 +1,4 @@
 class CityPolicy < ApplicationPolicy
-
   def show?
     true
   end

@@ -1,5 +1,4 @@
 class CompanyProductPolicy < ApplicationPolicy
-  
   def show?
     CompanyProduct.where(:id => record.id).exists? && (user.is_a?(Api) || user.change_products || user.admin)
   end

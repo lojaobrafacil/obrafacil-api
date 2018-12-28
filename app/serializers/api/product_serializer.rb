@@ -1,10 +1,10 @@
 class Api::ProductSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :ncm, :icms, :ipi, :cest, 
-      :bar_code, :reduction, :weight, :height, :width, :length,
-      :kind, :active, :unit_id, :unit_name, :sku, :sku_xml, :sub_category_id, 
-      :sub_category_name, :supplier_id, :supplier_name, :supplier_fantasy_name, 
-      :category_id, :category_name, :updated_at, :created_at, :images
-      
+  attributes :id, :name, :description, :ncm, :icms, :ipi, :cest,
+             :bar_code, :reduction, :weight, :height, :width, :length,
+             :kind, :active, :unit_id, :unit_name, :sku, :sku_xml, :sub_category_id,
+             :sub_category_name, :supplier_id, :supplier_name, :supplier_fantasy_name,
+             :category_id, :category_name, :updated_at, :created_at, :images
+
   has_many :company_products
 
   def images
@@ -34,5 +34,4 @@ class Api::ProductSerializer < ActiveModel::Serializer
   def supplier_fantasy_name
     object.supplier_id ? object.supplier.fantasy_name : nil
   end
-
 end

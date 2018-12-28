@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CompanyProduct, type: :model do
   let!(:company_product) { create(:company_product) }
