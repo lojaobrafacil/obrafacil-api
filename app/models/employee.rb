@@ -1,7 +1,7 @@
 class Employee < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
   has_many :phones, dependent: :destroy, as: :phonable
@@ -13,10 +13,10 @@ class Employee < ApplicationRecord
   has_many :cashiers
   has_many :orders
   validates_presence_of :name, :federal_registration, :limit_price_percentage
-  validates :admin, :change_partners, :change_clients, :change_cashiers, :order_creation, 
-            :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution, 
-            :order_cost, :order_done, :order_price_reduce, 
-            :order_inactive, inclusion: { in: [true, false] }
+  validates :admin, :change_partners, :change_clients, :change_cashiers, :order_creation,
+            :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution,
+            :order_cost, :order_done, :order_price_reduce,
+            :order_inactive, inclusion: {in: [true, false]}
   validates_uniqueness_of :federal_registration, conditions: -> { where.not(active: false) }, case_sensitive: true
   before_save :valid_federal_registration
   include Contact

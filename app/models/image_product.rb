@@ -3,5 +3,4 @@ class ImageProduct < ApplicationRecord
   validates_presence_of :attachment
 
   mount_uploader :attachment, ImageUploader
-
 end

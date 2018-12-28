@@ -11,5 +11,4 @@ class Order < ApplicationRecord
   # has_one :partner, through: :order_partner
   validates_presence_of :kind
   enum kind: [:budget, :normal]
-
 end

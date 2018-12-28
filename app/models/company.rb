@@ -23,5 +23,4 @@ class Company < ApplicationRecord
     CompanyPricesWorker.perform_async(self.id)
     CompanyStocksWorker.perform_async(self.id)
   end
-  
 end

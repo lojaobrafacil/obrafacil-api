@@ -22,16 +22,16 @@ class Client < ApplicationRecord
       if self.active?
         user.update(client: self) unless user.client == self
         fdr_client = self.federal_registration
-        user.update(email: fdr_client.to_s+'obrafacil.com', federal_registration: fdr_client) if user.federal_registration.to_s != fdr_client.to_s 
+        user.update(email: fdr_client.to_s + "obrafacil.com", federal_registration: fdr_client) if user.federal_registration.to_s != fdr_client.to_s
       else
-        user.update!(client:nil)
+        user.update!(client: nil)
         user.destroy if !user.partner&.active?
       end
     else
-      self.build_user(email: self.federal_registration.to_s+"@obrafacil.com",
+      self.build_user(email: self.federal_registration.to_s + "@obrafacil.com",
                       federal_registration: self.federal_registration,
-                      password:"obrafacil2018",
-                      password_confirmation:"obrafacil2018" ).save
+                      password: "obrafacil2018",
+                      password_confirmation: "obrafacil2018").save
     end
   end
 end

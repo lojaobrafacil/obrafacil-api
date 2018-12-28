@@ -10,7 +10,7 @@ class Product < ApplicationRecord
   enum kind: [:own, :third_party, :not_marketed]
 
   after_create :generate_stocks
-  
+
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
 
