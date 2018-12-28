@@ -1,5 +1,4 @@
 class Api::AddressesController < Api::BaseController
-
   def index
     @addresses = Address.all
     paginate json: @addresses.order(:id), status: 200
@@ -21,7 +20,7 @@ class Api::AddressesController < Api::BaseController
     if @address.update(address_params)
       render json: @address, status: 200
     else
-      render json: { errors: @address.errors }, status: 422
+      render json: {errors: @address.errors}, status: 422
     end
   end
 
@@ -35,6 +34,6 @@ class Api::AddressesController < Api::BaseController
 
   def address_params
     params.permit(:street, :neighborhood, :zipcode, :ibge, :number,
-          :complement, :description, :addressable_id, :addressable_type, :address_type_id, :city_id)
+                  :complement, :description, :addressable_id, :addressable_type, :address_type_id, :city_id)
   end
 end

@@ -3,12 +3,12 @@ class Api::ProductsController < Api::BaseController
 
   def index
     @products = Product.all
-    @products = if params['name']
-      @products.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
-    else
-      @products.all
-    end
-    paginate json: @products.order(:id).as_json(only:[:id, :name, :active, :description]), status: 200
+    @products = if params["name"]
+                  @products.where("LOWER(name) LIKE LOWER(?)", "%#{params["name"]}%")
+                else
+                  @products.all
+                end
+    paginate json: @products.order(:id).as_json(only: [:id, :name, :active, :description]), status: 200
   end
 
   def show
@@ -24,7 +24,7 @@ class Api::ProductsController < Api::BaseController
       image_products_attributes(@product) if params[:images]
       render json: @product, status: 201
     else
-      render json: { errors: @product.errors }, status: 422
+      render json: {errors: @product.errors}, status: 422
     end
   end
 
@@ -35,7 +35,7 @@ class Api::ProductsController < Api::BaseController
       image_products_attributes(@product) if params[:images]
       render json: @product, status: 200
     else
-      render json: { errors: @product.errors }, status: 422
+      render json: {errors: @product.errors}, status: 422
     end
   end
 
@@ -59,39 +59,38 @@ class Api::ProductsController < Api::BaseController
   def company_product_attributes(product)
     company_products_params.each do |cp|
       cps = cp.permit(:id, :code, :stock, :stock_max, :company_id, :stock_min, :cost, :discount, :st, :margin, :_destroy)
-      if cps[:id] != nil 
+      if cps[:id] != nil
         cps[:_destroy] ? CompanyProduct.find(cps[:id]).delete : CompanyProduct.find(cps[:id]).update!(cps)
       else
         begin
           product.company_products.create!(cps)
-        rescue 
+        rescue
           nil
         end
       end
     end
-  end 
-  
+  end
+
   def image_products_attributes(product)
     image_products_params.each do |image|
       image = image.permit(:id, :attachment)
-      if image[:id] != nil 
+      if image[:id] != nil
         image[:_destroy] ? ImageProduct.find(image[:id]).destroy : ImageProduct.find(image[:id]).update!(image)
       else
         begin
           product.image_products.create!(image)
-        rescue 
+        rescue
           nil
         end
       end
     end
   end
+
   def image_products_params
     params[:images]
   end
-  
+
   def company_products_params
     params[:company_products]
   end
-  
 end
-

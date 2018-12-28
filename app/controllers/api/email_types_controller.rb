@@ -1,5 +1,4 @@
 class Api::EmailTypesController < Api::BaseController
-
   def index
     @email_types = EmailType.all
     paginate json: @email_types.order(:id), status: 200
@@ -21,7 +20,7 @@ class Api::EmailTypesController < Api::BaseController
     if @email_type.save
       render json: @email_type, status: 201
     else
-      render json: { errors: @email_type.errors }, status: 422
+      render json: {errors: @email_type.errors}, status: 422
     end
   end
 
@@ -31,7 +30,7 @@ class Api::EmailTypesController < Api::BaseController
     if @email_type.update(email_type_params)
       render json: @email_type, status: 200
     else
-      render json: { errors: @email_type.errors }, status: 422
+      render json: {errors: @email_type.errors}, status: 422
     end
   end
 

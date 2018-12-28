@@ -6,12 +6,12 @@ class Api::PartnersController < Api::ContactsController
     if @partners&.empty? or @partners.nil?
       render json: @partners, status: 200
     else
-      @partners = if params[:name] && params[:federal_registration] 
-        @partners.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
-        else
-          @partners.all
-        end
-      paginate json: @partners.order(:name).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description, :cash_redemption]), status: 200
+      @partners = if params[:name] && params[:federal_registration]
+                    @partners.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
+                  else
+                    @partners.all
+                  end
+      paginate json: @partners.order(:name).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :description, :cash_redemption]), status: 200
     end
   end
 
@@ -27,10 +27,10 @@ class Api::PartnersController < Api::ContactsController
       update_contact(@partner)
       render json: @partner, status: 201
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: {errors: @partner.errors}, status: 422
     end
   end
-  
+
   def reset
     c ||= 0
     authorize @partner
@@ -58,7 +58,7 @@ class Api::PartnersController < Api::ContactsController
       reset
       c += 1
     else
-      render json: { errors: p.errors, partner: @partner }, status: 422
+      render json: {errors: p.errors, partner: @partner}, status: 422
     end
   end
 
@@ -68,7 +68,7 @@ class Api::PartnersController < Api::ContactsController
       update_contact(@partner)
       render json: @partner, status: 200
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: {errors: @partner.errors}, status: 422
     end
   end
 
@@ -90,5 +90,4 @@ class Api::PartnersController < Api::ContactsController
   def partner_params
     params.permit(policy(::Partner).permitted_attributes)
   end
-  
 end

@@ -1,12 +1,11 @@
 class Api::CompaniesController < Api::ContactsController
-
   def index
-    @companies = policy_scope Company 
-    @companies = if params['name']
-      @companies.where("LOWER(name) LIKE LOWER(?)", "%#{params['name']}%")
-    else
-      @companies.all
-    end
+    @companies = policy_scope Company
+    @companies = if params["name"]
+                   @companies.where("LOWER(name) LIKE LOWER(?)", "%#{params["name"]}%")
+                 else
+                   @companies.all
+                 end
     paginate json: @companies.order(:id).as_json(only: [:id, :name, :fantasy_name, :federal_registration]), status: 200
   end
 
@@ -27,7 +26,7 @@ class Api::CompaniesController < Api::ContactsController
       update_contact(@company)
       render json: @company, status: 201
     else
-      render json: { errors: @company.errors }, status: 422
+      render json: {errors: @company.errors}, status: 422
     end
   end
 
@@ -38,7 +37,7 @@ class Api::CompaniesController < Api::ContactsController
       update_contact(@company)
       render json: @company, status: 200
     else
-      render json: { errors: @company.errors }, status: 422
+      render json: {errors: @company.errors}, status: 422
     end
   end
 

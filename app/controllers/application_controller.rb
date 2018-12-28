@@ -7,9 +7,9 @@ class ApplicationController < ActionController::API
       if @current_user&.active
         return true
       elsif !@current_user&.active
-        return render json: { error: I18n.t('devise.failure.inactive') }, status: 422
+        return render json: {error: I18n.t("devise.failure.inactive")}, status: 422
       else
-        return render json: { error: I18n.t('devise.failure.unauthenticated') }, status: 422
+        return render json: {error: I18n.t("devise.failure.unauthenticated")}, status: 422
       end
     else
       authenticate_api_employee!
@@ -18,9 +18,9 @@ class ApplicationController < ActionController::API
 
   def version
     render(json: {
-      current: 200,
-      minimum: 200,
-      title: 'HUBCO API V2'
-    })
+             current: 200,
+             minimum: 200,
+             title: "HUBCO API V2",
+           })
   end
 end

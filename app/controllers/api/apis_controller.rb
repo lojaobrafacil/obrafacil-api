@@ -23,7 +23,7 @@ class Api::ApisController < Api::BaseController
     if @api.save
       render json: @api, status: 201
     else
-      render json: { errors: @api.errors }, status: 422
+      render json: {errors: @api.errors}, status: 422
     end
   end
 
@@ -33,7 +33,7 @@ class Api::ApisController < Api::BaseController
     if @api.update(api_params)
       render json: @api, status: 200
     else
-      render json: { errors: @api.errors }, status: 422
+      render json: {errors: @api.errors}, status: 422
     end
   end
 
@@ -47,6 +47,6 @@ class Api::ApisController < Api::BaseController
   private
 
   def api_params
-    params.permit(policy(Api).permitted_attributes)    
+    params.permit(policy(Api).permitted_attributes)
   end
 end

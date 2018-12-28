@@ -8,19 +8,19 @@ class Api::ImagesController < Api::BaseController
       image.save ? response << image : response << image.errors
     end
 
-    render json: { response: response }, status: 200
+    render json: {response: response}, status: 200
   end
 
   def destroy
     ImageProduct.find(params[:id]).destroy
     head 204
   end
-  
+
   private
-  
+
   def set_product
     @product = Product.find(params[:product_id])
-  end  
+  end
 
   def images_params
     params.permit(policy(Image).permitted_attributes) # allow nested params as array

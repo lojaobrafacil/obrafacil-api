@@ -1,16 +1,15 @@
 class Api::BillingTypesController < Api::BaseController
-  
   def index
     @billing_types = BillingType.all
     if @billing_types&.empty? or @billing_types.nil? and BillingType.all.size > 0
       render json: @billing_types, status: 200
     else
-    @billing_types = if params[:name]
-      @billing_types.where("LOWER(name) LIKE LOWER(?) and id LIKE ?", "%#{params[:billing_name]}%", "#{params[:billing_type_id]}%")
-      else
-        @billing_types.all
-      end
-    paginate json: @billing_types.order(:id), status: 200
+      @billing_types = if params[:name]
+                         @billing_types.where("LOWER(name) LIKE LOWER(?) and id LIKE ?", "%#{params[:billing_name]}%", "#{params[:billing_type_id]}%")
+                       else
+                         @billing_types.all
+                       end
+      paginate json: @billing_types.order(:id), status: 200
     end
   end
 
@@ -29,7 +28,7 @@ class Api::BillingTypesController < Api::BaseController
     if @billing_type.save
       render json: @billing_type, status: 201
     else
-      render json: { errors: @billing_type.errors }, status: 422
+      render json: {errors: @billing_type.errors}, status: 422
     end
   end
 
@@ -39,7 +38,7 @@ class Api::BillingTypesController < Api::BaseController
     if @billing_type.update(billing_type_params)
       render json: @billing_type, status: 200
     else
-      render json: { errors: @billing_type.errors }, status: 422
+      render json: {errors: @billing_type.errors}, status: 422
     end
   end
 

@@ -3,7 +3,7 @@ class Api::UnitsController < Api::BaseController
 
   def index
     @units = policy_scope Unit
-    render json: @units.order(:id).as_json(only:[:id, :name, :description]), status: 200
+    render json: @units.order(:id).as_json(only: [:id, :name, :description]), status: 200
   end
 
   def show
@@ -17,7 +17,7 @@ class Api::UnitsController < Api::BaseController
     if @unit.save
       render json: @unit, status: 201
     else
-      render json: { errors: @unit.errors }, status: 422
+      render json: {errors: @unit.errors}, status: 422
     end
   end
 
@@ -26,7 +26,7 @@ class Api::UnitsController < Api::BaseController
     if @unit.update(unit_params)
       render json: @unit, status: 200
     else
-      render json: { errors: @unit.errors }, status: 422
+      render json: {errors: @unit.errors}, status: 422
     end
   end
 

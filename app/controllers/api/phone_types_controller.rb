@@ -1,5 +1,4 @@
 class Api::PhoneTypesController < Api::BaseController
-
   def index
     @phone_types = PhoneType.all
     paginate json: @phone_types.order(:id), status: 200
@@ -21,7 +20,7 @@ class Api::PhoneTypesController < Api::BaseController
     if @phone_type.save
       render json: @phone_type, status: 201
     else
-      render json: { errors: @phone_type.errors }, status: 422
+      render json: {errors: @phone_type.errors}, status: 422
     end
   end
 
@@ -31,7 +30,7 @@ class Api::PhoneTypesController < Api::BaseController
     if @phone_type.update(phone_type_params)
       render json: @phone_type, status: 200
     else
-      render json: { errors: @phone_type.errors }, status: 422
+      render json: {errors: @phone_type.errors}, status: 422
     end
   end
 

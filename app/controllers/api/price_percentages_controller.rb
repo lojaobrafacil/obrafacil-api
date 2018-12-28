@@ -1,10 +1,9 @@
 class Api::PricePercentagesController < Api::BaseController
-
   def index
     @price_percentages = []
     authorize PricePercentage
     Company.all.each do |company|
-      @price_percentage = percentage_by_company(company)      
+      @price_percentage = percentage_by_company(company)
       @price_percentages << @price_percentage
     end
     render json: @price_percentages, status: 200
@@ -34,8 +33,8 @@ class Api::PricePercentagesController < Api::BaseController
     price_percentage = percentage_by_company(Company.find(params[:id]))
     if success
       render json: price_percentage, status: 200
-    else 
-      render json: { errors: "não foi possivel atualizar" }, status: 422
+    else
+      render json: {errors: "não foi possivel atualizar"}, status: 422
     end
   end
 
@@ -45,14 +44,14 @@ class Api::PricePercentagesController < Api::BaseController
     price_percentage = {"company_id": company.id, "company_name": company.name, "company_fantasy_name": company.fantasy_name}
     count = 1
     company.price_percentages.order(:kind).each do |pp|
-      price_percentage[("kind_"+count.to_s)]= pp.kind
-      price_percentage[("margin_"+count.to_s)]= pp.margin
-      count+=1
+      price_percentage[("kind_" + count.to_s)] = pp.kind
+      price_percentage[("margin_" + count.to_s)] = pp.margin
+      count += 1
     end
     price_percentage
   end
 
   def price_percentage_params
-    params.require(policy(PricePercentage).permitted_attributes)    
+    params.require(policy(PricePercentage).permitted_attributes)
   end
 end

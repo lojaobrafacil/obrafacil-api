@@ -1,5 +1,4 @@
 class Api::CfopsController < Api::BaseController
-
   def index
     @cfops = Cfop.all
     paginate json: @cfops.order(:id), status: 200
@@ -20,7 +19,7 @@ class Api::CfopsController < Api::BaseController
     if @cfop.save
       render json: @cfop, status: 201
     else
-      render json: { errors: @cfop.errors }, status: 422
+      render json: {errors: @cfop.errors}, status: 422
     end
   end
 
@@ -29,7 +28,7 @@ class Api::CfopsController < Api::BaseController
     if @cfop.update(cfop_params)
       render json: @cfop, status: 200
     else
-      render json: { errors: @cfop.errors }, status: 422
+      render json: {errors: @cfop.errors}, status: 422
     end
   end
 
