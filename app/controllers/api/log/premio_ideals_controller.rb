@@ -1,13 +1,13 @@
 class Api::Log::PremioIdealsController < Api::BaseController
   def index
-    premio_ideals = policy_scope [:admin, ::Log::PremioIdeal]
+    premio_ideals = policy_scope ::Log::PremioIdeal
 
-    render json: premio_ideals
+    render json: premio_ideals.limit(300)
   end
 
   def show
     premio_ideal = ::Log::PremioIdeal.find(params[:id])
-    authorize [:admin, premio_ideal]
+    authorize premio_ideal
     render json: premio_ideal
   end
 
