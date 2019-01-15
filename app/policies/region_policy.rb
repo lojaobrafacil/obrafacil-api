@@ -1,9 +1,8 @@
 class RegionPolicy < ApplicationPolicy
-
   def show?
     true
   end
-  
+
   def update?
     create?
   end

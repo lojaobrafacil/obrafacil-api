@@ -6,5 +6,5 @@ Rswag::Ui.configure do |c|
   # NOTE: If you're using rspec-api to expose Swagger files (under swagger_root) as JSON endpoints,
   # then the list below should correspond to the relative paths for those endpoints
 
-  c.swagger_endpoint '/swagger.json', 'Hubco APP'
+  c.swagger_endpoint "/swagger.json", "Hubco APP"
 end

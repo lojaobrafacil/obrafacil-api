@@ -11,5 +11,4 @@ class Supplier < ApplicationRecord
   enum tax_regime: [:simple, :normal, :presumed]
   validates_presence_of :name
   include Contact
-
 end

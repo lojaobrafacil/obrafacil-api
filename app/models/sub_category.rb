@@ -5,6 +5,7 @@ class SubCategory < ApplicationRecord
   validates_presence_of :name
 
   private
+
   def disassociate_products!
     self.products.each do |product|
       product.update(sub_category: nil)

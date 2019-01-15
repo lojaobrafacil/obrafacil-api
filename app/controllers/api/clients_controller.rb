@@ -1,16 +1,15 @@
 class Api::ClientsController < Api::ContactsController
-
   def index
     @clients = policy_scope Client
     if @clients&.empty? or @clients.nil?
       render json: @clients, status: 200
     else
-      @clients = if params[:name] && params[:federal_registration] 
-        @clients.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
-        else
-          @clients.all
-        end
-      paginate json: @clients.order(:id).as_json(only: [:id, :name,:federal_registration, :state_registration, :active, :description]), status: 200
+      @clients = if params[:name] && params[:federal_registration]
+                   @clients.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
+                 else
+                   @clients.all
+                 end
+      paginate json: @clients.order(:id).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :description]), status: 200
     end
   end
 
@@ -31,7 +30,7 @@ class Api::ClientsController < Api::ContactsController
       update_contact(@client)
       render json: @client, status: 201
     else
-      render json: { errors: @client.errors }, status: 422
+      render json: {errors: @client.errors}, status: 422
     end
   end
 
@@ -42,7 +41,7 @@ class Api::ClientsController < Api::ContactsController
       update_contact(@client)
       render json: @client, status: 200
     else
-      render json: { errors: @client.errors }, status: 422
+      render json: {errors: @client.errors}, status: 422
     end
   end
 

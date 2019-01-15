@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CashierPayment, type: :model do
   let(:cashier_payment) { create(:cashier_payment) }

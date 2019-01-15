@@ -1,5 +1,4 @@
 class Api::AddressTypesController < Api::BaseController
-
   def index
     @address_types = AddressType.all
     paginate json: @address_types.order(:id), status: 200
@@ -21,7 +20,7 @@ class Api::AddressTypesController < Api::BaseController
     if @address_type.save
       render json: @address_type, status: 201
     else
-      render json: { errors: @address_type.errors }, status: 422
+      render json: {errors: @address_type.errors}, status: 422
     end
   end
 
@@ -31,7 +30,7 @@ class Api::AddressTypesController < Api::BaseController
     if @address_type.update(address_type_params)
       render json: @address_type, status: 200
     else
-      render json: { errors: @address_type.errors }, status: 422
+      render json: {errors: @address_type.errors}, status: 422
     end
   end
 
@@ -45,6 +44,6 @@ class Api::AddressTypesController < Api::BaseController
   private
 
   def address_type_params
-    params.permit(policy(AddressType).permitted_attributes)    
+    params.permit(policy(AddressType).permitted_attributes)
   end
 end

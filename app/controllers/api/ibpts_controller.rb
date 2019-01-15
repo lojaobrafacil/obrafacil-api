@@ -1,5 +1,4 @@
 class Api::IbptsController < Api::BaseController
-
   def index
     @ibpts = Ibpt.all
     paginate json: @ibpts.order(:id), status: 200
@@ -20,7 +19,7 @@ class Api::IbptsController < Api::BaseController
     if @ibpt.save
       render json: @ibpt, status: 201
     else
-      render json: { errors: @ibpt.errors }, status: 422
+      render json: {errors: @ibpt.errors}, status: 422
     end
   end
 
@@ -29,7 +28,7 @@ class Api::IbptsController < Api::BaseController
     if @ibpt.update(ibpt_params)
       render json: @ibpt, status: 200
     else
-      render json: { errors: @ibpt.errors }, status: 422
+      render json: {errors: @ibpt.errors}, status: 422
     end
   end
 

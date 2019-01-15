@@ -1,5 +1,4 @@
 class UserPolicy < ApplicationPolicy
-
   def reset_password?
     user.is_a?(Api) || user.change_partners || user.admin?
   end

@@ -1,5 +1,4 @@
 class Log::PremioIdealPolicy < ApplicationPolicy
-  
   def show?
     ::Log::PremioIdeal.where(:id => record.id).exists? && user.admin
   end

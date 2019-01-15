@@ -1,5 +1,4 @@
 class ApiPolicy < ApplicationPolicy
-
   def show?
     if is_api || user.admin
       return Api.where(:id => record.id).exists?
@@ -7,7 +6,7 @@ class ApiPolicy < ApplicationPolicy
       return false
     end
   end
-  
+
   def create?
     if is_api
       return true

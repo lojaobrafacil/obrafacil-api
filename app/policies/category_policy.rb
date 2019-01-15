@@ -1,9 +1,8 @@
 class CategoryPolicy < ApplicationPolicy
-
   def show?
     true
   end
-  
+
   def update?
     create?
   end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Employee, type: :model do
   let!(:employees_actives) { create_list(:employee, 5, active: true) }
@@ -6,7 +6,7 @@ RSpec.describe Employee, type: :model do
 
   it { Employee.included_modules.include?(Contact) === true }
   it { is_expected.to validate_presence_of(:password) }
-  it { is_expected.to allow_value('arthur@moura.com').for(:email) }
+  it { is_expected.to allow_value("arthur@moura.com").for(:email) }
   it { should validate_uniqueness_of(:federal_registration).case_insensitive }
   it { should have_many(:emails) }
   it { should have_many(:phones) }
@@ -14,12 +14,11 @@ RSpec.describe Employee, type: :model do
   it { should have_many(:cashiers) }
   it { should have_many(:orders) }
 
-
-  it 'method active' do
+  it "method active" do
     expect(Employee.active).to include employees_actives.first
     expect(Employee.active).not_to include employees_inactives.first
   end
-  it 'method inactive' do
+  it "method inactive" do
     expect(Employee.inactive).to include employees_inactives.first
     expect(Employee.inactive).not_to include employees_actives.first
   end

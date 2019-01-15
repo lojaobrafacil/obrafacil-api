@@ -1,5 +1,5 @@
 class Api::VehiclesController < Api::BaseController
-  def index 
+  def index
     @vehicles = Vehicle.all
     paginate json: @vehicles.order(:id), status: 200
   end
@@ -15,20 +15,20 @@ class Api::VehiclesController < Api::BaseController
 
   def create
     @vehicle = Vehicle.new(vehicle_params)
-      if @vehicle.save
-        render json: @vehicle, status: 201
-      else
-        render json: { errors: @vehicle.errors }, status: 422
-      end
+    if @vehicle.save
+      render json: @vehicle, status: 201
+    else
+      render json: {errors: @vehicle.errors}, status: 422
+    end
   end
 
   def update
-      @vehicle = Vehicle.find(params[:id])
-      if @vehicle.update(vehicle_params)
-        render json: @vehicle, status: 200
-      else
-        render json: { errors: @vehicle.errors }, status: 422
-      end
+    @vehicle = Vehicle.find(params[:id])
+    if @vehicle.update(vehicle_params)
+      render json: @vehicle, status: 200
+    else
+      render json: {errors: @vehicle.errors}, status: 422
+    end
   end
 
   def destroy
@@ -38,7 +38,7 @@ class Api::VehiclesController < Api::BaseController
   end
 
   private
-  
+
   def vehicle_params
     params.permit(:model, :brand)
   end

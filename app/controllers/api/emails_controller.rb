@@ -1,5 +1,4 @@
 class Api::EmailsController < Api::BaseController
-
   def index
     @emails = Email.all
     paginate json: @emails, status: 200
@@ -20,7 +19,7 @@ class Api::EmailsController < Api::BaseController
     if @email.update(email_params)
       render json: @email, status: 200
     else
-      render json: { errors: @email.errors }, status: 422
+      render json: {errors: @email.errors}, status: 422
     end
   end
 
@@ -33,6 +32,6 @@ class Api::EmailsController < Api::BaseController
   private
 
   def email_params
-    params.permit(:email, :contact, :email_type_id, :emailable_type, :emailable_id, :contact, :email_type_id)    
+    params.permit(:email, :contact, :email_type_id, :emailable_type, :emailable_id, :contact, :email_type_id)
   end
 end

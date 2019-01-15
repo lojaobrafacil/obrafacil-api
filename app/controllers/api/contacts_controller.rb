@@ -1,5 +1,4 @@
 class Api::ContactsController < Api::BaseController
-
   def update_contact(model)
     authorize model
     unless params_contact(:addresses).nil?
@@ -47,7 +46,7 @@ class Api::ContactsController < Api::BaseController
     end
   end
 
-  private 
+  private
 
   def params_contact(contact_type)
     begin

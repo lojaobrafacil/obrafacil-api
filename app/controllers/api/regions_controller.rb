@@ -1,5 +1,4 @@
 class Api::RegionsController < Api::BaseController
-
   def index
     @regions = policy_scope Region
     paginate json: @regions, status: 200
@@ -21,7 +20,7 @@ class Api::RegionsController < Api::BaseController
     if @region.save
       render json: @region, status: 201
     else
-      render json: { errors: @region.errors }, status: 422
+      render json: {errors: @region.errors}, status: 422
     end
   end
 
@@ -31,7 +30,7 @@ class Api::RegionsController < Api::BaseController
     if @region.update(region_params)
       render json: @region, status: 200
     else
-      render json: { errors: @region.errors }, status: 422
+      render json: {errors: @region.errors}, status: 422
     end
   end
 

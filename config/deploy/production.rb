@@ -6,9 +6,9 @@
 server "165.227.180.52", user: "deploy", roles: %w{app db web}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-set :sidekiq_role, :app  
-set :sidekiq_config, "#{current_path}/config/sidekiq.yml"  
-set :sidekiq_env, 'production'
+set :sidekiq_role, :app
+set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
+set :sidekiq_env, "production"
 
 # role-based syntax
 # ==================
@@ -22,8 +22,6 @@ set :sidekiq_env, 'production'
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
-
-
 # Configuration
 # =============
 # You can set any configuration variable like in config/deploy.rb
@@ -31,8 +29,6 @@ set :sidekiq_env, 'production'
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
-
 
 # Custom SSH Options
 # ==================

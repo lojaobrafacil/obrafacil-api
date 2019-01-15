@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Client, type: :model do
   let!(:clients_actives) { create_list(:client, 5, active: true) }
@@ -13,11 +13,11 @@ RSpec.describe Client, type: :model do
   it { should define_enum_for(:kind) }
   it { should define_enum_for(:tax_regime) }
 
-  it 'method active' do
+  it "method active" do
     expect(Client.active).to include clients_actives.first
     expect(Client.active).not_to include clients_inactives.first
   end
-  it 'method inactive' do
+  it "method inactive" do
     expect(Client.inactive).to include clients_inactives.first
     expect(Client.inactive).not_to include clients_actives.first
   end

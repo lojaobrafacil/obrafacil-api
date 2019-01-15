@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe AddressType, type: :model do
   let(:addresstype) { build(:address_type) }

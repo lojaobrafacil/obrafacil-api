@@ -1,7 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Address, type: :model do
-
   it "is valid with valid attributes" do
     byebug
     expect(Address.new(attributes_for(:address))).to be_valid

@@ -1,5 +1,4 @@
 class Api::CashiersController < Api::BaseController
-
   def index
     @cashiers = Cashier.all
     paginate json: @cashiers.order(:id), status: 200
@@ -20,7 +19,7 @@ class Api::CashiersController < Api::BaseController
     if @cashier.save
       render json: @cashier, status: 201
     else
-      render json: { errors: @cashier.errors }, status: 422
+      render json: {errors: @cashier.errors}, status: 422
     end
   end
 
@@ -30,7 +29,7 @@ class Api::CashiersController < Api::BaseController
     if @cashier.update(cashier_params)
       render json: @cashier, status: 200
     else
-      render json: { errors: @cashier.errors }, status: 422
+      render json: {errors: @cashier.errors}, status: 422
     end
   end
 
@@ -44,6 +43,6 @@ class Api::CashiersController < Api::BaseController
 
   def cashier_params
     params.permit(:start_date, :finish_date, :employee, :active,
-      :cashier_payment_attributes => [:payment_method_id, :value, :_destroy])
+                  :cashier_payment_attributes => [:payment_method_id, :value, :_destroy])
   end
 end

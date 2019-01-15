@@ -1,5 +1,4 @@
 class Api::StatesController < Api::BaseController
-
   def index
     @states = policy_scope State
     render json: @states.as_json(only: [:id, :name, :acronym]), status: 200
@@ -21,7 +20,7 @@ class Api::StatesController < Api::BaseController
     if @state.save
       render json: @state, status: 201
     else
-      render json: { errors: @state.errors }, status: 422
+      render json: {errors: @state.errors}, status: 422
     end
   end
 
@@ -31,7 +30,7 @@ class Api::StatesController < Api::BaseController
     if @state.update(state_params)
       render json: @state, status: 200
     else
-      render json: { errors: @state.errors }, status: 422
+      render json: {errors: @state.errors}, status: 422
     end
   end
 

@@ -1,5 +1,4 @@
 class Api::CompanyProductsController < Api::ContactsController
-
   def index
     @company_products = policy_scope CompanyProduct
     paginate json: @company_products
@@ -21,7 +20,7 @@ class Api::CompanyProductsController < Api::ContactsController
     if @company_product.update(company_product_params)
       render json: @company_product, status: 200
     else
-      render json: { errors: @company_product.errors }, status: 422
+      render json: {errors: @company_product.errors}, status: 422
     end
   end
 
@@ -31,7 +30,7 @@ class Api::CompanyProductsController < Api::ContactsController
     if @company_product.update_all(code: params[:code])
       render json: @company_product, status: 200
     else
-      render json: { errors: @company_product.errors }, status: 422
+      render json: {errors: @company_product.errors}, status: 422
     end
   end
 

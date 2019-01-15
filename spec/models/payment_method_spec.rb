@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe PaymentMethod, type: :model do
   let(:payment_method) { build(:payment_method) }

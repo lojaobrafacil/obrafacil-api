@@ -4,11 +4,11 @@ class Api::SuppliersController < Api::ContactsController
   def index
     @suppliers = policy_scope Supplier
     @suppliers = if params[:name]
-    @suppliers.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE LOWER(?)", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
-    else
-      @suppliers.all
-    end
-    paginate json: @suppliers.as_json(only:[:id, :name, :fantasy_name, :description]), status: 200
+                   @suppliers.where("LOWER(name) LIKE LOWER(?) and LOWER(fantasy_name) LIKE LOWER(?)", "%#{params[:name]}%", "#{params[:fantasy_name]}%")
+                 else
+                   @suppliers.all
+                 end
+    paginate json: @suppliers.as_json(only: [:id, :name, :fantasy_name, :description]), status: 200
   end
 
   def show
@@ -20,20 +20,20 @@ class Api::SuppliersController < Api::ContactsController
     @supplier = Supplier.new(supplier_params)
     authorize @supplier
     if @supplier.save
-      update_contact(@supplier) 
+      update_contact(@supplier)
       render json: @supplier, status: 201
     else
-      render json: { errors: @supplier.errors }, status: 422
+      render json: {errors: @supplier.errors}, status: 422
     end
   end
 
   def update
     authorize @supplier
     if @supplier.update(supplier_params)
-      update_contact(@supplier) 
+      update_contact(@supplier)
       render json: @supplier, status: 200
     else
-      render json: { errors: @supplier.errors }, status: 422
+      render json: {errors: @supplier.errors}, status: 422
     end
   end
 

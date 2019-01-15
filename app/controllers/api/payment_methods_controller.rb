@@ -1,5 +1,4 @@
 class Api::PaymentMethodsController < Api::BaseController
-
   def index
     @payment_methods = PaymentMethod.all
     paginate json: @payment_methods.order(:id), status: 200
@@ -19,7 +18,7 @@ class Api::PaymentMethodsController < Api::BaseController
     if @payment_method.save
       render json: @payment_method, status: 201
     else
-      render json: { errors: @payment_method.errors }, status: 422
+      render json: {errors: @payment_method.errors}, status: 422
     end
   end
 
@@ -28,7 +27,7 @@ class Api::PaymentMethodsController < Api::BaseController
     if @payment_method.update(payment_method_params)
       render json: @payment_method, status: 200
     else
-      render json: { errors: @payment_method.errors }, status: 422
+      render json: {errors: @payment_method.errors}, status: 422
     end
   end
 

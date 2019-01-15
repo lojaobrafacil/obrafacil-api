@@ -1,5 +1,4 @@
 class PricePercentagePolicy < ApplicationPolicy
-
   def index?
     user.is_a?(Api) || user.admin
   end
@@ -13,5 +12,4 @@ class PricePercentagePolicy < ApplicationPolicy
       [:price_percentages]
     end
   end
-
 end

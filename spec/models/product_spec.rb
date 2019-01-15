@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Product, type: :model do
   let!(:products_actives) { create_list(:product, 5, active: true) }
@@ -10,13 +10,12 @@ RSpec.describe Product, type: :model do
   it { should belong_to(:sub_category).required(false) }
   it { should have_many(:company_products) }
 
-  it 'method active' do
+  it "method active" do
     expect(Product.active).to include products_actives.first
     expect(Product.active).not_to include products_inactives.first
   end
-  it 'method inactive' do
+  it "method inactive" do
     expect(Product.inactive).to include products_inactives.first
     expect(Product.inactive).not_to include products_actives.first
   end
-
 end
