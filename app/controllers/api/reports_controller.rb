@@ -31,7 +31,7 @@ class Api::ReportsController < Api::BaseController
           end
         end
         select.chomp!(" and ")
-        send_data model.where(select).to_csv(keys), filename: params[:model].pluralize + "-#{Date.today}.csv"
+        send_data model.where(select).csv_format(keys), filename: params[:model].pluralize + "-#{Date.today}.csv"
       end
     else
       render json: {:errors => ["Acesso não autorizado ou model e fields devem ser enviados"]}, status: 401

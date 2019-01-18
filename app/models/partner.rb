@@ -22,6 +22,8 @@ class Partner < ApplicationRecord
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
 
+  def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
+
   def update_user
     if self.active
       if user = self.user

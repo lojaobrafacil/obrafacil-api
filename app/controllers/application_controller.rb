@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::API
+  Mime::Type.register "application/xls", :xls
+  Mime::Type.register "application/csv", :csv
+  respond_to :json, :xls, :csv
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   def authenticate_admin_or_api!

@@ -1,8 +1,32 @@
 class Api::CommissionsController < Api::BaseController
+  before_action :default_format_json, only: [:by_year, :consolidated_by_year]
+
   def index
     @commissions = policy_scope Commission
     @commissions.where("partner_id = ?", params[:partner_id]).order("order_date desc") if params[:partner_id]
     paginate json: @commissions, status: 200
+  end
+
+  def by_year
+    @partner = ::Partner.find_by(id: params[:partner_id])
+    @commissions = @partner.commissions_by_year(params[:year]).order(:order_date)
+    respond_with do |format|
+      format.json { render json: @commissions.as_json }
+      format.csv { send_data @commissions.to_csv({col_sep: "\t"}), filename: "relatorio-parceiro-#{@partner.name}-#{params[:year]}-#{Date.today}.csv" }
+      format.xls { send_data @commissions.to_csv({col_sep: "\t"}), filename: "relatorio-parceiro-#{@partner.name}-#{params[:year]}-#{Date.today}.xls" }
+    end
+  end
+
+  def consolidated_by_year
+    @commissions = Commission.joins(:partner)
+      .select("partners.name as nome_parceiro, sum(commissions.order_price) as total_pedidos, to_char(date_trunc( 'month', commissions.order_date ), 'MM-YYYY') as data")
+      .where("extract(year from commissions.order_date) = ?", params[:year])
+      .group(["nome_parceiro", "data"])
+    respond_with do |format|
+      format.json { render json: @commissions.as_json }
+      format.csv { send_data @commissions.to_csv({attributes: ["nome_parceiro", "total_pedidos", "data"], col_sep: "\t"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv" }
+      format.xls { send_data @commissions.to_csv({attributes: ["nome_parceiro", "total_pedidos", "data"], col_sep: "\t"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xls" }
+    end
   end
 
   def create
@@ -43,6 +67,10 @@ class Api::CommissionsController < Api::BaseController
   end
 
   private
+
+  def default_format_json
+    request.format = "json" unless params[:format]
+  end
 
   def commission_params
     params.permit(policy(Commission).permitted_attributes)
