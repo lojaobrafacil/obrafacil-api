@@ -20,7 +20,7 @@ class Api::CommissionsController < Api::BaseController
   def consolidated_by_year
     @commissions = ::Partner.commissions_by_year(params[:year])
     respond_with do |format|
-      format.json { render json: @commissions.as_json }
+      format.json { render json: @commissions.limit(40).as_json }
       format.csv { send_data @commissions.to_csv({attributes: ["nome_parceiro", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"], col_sep: "\t", default_nil: "0"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv" }
       format.xls { send_data @commissions.to_csv({attributes: ["nome_parceiro", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"], col_sep: "\t", default_nil: "0"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xls" }
     end
