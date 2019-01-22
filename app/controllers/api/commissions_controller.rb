@@ -18,14 +18,11 @@ class Api::CommissionsController < Api::BaseController
   end
 
   def consolidated_by_year
-    @commissions = Commission.joins(:partner)
-      .select("partners.name as nome_parceiro, sum(commissions.order_price) as total_pedidos, to_char(date_trunc( 'month', commissions.order_date ), 'MM-YYYY') as data")
-      .where("extract(year from commissions.order_date) = ?", params[:year])
-      .group(["nome_parceiro", "data"])
+    @commissions = ::Partner.commissions_by_year(params[:year])
     respond_with do |format|
       format.json { render json: @commissions.as_json }
-      format.csv { send_data @commissions.to_csv({attributes: ["nome_parceiro", "total_pedidos", "data"], col_sep: "\t"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv" }
-      format.xls { send_data @commissions.to_csv({attributes: ["nome_parceiro", "total_pedidos", "data"], col_sep: "\t"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xls" }
+      format.csv { send_data @commissions.to_csv({attributes: ["nome_parceiro", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"], col_sep: "\t", default_nil: "0"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv" }
+      format.xls { send_data @commissions.to_csv({attributes: ["nome_parceiro", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"], col_sep: "\t", default_nil: "0"}), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xls" }
     end
   end
 
