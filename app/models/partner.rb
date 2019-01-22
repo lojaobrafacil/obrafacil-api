@@ -51,7 +51,7 @@ class Partner < ApplicationRecord
     if self.active?
       if self.federal_registration? && self.federal_registration.size >= 10
         begin
-          body = body_params(self)
+          body = self.body_params
           x = Net::HTTP.post_form(URI.parse(premio_ideal_url), body)
           status = x.code ? x.code.to_i : 422
           if status == 200
@@ -72,23 +72,23 @@ class Partner < ApplicationRecord
     Rails.env.production? ? "https://premioideall.com.br/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso" : "https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"
   end
 
-  def body_params(partner)
+  def body_params
     {
-      "name": partner.name.as_json,
-      "cpfCnpj": partner.federal_registration.as_json,
-      "address": if partner.addresses.empty?; "null";       elsif partner.addresses.first.street.nil? || partner.addresses.first.street == ""; "null";       else partner.addresses.first.street.as_json end,
-      "number": if partner.addresses.empty?; "000";       elsif partner.addresses.first.number.nil? || partner.addresses.first.number == ""; "000";       else partner.addresses.first.number.as_json end,
-      "complement": if partner.addresses.empty?; "null";       elsif partner.addresses.first.complement.nil? || partner.addresses.first.complement == ""; "null";       else partner.addresses.first.complement.as_json end,
-      "cityRegion": if partner.addresses.empty?; "null";       elsif partner.addresses.first.neighborhood.nil? || partner.addresses.first.neighborhood == ""; "null";       else partner.addresses.first.neighborhood.as_json end,
-      "city": if partner.addresses.empty?; "null";       elsif partner.addresses.first.city.nil? || partner.addresses.first.city == ""; "null";       else partner.addresses.first.city.name.as_json end,
-      "state": if partner.addresses.empty?; "nd";       elsif partner.addresses.first.city.nil? || partner.addresses.first.city == ""; "nd";       else partner.addresses.first.city.state.acronym.as_json end,
-      "zipcode": if partner.addresses.empty?; "00000000";       elsif partner.addresses.first.zipcode.nil? || partner.addresses.first.zipcode == ""; "00000000";       else partner.addresses.first.zipcode.as_json.tr("-", "") end,
-      "phoneDdd": partner.phones.empty? ? "00" : partner.phones.first.phone.delete(" ").delete("-")[0..1].as_json,
-      "phoneNumber": partner.phones.empty? ? "000000000" : partner.phones.first.phone.delete(" ").delete("-").as_json[1..9],
-      "cellDdd": partner.phones.empty? ? "00" : partner.phones.first.phone.delete(" ").delete("-")[0..1].as_json,
-      "cellNumber": partner.phones.empty? ? "000000000" : partner.phones.first.phone.delete(" ").delete("-").as_json[1..9],
-      "email": partner.emails.empty? ? "null@null.com" : partner.emails.first.email.as_json,
-      "birthDate": partner.started_date.as_json,
+      "name": self.name.as_json,
+      "cpfCnpj": self.federal_registration.as_json,
+      "address": if self.addresses.empty?; "null";       elsif self.addresses.first.street.nil? || self.addresses.first.street == ""; "null";       else self.addresses.first.street.as_json end,
+      "number": if self.addresses.empty?; "000";       elsif self.addresses.first.number.nil? || self.addresses.first.number == ""; "000";       else self.addresses.first.number.as_json end,
+      "complement": if self.addresses.empty?; "null";       elsif self.addresses.first.complement.nil? || self.addresses.first.complement == ""; "null";       else self.addresses.first.complement.as_json end,
+      "cityRegion": if self.addresses.empty?; "null";       elsif self.addresses.first.neighborhood.nil? || self.addresses.first.neighborhood == ""; "null";       else self.addresses.first.neighborhood.as_json end,
+      "city": if self.addresses.empty?; "null";       elsif self.addresses.first.city.nil? || self.addresses.first.city == ""; "null";       else self.addresses.first.city.name.as_json end,
+      "state": if self.addresses.empty?; "nd";       elsif self.addresses.first.city.nil? || self.addresses.first.city == ""; "nd";       else self.addresses.first.city.state.acronym.as_json end,
+      "zipcode": if self.addresses.empty?; "00000000";       elsif self.addresses.first.zipcode.nil? || self.addresses.first.zipcode == ""; "00000000";       else self.addresses.first.zipcode.as_json.tr("-", "") end,
+      "phoneDdd": self.phones.empty? ? "00" : self.phones.first.phone.delete(" ").delete("-")[3..4].as_json,
+      "phoneNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[4..12].as_json,
+      "cellDdd": self.phones.empty? ? "00" : self.phones.first.phone.delete(" ").delete("-")[3..4].as_json,
+      "cellNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[4..12].as_json,
+      "email": self.emails.empty? ? "null@null.com" : self.emails.first.email.as_json,
+      "birthDate": self.started_date.as_json,
       "gender": 0,
     }
   end
