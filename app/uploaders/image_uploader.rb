@@ -1,14 +1,11 @@
 class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::RMagick
 
-  if Rails.env.production?
-    storage :aws
-  else
-    storage :file
-  end
+  storage :aws
+  process :resize_to_limit => [1024, 1024]
 
   def store_dir
-    "#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "product/#{model.product_id}/#{model.class.to_s.underscore}/#{model.id}"
   end
 
   version :thumb do
@@ -21,9 +18,5 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   version :medium do
     process resize_to_fill: [600, 600]
-  end
-
-  version :large do
-    process resize_to_fill: [1200, 1200]
   end
 end

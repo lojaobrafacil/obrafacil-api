@@ -3,7 +3,7 @@ class Api::ImagesController < Api::BaseController
 
   def create
     response = []
-    images_params.each do |image|
+    images_params[:images].each do |image|
       image = @product.image_products.build(attachment: image)
       image.save ? response << image : response << image.errors
     end
@@ -19,10 +19,10 @@ class Api::ImagesController < Api::BaseController
   private
 
   def set_product
-    @product = Product.find(params[:product_id])
+    @product = Product.find(images_params[:product_id])
   end
 
   def images_params
-    params.permit(policy(Image).permitted_attributes) # allow nested params as array
+    params.permit(policy(ImagePolicy).permitted_attributes) # allow nested params as array
   end
 end

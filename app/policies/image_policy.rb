@@ -1,11 +1,7 @@
-class ProductPolicy < ApplicationPolicy
-  def create?
-    Product.where(:id => record.id).exists? && (user.is_a?(Api) || user.change_products || user.admin)
-  end
-
+class ImagePolicy < ApplicationPolicy
   def permitted_attributes
     if user.is_a?(Api) || user.change_products || user.admin
-      [:images]
+      [:product_id, images: []]
     else
       []
     end
