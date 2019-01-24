@@ -54,22 +54,23 @@ class Partner < ApplicationRecord
           body = self.body_params
           x = Net::HTTP.post_form(URI.parse(premio_ideal_url), body)
           status = x.code ? x.code.to_i : 422
-          if status == 200
+          response = JSON.parse(x.body)
+          if status == 200 && (response["success"] == "true" || response["success"] == true)
             Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: x.msg)
           else
-            Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: status, error: ("Parceiro " + self.name + " não foi para premio ideal, erro:"))
+            Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: 422, error: ("Parceiro " + self.name + " não foi para premio ideal, erro: #{response["message"]}").as_json)
           end
         rescue
-          Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, error: ("erro ao processar " + self.name + " favor confirmar se o cadastro esta correto").as_json, status: 422)
+          Log::PremioIdeal.create(partner_id: partner_id, body: body.to_s, status: 422, error: ("erro ao processar " + self.name + " favor confirmar se o cadastro esta correto").as_json)
         end
       else
-        Log::PremioIdeal.create!(partner_id: partner_id, error: ("Parceiro " + self.name + " não foi para premio ideal pois nao possue CPF/CNPJ").as_json, status: status, body: nil)
+        Log::PremioIdeal.create!(partner_id: partner_id, body: nil, status: status, error: ("Parceiro " + self.name + " não foi para premio ideal pois nao possue CPF/CNPJ").as_json)
       end
     end
   end
 
   def premio_ideal_url
-    Rails.env.production? ? "https://premioideall.com.br/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso" : "https://homolog.markup.com.br/premioideall/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"
+    "https://premioideall.com.br/webapi/api/SingleSignOn/Login?login=deca&password=deca@acesso"
   end
 
   def body_params
@@ -84,9 +85,9 @@ class Partner < ApplicationRecord
       "state": if self.addresses.empty?; "nd";       elsif self.addresses.first.city.nil? || self.addresses.first.city == ""; "nd";       else self.addresses.first.city.state.acronym.as_json end,
       "zipcode": if self.addresses.empty?; "00000000";       elsif self.addresses.first.zipcode.nil? || self.addresses.first.zipcode == ""; "00000000";       else self.addresses.first.zipcode.as_json.tr("-", "") end,
       "phoneDdd": self.phones.empty? ? "00" : self.phones.first.phone.delete(" ").delete("-")[3..4].as_json,
-      "phoneNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[4..12].as_json,
+      "phoneNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[5..13].as_json,
       "cellDdd": self.phones.empty? ? "00" : self.phones.first.phone.delete(" ").delete("-")[3..4].as_json,
-      "cellNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[4..12].as_json,
+      "cellNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[5..13].as_json,
       "email": self.emails.empty? ? "null@null.com" : self.emails.first.email.as_json,
       "birthDate": self.started_date.as_json,
       "gender": 0,
