@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_11_171532) do
+ActiveRecord::Schema.define(version: 2019_01_29_132451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 2018_12_11_171532) do
     t.bigint "email_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "primary", default: false
     t.index ["email_type_id"], name: "index_emails_on_email_type_id"
   end
 
@@ -256,6 +257,29 @@ ActiveRecord::Schema.define(version: 2018_12_11_171532) do
     t.bigint "permission_id"
     t.index ["employee_id"], name: "index_employees_permissions_on_employee_id"
     t.index ["permission_id"], name: "index_employees_permissions_on_permission_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.time "starts_at"
+    t.time "finishes_at"
+    t.date "day_starts_at"
+    t.date "day_finishes_at"
+    t.string "place"
+    t.text "description"
+    t.string "image"
+    t.string "instagram_url"
+    t.boolean "canceled", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "galeries", force: :cascade do |t|
+    t.string "image"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_galeries_on_event_id"
   end
 
   create_table "ibpts", force: :cascade do |t|
@@ -356,6 +380,7 @@ ActiveRecord::Schema.define(version: 2018_12_11_171532) do
     t.bigint "phone_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "primary", default: false
     t.index ["phone_type_id"], name: "index_phones_on_phone_type_id"
   end
 
@@ -494,6 +519,7 @@ ActiveRecord::Schema.define(version: 2018_12_11_171532) do
   add_foreign_key "company_products", "companies"
   add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
+  add_foreign_key "galeries", "events"
   add_foreign_key "image_products", "products"
   add_foreign_key "log_premio_ideals", "partners"
   add_foreign_key "orders", "carriers"

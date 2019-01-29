@@ -1,0 +1,10 @@
+pt-BR:
+  activerecord:
+    models:
+      errors:
+        email: 
+          attributes: 
+            primary: "Deve haver apenas um E-mail principal"
+        phone: 
+          attributes: 
+            primary: "Deve haver apenas um telefone principal"
