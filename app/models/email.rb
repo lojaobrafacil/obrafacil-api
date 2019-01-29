@@ -6,6 +6,6 @@ class Email < ApplicationRecord
   before_validation :delete_write_spaces
 
   def delete_write_spaces
-    self.email.delete!(" ")
+    self.email&.delete!(" ")
   end
 end

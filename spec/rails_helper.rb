@@ -20,8 +20,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.pattern = "./spec/**/*_spec.rb"
-  SimpleCov.start "rails"
+  config.pattern = "./test/**/*_spec.rb"
   config.before(:all, type: :request) do
     host! "api.emamapp.test"
   end
@@ -34,6 +33,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
+    SimpleCov.start "rails"
   end
 
   config.around(:each) do |example|
