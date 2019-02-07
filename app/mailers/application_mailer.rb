@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "contact@bramotech.com"
+  default from: "naoresponda@lojaobrafacil.com.br"
   layout "mailer"
 end
