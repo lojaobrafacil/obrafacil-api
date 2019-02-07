@@ -1,40 +1,16 @@
 class Api::ReportsController < Api::BaseController
   def index
     model = params[:model].classify.constantize.all if params[:model]
-    if model && model.size > 0 && (pundit_user.change_partners || pundit_user.admin)
-      if params[:model] && params[:fields]
-        fields = []
-        params[:fields].split(",").map do |item|
-          fields << to_hash(item)
-        end
-        count = fields.size
-        select = ""
-        keys = []
-        fields.each do |item|
-          count -= 1
-          item.map do |key, value|
-            model.has_attribute?(key) || key == "emails" || key == "phones" || key == "addresses" ? keys << key : break
-            case Partner.column_for_attribute(key).type
-            when :integer
-              select += key + " = " + value.to_s if !value.nil?
-            when :float
-              select += key + " = " + value.to_s if !value.nil?
-            when :string
-              select += "lower(" + key + ") like lower('%" + value.to_s + "%')" if !value.nil?
-            when :datetime
-              value = value.split(".") if !value.nil?
-              select += key + "BETWEEN " + Time.new(value[0].split("/")[2].to_i, value[0].split("/")[1].to_i, value[0].split("/")[0].to_i).to_s + " AND " + Time.new(value[1].split("/")[2].to_i, value[1].split("/")[1].to_i, value[1].split("/")[0].to_i).to_s if !value.nil?
-            else
-              select += ""
-            end
-            select += " and " if count > 0 && count != fields.size && !value.nil?
-          end
-        end
-        select.chomp!(" and ")
-        send_data model.where(select).csv_format(keys), filename: params[:model].pluralize + "-#{Date.today}.csv"
+    if model && model.size > 0
+      if params[:fields]
+        fields = params[:fields].split(",")
+        pathname = "#{params[:model]}-#{DateTime.now.strftime("%d-%m-%Y")}.xlsx"
+        ToXlsx.new(model, {titles: fields, attributes: fields, filename: pathname}).generate
+        send_file Rails.root.join(pathname), filename: pathname
+        # send_data model.where(select).csv_format(keys), filename: params[:model].pluralize + "-#{Date.today}.csv"
       end
     else
-      render json: {:errors => ["Acesso não autorizado ou model e fields devem ser enviados"]}, status: 401
+      render json: {:errors => ["model e fields devem ser enviados"]}, status: 422
     end
   end
 

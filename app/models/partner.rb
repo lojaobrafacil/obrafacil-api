@@ -22,6 +22,8 @@ class Partner < ApplicationRecord
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
 
+  def email; emails.find_by(primary: true)&.email || emails.first&.email; end
+
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
 
   def update_user
@@ -107,6 +109,11 @@ class Partner < ApplicationRecord
       u.update(partner: nil)
       u.destroy
     end
+  end
+
+  def self.report
+    ## this method generate report to send XLSX in /reports
+    joins(:emails, :phones, :addresses)
   end
 
   def self.commissions_by_year(year)
