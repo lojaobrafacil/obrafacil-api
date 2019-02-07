@@ -24,3 +24,4 @@ test-partner.json
 .env
 /ruby.xlsx
 /public/reports
+.DS_Store
