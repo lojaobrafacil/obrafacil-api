@@ -5,9 +5,8 @@ class Api::ReportsController < Api::BaseController
       if params[:fields]
         fields = params[:fields].split(",")
         pathname = "#{params[:model]}-#{DateTime.now.strftime("%d-%m-%Y")}.xlsx"
-        ToXlsx.new(model, {titles: fields, attributes: fields, filename: pathname}).generate
-        send_file Rails.root.join(pathname), filename: pathname
-        # send_data model.where(select).csv_format(keys), filename: params[:model].pluralize + "-#{Date.today}.csv"
+        resp = ToXlsx.new(model, {titles: fields, attributes: fields, filename: pathname}).generate
+        send_file resp, filename: pathname
       end
     else
       render json: {:errors => ["model e fields devem ser enviados"]}, status: 422

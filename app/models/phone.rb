@@ -27,4 +27,20 @@ class Phone < ApplicationRecord
 
     msgs.nil? ? self.phone = number : errors.add(:phone, msgs)
   end
+
+  def formatted_phone(with_country = false)
+    begin
+      num = phone
+      if num&.size == 13
+        num = num.split("+55")[1].insert(0, "(").insert(3, ") ").insert(9, "-")
+      elsif num&.size == 14
+        num = num.split("+55")[1].insert(0, "(").insert(3, ") ").insert(10, "-")
+      else
+        num
+      end
+      with_country ? num.insert(0, "#{phone[0..2]} ") : num
+    rescue
+      phone
+    end
+  end
 end

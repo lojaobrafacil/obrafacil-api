@@ -11,7 +11,7 @@ class ToXlsx
   end
 
   def generate
-    workbook = WriteXLSX.new(Rails.root.join(@filename))
+    workbook = WriteXLSX.new("tmp/#{@filename}")
     worksheet = workbook.add_worksheet
     format = workbook.add_format
     col = row = 0
@@ -39,7 +39,7 @@ class ToXlsx
           for i in 0...2
             phone = object.phones[i]
             if phone
-              worksheet.write(row, col, phone.phone, format)
+              worksheet.write(row, col, phone.formatted_phone(true), format)
               col += 1
               worksheet.write(row, col, phone.phone_type.name, format)
               col += 1
@@ -82,6 +82,7 @@ class ToXlsx
       end
     end
     workbook.close
+    Rails.root.join("tmp/#{@filename}")
   end
 
   def formatted_titles(titles)

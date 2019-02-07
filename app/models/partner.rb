@@ -111,11 +111,6 @@ class Partner < ApplicationRecord
     end
   end
 
-  def self.report
-    ## this method generate report to send XLSX in /reports
-    joins(:emails, :phones, :addresses)
-  end
-
   def self.commissions_by_year(year)
     Partner.select("partners.name as nome_parceiro, 
       (select coalesce(sum(c.order_price), 0) from commissions as c where c.partner_id = partners.id and extract(year from c.order_date) = #{year} and extract(month from c.order_date) = 01) as janeiro, 
