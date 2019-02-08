@@ -1,4 +1,5 @@
 class Api::ImagesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
   before_action :set_product, only: [:create]
 
   def create

@@ -1,4 +1,6 @@
 class Api::EmailsController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @emails = Email.all
     paginate json: @emails, status: 200

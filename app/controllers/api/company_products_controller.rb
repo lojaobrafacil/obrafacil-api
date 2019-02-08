@@ -1,4 +1,6 @@
 class Api::CompanyProductsController < Api::ContactsController
+  before_action :authenticate_admin_or_api!
+
   def index
     @company_products = policy_scope CompanyProduct
     paginate json: @company_products

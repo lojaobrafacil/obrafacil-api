@@ -1,5 +1,6 @@
 class Api::ProductsController < Api::BaseController
   before_action :set_product, only: [:show, :update, :destroy]
+  before_action :authenticate_admin_or_api!
 
   def index
     @products = Product.all

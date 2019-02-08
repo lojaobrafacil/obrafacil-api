@@ -1,6 +1,5 @@
 class Api::ApisController < Api::BaseController
-
-  # before_action :authenticate_admin_or_api!
+  before_action :authenticate_admin_or_api!
 
   def index
     @apis = Api.all #policy_scope Api

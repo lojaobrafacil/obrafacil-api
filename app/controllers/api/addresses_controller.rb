@@ -1,4 +1,6 @@
 class Api::AddressesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @addresses = Address.all
     paginate json: @addresses.order(:id), status: 200

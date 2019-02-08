@@ -1,4 +1,6 @@
 class Api::Log::PremioIdealsController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     premio_ideals = policy_scope ::Log::PremioIdeal
 

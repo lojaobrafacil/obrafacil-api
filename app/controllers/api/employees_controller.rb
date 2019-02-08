@@ -1,4 +1,6 @@
 class Api::EmployeesController < Api::ContactsController
+  before_action :authenticate_admin_or_api!
+
   def index
     @employees = policy_scope Employee
     if @employees&.empty? or @employees.nil?

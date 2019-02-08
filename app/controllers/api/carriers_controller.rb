@@ -1,4 +1,6 @@
 class Api::CarriersController < Api::ContactsController
+  before_action :authenticate_admin_or_api!
+
   def index
     @carriers = policy_scope Carrier
     paginate json: @carriers.order(:id), status: 200

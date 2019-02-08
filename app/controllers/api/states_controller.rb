@@ -1,4 +1,6 @@
 class Api::StatesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @states = policy_scope State
     render json: @states.as_json(only: [:id, :name, :acronym]), status: 200

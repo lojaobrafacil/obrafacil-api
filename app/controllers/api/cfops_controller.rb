@@ -1,4 +1,6 @@
 class Api::CfopsController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @cfops = Cfop.all
     paginate json: @cfops.order(:id), status: 200

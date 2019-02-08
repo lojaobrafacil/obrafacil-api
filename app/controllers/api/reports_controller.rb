@@ -1,4 +1,6 @@
 class Api::ReportsController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     model = params[:model].classify.constantize.all if params[:model]
     if model && model.size > 0

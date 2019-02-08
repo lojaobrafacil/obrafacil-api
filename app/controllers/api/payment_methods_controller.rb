@@ -1,4 +1,6 @@
 class Api::PaymentMethodsController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @payment_methods = PaymentMethod.all
     paginate json: @payment_methods.order(:id), status: 200

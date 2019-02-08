@@ -1,4 +1,6 @@
 class Api::UsersController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def reset_password
     authorize User
     user = User.where(federal_registration: params[:federal_registration]).first

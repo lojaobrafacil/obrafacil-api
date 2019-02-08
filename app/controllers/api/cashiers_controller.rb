@@ -1,4 +1,6 @@
 class Api::CashiersController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @cashiers = Cashier.all
     paginate json: @cashiers.order(:id), status: 200

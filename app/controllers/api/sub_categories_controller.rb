@@ -1,4 +1,6 @@
 class Api::SubCategoriesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @sub_categories = policy_scope SubCategory
     @sub_categories = params["category_id"] ? SubCategory.where(category_id: params["category_id"]) : @sub_categories

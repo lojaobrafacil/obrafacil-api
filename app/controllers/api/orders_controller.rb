@@ -1,4 +1,6 @@
 class Api::OrdersController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @orders = policy_scope Order
     paginate json: @orders.order(:id), status: 200

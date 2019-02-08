@@ -1,4 +1,6 @@
 class Api::PartnersController < Api::ContactsController
+  before_action :authenticate_admin_or_api!
+
   before_action :set_partner, only: [:show, :update, :destroy, :reset]
 
   def index

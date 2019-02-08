@@ -1,5 +1,6 @@
 class Api::SuppliersController < Api::ContactsController
   before_action :set_supplier, only: [:show, :update, :destroy]
+  before_action :authenticate_admin_or_api!
 
   def index
     @suppliers = policy_scope Supplier

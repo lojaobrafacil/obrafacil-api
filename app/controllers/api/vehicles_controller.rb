@@ -1,4 +1,6 @@
 class Api::VehiclesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @vehicles = Vehicle.all
     paginate json: @vehicles.order(:id), status: 200

@@ -1,4 +1,6 @@
 class Api::IbptsController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @ibpts = Ibpt.all
     paginate json: @ibpts.order(:id), status: 200

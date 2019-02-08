@@ -1,4 +1,6 @@
 class Api::ClientsController < Api::ContactsController
+  before_action :authenticate_admin_or_api!
+
   def index
     @clients = policy_scope Client
     if @clients&.empty? or @clients.nil?

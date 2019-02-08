@@ -1,4 +1,6 @@
 class Api::PhonesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @phones = Phone.all
     paginate json: @phones.order(:id), status: 200

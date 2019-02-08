@@ -1,5 +1,6 @@
 class Api::BanksController < Api::BaseController
   before_action :set_bank, only: [:show, :update, :destroy]
+  before_action :authenticate_admin_or_api!
 
   def index
     @banks = policy_scope Bank

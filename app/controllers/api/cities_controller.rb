@@ -1,4 +1,6 @@
 class Api::CitiesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @cities = policy_scope City
     @cities = params["state_id"] ? @cities.where("state_id = ?", params["state_id"]) : @cities.all

@@ -1,4 +1,6 @@
 class Api::PricePercentagesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @price_percentages = []
     authorize PricePercentage

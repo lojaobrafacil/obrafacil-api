@@ -1,4 +1,6 @@
 class Api::RegionsController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @regions = policy_scope Region
     paginate json: @regions, status: 200

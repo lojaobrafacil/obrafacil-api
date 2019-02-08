@@ -1,5 +1,6 @@
 class Api::UnitsController < Api::BaseController
   before_action :set_unit, only: [:show, :update, :destroy]
+  before_action :authenticate_admin_or_api!
 
   def index
     @units = policy_scope Unit

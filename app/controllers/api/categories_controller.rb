@@ -1,4 +1,6 @@
 class Api::CategoriesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @categories = policy_scope Category
     render json: @categories.order(:id), status: 200

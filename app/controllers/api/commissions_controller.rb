@@ -1,5 +1,6 @@
 class Api::CommissionsController < Api::BaseController
-  before_action :default_format_json, only: [:by_year, :consolidated_by_year]
+  before_action :default_format_json, only: [:by_year, :consolidated_by_y]
+  # before_action :authenticate_admin_or_api!
 
   def index
     @commissions = policy_scope Commission

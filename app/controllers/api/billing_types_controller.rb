@@ -1,4 +1,6 @@
 class Api::BillingTypesController < Api::BaseController
+  before_action :authenticate_admin_or_api!
+
   def index
     @billing_types = BillingType.all
     if @billing_types&.empty? or @billing_types.nil? and BillingType.all.size > 0
