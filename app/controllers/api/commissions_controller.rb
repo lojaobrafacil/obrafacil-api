@@ -71,6 +71,7 @@ class Api::CommissionsController < Api::BaseController
   end
 
   def commission_params
-    params.permit(policy(Commission).permitted_attributes)
+    params.permit(:partner_id, :order_id, :order_date, :order_price,
+                  :client_name, :return_price, :points, :percent, :percent_date, :sent_date)
   end
 end
