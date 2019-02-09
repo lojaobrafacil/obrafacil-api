@@ -1,6 +1,5 @@
 class Api::ContactsController < Api::BaseController
   def update_contact(model)
-    authorize model
     unless params_contact(:addresses).nil?
       params_contact(:addresses).each do |address|
         ad = address.permit(:id, :street, :neighborhood, :zipcode, :ibge, :number, :complement, :description, :address_type_id, :city_id, :_destroy)
