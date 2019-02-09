@@ -1,9 +1,8 @@
 class ApplicationPolicy
-  attr_reader :user, :is_api, :record
+  attr_reader :user, :record
 
   def initialize(user, record)
-    @user = user
-    @is_api = user.class.to_s == "Api"
+    @user = @current_user
     @record = record.is_a?(Array) ? record.last : record
   end
 

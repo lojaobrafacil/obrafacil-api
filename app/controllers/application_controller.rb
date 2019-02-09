@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
 
   def authenticate_admin_or_api!
     if params[:access_id] && params[:access_key]
-      @current_user = Api.find_by(access_id: params[:access_id], access_key: params[:access_key])
+      current_api_employee = @current_user = Api.find_by!(access_id: params[:access_id], access_key: params[:access_key])
       if @current_user != nil && @current_user.active
         return true
       elsif !@current_user&.active
