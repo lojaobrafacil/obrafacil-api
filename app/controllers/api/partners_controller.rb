@@ -85,6 +85,8 @@ class Api::PartnersController < Api::ContactsController
   end
 
   def partner_params
-    params.permit(policy(::Partner).permitted_attributes)
+    params.permit(:name, :federal_registration, :state_registration,
+                  :kind, :active, :started_date, :renewal_date, :description, :origin, :percent, :agency,
+                  :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8, :cash_redemption)
   end
 end
