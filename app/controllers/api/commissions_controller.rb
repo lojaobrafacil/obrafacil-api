@@ -3,7 +3,7 @@ class Api::CommissionsController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   def index
-    @commissions = policy_scope Commission
+    @commissions = Commission.all
     @commissions.where("partner_id = ?", params[:partner_id]).order("order_date desc") if params[:partner_id]
     paginate json: @commissions, status: 200
   end
@@ -32,7 +32,6 @@ class Api::CommissionsController < Api::BaseController
 
   def create
     @commission = ::Partner.find(commission_params[:partner_id]).commissions.new(commission_params.as_json(except: (:partner_id)))
-    authorize @commission
     if @commission.save
       render json: @commission, status: 201
     else
@@ -42,7 +41,6 @@ class Api::CommissionsController < Api::BaseController
 
   def update
     @commission = Commission.find(params[:id])
-    authorize @commission
     if @commission.update(commission_params)
       render json: @commission, status: 200
     else
@@ -52,7 +50,6 @@ class Api::CommissionsController < Api::BaseController
 
   def destroy
     @commission = Commission.find(params[:id])
-    authorize @commission
     @commission.destroy
     head 204
   end

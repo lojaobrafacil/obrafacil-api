@@ -4,7 +4,7 @@ class Api::PartnersController < Api::ContactsController
   before_action :set_partner, only: [:show, :update, :destroy, :reset]
 
   def index
-    @partners = policy_scope ::Partner
+    @partners = ::Partner.all
     if @partners&.empty? or @partners.nil?
       render json: @partners, status: 200
     else
@@ -18,13 +18,11 @@ class Api::PartnersController < Api::ContactsController
   end
 
   def show
-    authorize @partner
     render json: @partner, status: 200
   end
 
   def create
     @partner = ::Partner.new(partner_params)
-    authorize @partner
     if @partner.save
       update_contact(@partner)
       render json: @partner, status: 201
@@ -35,7 +33,6 @@ class Api::PartnersController < Api::ContactsController
 
   def reset
     c ||= 0
-    authorize @partner
     p = @partner.as_json
     e = @partner.emails.as_json
     a = @partner.addresses.as_json
@@ -65,7 +62,6 @@ class Api::PartnersController < Api::ContactsController
   end
 
   def update
-    authorize @partner
     if @partner.update(partner_params)
       update_contact(@partner)
       render json: @partner, status: 200
@@ -75,7 +71,6 @@ class Api::PartnersController < Api::ContactsController
   end
 
   def destroy
-    authorize @partner
     user = @partner.user
     @partner.destroy
     user.destroy if !user.client
