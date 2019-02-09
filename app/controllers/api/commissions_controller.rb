@@ -1,10 +1,9 @@
 class Api::CommissionsController < Api::BaseController
   before_action :default_format_json, only: [:by_year, :consolidated_by_y]
-  # before_action :authenticate_admin_or_api!
+  before_action :authenticate_admin_or_api!
 
   def index
-    @commissions = Commission.all
-    # @commissions = policy_scope Commission
+    @commissions = policy_scope Commission
     @commissions.where("partner_id = ?", params[:partner_id]).order("order_date desc") if params[:partner_id]
     paginate json: @commissions, status: 200
   end
@@ -33,7 +32,7 @@ class Api::CommissionsController < Api::BaseController
 
   def create
     @commission = ::Partner.find(commission_params[:partner_id]).commissions.new(commission_params.as_json(except: (:partner_id)))
-    # authorize @commission
+    authorize @commission
     if @commission.save
       render json: @commission, status: 201
     else
@@ -43,7 +42,7 @@ class Api::CommissionsController < Api::BaseController
 
   def update
     @commission = Commission.find(params[:id])
-    # authorize @commission
+    authorize @commission
     if @commission.update(commission_params)
       render json: @commission, status: 200
     else
@@ -53,14 +52,13 @@ class Api::CommissionsController < Api::BaseController
 
   def destroy
     @commission = Commission.find(params[:id])
-    # authorize @commission
+    authorize @commission
     @commission.destroy
     head 204
   end
 
   def destroy_all
-    @commissions = Commission.all
-    # @commissions = policy_scope Commission
+    @commissions = policy_scope Commission
     if params[:partner_id]&.is_a?(Integer) && c = @commissions.where("partner_id = ?", params[:partner_id])
       c.destroy_all if c.size > 0
       render json: {success: "Deletado todos as comissoes do parceiro " + params[:partner_id]}, status: 204
