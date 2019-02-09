@@ -55,7 +55,7 @@ class Api::CommissionsController < Api::BaseController
   end
 
   def destroy_all
-    @commissions = policy_scope Commission
+    @commissions = Commission.all
     if params[:partner_id]&.is_a?(Integer) && c = @commissions.where("partner_id = ?", params[:partner_id])
       c.destroy_all if c.size > 0
       render json: {success: "Deletado todos as comissoes do parceiro " + params[:partner_id]}, status: 204
