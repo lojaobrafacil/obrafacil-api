@@ -2,7 +2,7 @@ class ApplicationPolicy
   attr_reader :user, :record
 
   def initialize(user, record)
-    @user = @current_user
+    @user = user
     @record = record.is_a?(Array) ? record.last : record
   end
 

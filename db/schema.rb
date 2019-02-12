@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_132451) do
+ActiveRecord::Schema.define(version: 2019_02_12_145806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -333,6 +333,12 @@ ActiveRecord::Schema.define(version: 2019_01_29_132451) do
     t.index ["price_percentage_id"], name: "index_orders_on_price_percentage_id"
   end
 
+  create_table "partner_groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "partners", force: :cascade do |t|
     t.string "name"
     t.string "federal_registration"
@@ -356,7 +362,9 @@ ActiveRecord::Schema.define(version: 2019_01_29_132451) do
     t.string "discount8"
     t.integer "cash_redemption"
     t.string "discount5"
+    t.bigint "partner_group_id"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
+    t.index ["partner_group_id"], name: "index_partners_on_partner_group_id"
     t.index ["user_id"], name: "index_partners_on_user_id"
   end
 

@@ -54,6 +54,10 @@ describe "Partners API" do
             favored: {type: :string},
             bank_id: {type: :integer},
             ocupation: {type: :string},
+            partner_group: {type: :object, properties: {
+              id: {type: :integer},
+              name: {type: :string},
+            }},
             user: {type: :object,
                    properties: {
               id: {type: :integer},
@@ -147,6 +151,7 @@ describe "Partners API" do
           bank_id: {type: :integer},
           ocupation: {type: :string, example: Faker::Job.field},
           cash_redemption: {type: :string, example: "true, false or maybe"},
+          partner_group_id: {type: :integer},
           addresses: {type: :array,
                       items: {type: :object, properties: {
             street: {type: :string, example: Faker::Address.street_name},
@@ -215,6 +220,7 @@ describe "Partners API" do
           bank_id: {type: :integer},
           ocupation: {type: :string, example: Faker::Job.field},
           cash_redemption: {type: :string, example: "true, false or maybe"},
+          partner_group_id: {type: :integer},
           addresses: {type: :object,
                       properties: {
             street: {type: :string, example: Faker::Address.street_name},

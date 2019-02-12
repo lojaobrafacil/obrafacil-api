@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :banks
     resources :clients
     resources :partners
+    resources :partner_groups
     resources :companies
     resources :suppliers
     resources :permissions

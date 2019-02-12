@@ -1,6 +1,7 @@
 class Partner < ApplicationRecord
   belongs_to :bank, optional: true
   belongs_to :user, optional: true
+  belongs_to :partner_group, optional: true
   has_many :log_premio_ideals, class_name: "Log::PremioIdeal", dependent: :destroy
   has_many :commissions, dependent: :destroy
   has_many :phones, dependent: :destroy, as: :phonable

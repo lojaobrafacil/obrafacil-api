@@ -15,5 +15,6 @@ FactoryBot.define do
     account { Faker::Number.number(7) }
     favored { Faker::Name.name }
     bank_id { create(:bank).id }
+    partner_group_id { create(:partner_group).id }
   end
 end
