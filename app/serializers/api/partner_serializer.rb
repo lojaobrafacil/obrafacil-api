@@ -8,6 +8,7 @@ class Api::PartnerSerializer < ActiveModel::Serializer
   has_many :phones
   has_many :emails
   has_one :user
+  has_one :partner_group
 
   def bank_name
     object.bank ? object.bank.name : nil
