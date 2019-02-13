@@ -1,8 +1,8 @@
 class Api::PartnerSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :kind, :active,
              :started_date, :renewal_date, :description, :origin, :percent, :agency, :account,
-             :favored, :bank_id, :bank_name, :ocupation, :discount3, :discount5, :discount8,
-             :cash_redemption, :updated_at, :created_at
+             :favored, :bank_id, :bank_name, :partner_group_id, :partner_group_name, :ocupation,
+             :discount3, :discount5, :discount8, :cash_redemption, :updated_at, :created_at
 
   has_many :addresses
   has_many :phones
@@ -12,5 +12,9 @@ class Api::PartnerSerializer < ActiveModel::Serializer
 
   def bank_name
     object.bank ? object.bank.name : nil
+  end
+
+  def partner_group_name
+    object.partner_group ? object.partner_group.name : nil
   end
 end
