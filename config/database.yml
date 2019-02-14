@@ -16,3 +16,6 @@ test:
   encoding: unicode
   pool: 5
   database: emam_test
+
+staging:
+  <<: *default
