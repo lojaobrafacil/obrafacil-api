@@ -12,6 +12,7 @@ class Employee < ApplicationRecord
   accepts_nested_attributes_for :emails, allow_destroy: true
   has_many :cashiers
   has_many :orders
+  has_many :reports
   validates_presence_of :name, :federal_registration, :limit_price_percentage
   validates :admin, :change_partners, :change_clients, :change_cashiers, :order_creation,
             :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution,

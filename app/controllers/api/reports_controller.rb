@@ -1,8 +1,8 @@
 class Api::ReportsController < Api::BaseController
-  # before_action :authenticate_admin_or_api!
+  before_action :authenticate_admin_or_api!
 
   def index
-    @reports = Report.all
+    @reports = Report.order(updated_at: :desc).limit(10)
     render json: @reports, status: 200
   end
 
@@ -11,11 +11,12 @@ class Api::ReportsController < Api::BaseController
     if model && model.size > 0
       if params[:fields]
         ReportUploadWorker.perform_async(type: "MODEL",
+                                         user_id: current_api_employee.id,
                                          model: params[:model],
                                          titles: params[:fields].split(","),
                                          fields: params[:fields].split(","),
                                          pathname: "#{params[:model]}-#{DateTime.now.strftime("%d-%m-%Y")}.xlsx")
-        render json: {:success => "Estamos processando seu pedido"}, status: 200
+        render json: {:success => "Estamos gerando o relatorio, assim que estiver pronto avisaremos "}, status: 200
       end
     else
       render json: {:errors => ["model e fields devem ser enviados"]}, status: 422
