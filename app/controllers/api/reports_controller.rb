@@ -1,14 +1,21 @@
 class Api::ReportsController < Api::BaseController
-  before_action :authenticate_admin_or_api!
+  # before_action :authenticate_admin_or_api!
 
   def index
+    @reports = Report.all
+    render json: @reports, status: 200
+  end
+
+  def create
     model = params[:model].classify.constantize.all if params[:model]
     if model && model.size > 0
       if params[:fields]
-        fields = params[:fields].split(",")
-        pathname = "#{params[:model]}-#{DateTime.now.strftime("%d-%m-%Y")}.xlsx"
-        resp = ToXlsx.new(model, {titles: fields, attributes: fields, filename: pathname}).generate
-        send_file resp, filename: pathname
+        ReportUploadWorker.perform_async(type: "MODEL",
+                                         model: params[:model],
+                                         titles: params[:fields].split(","),
+                                         fields: params[:fields].split(","),
+                                         pathname: "#{params[:model]}-#{DateTime.now.strftime("%d-%m-%Y")}.xlsx")
+        render json: {:success => "Estamos processando seu pedido"}, status: 200
       end
     else
       render json: {:errors => ["model e fields devem ser enviados"]}, status: 422

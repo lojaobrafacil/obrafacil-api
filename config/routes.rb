@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     resources :vehicles
     resources :commissions, only: [:index, :create, :update, :destroy]
     resources :images, only: [:create, :destroy]
-    resources :reports, only: [:index]
+    resources :reports, only: [:index, :create]
     resources :apis
     resources :company_products, only: [:index, :show, :update]
     put "products/:product_id/company_products", to: "company_products#update_code_by_product"
