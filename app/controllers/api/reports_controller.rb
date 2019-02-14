@@ -15,8 +15,8 @@ class Api::ReportsController < Api::BaseController
                                          model: params[:model],
                                          titles: params[:fields].split(","),
                                          fields: params[:fields].split(","),
-                                         pathname: "#{params[:model]}-#{DateTime.now.strftime("%d-%m-%Y")}.xlsx")
-        render json: {:success => "Estamos gerando o relatorio, assim que estiver pronto avisaremos "}, status: 200
+                                         pathname: "#{params[:model]}-#{DateTime.now.strftime("%d%m%Y_%H%M%S")}.xlsx")
+        render json: {:success => "Estamos gerando o relatório, assim que estiver pronto, avisaremos."}, status: 200
       end
     else
       render json: {:errors => ["model e fields devem ser enviados"]}, status: 422
