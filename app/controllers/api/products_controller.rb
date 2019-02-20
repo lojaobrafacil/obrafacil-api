@@ -21,7 +21,6 @@ class Api::ProductsController < Api::BaseController
     @product = Product.new(product_params)
     authorize @product
     if @product.save
-      company_product_attributes(@product) if params[:company_products]
       image_products_attributes(@product) if params[:images]
       render json: @product, status: 201
     else
@@ -32,7 +31,6 @@ class Api::ProductsController < Api::BaseController
   def update
     authorize @product
     if @product.update(product_params)
-      company_product_attributes(@product) if params[:company_products]
       image_products_attributes(@product) if params[:images]
       render json: @product, status: 200
     else
@@ -57,21 +55,6 @@ class Api::ProductsController < Api::BaseController
     params.permit(policy(Product).permitted_attributes)
   end
 
-  def company_product_attributes(product)
-    company_products_params.each do |cp|
-      cps = cp.permit(:id, :code, :stock, :stock_max, :company_id, :stock_min, :cost, :discount, :st, :margin, :_destroy)
-      if cps[:id] != nil
-        cps[:_destroy] ? CompanyProduct.find(cps[:id]).delete : CompanyProduct.find(cps[:id]).update!(cps)
-      else
-        begin
-          product.company_products.create!(cps)
-        rescue
-          nil
-        end
-      end
-    end
-  end
-
   def image_products_attributes(product)
     image_products_params.each do |image|
       image = image.permit(:id, :attachment)
@@ -89,9 +72,5 @@ class Api::ProductsController < Api::BaseController
 
   def image_products_params
     params[:images]
-  end
-
-  def company_products_params
-    params[:company_products]
   end
 end

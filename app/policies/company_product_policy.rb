@@ -13,7 +13,7 @@ class CompanyProductPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.is_a?(Api) || user.change_products || user.admin
-      [:code, :stock, :stock_max, :company_id, :stock_min, :cost, :discount, :st, :margin]
+      [:code, :stock_max, :stock_min, :cost, :discount, :st, :margin]
     else
       []
     end
