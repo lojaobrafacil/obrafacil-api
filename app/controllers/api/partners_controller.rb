@@ -31,35 +31,35 @@ class Api::PartnersController < Api::ContactsController
     end
   end
 
-  def reset
-    c ||= 0
-    p = @partner.as_json
-    e = @partner.emails.as_json
-    a = @partner.addresses.as_json
-    pp = @partner.phones.as_json
-    cc = @partner.commissions.as_json
-    @partner.destroy
-    if p = ::Partner.create(p)
-      pp.each do |phone|
-        p.phones.create(phone)
-      end
-      a.each do |address|
-        p.addresses.create(address)
-      end
-      e.each do |email|
-        p.emails.create(email)
-      end
-      cc.each do |commission|
-        p.commissions.create(commission)
-      end
-      show
-    elsif c > 3
-      reset
-      c += 1
-    else
-      render json: {errors: p.errors, partner: @partner}, status: 422
-    end
-  end
+  # def reset
+  #   c ||= 0
+  #   p = @partner.as_json
+  #   e = @partner.emails.as_json
+  #   a = @partner.addresses.as_json
+  #   pp = @partner.phones.as_json
+  #   cc = @partner.commissions.as_json
+  #   @partner.destroy
+  #   if p = ::Partner.create(p)
+  #     pp.each do |phone|
+  #       p.phones.create(phone)
+  #     end
+  #     a.each do |address|
+  #       p.addresses.create(address)
+  #     end
+  #     e.each do |email|
+  #       p.emails.create(email)
+  #     end
+  #     cc.each do |commission|
+  #       p.commissions.create(commission)
+  #     end
+  #     show
+  #   elsif c > 3
+  #     reset
+  #     c += 1
+  #   else
+  #     render json: {errors: p.errors, partner: @partner}, status: 422
+  #   end
+  # end
 
   def update
     if @partner.update(partner_params)

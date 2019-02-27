@@ -55,7 +55,7 @@ Rails.application.routes.draw do
 
     put "reset_password", to: :reset_password, controller: "users"
     put "change_employee_password/:id", to: "employees#change_employee_password"
-    post "partners/:id/reset", to: "partners#reset"
+    # post "partners/:id/reset", to: "partners#reset"
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
 
