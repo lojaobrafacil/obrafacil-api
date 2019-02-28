@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_12_145806) do
+ActiveRecord::Schema.define(version: 2019_02_27_153210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -392,6 +392,20 @@ ActiveRecord::Schema.define(version: 2019_02_12_145806) do
     t.index ["phone_type_id"], name: "index_phones_on_phone_type_id"
   end
 
+  create_table "pi_vouchers", force: :cascade do |t|
+    t.datetime "expiration_date", default: "2019-03-30 02:59:59"
+    t.float "value"
+    t.datetime "used_at"
+    t.integer "status", default: 1
+    t.datetime "received_at"
+    t.bigint "company_id"
+    t.bigint "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_pi_vouchers_on_company_id"
+    t.index ["partner_id"], name: "index_pi_vouchers_on_partner_id"
+  end
+
   create_table "price_percentages", force: :cascade do |t|
     t.float "margin"
     t.integer "kind"
@@ -444,6 +458,15 @@ ActiveRecord::Schema.define(version: 2019_02_12_145806) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "name"
+    t.string "attachment"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_reports_on_employee_id"
   end
 
   create_table "states", force: :cascade do |t|
@@ -538,9 +561,12 @@ ActiveRecord::Schema.define(version: 2019_02_12_145806) do
   add_foreign_key "partners", "banks"
   add_foreign_key "partners", "users"
   add_foreign_key "phones", "phone_types"
+  add_foreign_key "pi_vouchers", "companies"
+  add_foreign_key "pi_vouchers", "partners"
   add_foreign_key "price_percentages", "companies"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
+  add_foreign_key "reports", "employees"
   add_foreign_key "states", "regions"
   add_foreign_key "sub_categories", "categories"
   add_foreign_key "suppliers", "billing_types"
