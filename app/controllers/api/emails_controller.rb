@@ -16,7 +16,7 @@ class Api::EmailsController < Api::BaseController
   end
 
   def update
-    @email = Email.find(params[:id])
+    @email = Email.find_by(id: params[:id])
 
     if @email.update(email_params)
       render json: @email, status: 200
@@ -34,6 +34,6 @@ class Api::EmailsController < Api::BaseController
   private
 
   def email_params
-    params.permit(:email, :contact, :email_type_id, :emailable_type, :emailable_id, :contact, :email_type_id)
+    params.permit(:email, :contact, :primary, :email_type_id, :emailable_type, :emailable_id)
   end
 end

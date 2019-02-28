@@ -16,7 +16,7 @@ class Api::ContactsController < Api::BaseController
     end
     unless params_contact(:phones).nil?
       params_contact(:phones).each do |phone|
-        ph = phone.permit(:id, :phone, :contact, :phone_type_id, :_destroy)
+        ph = phone.permit(:id, :phone, :contact, :phone_type_id, :primary, :_destroy)
         p ph
         if ph[:id] != nil
           ph[:_destroy] ? Phone.find(ph[:id]).delete : Phone.find(ph[:id]).update!(ph) if Phone.find(ph[:id]).phonable == model
@@ -31,7 +31,7 @@ class Api::ContactsController < Api::BaseController
     end
     unless params_contact(:emails).nil?
       params_contact(:emails).each do |email|
-        em = email.permit(:id, :email, :contact, :email_type_id, :_destroy)
+        em = email.permit(:id, :email, :contact, :email_type_id, :primary, :_destroy)
         if em[:id] != nil
           em[:_destroy] ? Email.find(em[:id]).delete : Email.find(em[:id]).update!(em) if Email.find(em[:id]).emailable == model
         else

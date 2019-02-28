@@ -1,4 +1,4 @@
-class Api::PartnersController < Api::ContactsController
+class Api::PartnersController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   before_action :set_partner, only: [:show, :update, :destroy, :reset]
@@ -24,7 +24,6 @@ class Api::PartnersController < Api::ContactsController
   def create
     @partner = ::Partner.new(partner_params)
     if @partner.save
-      update_contact(@partner)
       render json: @partner, status: 201
     else
       render json: {errors: @partner.errors}, status: 422
@@ -63,7 +62,6 @@ class Api::PartnersController < Api::ContactsController
 
   def update
     if @partner.update(partner_params)
-      update_contact(@partner)
       render json: @partner, status: 200
     else
       render json: {errors: @partner.errors}, status: 422

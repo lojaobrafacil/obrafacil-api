@@ -42,19 +42,19 @@ RSpec.describe "CompanyProduct API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:company_product_params) { {stock: 25} }
+      let(:company_product_params) { {stock_max: 25} }
 
       it "return status code 200" do
         expect(response).to have_http_status(200)
       end
 
       it "return the json data for the updated company product" do
-        expect(json_body[:stock]).to eq(company_product_params[:stock])
+        expect(json_body[:stock_max]).to eq(company_product_params[:stock_max])
       end
     end
 
     context "when the request params are invalid" do
-      let(:company_product_params) { {stock: nil} }
+      let(:company_product_params) { {stock_max: nil} }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)

@@ -4,7 +4,7 @@ class Api::CommissionsController < Api::BaseController
 
   def index
     @commissions = Commission.all
-    @commissions.where("partner_id = ?", params[:partner_id]).order("order_date desc") if params[:partner_id]
+    @commissions = @commissions.where("partner_id = ?", params[:partner_id]).order("order_date desc") if params[:partner_id]
     paginate json: @commissions, status: 200
   end
 

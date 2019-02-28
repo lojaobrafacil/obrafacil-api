@@ -16,5 +16,8 @@ FactoryBot.define do
     favored { Faker::Name.name }
     bank_id { create(:bank).id }
     partner_group_id { create(:partner_group).id }
+    trait :emails do
+      features { build_list :email, 3 }
+    end
   end
 end

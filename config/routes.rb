@@ -13,8 +13,11 @@ Rails.application.routes.draw do
       resources :employees
     end
     resources :users, only: [:index, :show, :update]
+    resources :addresses
     resources :address_types
+    resources :emails
     resources :email_types
+    resources :phones
     resources :phone_types
     resources :cities
     resources :regions
@@ -47,6 +50,7 @@ Rails.application.routes.draw do
     put "products/:product_id/company_products", to: "company_products#update_code_by_product"
     get "commissions/by_year/:partner_id/:year", to: "commissions#by_year"
     get "commissions/consolidated_by_year/:year", to: "commissions#consolidated_by_year"
+    resources :pi_vouchers
 
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
