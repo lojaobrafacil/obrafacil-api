@@ -15,6 +15,16 @@ class Api::PhonesController < Api::BaseController
     end
   end
 
+  def create
+    @phone = Phone.new(phone_params)
+
+    if @phone.save
+      render json: @phone, status: 201
+    else
+      render json: {errors: @phone.errors}, status: 422
+    end
+  end
+
   def update
     @phone = Phone.find_by(id: params[:id])
 

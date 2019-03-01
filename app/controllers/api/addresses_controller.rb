@@ -16,6 +16,16 @@ class Api::AddressesController < Api::BaseController
     end
   end
 
+  def create
+    @address = Address.new(address_params)
+
+    if @address.save
+      render json: @address, status: 201
+    else
+      render json: {errors: @address.errors}, status: 422
+    end
+  end
+
   def update
     @address = Address.find_by(id: params[:id])
 

@@ -15,6 +15,16 @@ class Api::EmailsController < Api::BaseController
     end
   end
 
+  def create
+    @email = Email.new(email_params)
+
+    if @email.save
+      render json: @email, status: 201
+    else
+      render json: {errors: @email.errors}, status: 422
+    end
+  end
+
   def update
     @email = Email.find_by(id: params[:id])
 
