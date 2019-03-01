@@ -79,9 +79,6 @@ Rails.application.routes.draw do
       resources :cities, only: [:index, :show]
       resources :regions, only: [:index, :show]
       resources :states, only: [:index, :show]
-      resources :addresses, only: [:index, :show]
-      resources :emails, only: [:index, :show]
-      resources :phones, only: [:index, :show]
       resources :clients, only: [:show, :update]
       get "allbanks", to: :allbanks, controller: "banks"
     end
