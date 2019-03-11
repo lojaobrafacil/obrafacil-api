@@ -1,7 +1,7 @@
 class CreatePiVouchers < ActiveRecord::Migration[5.2]
   def change
     create_table :pi_vouchers do |t|
-      t.datetime :expiration_date, default: DateTime.now.end_of_day.advance(:days => 30)
+      t.datetime :expiration_date
       t.float :value
       t.datetime :used_at
       t.integer :status, default: 1

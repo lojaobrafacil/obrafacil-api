@@ -5,7 +5,7 @@ class PiVoucherPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.is_a?(Api) || user.admin
-      [:value, :used_at, :status, :received_at, :company, :partner]
+      [:value, :used_at, :status, :received_at, :company_id, :partner_id]
     end
   end
 

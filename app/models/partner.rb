@@ -4,6 +4,7 @@ class Partner < ApplicationRecord
   belongs_to :partner_group, optional: true
   has_many :log_premio_ideals, class_name: "Log::PremioIdeal", dependent: :destroy
   has_many :commissions, dependent: :destroy
+  has_many :pi_vouchers
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
   has_many :emails, dependent: :destroy, as: :emailable
@@ -19,6 +20,7 @@ class Partner < ApplicationRecord
   include Contact
   after_save :update_user, :premio_ideal
   before_destroy :remove_relations
+  alias_attribute :vouchers, :pi_vouchers
 
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end

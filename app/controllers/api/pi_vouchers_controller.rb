@@ -3,8 +3,12 @@ class Api::PiVouchersController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   def index
-    @pi_vouchers = policy_scope PiVoucher
-    paginate json: @pi_vouchers, status: 200
+    if params[:partner_id]
+      @pi_vouchers = policy_scope(PiVoucher).where(partner_id: params[:partner_id])
+      paginate json: @pi_vouchers.order(updated_at: :desc), status: 200
+    else
+      render json: "partner_id is required", status: 404
+    end
   end
 
   def show
