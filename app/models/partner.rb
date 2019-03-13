@@ -18,7 +18,7 @@ class Partner < ApplicationRecord
   validates_presence_of :name, :kind
   validates_uniqueness_of :federal_registration, scope: :active
   include Contact
-  after_save :update_user, :premio_ideal
+  after_save :update_user, :premio_ideal, :default_values
   before_destroy :remove_relations
   alias_attribute :vouchers, :pi_vouchers
 
@@ -28,6 +28,10 @@ class Partner < ApplicationRecord
   def email; emails.find_by(primary: true)&.email || emails.first&.email; end
 
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
+
+  def default_values
+    self.name.strip
+  end
 
   def update_user
     if self.active
