@@ -13,7 +13,17 @@ class Api::PiVouchersController < Api::BaseController
 
   def show
     authorize @pi_voucher
-    render json: @pi_voucher, status: 200
+    respond_with do |format|
+      format.json { render json: @pi_voucher, status: 200 }
+      format.pdf do
+        pdf = PdfPiVoucher.new(Rails.root.join("public/pdf.pdf"), @pi_voucher).render
+        file = File.new(Rails.root.join("public/pdf.pdf"))
+        send_data file,
+                  filename: "VOUCHER_#{@pi_voucher.id}.pdf",
+                  type: "application/pdf"
+        File.delete(Rails.root.join("public/pdf.pdf"))
+      end
+    end
   end
 
   def create
