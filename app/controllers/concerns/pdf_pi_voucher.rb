@@ -37,7 +37,7 @@ class PdfPiVoucher < Prawn::Document
       pdf.text "Expira em #{@voucher.expiration_date.strftime("%d/%m/%Y")}."
 
       pdf.draw_text "O valor do voucher deverá ser usado integralmente na compra,", :at => [0, 300], :size => 10
-      pdf.draw_text "Sendo assim, a compra deverá ter um valor total igual ou superior ao vouche.r", :at => [0, 290], :size => 10
+      pdf.draw_text "Sendo assim, a compra deverá ter um valor total igual ou superior ao voucher.", :at => [0, 290], :size => 10
       pdf.draw_text "Valido somente para utilização em lojas físicas.", :at => [0, 250], :size => 10
 
       pdf.draw_text "https://www.lojaobrafacil.com.br", :at => [0, 0], :size => 10
