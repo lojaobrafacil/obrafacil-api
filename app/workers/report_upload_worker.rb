@@ -10,7 +10,7 @@ class ReportUploadWorker
         path = ToXlsx.new(model, { titles: obj["titles"], attributes: obj["fields"], filename: obj["pathname"] }).generate
         rep = Report.create(name: obj["model"].upcase, employee_id: obj["user_id"], attachment: File.new(path))
         File.delete(path) if File.exist?(path)
-        Pusher.trigger("reports-#{obj["user_id"]}", "partner", { message: "Seu relatório está pronto.", file: rep.attachment })
+        Pusher.trigger("reports-#{obj["user_id"]}", "partner", { message: "Seu relatório está pronto.", file: rep.attachment }) rescue nil
       end
     end
   end
