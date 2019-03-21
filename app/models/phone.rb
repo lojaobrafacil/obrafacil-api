@@ -1,13 +1,13 @@
 class Phone < ApplicationRecord
   belongs_to :phone_type
   belongs_to :phonable, polymorphic: true
-  validates :phone, format: {with: /\A\+\d{1,2}?\d{2}\d{4,5}\d{4}\z/, message: "can't be blank. format: +XXXXXXXXXXXXX"}
-  validates_uniqueness_of :primary, scope: [:phonable_id, :phonable_type], message: I18n.t("activerecord.models.errors.phone.attributes.primary"), if: Proc.new { |phone| Phone.primary(phonable_id: phone.phonable_id, phonable_type: phone.phonable_type, id: phone.id).size < 1 }
+  validates :phone, format: { with: /\A\+\d{1,2}?\d{2}\d{4,5}\d{4}\z/, message: "can't be blank. format: +XXXXXXXXXXXXX" }
+  validates_uniqueness_of :primary, scope: [:phonable_id, :phonable_type], message: I18n.t("activerecord.models.errors.phone.attributes.primary"), if: Proc.new { |phone| phone.primary == true }
   before_validation :format_phone
 
   def self.primary(obj = {})
     p = obj.empty? ? where(primary: true) : where(primary: true, phonable_id: obj["phonable_id"], phonable_type: obj["phonable_type"])
-    obj["id"] ? p.where.not(id: obj["id"]) : p
+    obj["id"] && !obj["id"].nil? ? p.where.not(id: obj["id"]) : p
   end
 
   def format_phone
