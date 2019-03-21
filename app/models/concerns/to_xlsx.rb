@@ -76,7 +76,7 @@ class ToXlsx
           end
         end
         unless ["emails", "phones", "addresses"].include?(attr)
-          worksheet.write(row, col, object[attr], format)
+          worksheet.write(row, col, object[attr].to_s, format)
           col += 1
         end
       end
