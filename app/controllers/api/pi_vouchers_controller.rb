@@ -4,10 +4,10 @@ class Api::PiVouchersController < Api::BaseController
 
   def index
     if params[:partner_id]
-      @pi_vouchers = policy_scope(PiVoucher)&.where(partner_id: params[:partner_id])
-      paginate json: @pi_vouchers.order(updated_at: :desc), status: 200
+      @pi_vouchers = policy_scope(PiVoucher) ? policy_scope(PiVoucher).where(partner_id: params[:partner_id]).order(updated_at: :desc) : nil
+      paginate json: @pi_vouchers, status: 200
     else
-      render json: "partner_id is required", status: 404
+      render json: { errors: "partner_id is required" }, status: 404
     end
   end
 
@@ -32,7 +32,7 @@ class Api::PiVouchersController < Api::BaseController
     if @pi_voucher.save
       render json: @pi_voucher, status: 201
     else
-      render json: {errors: @pi_voucher.errors}, status: 422
+      render json: { errors: @pi_voucher.errors }, status: 422
     end
   end
 
@@ -41,7 +41,7 @@ class Api::PiVouchersController < Api::BaseController
     if @pi_voucher.update(pi_voucher_params)
       render json: @pi_voucher, status: 200
     else
-      render json: {errors: @pi_voucher.errors}, status: 422
+      render json: { errors: @pi_voucher.errors }, status: 422
     end
   end
 

@@ -6,7 +6,6 @@ class Api::PartnerSerializer < ActiveModel::Serializer
              :updated_at, :created_at
 
   has_one :user
-  has_one :partner_group
 
   def bank_name
     object.bank ? object.bank.name : nil
