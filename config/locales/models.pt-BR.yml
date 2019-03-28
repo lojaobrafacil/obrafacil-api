@@ -1,10 +1,20 @@
 pt-BR:
-  activerecord:
-    models:
-      errors:
-        email: 
-          attributes: 
-            primary: "Deve haver apenas um E-mail principal"
-        phone: 
-          attributes: 
-            primary: "Deve haver apenas um telefone principal"
+  models:
+    errors:
+      email: 
+        attributes: 
+          primary: "Deve haver apenas um E-mail principal"
+      phone: 
+        attributes: 
+          primary: "Deve haver apenas um telefone principal"
+    pi_voucher:
+      response:
+        email:  
+          success: "Email enviado com sucesso"
+          error: "Erro ao enviar o email"
+        inactivate: 
+          error: "Voucher não pode ser inativado, confirme se já não foi usado ou se está inativo"
+        used: 
+          error: "Voucher não pode ser usado, confirme se já não foi usado ou se está inativo"
+        received: 
+          error: "Voucher não pode ser recebido, confirme se já não foi recebido ou se está inativo"

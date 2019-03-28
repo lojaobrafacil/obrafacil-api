@@ -28,7 +28,7 @@ class PdfPiVoucher < Prawn::Document
       pdf.text "Esse voucher foi emitido para <b>#{@voucher.partner.name.strip}</b>", inline_format: true
 
       pdf.move_down 15
-      pdf.text "Valor: R$ #{@voucher.value} Reais."
+      pdf.text "Valor: #{@voucher.value_br}."
 
       pdf.move_down 15
       pdf.text "Data de Emissão #{@voucher.created_at.strftime("%d/%m/%Y")}."

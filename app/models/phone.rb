@@ -2,7 +2,7 @@ class Phone < ApplicationRecord
   belongs_to :phone_type
   belongs_to :phonable, polymorphic: true
   validates :phone, format: { with: /\A\+\d{1,2}?\d{2}\d{4,5}\d{4}\z/, message: "can't be blank. format: +XXXXXXXXXXXXX" }
-  validates_uniqueness_of :primary, scope: [:phonable_id, :phonable_type], message: I18n.t("activerecord.models.errors.phone.attributes.primary"), if: Proc.new { |phone| phone.primary == true }
+  validates_uniqueness_of :primary, scope: [:phonable_id, :phonable_type], message: I18n.t("models.errors.phone.attributes.primary"), if: Proc.new { |phone| phone.primary == true }
   before_validation :format_phone
 
   def self.primary(obj = {})

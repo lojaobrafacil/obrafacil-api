@@ -1,5 +1,5 @@
 class Api::PiVouchersController < Api::BaseController
-  before_action :set_pi_voucher, only: [:show, :update]
+  before_action :set_pi_voucher, only: [:show, :send_email, :used, :received, :inactivate]
   before_action :authenticate_admin_or_api!
 
   def index
@@ -13,21 +13,21 @@ class Api::PiVouchersController < Api::BaseController
 
   def show
     authorize @pi_voucher
-    respond_with do |format|
-      format.json { render json: @pi_voucher, status: 200 }
-      format.pdf do
-        pdf = PdfPiVoucher.new(Rails.root.join("public/pdf.pdf"), @pi_voucher).render
-        file = File.new(Rails.root.join("public/pdf.pdf"))
-        send_data file,
-                  filename: "VOUCHER_#{@pi_voucher.id}.pdf",
-                  type: "application/pdf"
-        File.delete(Rails.root.join("public/pdf.pdf"))
-      end
+    render json: @pi_voucher, status: 200
+  end
+
+  def send_email
+    authorize @pi_voucher
+    begin
+      PiVoucherEmailsWorker.perform_async(@pi_voucher.id)
+      render json: { email: I18n.t("models.pi_voucher.response.email.success") }, status: 200
+    rescue
+      render json: { email: I18n.t("models.pi_voucher.response.email.error") }, status: 500
     end
   end
 
   def create
-    @pi_voucher = PiVoucher.new(pi_voucher_params)
+    @pi_voucher = PiVoucher.new(params.permit(:value, :partner_id))
     authorize @pi_voucher
     if @pi_voucher.save
       render json: @pi_voucher, status: 201
@@ -36,12 +36,36 @@ class Api::PiVouchersController < Api::BaseController
     end
   end
 
-  def update
+  def used
     authorize @pi_voucher
-    if @pi_voucher.update(pi_voucher_params)
-      render json: @pi_voucher, status: 200
+    if !@pi_voucher.inactive? && @pi_voucher.used?
+      if @pi_voucher.update(used_at: Time.now, status: "used", company_id: params.permit(:company_id)[:company_id])
+        render json: @pi_voucher, status: 200
+      end
     else
-      render json: { errors: @pi_voucher.errors }, status: 422
+      render json: { errors: { error: I18n.t("models.pi_voucher.response.used.error") } }, status: 422
+    end
+  end
+
+  def inactivate
+    authorize @pi_voucher
+    if !@pi_voucher.inactive? && !@pi_voucher.used? && @pi_voucher.received_at.nil?
+      if @pi_voucher.update(status: "inactive")
+        render json: @pi_voucher, status: 200
+      end
+    else
+      render json: { errors: { error: I18n.t("models.pi_voucher.response.inactivate.error") } }, status: 422
+    end
+  end
+
+  def received
+    authorize @pi_voucher
+    if !@pi_voucher.inactive? && @pi_voucher.received_at.nil?
+      if @pi_voucher.update(received_at: Time.now)
+        render json: @pi_voucher, status: 200
+      end
+    else
+      render json: { errors: { error: I18n.t("models.pi_voucher.response.received.error") } }, status: 422
     end
   end
 
@@ -50,9 +74,5 @@ class Api::PiVouchersController < Api::BaseController
   def set_pi_voucher
     @pi_voucher = PiVoucher.find_by(id: params[:id])
     head 404 unless @pi_voucher
-  end
-
-  def pi_voucher_params
-    params.permit(policy(PiVoucher).permitted_attributes)
   end
 end

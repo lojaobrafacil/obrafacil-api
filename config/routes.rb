@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   get "version" => "application#version"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  namespace :api, defaults: {format: :json}, constraints: {subdomain: Rails.env.staging? ? "hubco" : "api"}, path: "/" do
+  namespace :api, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "hubco" : "api" }, path: "/" do
     mount_devise_token_auth_for "Employee", at: "auth"
     as :employee do
       resources :employees
@@ -51,6 +51,10 @@ Rails.application.routes.draw do
     get "commissions/by_year/:partner_id/:year", to: "commissions#by_year"
     get "commissions/consolidated_by_year/:year", to: "commissions#consolidated_by_year"
     resources :pi_vouchers
+    post "pi_vouchers/:id/send_email", to: "pi_vouchers#send_email"
+    put "pi_vouchers/:id/used", to: "pi_vouchers#used"
+    put "pi_vouchers/:id/inactivate", to: "pi_vouchers#inactivate"
+    put "pi_vouchers/:id/received", to: "pi_vouchers#received"
 
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
