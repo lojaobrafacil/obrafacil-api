@@ -19,3 +19,7 @@ pt-BR:
           error: "Voucher não pode ser usado, confirme se já não foi usado ou se está inativo"
         received: 
           error: "Voucher não pode ser recebido, confirme se já não foi recebido ou se está inativo"
+    commission:
+      response:
+        required_year_partner:  "Partner_id e year é obrigatorio"
+        required_year:  "year é obrigatorio"

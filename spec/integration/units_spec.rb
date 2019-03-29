@@ -13,11 +13,11 @@ describe "Units API" do
         auth_api
         let(:unit) { create_list(:unit, 5) }
         schema type: :array,
-               items: {type: :object, properties: {
-                 id: {type: :integer, example: 1},
-                 name: {type: :string, example: "m2"},
-                 description: {type: :string, example: "Metro quadrado"},
-               }}
+               items: { type: :object, properties: {
+                 id: { type: :integer, example: 1 },
+                 name: { type: :string, example: "m2" },
+                 description: { type: :string, example: "Metro quadrado" },
+               } }
         run_test!
       end
     end
@@ -34,11 +34,11 @@ describe "Units API" do
         auth_api
         schema type: :object,
           properties: {
-            id: {type: :integer, example: 1},
-            name: {type: :string, example: "m2"},
-            description: {type: :string, example: "Metro quadrado"},
-            updated_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
-            created_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
+            id: { type: :integer, example: 1 },
+            name: { type: :string, example: "m2" },
+            description: { type: :string, example: "Metro quadrado" },
+            updated_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
+            created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
           }
         let(:id) { create(:unit).id }
         run_test!
@@ -61,10 +61,10 @@ describe "Units API" do
       parameter name: :unit, in: :body, schema: {
         type: :object,
         properties: {
-          name: {type: :string, example: "m2"},
-          description: {type: :string, example: "Metro quadrado"},
-          updated_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
-          created_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
+          name: { type: :string, example: "m2" },
+          description: { type: :string, example: "Metro quadrado" },
+          updated_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
+          created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
         },
         required: ["name", "description"],
       }
@@ -77,7 +77,7 @@ describe "Units API" do
 
       response 422, "invalid request" do
         auth_api
-        let(:unit) { {name: nil} }
+        let(:unit) { { name: nil } }
         run_test!
       end
     end
@@ -93,10 +93,10 @@ describe "Units API" do
       parameter name: :unit, in: :body, schema: {
         type: :object,
         properties: {
-          name: {type: :string, example: "m2"},
-          description: {type: :string, example: "Metro quadrado"},
-          updated_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
-          created_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
+          name: { type: :string, example: "m2" },
+          description: { type: :string, example: "Metro quadrado" },
+          updated_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
+          created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
         },
         required: ["name", "description"],
       }
@@ -104,14 +104,14 @@ describe "Units API" do
       response 200, "unit updated" do
         auth_api
         let(:id) { create(:unit).id }
-        let(:unit) { {name: "String"} }
+        let(:unit) { { name: "String" } }
         run_test!
       end
 
       response 422, "invalid request" do
         auth_api
         let(:id) { create(:unit).id }
-        let(:unit) { {name: nil} }
+        let(:unit) { { name: nil } }
         run_test!
       end
     end

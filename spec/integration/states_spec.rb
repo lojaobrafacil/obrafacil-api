@@ -13,11 +13,11 @@ describe "States API" do
         auth_api
         let(:state) { create_list(:state, 5) }
         schema type: :array,
-               items: {type: :object, properties: {
-                 id: {type: :integer, example: 1},
-                 name: {type: :string, example: "Acre"},
-                 acronym: {type: :string, example: "AC"},
-               }}
+               items: { type: :object, properties: {
+                 id: { type: :integer, example: 1 },
+                 name: { type: :string, example: "Acre" },
+                 acronym: { type: :string, example: "AC" },
+               } }
         run_test!
       end
     end
@@ -34,17 +34,17 @@ describe "States API" do
         auth_api
         schema type: :object,
           properties: {
-            id: {type: :integer, example: 1},
-            name: {type: :string, example: "Acre"},
-            acronym: {type: :string, example: "AC"},
-            region: {type: :object, properties: {
-              id: {type: :integer},
-              name: {type: :string, example: "Norte"},
-              created_at: {type: :string, example: "2018-03-15T16:54:07.739Z"},
-              updated_at: {type: :string, example: "2018-03-15T16:54:07.739Z"},
-            }},
-            updated_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
-            created_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
+            id: { type: :integer, example: 1 },
+            name: { type: :string, example: "Acre" },
+            acronym: { type: :string, example: "AC" },
+            region: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string, example: "Norte" },
+              created_at: { type: :string, example: "2018-03-15T16:54:07.739Z" },
+              updated_at: { type: :string, example: "2018-03-15T16:54:07.739Z" },
+            } },
+            updated_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
+            created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
           }
 
         let(:id) { create(:state).id }

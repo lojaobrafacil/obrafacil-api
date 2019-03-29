@@ -100,19 +100,19 @@
               "properties": {
                 "code": {
                   "type": "integer",
-                  "example": "6182"
+                  "example": "6191"
                 },
                 "name": {
                   "type": "string",
-                  "example": "PGMS (GLASGOW) LIMITED"
+                  "example": "THE ROYAL BANK OF SCOTLAND PLC (FORMER RBS NV)"
                 },
                 "slug": {
                   "type": "string",
-                  "example": "ABN AMRO HOARE GOVETT SECURITIES"
+                  "example": "OTKRITIE SECURITIES LIMITED"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Quo et vero. Praesentium tenetur sint. Est sed fugit."
+                  "example": "Qui illo dolorum. Labore itaque omnis. Omnis et minus."
                 }
               },
               "required": [
@@ -225,19 +225,19 @@
               "properties": {
                 "code": {
                   "type": "integer",
-                  "example": "5771"
+                  "example": "7357"
                 },
                 "name": {
                   "type": "string",
-                  "example": "UBS CLEARING AND EXECUTION SERVICES LIMITED"
+                  "example": "THE ROYAL BANK OF SCOTLAND PLC (FORMER RBS NV)"
                 },
                 "slug": {
                   "type": "string",
-                  "example": "ALKEN ASSET MANAGEMENT"
+                  "example": "ABN AMRO MEZZANINE (UK) LIMITED"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Quia debitis ad. Illum nam rerum. Quibusdam recusandae corrupti."
+                  "example": "Natus provident vel. Et doloribus dolorem. Est porro iure."
                 }
               },
               "required": [
@@ -450,6 +450,1046 @@
         }
       }
     },
+    "/commissions": {
+      "get": {
+        "summary": "All a commissions",
+        "tags": [
+          "Commissions"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          },
+          {
+            "name": "partner_id",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "order_id": {
+                    "type": "integer"
+                  },
+                  "order_date": {
+                    "type": "string"
+                  },
+                  "client_name": {
+                    "type": "string"
+                  },
+                  "order_price": {
+                    "type": "string"
+                  },
+                  "return_price": {
+                    "type": "string"
+                  },
+                  "points": {
+                    "type": "integer"
+                  },
+                  "percent_date": {
+                    "type": "string"
+                  },
+                  "percent": {
+                    "type": "string"
+                  },
+                  "percent_value": {
+                    "type": "string"
+                  },
+                  "sent_date": {
+                    "type": "string"
+                  },
+                  "partner_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "partner_id is required"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "commission",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "type": "string",
+                  "example": 1
+                },
+                "order_date": {
+                  "type": "string",
+                  "example": "1984-11-19"
+                },
+                "client_name": {
+                  "type": "string",
+                  "example": "Emanuelly Ximenes"
+                },
+                "order_price": {
+                  "type": "string",
+                  "example": ".02"
+                },
+                "return_price": {
+                  "type": "string",
+                  "example": ".01"
+                },
+                "points": {
+                  "type": "string",
+                  "example": "526"
+                },
+                "percent_date": {
+                  "type": "string",
+                  "example": "1968-04-09"
+                },
+                "percent": {
+                  "type": "string",
+                  "example": ".02"
+                },
+                "percent_value": {
+                  "type": "string",
+                  "example": ".03"
+                },
+                "sent_date": {
+                  "type": "string",
+                  "example": "1975-06-27"
+                },
+                "partner_id": {
+                  "type": "string",
+                  "example": 1
+                }
+              },
+              "required": [
+                "partner_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "commission created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/by_year/{partner_id}/{year}": {
+      "get": {
+        "summary": "retrives a commissions by year of partner",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "partner_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "order_id": {
+                    "type": "integer"
+                  },
+                  "order_date": {
+                    "type": "string"
+                  },
+                  "client_name": {
+                    "type": "string"
+                  },
+                  "order_price": {
+                    "type": "string"
+                  },
+                  "return_price": {
+                    "type": "string"
+                  },
+                  "points": {
+                    "type": "integer"
+                  },
+                  "percent_date": {
+                    "type": "string"
+                  },
+                  "percent": {
+                    "type": "string"
+                  },
+                  "percent_value": {
+                    "type": "string"
+                  },
+                  "sent_date": {
+                    "type": "string"
+                  },
+                  "partner_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/consolidated_by_year/{year}": {
+      "get": {
+        "summary": "retrives a commissions consolidated by year",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "nome_parceiro": {
+                    "type": "string"
+                  },
+                  "janeiro": {
+                    "type": "string"
+                  },
+                  "fevereiro": {
+                    "type": "string"
+                  },
+                  "marco": {
+                    "type": "string"
+                  },
+                  "abril": {
+                    "type": "string"
+                  },
+                  "maio": {
+                    "type": "string"
+                  },
+                  "junho": {
+                    "type": "string"
+                  },
+                  "julho": {
+                    "type": "string"
+                  },
+                  "agosto": {
+                    "type": "string"
+                  },
+                  "setembro": {
+                    "type": "string"
+                  },
+                  "outubro": {
+                    "type": "string"
+                  },
+                  "novembro": {
+                    "type": "string"
+                  },
+                  "dezembro": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/{id}": {
+      "put": {
+        "summary": "Updates a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "commission",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "order_date": {
+                  "type": "string",
+                  "example": "1989-05-31"
+                },
+                "client_name": {
+                  "type": "string",
+                  "example": "João Luca Albuquerque Filho"
+                },
+                "order_price": {
+                  "type": "string",
+                  "example": ".05"
+                },
+                "return_price": {
+                  "type": "string",
+                  "example": ".01"
+                },
+                "points": {
+                  "type": "string",
+                  "example": "920"
+                },
+                "percent_date": {
+                  "type": "string",
+                  "example": "1975-01-17"
+                },
+                "percent": {
+                  "type": "string",
+                  "example": ".03"
+                },
+                "percent_value": {
+                  "type": "string",
+                  "example": ".09"
+                },
+                "sent_date": {
+                  "type": "string",
+                  "example": "1983-02-02"
+                },
+                "partner_id": {
+                  "type": "integer",
+                  "example": 1
+                }
+              },
+              "required": [
+                "partner_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission updated"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "commission destroyed"
+          },
+          "404": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/destroy_all/{partner_id}": {
+      "delete": {
+        "summary": "Destroy a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "partner_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "commission destroyed"
+          },
+          "422": {
+            "description": "partner_id is required"
+          }
+        }
+      }
+    },
+    "/companies": {
+      "get": {
+        "summary": "All a companies",
+        "tags": [
+          "Companies"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "company found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "fantaty_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a company",
+        "tags": [
+          "Companies"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "company",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Ian da Mata"
+                },
+                "fantasy_name": {
+                  "type": "string",
+                  "example": "João Victor Bulhões"
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "510373118-5"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "793009003-5"
+                },
+                "invoice_save": {
+                  "type": "string",
+                  "example": "503921195-3"
+                },
+                "invouce_return": {
+                  "type": "string",
+                  "example": "452446445-X"
+                },
+                "pis_percent": {
+                  "type": "string",
+                  "example": "757870537-7"
+                },
+                "confins_percent": {
+                  "type": "string",
+                  "example": "394287553-5"
+                },
+                "icmsn_percent": {
+                  "type": "string",
+                  "example": "354815314-3"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "example": "1979-04-21"
+                },
+                "tax_regime": {
+                  "type": "string",
+                  "example": "2042-11-25"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "simple",
+                  "description": "pode ser simple, normal ou presumed"
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind",
+                "tax_regime"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "company created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/companies/{id}": {
+      "get": {
+        "summary": "Retrieves a company",
+        "tags": [
+          "Companies"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "company found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "fantasy_name": {
+                  "type": "string"
+                },
+                "federal_registration": {
+                  "type": "string"
+                },
+                "state_registration": {
+                  "type": "string"
+                },
+                "invoice_save": {
+                  "type": "string"
+                },
+                "invouce_return": {
+                  "type": "string"
+                },
+                "pis_percent": {
+                  "type": "integer"
+                },
+                "confins_percent": {
+                  "type": "integer"
+                },
+                "icmsn_percent": {
+                  "type": "integer"
+                },
+                "birth_date": {
+                  "type": "string"
+                },
+                "tax_regime": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "addresses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "number": {
+                        "type": "string"
+                      },
+                      "complement": {
+                        "type": "string"
+                      },
+                      "neighborhood": {
+                        "type": "string"
+                      },
+                      "zipcode": {
+                        "type": "integer"
+                      },
+                      "ibge": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "address_type_id": {
+                        "type": "integer"
+                      },
+                      "address_type_name": {
+                        "type": "string"
+                      },
+                      "city_id": {
+                        "type": "integer"
+                      },
+                      "city_name": {
+                        "type": "string"
+                      },
+                      "state_id": {
+                        "type": "integer"
+                      },
+                      "state_name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "phones": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string"
+                      },
+                      "phone_type_id": {
+                        "type": "integer"
+                      },
+                      "phone_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string"
+                      },
+                      "email_type_id": {
+                        "type": "integer"
+                      },
+                      "email_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "company not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a company",
+        "tags": [
+          "Companies"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "company",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Srta. Sílvia Martins"
+                },
+                "fantasy_name": {
+                  "type": "string",
+                  "example": "Sara Gomes Jr."
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "735513290-3"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "229497099-3"
+                },
+                "invoice_save": {
+                  "type": "string",
+                  "example": "388119756-7"
+                },
+                "invouce_return": {
+                  "type": "string",
+                  "example": "905901500-2"
+                },
+                "pis_percent": {
+                  "type": "string",
+                  "example": "945090101-5"
+                },
+                "confins_percent": {
+                  "type": "string",
+                  "example": "406823784-0"
+                },
+                "icmsn_percent": {
+                  "type": "string",
+                  "example": "210770427-9"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "example": "1956-12-10"
+                },
+                "tax_regime": {
+                  "type": "string",
+                  "example": "2024-12-03"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "simple",
+                  "description": "pode ser simple, normal ou presumed"
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind",
+                "tax_regime"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "company updated"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a company",
+        "tags": [
+          "Companies"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "company destroyed"
+          },
+          "404": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
     "/partners": {
       "get": {
         "summary": "All a partners",
@@ -551,15 +1591,15 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Milena dos Reis"
+                  "example": "Rafael Meireles"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "772142170-5"
+                  "example": "257602196-4"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "868878231-8"
+                  "example": "289796800-1"
                 },
                 "kind": {
                   "type": "string",
@@ -570,15 +1610,15 @@
                 },
                 "started_date": {
                   "type": "string",
-                  "example": "1964-05-16"
+                  "example": "2000-03-26"
                 },
                 "renewal_date": {
                   "type": "string",
-                  "example": "2044-09-06"
+                  "example": "2032-05-20"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Adipisci eaque ex. Aut rem vel. Facere sit dolorem."
+                  "example": "Aliquid officia voluptatem. Qui eum facere. Ut sunt odio."
                 },
                 "origin": {
                   "type": "string",
@@ -590,22 +1630,22 @@
                 },
                 "agency": {
                   "type": "string",
-                  "example": "1449"
+                  "example": "7455"
                 },
                 "account": {
                   "type": "string",
-                  "example": "3305235"
+                  "example": "7365895"
                 },
                 "favored": {
                   "type": "string",
-                  "example": "Sra. Benjamin Bernardes"
+                  "example": "Salvador Aguiar"
                 },
                 "bank_id": {
                   "type": "integer"
                 },
                 "ocupation": {
                   "type": "string",
-                  "example": "Varejo"
+                  "example": "Educação"
                 },
                 "cash_redemption": {
                   "type": "string",
@@ -621,31 +1661,31 @@
                     "properties": {
                       "street": {
                         "type": "string",
-                        "example": "Viela Marcela Ribeiro"
+                        "example": "Marginal Erick Sales"
                       },
                       "number": {
                         "type": "string",
-                        "example": "Rodovia Ana Clara"
+                        "example": "Marginal Yasmin"
                       },
                       "complement": {
                         "type": "string",
-                        "example": "63300954"
+                        "example": "73246006"
                       },
                       "neighborhood": {
                         "type": "string",
-                        "example": "17008282"
+                        "example": "86460517"
                       },
                       "zipcode": {
                         "type": "integer",
-                        "example": "6032"
+                        "example": "6480"
                       },
                       "ibge": {
                         "type": "string",
-                        "example": "2954"
+                        "example": "388"
                       },
                       "description": {
                         "type": "string",
-                        "example": "Non ea ex. Repellendus sunt rerum. In nihil laudantium."
+                        "example": "Dolor provident ea. Non minus ea. Eaque corrupti cumque."
                       },
                       "address_type_id": {
                         "type": "integer"
@@ -663,11 +1703,11 @@
                     "properties": {
                       "phone": {
                         "type": "string",
-                        "example": "(18) 3018-5207"
+                        "example": "(92) 2892-9900"
                       },
                       "contact": {
                         "type": "string",
-                        "example": "Emanuel Domingues"
+                        "example": "Valentina Jaques"
                       },
                       "phone_type_id": {
                         "type": "integer"
@@ -682,11 +1722,11 @@
                     "properties": {
                       "email": {
                         "type": "string",
-                        "example": "chimcglynn@cole.name"
+                        "example": "keeleyebert@gerlach.biz"
                       },
                       "contact": {
                         "type": "string",
-                        "example": "Sr. Cecília Fontes"
+                        "example": "Yasmin Álvares Neto"
                       },
                       "email_type_id": {
                         "type": "integer"
@@ -1012,15 +2052,15 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Elísio da Paz Jr."
+                  "example": "Dra. Olívia Mendes"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "769023234-5"
+                  "example": "991174874-X"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "707160740-0"
+                  "example": "635797527-3"
                 },
                 "kind": {
                   "type": "string",
@@ -1031,15 +2071,15 @@
                 },
                 "started_date": {
                   "type": "string",
-                  "example": "1965-05-02"
+                  "example": "1985-11-30"
                 },
                 "renewal_date": {
                   "type": "string",
-                  "example": "2029-04-06"
+                  "example": "2020-08-01"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Eum quia deleniti. Et et ut. Dolorem cumque magni."
+                  "example": "Aut vel dolores. Explicabo est non. Odit corrupti est."
                 },
                 "origin": {
                   "type": "string",
@@ -1047,26 +2087,26 @@
                 },
                 "percent": {
                   "type": "string",
-                  "example": ".09"
+                  "example": ".05"
                 },
                 "agency": {
                   "type": "string",
-                  "example": "7774"
+                  "example": "7140"
                 },
                 "account": {
                   "type": "string",
-                  "example": "5317952"
+                  "example": "9981820"
                 },
                 "favored": {
                   "type": "string",
-                  "example": "Sr. Bárbara Espinhosa"
+                  "example": "João Luca Carreira Neto"
                 },
                 "bank_id": {
                   "type": "integer"
                 },
                 "ocupation": {
                   "type": "string",
-                  "example": "Legal"
+                  "example": "Educação"
                 },
                 "cash_redemption": {
                   "type": "string",
@@ -1080,31 +2120,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Ponte Nataniel Pinheira"
+                      "example": "Marginal João Pedro"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Avenida Bryan Brum"
+                      "example": "Rua Joaquim Campos"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "29207518"
+                      "example": "64385799"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "88915998"
+                      "example": "10877671"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "1637"
+                      "example": "6668"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "s/n"
+                      "example": "62700"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Aut ratione mollitia. Voluptatem dolor a. Maxime numquam temporibus."
+                      "example": "Illum deserunt repellat. Consequatur fugiat nulla. Id aliquam omnis."
                     },
                     "address_type_id": {
                       "type": "integer"
@@ -1119,11 +2159,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(51) 9391-8768"
+                      "example": "(91) 5914-2696"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Srta. Alícia Pinto"
+                      "example": "Sr. Enzo Gabriel Cabreira"
                     },
                     "phone_type_id": {
                       "type": "integer"
@@ -1135,11 +2175,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "marcelinehansen@wiza.co"
+                      "example": "latosha@maggio.info"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Vitor Moniz"
+                      "example": "Malu Rocha"
                     },
                     "email_type_id": {
                       "type": "integer"
@@ -1198,6 +2238,398 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/pi_vouchers": {
+      "get": {
+        "summary": "All a pi_vouchers",
+        "tags": [
+          "PiVouchers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "expiration_date": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "float"
+                  },
+                  "used_at": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "received_at": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "partner": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "pi_voucher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "used, active or inactive"
+                },
+                "received_at": {
+                  "type": "string",
+                  "example": "1975-03-10"
+                },
+                "used_at": {
+                  "type": "string",
+                  "example": "2019-03-29"
+                },
+                "value": {
+                  "type": "string",
+                  "example": "7591"
+                },
+                "company_id": {
+                  "type": "integer"
+                },
+                "partner_id": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "value",
+                "partner_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Premio ideal voucher created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}": {
+      "get": {
+        "summary": "Retrieves a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "expiration_date": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "float"
+                },
+                "used_at": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "received_at": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "partner": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Premio ideal voucher not found"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/inactivate": {
+      "put": {
+        "summary": "inactivate a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher inactivated"
+          },
+          "422": {
+            "description": "voucher is already inactive"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/used": {
+      "put": {
+        "summary": "used a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher used"
+          },
+          "422": {
+            "description": "voucher is already used"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/received": {
+      "put": {
+        "summary": "received a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher received"
+          },
+          "422": {
+            "description": "voucher is already received"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/send_email": {
+      "post": {
+        "summary": "send email a partner",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email will be sent by background job"
+          },
+          "422": {
+            "description": "voucher is inactive or used"
           }
         }
       }
@@ -1294,27 +2726,27 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Gorgeous Leather Shirt"
+                  "example": "Awesome Wool Table"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Silk"
+                  "example": "Cotton"
                 },
                 "ncm": {
                   "type": "string",
-                  "example": "58.06"
+                  "example": "37.07"
                 },
                 "icms": {
                   "type": "string",
-                  "example": "23.05"
+                  "example": "48.06"
                 },
                 "ipi": {
                   "type": "string",
-                  "example": "60.08"
+                  "example": "53.07"
                 },
                 "cest": {
                   "type": "string",
-                  "example": "11.06"
+                  "example": "48.05"
                 },
                 "bar_code": {
                   "type": "string",
@@ -1322,23 +2754,23 @@
                 },
                 "reduction": {
                   "type": "string",
-                  "example": "12.04"
+                  "example": "93.03"
                 },
                 "weight": {
                   "type": "string",
-                  "example": "81.09"
+                  "example": "43.08"
                 },
                 "height": {
                   "type": "string",
-                  "example": "59.06"
+                  "example": "86.07"
                 },
                 "width": {
                   "type": "string",
-                  "example": "97.08"
+                  "example": "19.02"
                 },
                 "length": {
                   "type": "string",
-                  "example": "84.07"
+                  "example": "95.08"
                 },
                 "kind": {
                   "type": "string",
@@ -1428,27 +2860,27 @@
                 },
                 "name": {
                   "type": "string",
-                  "example": "Lightweight Bronze Bag"
+                  "example": "Rustic Wool Watch"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Linen"
+                  "example": "Iron"
                 },
                 "ncm": {
                   "type": "integer",
-                  "example": "80.06"
+                  "example": "51.06"
                 },
                 "icms": {
                   "type": "number",
-                  "example": "25.05"
+                  "example": "36.06"
                 },
                 "ipi": {
                   "type": "number",
-                  "example": "70.01"
+                  "example": "67.02"
                 },
                 "cest": {
                   "type": "number",
-                  "example": "39.06"
+                  "example": "89.05"
                 },
                 "bar_code": {
                   "type": "string",
@@ -1456,23 +2888,23 @@
                 },
                 "reduction": {
                   "type": "number",
-                  "example": "90.09"
+                  "example": "74.05"
                 },
                 "weight": {
                   "type": "number",
-                  "example": "99.07"
+                  "example": "11.01"
                 },
                 "height": {
                   "type": "number",
-                  "example": "54.05"
+                  "example": "41.06"
                 },
                 "width": {
                   "type": "number",
-                  "example": "53.06"
+                  "example": "51.04"
                 },
                 "length": {
                   "type": "number",
-                  "example": "66.05"
+                  "example": "65.02"
                 },
                 "kind": {
                   "type": "string",
@@ -1613,31 +3045,31 @@
                 },
                 "name": {
                   "type": "string",
-                  "example": "Sleek Wool Knife"
+                  "example": "Heavy Duty Copper Keyboard"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Concrete"
+                  "example": "Cotton"
                 },
                 "ncm": {
                   "type": "float",
-                  "example": "33.01"
+                  "example": "36.06"
                 },
                 "icms": {
                   "type": "float",
-                  "example": "86.04"
+                  "example": "13.04"
                 },
                 "ipi": {
                   "type": "float",
-                  "example": "72.06"
+                  "example": "50.02"
                 },
                 "cest": {
                   "type": "float",
-                  "example": "12.08"
+                  "example": "31.02"
                 },
                 "color": {
                   "type": "string",
-                  "example": "#0be4ec"
+                  "example": "#24bd65"
                 },
                 "bar_code": {
                   "type": "string",
@@ -1645,23 +3077,23 @@
                 },
                 "reduction": {
                   "type": "string",
-                  "example": "31.02"
+                  "example": "22.03"
                 },
                 "weight": {
                   "type": "float",
-                  "example": "90.05"
+                  "example": "45.07"
                 },
                 "height": {
                   "type": "float",
-                  "example": "12.01"
+                  "example": "77.03"
                 },
                 "width": {
                   "type": "float",
-                  "example": "57.07"
+                  "example": "91.07"
                 },
                 "length": {
                   "type": "float",
-                  "example": "93.04"
+                  "example": "55.03"
                 },
                 "kind": {
                   "type": "string",
@@ -2161,19 +3593,19 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Danilo Moura"
+                  "example": "Sra. Vitor Espinhosa"
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Rafael Bonfim Filho"
+                  "example": "Srta. Lucas Gabriel Dantas"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "775366978-8"
+                  "example": "703050180-2"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "943151158-4"
+                  "example": "341880550-7"
                 },
                 "kind": {
                   "type": "string",
@@ -2182,11 +3614,11 @@
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1955-03-31"
+                  "example": "1987-04-06"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2032-03-04"
+                  "example": "2021-09-11"
                 },
                 "description": {
                   "type": "string",
@@ -2201,31 +3633,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Alameda Marli Ximenes"
+                      "example": "Ponte Aline Coqueiro"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Rua Tiago Grotas"
+                      "example": "Viela Marina Garcês"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "14691592"
+                      "example": "77386782"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "48042819"
+                      "example": "51885802"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "9385"
+                      "example": "4226"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "42782"
+                      "example": "8548"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Omnis hic provident. Incidunt velit suscipit. Aut aliquid quia."
+                      "example": "Non et ut. Eum recusandae qui. Blanditiis nobis in."
                     },
                     "address_type_id": {
                       "type": "integer",
@@ -2246,11 +3678,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(28) 5250-1784"
+                      "example": "(95) 5040-6149"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Sophia Pinheira Jr."
+                      "example": "Maria Luiza Bentes Neto"
                     },
                     "phone_type_id": {
                       "type": "integer",
@@ -2267,11 +3699,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "ronkeler@trantow.net"
+                      "example": "karrie@haagmohr.biz"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Lucas Sanches"
+                      "example": "João Sales Jr."
                     },
                     "email_type_id": {
                       "type": "integer",
@@ -2526,19 +3958,19 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Srta. Meire Vasques"
+                  "example": "Henry da Mota"
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Catarina da Veiga"
+                  "example": "Karla Teles"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "336132691-5"
+                  "example": "161619894-X"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "435378756-X"
+                  "example": "736668476-7"
                 },
                 "kind": {
                   "type": "string",
@@ -2547,11 +3979,11 @@
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1993-07-08"
+                  "example": "1999-02-08"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2039-10-27"
+                  "example": "2046-04-07"
                 },
                 "description": {
                   "type": "string",
@@ -2566,31 +3998,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Rua Morgana"
+                      "example": "Ponte Ian Rebouças"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Alameda Davi Luca Rameira"
+                      "example": "Travessa Ana"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "71157719"
+                      "example": "93323261"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "99271247"
+                      "example": "34320310"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "2875"
+                      "example": "7949"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "457"
+                      "example": "141"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Aliquid sed aut. Ipsum dignissimos sunt. Perspiciatis non blanditiis."
+                      "example": "Corrupti omnis voluptatum. Quia odit asperiores. Ullam sed nihil."
                     },
                     "address_type_id": {
                       "type": "integer",
@@ -2611,11 +4043,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(13) 8539-6791"
+                      "example": "(75) 3813-8117"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Cauã Peixoto Filho"
+                      "example": "Davi Lucas Rodrigues"
                     },
                     "phone_type_id": {
                       "type": "integer",
@@ -2632,11 +4064,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "nguyet@kiehn.net"
+                      "example": "trey@kuhlman.com"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Benício Roseira"
+                      "example": "Srta. Djalma Albuquerque"
                     },
                     "email_type_id": {
                       "type": "integer",

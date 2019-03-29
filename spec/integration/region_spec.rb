@@ -13,12 +13,12 @@ describe "Regions API" do
         auth_api
         let(:region) { create_list(:region, 5) }
         schema type: :array,
-               items: {type: :object, properties: {
-                 id: {type: :integer, example: 1},
-                 name: {type: :string, example: "Norte"},
-                 updated_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
-                 created_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
-               }}
+               items: { type: :object, properties: {
+                 id: { type: :integer, example: 1 },
+                 name: { type: :string, example: "Norte" },
+                 updated_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
+                 created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
+               } }
         run_test!
       end
     end
@@ -35,10 +35,10 @@ describe "Regions API" do
         auth_api
         schema type: :object,
           properties: {
-            id: {type: :integer, example: 1},
-            name: {type: :string, example: "Norte"},
-            updated_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
-            created_at: {type: :string, example: "2018-03-15T16:54:07.552Z"},
+            id: { type: :integer, example: 1 },
+            name: { type: :string, example: "Norte" },
+            updated_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
+            created_at: { type: :string, example: "2018-03-15T16:54:07.552Z" },
           }
 
         let(:id) { create(:region).id }
