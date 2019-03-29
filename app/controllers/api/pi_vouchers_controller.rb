@@ -19,10 +19,14 @@ class Api::PiVouchersController < Api::BaseController
   def send_email
     authorize @pi_voucher
     begin
-      PiVoucherEmailsWorker.perform_async(@pi_voucher.id)
-      render json: { email: I18n.t("models.pi_voucher.response.email.success") }, status: 200
+      if !@pi_voucher.inactive? && !@pi_voucher.used?
+        PiVoucherEmailsWorker.perform_async(@pi_voucher.id)
+        render json: { email: I18n.t("models.pi_voucher.response.email.success") }, status: 200
+      else
+        render json: { errors: { error: I18n.t("models.pi_voucher.response.email.not_send") } }, status: 422
+      end
     rescue
-      render json: { email: I18n.t("models.pi_voucher.response.email.error") }, status: 500
+      render json: { errors: { error: I18n.t("models.pi_voucher.response.email.error") } }, status: 422
     end
   end
 

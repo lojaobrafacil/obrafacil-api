@@ -11,6 +11,7 @@ pt-BR:
       response:
         email:  
           success: "Email enviado com sucesso"
+          not_send: "Email só pode ser usado para vouchers ativos"
           error: "Erro ao enviar o email"
         inactivate: 
           error: "Voucher não pode ser inativado, confirme se já não foi usado ou se está inativo"
