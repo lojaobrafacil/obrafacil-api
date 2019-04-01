@@ -97,7 +97,7 @@ class Partner < ApplicationRecord
       "phoneNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[5..13].as_json,
       "cellDdd": self.phones.empty? ? "00" : self.phones.first.phone.delete(" ").delete("-")[3..4].as_json,
       "cellNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[5..13].as_json,
-      "email": self.emails.empty? ? "null@null.com" : self.emails.first.email.as_json,
+      "email": self.email ? self.email : "null@null.com" ,
       "birthDate": self.started_date.as_json,
       "gender": 0,
     }

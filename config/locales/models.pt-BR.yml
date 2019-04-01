@@ -23,3 +23,8 @@ pt-BR:
       response:
         required_year_partner:  "Partner_id e year é obrigatorio"
         required_year:  "year é obrigatorio"
+    partner:
+      response:
+        reset_password:
+          success: "Senha atualizada com Sucesso"
+          error: "Não foi possivel atualizar. Senhas não coincidem"

@@ -61,7 +61,7 @@ Rails.application.routes.draw do
       put "premio_ideals/:id/retry", to: "premio_ideals#retry"
     end
 
-    put "reset_password", to: :reset_password, controller: "users"
+    put "partners/:id/reset_password", to: "partners#reset_password"
     put "change_employee_password/:id", to: "employees#change_employee_password"
     # post "partners/:id/reset", to: "partners#reset"
     get "allbanks", to: :allbanks, controller: "banks"

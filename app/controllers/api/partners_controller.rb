@@ -1,7 +1,7 @@
 class Api::PartnersController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
-  before_action :set_partner, only: [:show, :update, :destroy, :reset]
+  before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
 
   def index
     @partners = ::Partner.all
@@ -30,36 +30,6 @@ class Api::PartnersController < Api::BaseController
     end
   end
 
-  # def reset
-  #   c ||= 0
-  #   p = @partner.as_json
-  #   e = @partner.emails.as_json
-  #   a = @partner.addresses.as_json
-  #   pp = @partner.phones.as_json
-  #   cc = @partner.commissions.as_json
-  #   @partner.destroy
-  #   if p = ::Partner.create(p)
-  #     pp.each do |phone|
-  #       p.phones.create(phone)
-  #     end
-  #     a.each do |address|
-  #       p.addresses.create(address)
-  #     end
-  #     e.each do |email|
-  #       p.emails.create(email)
-  #     end
-  #     cc.each do |commission|
-  #       p.commissions.create(commission)
-  #     end
-  #     show
-  #   elsif c > 3
-  #     reset
-  #     c += 1
-  #   else
-  #     render json: {errors: p.errors, partner: @partner}, status: 422
-  #   end
-  # end
-
   def update
     if @partner.update(partner_params)
       render json: @partner, status: 200
@@ -73,6 +43,16 @@ class Api::PartnersController < Api::BaseController
     @partner.destroy
     user.destroy if !user.client
     head 204
+  end
+
+  def reset_password
+    authorize @partner
+    user = @partner.user
+    if user&.reset_password(params[:password], params[:password_confirmation])
+      render json: { success: I18n.t("models.partner.response.reset_password.success") }, status: 201
+    else
+      render json: { errors: I18n.t("models.partner.response.reset_password.error") }, status: 422
+    end
   end
 
   private
