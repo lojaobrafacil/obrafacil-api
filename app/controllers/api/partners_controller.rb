@@ -8,11 +8,11 @@ class Api::PartnersController < Api::BaseController
     if @partners&.empty? or @partners.nil?
       render json: @partners, status: 200
     else
-      @partners = if params[:name] && params[:federal_registration]
-                    @partners.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
-                  else
-                    @partners.all
-                  end
+      query = []
+      query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name]
+      query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration]
+      query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id]
+      @partners = params.empty? ? @partners : @partners.where(query.join(" and "))
       paginate json: @partners.order(:name).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :description, :cash_redemption]), status: 200
     end
   end
