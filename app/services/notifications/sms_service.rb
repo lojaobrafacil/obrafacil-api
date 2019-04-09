@@ -9,9 +9,7 @@ module Notifications
     end
 
     def can_execute?
-      unless phone_is_valid?
-        return add_error "Phone is invalid.", 404
-      end
+      phone_is_valid? ? true : add_error("Phone is invalid.", 404)
     end
 
     def execute_action
