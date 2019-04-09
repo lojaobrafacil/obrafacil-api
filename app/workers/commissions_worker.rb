@@ -1,4 +1,4 @@
-class CommissionWorker
+class CommissionsWorker
   include Sidekiq::Worker
 
   def perform(commissions)

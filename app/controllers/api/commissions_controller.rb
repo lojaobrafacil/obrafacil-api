@@ -1,6 +1,7 @@
 class Api::CommissionsController < Api::BaseController
   before_action :default_format_json, only: [:by_year, :consolidated_by_y]
-  before_action :authenticate_admin_or_api!
+  before_action :authenticate_admin_or_api! except: [:create_many]
+  before_action :authenticate_admin! only: [:create_many]
 
   def index
     @commissions = Commission.all
@@ -74,6 +75,11 @@ class Api::CommissionsController < Api::BaseController
     else
       render json: { errors: "partner_id necessario" }, status: 422
     end
+  end
+
+  def create_many
+    CommissionsWorker.perform_async(params[:commissions])
+    render json: { success: I18n.t("model.commissions.response.create_many.success") }, status: 201
   end
 
   private

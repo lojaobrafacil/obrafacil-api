@@ -42,19 +42,28 @@ Rails.application.routes.draw do
     resources :cashiers
     resources :orders
     resources :vehicles
-    resources :commissions, only: [:index, :create, :update, :destroy]
+    resources :commissions, only: [:index, :create, :update, :destroy] do
+      collection do
+        get "by_year/:partner_id/:year", to: "commissions#by_year"
+        get "consolidated_by_year/:year", to: "commissions#consolidated_by_year"
+        get "create_many", to: "commissions#create_many"
+      end
+    end
     resources :images, only: [:create, :destroy]
     resources :reports, only: [:index, :create]
     resources :apis
     resources :company_products, only: [:index, :show, :update]
+
+    resources :pi_vouchers do
+      collection do
+        post ":id/send_email", to: "pi_vouchers#send_email"
+        put ":id/used", to: "pi_vouchers#used"
+        put ":id/inactivate", to: "pi_vouchers#inactivate"
+        put ":id/received", to: "pi_vouchers#received"
+      end
+    end
+
     put "products/:product_id/company_products", to: "company_products#update_code_by_product"
-    get "commissions/by_year/:partner_id/:year", to: "commissions#by_year"
-    get "commissions/consolidated_by_year/:year", to: "commissions#consolidated_by_year"
-    resources :pi_vouchers
-    post "pi_vouchers/:id/send_email", to: "pi_vouchers#send_email"
-    put "pi_vouchers/:id/used", to: "pi_vouchers#used"
-    put "pi_vouchers/:id/inactivate", to: "pi_vouchers#inactivate"
-    put "pi_vouchers/:id/received", to: "pi_vouchers#received"
 
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
@@ -63,7 +72,6 @@ Rails.application.routes.draw do
 
     put "partners/:id/reset_password", to: "partners#reset_password"
     put "change_employee_password/:id", to: "employees#change_employee_password"
-    # post "partners/:id/reset", to: "partners#reset"
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
 
