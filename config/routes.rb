@@ -54,12 +54,12 @@ Rails.application.routes.draw do
     resources :apis
     resources :company_products, only: [:index, :show, :update]
 
-    resources :pi_vouchers do
+    resources :pi_vouchers, except: [:update, :destroy] do
       collection do
         post ":id/send_email", to: "pi_vouchers#send_email"
-        put ":id/used", to: "pi_vouchers#used"
-        put ":id/inactivate", to: "pi_vouchers#inactivate"
-        put ":id/received", to: "pi_vouchers#received"
+        put ":id/:status", to: "pi_vouchers#update",
+                           constraints: { status: /used|inactivate|received/ },
+                           as: :status
       end
     end
 

@@ -1,16 +1,19 @@
 class Api::CommissionsController < Api::BaseController
-  before_action :default_format_json, only: [:by_year, :consolidated_by_y]
-  before_action :authenticate_admin_or_api! except: [:create_many]
-  before_action :authenticate_admin! only: [:create_many]
+  before_action :default_format_json, only: [:by_year, :consolidated_by_year]
+  before_action :authenticate_admin_or_api!, except: [:create_many]
+  before_action :authenticate_admin!, only: [:create_many]
 
   def index
-    @commissions = Commission.all
-    @commissions = @commissions.where("partner_id = ?", params[:partner_id]).order("order_date desc") if params[:partner_id]
-    paginate json: @commissions, status: 200
+    begin
+      @commissions = ::Partner.find_by(id: params[:partner_id]).commissions.order("order_date desc")
+      paginate json: @commissions, status: 200
+    rescue
+      render json: { errors: "partner_id is mandatory" }, status: 422
+    end
   end
 
   def by_year
-    if params[:year] && params[:partner_id]
+    begin
       @partner = ::Partner.find_by(id: params[:partner_id])
       @commissions = @partner.commissions_by_year(params[:year]).order(:order_date)
       respond_with do |format|
@@ -22,13 +25,13 @@ class Api::CommissionsController < Api::BaseController
           send_file Rails.root.join("ruby.xlsx"), filename: "relatorio-parceiro-#{@partner.name}-#{params[:year]}-#{Date.today}.xlsx"
         }
       end
-    else
-      render json: { errors: { error: I18n.t("models.commissions.response.required_year_partner") } }, status: 422
+    rescue
+      render json: { errors: { error: I18n.t("models.commissions.response.required_partner") } }, status: 422
     end
   end
 
   def consolidated_by_year
-    if params[:year]
+    begin
       @commissions = ::Partner.commissions_by_year(params[:year])
       respond_with do |format|
         format.json { render json: @commissions.limit(40).as_json }
@@ -38,13 +41,13 @@ class Api::CommissionsController < Api::BaseController
           send_file Rails.root.join("ruby.xlsx"), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xlsx"
         }
       end
-    else
+    rescue
       render json: { errors: { error: I18n.t("models.commissions.response.required_year") } }, status: 422
     end
   end
 
   def create
-    @commission = ::Partner.find(commission_params[:partner_id]).commissions.new(commission_params.as_json(except: (:partner_id)))
+    @commission = Commission.new(commission_params)
     if @commission.save
       render json: @commission, status: 201
     else
@@ -62,17 +65,20 @@ class Api::CommissionsController < Api::BaseController
   end
 
   def destroy
-    @commission = Commission.find(params[:id])
-    @commission.destroy
-    head 204
+    @commission = Commission.find_by(id: params[:id])
+    if @commission
+      @commission.destroy
+      head 204
+    else
+      head 422
+    end
   end
 
   def destroy_all
-    @commissions = Commission.all
-    if params[:partner_id]&.is_a?(Integer) && c = @commissions.where("partner_id = ?", params[:partner_id])
-      c.destroy_all if c.size > 0
+    begin
+      ::Partner.find_by(id: params[:partner_id]).commissions.destroy_all
       render json: { success: "Deletado todos as comissoes do parceiro " + params[:partner_id] }, status: 204
-    else
+    rescue
       render json: { errors: "partner_id necessario" }, status: 422
     end
   end

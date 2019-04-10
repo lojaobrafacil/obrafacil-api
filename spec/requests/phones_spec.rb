@@ -41,19 +41,19 @@ RSpec.describe "Phone API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:phone_params) { attributes_for(:contact) }
+      let(:phone_params) { attributes_for(:phone) }
 
       it "return status code 201" do
         expect(response).to have_http_status(201)
       end
 
       it "returns the json data for the created phone" do
-        expect(json_body[:contact]).to eq(phone_params[:contact])
+        expect(json_body[:phone]).to eq(phone_params[:phone])
       end
     end
 
     context "when the request params are invalid" do
-      let(:phone_params) { {phone: ""} }
+      let(:phone_params) { { phone: "" } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)
@@ -71,7 +71,7 @@ RSpec.describe "Phone API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:phone_params) { {phone: "+5511999999999"} }
+      let(:phone_params) { { phone: "+5511999999999" } }
 
       it "return status code 200" do
         expect(response).to have_http_status(200)
@@ -83,7 +83,7 @@ RSpec.describe "Phone API", type: :request do
     end
 
     context "when the request params are invalid" do
-      let(:phone_params) { {phone: nil} }
+      let(:phone_params) { { phone: nil } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)

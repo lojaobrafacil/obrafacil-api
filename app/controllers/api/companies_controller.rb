@@ -1,4 +1,5 @@
 class Api::CompaniesController < Api::ContactsController
+  before_action :set_company, only: [:show, :update, :destroy]
   before_action :authenticate_admin_or_api!
 
   def index
@@ -12,13 +13,8 @@ class Api::CompaniesController < Api::ContactsController
   end
 
   def show
-    @company = Company.find_by(id: params[:id])
-    if @company
-      authorize @company
-      render json: @company, status: 200
-    else
-      head 404
-    end
+    authorize @company
+    render json: @company, status: 200
   end
 
   def create
@@ -28,29 +24,32 @@ class Api::CompaniesController < Api::ContactsController
       update_contact(@company)
       render json: @company, status: 201
     else
-      render json: {errors: @company.errors}, status: 422
+      render json: { errors: @company.errors }, status: 422
     end
   end
 
   def update
-    @company = Company.find(params[:id])
     authorize @company
     if @company.update(company_params)
       update_contact(@company)
       render json: @company, status: 200
     else
-      render json: {errors: @company.errors}, status: 422
+      render json: { errors: @company.errors }, status: 422
     end
   end
 
   def destroy
-    @company = Company.find(params[:id])
     authorize @company
     @company.destroy
     head 204
   end
 
   private
+
+  def set_company
+    @company = Company.find_by(id: params[:id])
+    head 404 unless @company
+  end
 
   def company_params
     params.permit(policy(Company).permitted_attributes)

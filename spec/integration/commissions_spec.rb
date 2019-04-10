@@ -12,21 +12,21 @@ describe "Commission API" do
 
       response 200, "commission found" do
         auth_api
-        let(:commissions) { FactoryBot.create_list(:commission, 5) }
+        let(:partner_id) { FactoryBot.create_list(:commission, 5).last.partner_id }
         schema type: :array,
                items: { type: :object, properties: {
-                 id: { type: :integer },
-                 order_id: { type: :integer },
-                 order_date: { type: :string },
-                 client_name: { type: :string },
-                 order_price: { type: :string },
-                 return_price: { type: :string },
-                 points: { type: :integer },
-                 percent_date: { type: :string },
-                 percent: { type: :string },
-                 percent_value: { type: :string },
-                 sent_date: { type: :string },
-                 partner_id: { type: :integer },
+                 id: { type: :integer, 'x-nullable': true },
+                 order_id: { type: :integer, 'x-nullable': true },
+                 order_date: { type: :string, 'x-nullable': true },
+                 client_name: { type: :string, 'x-nullable': true },
+                 order_price: { type: :string, 'x-nullable': true },
+                 return_price: { type: :string, 'x-nullable': true },
+                 points: { type: :integer, 'x-nullable': true },
+                 percent_date: { type: :string, 'x-nullable': true },
+                 percent: { type: :string, 'x-nullable': true },
+                 percent_value: { type: :integer, 'x-nullable': true },
+                 sent_date: { type: :string, 'x-nullable': true },
+                 partner_id: { type: :integer, 'x-nullable': true },
                } }
         run_test!
       end
@@ -71,7 +71,7 @@ describe "Commission API" do
 
       response 422, "invalid request" do
         auth_api
-        let(:commission) { { name: nil } }
+        let(:commission) { { partner_id: nil } }
         run_test!
       end
     end
@@ -87,7 +87,8 @@ describe "Commission API" do
 
       response 200, "commission found" do
         auth_api
-        let(:commissions) { FactoryBot.create_list(:commission, 5) }
+        let(:partner_id) { FactoryBot.create(:commission).partner_id }
+        let(:year) { 2018 }
         schema type: :array,
                items: { type: :object, properties: {
                  id: { type: :integer },
@@ -106,17 +107,10 @@ describe "Commission API" do
         run_test!
       end
 
-      response 404, "Not Found" do
-        auth_api
-        let(:id) { "invalid" }
-        let(:commission) { { name: nil } }
-        run_test!
-      end
-
       response 422, "invalid request" do
         auth_api
-        let(:commission) { { name: nil } }
-        let(:id) { create(:commission).id }
+        let(:partner_id) { 999 }
+        let(:year) { 2019 }
         run_test!
       end
     end
@@ -131,7 +125,7 @@ describe "Commission API" do
 
       response 200, "commission found" do
         auth_api
-        let(:commissions) { FactoryBot.create_list(:commission, 5) }
+        let(:year) { 2019 }
         schema type: :array,
                items: { type: :object, properties: {
                  id: { type: :string },
@@ -152,17 +146,9 @@ describe "Commission API" do
         run_test!
       end
 
-      response 404, "Not Found" do
-        auth_api
-        let(:id) { "invalid" }
-        let(:commission) { { name: nil } }
-        run_test!
-      end
-
       response 422, "invalid request" do
         auth_api
-        let(:commission) { { name: nil } }
-        let(:id) { create(:commission).id }
+        let(:year) { "invalid" }
         run_test!
       end
     end
@@ -195,21 +181,14 @@ describe "Commission API" do
 
       response 200, "commission updated" do
         auth_api
-        let(:commission) { { name: "newname" } }
+        let(:commission) { { order_price: 1234.2 } }
         let(:id) { create(:commission).id }
-        run_test!
-      end
-
-      response 404, "Not Found" do
-        auth_api
-        let(:id) { "invalid" }
-        let(:commission) { { name: nil } }
         run_test!
       end
 
       response 422, "invalid request" do
         auth_api
-        let(:commission) { { name: nil } }
+        let(:commission) { { partner_id: nil } }
         let(:id) { create(:commission).id }
         run_test!
       end
@@ -229,7 +208,7 @@ describe "Commission API" do
         run_test!
       end
 
-      response 404, "invalid request" do
+      response 422, "invalid request" do
         auth_api
         let(:id) { "invalid" }
         run_test!

@@ -8,18 +8,21 @@ describe "PiVouchers API" do
       params_auth
       parameter name: :page, in: :query, type: :string, description: "page number", required: false
       parameter name: :"per-page", in: :query, type: :string, description: "itens per page", required: false
+      parameter name: :"partner_id", in: :query, type: :string, description: "id of partner", required: false
 
       response 200, "Premio ideal voucher found" do
         auth_api
-        let(:pi_voucher) { create_list(:pi_voucher, 5) }
+        let(:partner_id) { create_list(:pi_voucher, 5).last.partner_id }
         schema type: :array,
                items: { type: :object, properties: {
-                 id: { type: :string },
+                 id: { type: :integer },
                  expiration_date: { type: :string },
-                 value: { type: :float },
-                 used_at: { type: :string },
+                 value: { type: :string },
+                 used_at: { type: :string, 'x-nullable': true },
                  status: { type: :string },
-                 received_at: { type: :string },
+                 received_at: { type: :string, 'x-nullable': true },
+                 send_email_at: { type: :string, 'x-nullable': true },
+                 attachment_url: { type: :string },
                  created_at: { type: :string },
                  updated_at: { type: :string },
                  company: { type: :object, properties: {
@@ -47,12 +50,14 @@ describe "PiVouchers API" do
         auth_api
         schema type: :object,
           properties: {
-            id: { type: :string },
+            id: { type: :integer },
             expiration_date: { type: :string },
-            value: { type: :float },
-            used_at: { type: :string },
+            value: { type: :string },
+            used_at: { type: :string, 'x-nullable': true },
             status: { type: :string },
-            received_at: { type: :string },
+            received_at: { type: :string, 'x-nullable': true },
+            send_email_at: { type: :string, 'x-nullable': true },
+            attachment_url: { type: :string },
             created_at: { type: :string },
             updated_at: { type: :string },
             company: { type: :object, properties: {
@@ -104,7 +109,7 @@ describe "PiVouchers API" do
 
       response 422, "invalid request" do
         auth_api
-        let(:pi_voucher) { { name: "foo" } }
+        let(:pi_voucher) { { value: nil } }
         run_test!
       end
     end
@@ -119,14 +124,12 @@ describe "PiVouchers API" do
 
       response 200, "Premio ideal voucher inactivated" do
         auth_api
-        let(:pi_voucher) { { name: "newname" } }
-        let(:id) { create(:pi_voucher).id }
+        let(:id) { create(:pi_voucher, status: "active", received_at: nil).id }
         run_test!
       end
 
       response 422, "voucher is already inactive" do
         auth_api
-        let(:pi_voucher) { { name: nil } }
         let(:id) { create(:pi_voucher, status: "inactive").id }
         run_test!
       end
@@ -138,16 +141,27 @@ describe "PiVouchers API" do
       tags "PiVouchers"
       consumes "application/json"
       params_auth
+      parameter name: :id, :in => :path, :type => :string, required: true
+
+      parameter name: :pi_voucher, in: :body, schema: {
+        type: :object,
+        properties: {
+          company_id: { type: :integer },
+        },
+        required: ["company_id"],
+      }
 
       response 200, "Premio ideal voucher used" do
         auth_api
-        let(:id) { create(:pi_voucher).id }
+        let(:pi_voucher) { { company_id: create(:company).id } }
+        let(:id) { create(:pi_voucher, status: "active", received_at: nil).id }
         run_test!
       end
 
       response 422, "voucher is already used" do
         auth_api
-        let(:id) { create(:pi_voucher, status: "used").id }
+        let(:pi_voucher) { { company_id: nil } }
+        let(:id) { create(:pi_voucher, status: "used", company_id: nil).id }
         run_test!
       end
     end
@@ -158,10 +172,11 @@ describe "PiVouchers API" do
       tags "PiVouchers"
       consumes "application/json"
       params_auth
+      parameter name: :id, :in => :path, :type => :string, required: true
 
       response 200, "Premio ideal voucher received" do
         auth_api
-        let(:id) { create(:pi_voucher).id }
+        let(:id) { create(:pi_voucher, status: "active", received_at: nil).id }
         run_test!
       end
 
@@ -178,6 +193,7 @@ describe "PiVouchers API" do
       tags "PiVouchers"
       consumes "application/json"
       params_auth
+      parameter name: :id, :in => :path, :type => :string, required: true
 
       response 200, "Email will be sent by background job" do
         auth_api
@@ -187,7 +203,7 @@ describe "PiVouchers API" do
 
       response 422, "voucher is inactive or used" do
         auth_api
-        let(:id) { create(:pi_voucher, received_at: Time.now - 1.hour).id }
+        let(:id) { create(:pi_voucher, status: "used", received_at: Time.now - 1.hour).id }
         run_test!
       end
     end

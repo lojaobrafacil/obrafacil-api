@@ -4,6 +4,7 @@ class PiVoucher < ApplicationRecord
   belongs_to :partner
   validates_presence_of :expiration_date, :value, :status
   after_initialize :default_values
+  before_validation :validate_status
 
   enum status: [:used, :active, :inactive]
 
@@ -11,15 +12,37 @@ class PiVoucher < ApplicationRecord
 
   after_create :generate_pdf
 
+  def validate_status
+    if self.id
+      @old = PiVoucher.find(self.id)
+      case @old.status
+      when "active"
+        if self.status == "used"
+          errors.add(:used_at, I18n.t("models.pi_voucher.errors.company_id")) unless self.company_id
+          errors.add(:used_at, I18n.t("models.pi_voucher.errors.used_at")) unless self.used_at
+        end
+        if self.status == "inactive"
+          errors.add(:status, I18n.t("models.pi_voucher.errors.status.received_at")) unless self.received_at.nil?
+        end
+      when "used"
+        errors.add(:status, I18n.t("models.pi_voucher.errors.status.used_to_inactive")) if self.status == "inactive"
+        errors.add(:status, I18n.t("models.pi_voucher.errors.status.used_to_active")) if self.status == "active"
+        errors.add(:status, I18n.t("models.pi_voucher.errors.status.already_used")) if self.status == "used"
+      when "inactive"
+        errors.add(:status, I18n.t("models.pi_voucher.errors.status.inactive"))
+      end
+      if @old.received_at
+        errors.add(:base, I18n.t("models.pi_voucher.errors.received_at")) if @old.received_at != self.received_at
+      end
+    end
+  end
+
   def value_br
     number_to_currency(self.value, :unit => "R$ ", :separator => ",", :delimiter => ".")
   end
 
   def generate_pdf
-    PdfPiVoucher.new(Rails.root.join("public/voucher_#{self.id}.pdf"), self).render
-    file = File.new(Rails.root.join("public/voucher_#{self.id}.pdf"))
-    self.update(attachment: file)
-    File.delete(Rails.root.join("public/voucher_#{self.id}.pdf"))
+    PiVouchers::PdfService.new(Rails.root.join("public/voucher_#{self.id}.pdf"), self).call
   end
 
   private

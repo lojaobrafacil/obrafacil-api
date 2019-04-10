@@ -1,10 +1,10 @@
 class Api::PiVouchersController < Api::BaseController
-  before_action :set_pi_voucher, only: [:show, :send_email, :used, :received, :inactivate]
+  before_action :set_pi_voucher, only: [:show, :send_email, :update]
   before_action :authenticate_admin_or_api!
 
   def index
     if params[:partner_id]
-      @pi_vouchers = policy_scope(PiVoucher) ? policy_scope(PiVoucher).where(partner_id: params[:partner_id]).order(updated_at: :desc) : nil
+      @pi_vouchers = policy_scope(PiVoucher).where(partner_id: params[:partner_id]).order(updated_at: :desc) rescue nil
       paginate json: @pi_vouchers, status: 200
     else
       render json: { errors: "partner_id is required" }, status: 404
@@ -40,36 +40,20 @@ class Api::PiVouchersController < Api::BaseController
     end
   end
 
-  def used
+  def update
     authorize @pi_voucher
-    if !@pi_voucher.inactive? && @pi_voucher.used?
-      if @pi_voucher.update(used_at: Time.now, status: "used", company_id: params.permit(:company_id)[:company_id])
-        render json: @pi_voucher, status: 200
-      end
-    else
-      render json: { errors: { error: I18n.t("models.pi_voucher.response.used.error") } }, status: 422
+    case params[:status]
+    when "used"
+      @pi_voucher.assign_attributes(used_at: Time.now, status: "used", company_id: params.permit(:company_id)[:company_id])
+    when "inactivate"
+      @pi_voucher.assign_attributes(status: "inactive")
+    when "received"
+      @pi_voucher.assign_attributes(received_at: Time.now)
     end
-  end
-
-  def inactivate
-    authorize @pi_voucher
-    if !@pi_voucher.inactive? && !@pi_voucher.used? && @pi_voucher.received_at.nil?
-      if @pi_voucher.update(status: "inactive")
-        render json: @pi_voucher, status: 200
-      end
+    if @pi_voucher.save
+      render json: @pi_voucher, status: 200
     else
-      render json: { errors: { error: I18n.t("models.pi_voucher.response.inactivate.error") } }, status: 422
-    end
-  end
-
-  def received
-    authorize @pi_voucher
-    if !@pi_voucher.inactive? && @pi_voucher.received_at.nil?
-      if @pi_voucher.update(received_at: Time.now)
-        render json: @pi_voucher, status: 200
-      end
-    else
-      render json: { errors: { error: I18n.t("models.pi_voucher.response.received.error") } }, status: 422
+      render json: { errors: @pi_voucher.errors }, status: 422
     end
   end
 

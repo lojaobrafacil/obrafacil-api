@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_27_153210) do
+ActiveRecord::Schema.define(version: 2019_04_09_185351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,16 @@ ActiveRecord::Schema.define(version: 2019_02_27_153210) do
     t.index ["partner_id"], name: "index_log_premio_ideals_on_partner_id"
   end
 
+  create_table "log_workers", force: :cascade do |t|
+    t.string "name"
+    t.json "content"
+    t.string "status"
+    t.datetime "started_at", default: "2019-04-10 18:00:33"
+    t.datetime "finished_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "kind"
     t.datetime "exclusion_date"
@@ -393,9 +403,11 @@ ActiveRecord::Schema.define(version: 2019_02_27_153210) do
   end
 
   create_table "pi_vouchers", force: :cascade do |t|
-    t.datetime "expiration_date", default: "2019-03-30 02:59:59"
+    t.datetime "expiration_date"
     t.float "value"
+    t.string "attachment"
     t.datetime "used_at"
+    t.datetime "send_email_at"
     t.integer "status", default: 1
     t.datetime "received_at"
     t.bigint "company_id"

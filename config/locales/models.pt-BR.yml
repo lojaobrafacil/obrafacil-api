@@ -8,6 +8,16 @@ pt-BR:
         attributes: 
           primary: "Deve haver apenas um telefone principal"
     pi_voucher:
+      errors:
+        company_id: "Company é obrigatório"
+        used_at: "Company é obrigatório"
+        received_at: "Já foi recebido"
+        status:
+          inactive: "Após inativo não pode ser alterado"
+          received_at: "Não pode ser inativado pois ja foi recebido"
+          used_to_inactive: "Não pode ir de usado para inativo"
+          used_to_active: "Não pode ir de usado para ativo"
+          already_used: "Já foi usado"
       response:
         email:  
           success: "Email enviado com sucesso"
@@ -23,8 +33,8 @@ pt-BR:
       response:
         create_many:
           success: "Estamos criando as commissoes"
-        required_year_partner:  "Partner_id e year é obrigatorio"
-        required_year:  "year é obrigatorio"
+        required_year:  "Year é obrigatorio"
+        required_partner:  "Partner_id é obrigatorio"
     partner:
       response:
         reset_password:
