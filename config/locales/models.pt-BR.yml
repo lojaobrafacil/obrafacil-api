@@ -36,6 +36,10 @@ pt-BR:
         required_year:  "Year é obrigatorio"
         required_partner:  "Partner_id é obrigatorio"
     partner:
+      errors:
+        sms:
+          message: "Mensagem é obrigatorio"
+          partner_ids: "Partner_ids é obrigatorio"
       response:
         reset_password:
           success: "Senha atualizada com Sucesso"
