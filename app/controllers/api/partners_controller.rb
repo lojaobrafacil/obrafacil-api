@@ -55,7 +55,7 @@ class Api::PartnersController < Api::BaseController
   end
 
   def send_sms
-    params[:send] == "all" ? SmsPartnersWorker.perform_async(partner_ids: ::Partner.all.pluck(:id)) : SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids])
+    params[:send] == "all" ? SmsPartnersWorker.perform_async(partner_ids: ::Partner.active.pluck(:id)) : SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids])
     render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
   end
 
