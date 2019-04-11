@@ -25,7 +25,12 @@ Rails.application.routes.draw do
     resources :billing_types
     resources :banks
     resources :clients
-    resources :partners
+    resources :partners do
+      collection do
+        put ":id/reset_password", to: "partners#reset_password"
+        post "send_sms", to: "partners#send_sms"
+      end
+    end
     resources :partner_groups
     resources :companies
     resources :suppliers
@@ -70,7 +75,6 @@ Rails.application.routes.draw do
       put "premio_ideals/:id/retry", to: "premio_ideals#retry"
     end
 
-    put "partners/:id/reset_password", to: "partners#reset_password"
     put "change_employee_password/:id", to: "employees#change_employee_password"
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"

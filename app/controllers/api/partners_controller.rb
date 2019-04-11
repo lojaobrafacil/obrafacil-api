@@ -1,6 +1,5 @@
 class Api::PartnersController < Api::BaseController
   before_action :authenticate_admin_or_api!
-
   before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
 
   def index
@@ -55,11 +54,20 @@ class Api::PartnersController < Api::BaseController
     end
   end
 
+  def send_sms
+    SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids])
+    render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
+  end
+
   private
 
   def set_partner
     @partner = ::Partner.find_by(id: params[:id])
     head 404 unless @partner
+  end
+
+  def sms_params
+    params.permit(partner_ids: [])
   end
 
   def partner_params

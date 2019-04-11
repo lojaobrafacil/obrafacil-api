@@ -26,6 +26,7 @@ class Partner < ApplicationRecord
   def self.inactive; where("active = false").order(:id); end
 
   def email; emails.find_by(primary: true)&.email || emails.first&.email; end
+  def phone; phones.find_by(primary: true)&.phone || phones.first&.phone; end
 
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
 
@@ -97,7 +98,7 @@ class Partner < ApplicationRecord
       "phoneNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[5..13].as_json,
       "cellDdd": self.phones.empty? ? "00" : self.phones.first.phone.delete(" ").delete("-")[3..4].as_json,
       "cellNumber": self.phones.empty? ? "000000000" : self.phones.first.phone.delete(" ").delete("-")[5..13].as_json,
-      "email": self.email ? self.email : "null@null.com" ,
+      "email": self.email ? self.email : "null@null.com",
       "birthDate": self.started_date.as_json,
       "gender": 0,
     }

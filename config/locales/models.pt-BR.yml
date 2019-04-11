@@ -40,3 +40,5 @@ pt-BR:
         reset_password:
           success: "Senha atualizada com Sucesso"
           error: "Não foi possivel atualizar. Senhas não coincidem"
+        sms:
+          success: "Estamos enviando as mensagens"
