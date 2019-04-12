@@ -7,7 +7,7 @@ RSpec.describe NewCommissionsMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("ObraFacil: Temos atualização das suas pontuações!")
-      expect(mail.to).to eq([partner.email])
+      expect(mail.to).to eq([partner.email.email])
       expect(mail.from).to eq(["naoresponda@lojaobrafacil.com.br"])
     end
 
