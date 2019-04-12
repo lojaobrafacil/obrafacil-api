@@ -17,10 +17,12 @@ module Notifications
     end
 
     def send_notification
-      sms = Aws::SNS::Client.new(region: ENV["AWS_REGION"])
+      client = Nexmo::Client.new(api_key: ENV["NEXMO_KEY"], api_secret: ENV["NEXMO_SECRET"])
+      # sms = Aws::SNS::Client.new(region: ENV["AWS_REGION"])
       begin
-        sms.set_sms_attributes(attributes: { "DefaultSenderID" => "Obrafacil", "DefaultSMSType" => "Transactional" })
-        sms.publish({ message: @message, phone_number: @phone })
+        client.sms.send(from: "ObraFacil", to: @phone.remove("+"), text: @message, type: "unicode")
+        # sms.set_sms_attributes(attributes: { "DefaultSenderID" => "Obrafacil", "DefaultSMSType" => "Transactional" })
+        # sms.publish({ message: @message, phone_number: @phone })
       rescue Exception => e
         return add_error({ error: "Falha ao tentar enviar código.", description: e.message }, 404)
       end

@@ -55,14 +55,10 @@ class Api::PartnersController < Api::BaseController
   end
 
   def send_sms
-    @message = sms_params[:message]
-    unless @message
-      render json: { errors: I18n.t("models.partner.errors.sms.message") }, status: 404
-    end
-    if sms_params[:partner_id].empty? && params[:send] != "all"
+    if sms_params[:partner_ids].empty? && params[:send] != "all"
       render json: { errors: I18n.t("models.partner.errors.sms.partner_ids") }, status: 404
     end
-    params[:send] == "all" ? SmsPartnersWorker.perform_async(partner_ids: ::Partner.active.pluck(:id), message: @message) : SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids], message: @message)
+    params[:send] == "all" ? SmsPartnersWorker.perform_async(partner_ids: ::Partner.active.pluck(:id)) : SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids])
     render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
   end
 
@@ -74,7 +70,7 @@ class Api::PartnersController < Api::BaseController
   end
 
   def sms_params
-    params.permit(:message, partner_ids: [])
+    params.permit(partner_ids: [])
   end
 
   def partner_params

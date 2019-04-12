@@ -26,7 +26,7 @@ class Partner < ApplicationRecord
   def self.inactive; where("active = false").order(:id); end
 
   def email; emails.find_by(primary: true)&.email || emails.first&.email; end
-  def phone; phones.find_by(primary: true)&.phone || phones.first&.phone; end
+  def phone; phones.find_by(primary: true) || phones.first; end
 
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
 
