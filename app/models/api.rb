@@ -1,5 +1,6 @@
 class Api < ApplicationRecord
-  validates_presence_of :name, :federal_registration, :access_id, :access_key
+  validates_presence_of :name, :federal_registration
+  validates_uniqueness_of [:access_id, :access_key], presence: true
 
   before_validation :generate_new_tokens!, on: :create
 

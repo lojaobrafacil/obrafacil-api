@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
       put "premio_ideals/:id/retry", to: "premio_ideals#retry"
+      get "workers/sms", to: "workers#sms"
     end
 
     put "change_employee_password/:id", to: "employees#change_employee_password"

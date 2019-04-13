@@ -5,16 +5,18 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-require 'net/http'
-require 'net/https' # for ruby 1.8.7
-require 'json'
+require "net/http"
+require "net/https" # for ruby 1.8.7
+require "json"
 
-Employee.create!(email:"admin@admin.com", federal_registration:"12345678910", name: "SysAdmin", password:"admin2020", password_confirmation:"admin2020", admin: true)
+Employee.create!(email: "admin@admin.com", federal_registration: "12345678910", name: "SysAdmin", password: "admin2020", password_confirmation: "admin2020", admin: true)
+
+Api.create!(name: "test", federal_registration: "12345678912").update(access_id: "7997CD2C9B5DDEF2478E", access_key: "4EA029056C02874149F5CC2BCF8A5C5BAD4DFAAD37E05B374E2777E43349B9A0")
 
 module BRPopulate
   def self.states
-    http = Net::HTTP.new('raw.githubusercontent.com', 443); http.use_ssl = true
-    JSON.parse http.get('/celsodantas/br_populate/master/states.json').body
+    http = Net::HTTP.new("raw.githubusercontent.com", 443); http.use_ssl = true
+    JSON.parse http.get("/celsodantas/br_populate/master/states.json").body
   end
 
   def self.capital?(city, state)
@@ -37,68 +39,73 @@ module BRPopulate
     end
   end
 end
+
 address_type = [
   "comercial",
   "entrega",
   "cobrança",
-  "outros"]
+  "outros",
+]
 
 phone_type = [
   "comercial",
   "celular",
   "residencial",
-  "outro"]
+  "outro",
+]
 
 email_type = [
   "nfe",
   "compras",
   "comercial",
   "pessoal",
-  "outro"]
+  "outro",
+]
 
 billing_type = [
   "Carteira 102",
   "Quinzenal/Mensal SNF",
   "Quinzena/Mensal CNF",
-  "Somente à Vista CNF"
+  "Somente à Vista CNF",
 ]
 
-banks = [{"code":745,"name":"Banco Citibank","slug":"Citibank","description":"www.citibank.com.br"},
-{"code":422,"name":"Banco Safra","slug":"Safra","description":"www.safra.com.br"},
-{"code":33,"name":"Banco Santander","slug":"Santander","description":"www.santander.com.br"},
-{"code":237,"name":"Bradesco","slug":"Bradesco","description":"www.bradesco.com.br"},
-{"code":341,"name":"Itaú Unibanco","slug":"Itaú","description":"www.itau.com.br"},
-{"code":1,"name":"BANCO DO BRASIL S/A","slug":"BRASIL"},
-{"code":104,"name":"CAIXA ECONOMICA FEDERAL","slug":"CEF"},
-{"code":212,"name":"BANCO ORIGINAL S/A","slug":"ORIGINAL"},
-{"code":399,"name":"HSBC BANK BRASIL S/A","slug":"HSBC"},
-{"code":77,"name":"BANCO IRTERMEDIUM S/A","slug":"INTERMEDIUM"},
-{"code":748,"name":"BANCO COOPERATIVO SICRED ","slug":"SICRED"},
-{"code":21,"name":"BANESTE S/A  BANCO DO EST. ESPIRITO SANTO ","slug":"BANESTE"},
-{"code":41,"name":"BANCO DO ESTADO DO RIO GRANDE DO SUL","slug":"BANRISUL"} ]
+banks = [{ "code": 745, "name": "Banco Citibank", "slug": "Citibank", "description": "www.citibank.com.br" },
+         { "code": 422, "name": "Banco Safra", "slug": "Safra", "description": "www.safra.com.br" },
+         { "code": 33, "name": "Banco Santander", "slug": "Santander", "description": "www.santander.com.br" },
+         { "code": 237, "name": "Bradesco", "slug": "Bradesco", "description": "www.bradesco.com.br" },
+         { "code": 341, "name": "Itaú Unibanco", "slug": "Itaú", "description": "www.itau.com.br" },
+         { "code": 1, "name": "BANCO DO BRASIL S/A", "slug": "BRASIL" },
+         { "code": 104, "name": "CAIXA ECONOMICA FEDERAL", "slug": "CEF" },
+         { "code": 212, "name": "BANCO ORIGINAL S/A", "slug": "ORIGINAL" },
+         { "code": 399, "name": "HSBC BANK BRASIL S/A", "slug": "HSBC" },
+         { "code": 77, "name": "BANCO IRTERMEDIUM S/A", "slug": "INTERMEDIUM" },
+         { "code": 748, "name": "BANCO COOPERATIVO SICRED ", "slug": "SICRED" },
+         { "code": 21, "name": "BANESTE S/A  BANCO DO EST. ESPIRITO SANTO ", "slug": "BANESTE" },
+         { "code": 41, "name": "BANCO DO ESTADO DO RIO GRANDE DO SUL", "slug": "BANRISUL" }]
 
 type_units = [
-[name: "m2", description: "Metro quadrado"],
-[name: "cm2", description: "Centímetro quadrado"],
-[name: "m", description: "Metro"],
-[name: "cm", description: "Centímetro"],
-[name: "UN", description: "Unidade"],
-[name: "CT", description: "Cartela"],
-[name: "CX", description: "Caixa"],
-[name: "DZ", description: "Duzia"],
-[name: "GZ", description: "Groza"],
-[name: "PA", description: "Par"],
-[name: "PÇ", description: "Peça"],
-[name: "PR", description: "Par"],
-[name: "PT", description: "Pacote"],
-[name: "RL", description: "Rolo"],
-[name: "kg", description: "Kilograma"],
-[name: "g", description: "Grama"],
-[name: "SC60", description: "Saca 60Kg"],
-[name: "l", description: "Litro"],
-[name: "m3", description: "Metro cúbico"],
-[name: "ml", description: "Mililitro"],
-[name: "X", description: "Nao definida"]]
+  [name: "m2", description: "Metro quadrado"],
+  [name: "cm2", description: "Centímetro quadrado"],
+  [name: "m", description: "Metro"],
+  [name: "cm", description: "Centímetro"],
+  [name: "UN", description: "Unidade"],
+  [name: "CT", description: "Cartela"],
+  [name: "CX", description: "Caixa"],
+  [name: "DZ", description: "Duzia"],
+  [name: "GZ", description: "Groza"],
+  [name: "PA", description: "Par"],
+  [name: "PÇ", description: "Peça"],
+  [name: "PR", description: "Par"],
+  [name: "PT", description: "Pacote"],
+  [name: "RL", description: "Rolo"],
+  [name: "kg", description: "Kilograma"],
+  [name: "g", description: "Grama"],
+  [name: "SC60", description: "Saca 60Kg"],
+  [name: "l", description: "Litro"],
+  [name: "m3", description: "Metro cúbico"],
+  [name: "ml", description: "Mililitro"],
+  [name: "X", description: "Nao definida"],
+]
 
 p "Criando address_type "
 address_type.each do |type|
