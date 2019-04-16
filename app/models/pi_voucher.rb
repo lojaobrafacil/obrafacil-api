@@ -5,12 +5,12 @@ class PiVoucher < ApplicationRecord
   validates_presence_of :expiration_date, :value, :status
   after_initialize :default_values
   before_validation :validate_status
+  after_create :generate_pdf
+  after_save :attachment_remove_if_inactive!
 
   enum status: [:used, :active, :inactive]
 
   mount_uploader :attachment, ReportFileUploader
-
-  after_create :generate_pdf
 
   def validate_status
     if self.id
@@ -43,6 +43,10 @@ class PiVoucher < ApplicationRecord
 
   def generate_pdf
     PiVouchers::PdfService.new(Rails.root.join("public/voucher_#{self.id}.pdf"), self).call
+  end
+
+  def attachment_remove_if_inactive!
+    self.attachment.remove! if self.inactive?
   end
 
   private
