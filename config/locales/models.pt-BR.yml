@@ -9,6 +9,7 @@ pt-BR:
           primary: "Deve haver apenas um telefone principal"
     pi_voucher:
       errors:
+        pdf: "Não foi possivel gerar o PDF"
         company_id: "Company é obrigatório"
         used_at: "Company é obrigatório"
         received_at: "Já foi recebido"
