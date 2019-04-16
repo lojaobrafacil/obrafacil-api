@@ -70,11 +70,12 @@ module PiVouchers
           pdf.render_file(@path)
         end
 
-        file = File.new(@path)
-        @voucher.update(attachment: file)
-        File.delete(@path)
+        if file = File.new(@path)
+          @voucher.update(attachment: file)
+          File.delete(@path)
+        end
       rescue
-        File.delete(@path)
+        File.delete(@path) rescue nil
         return add_error({ error: "Erro ao gerar PDF, tente novamente", content: @voucher }, 404)
       end
       return { success: true, message: "Processado com sucesso", path: @path, status: 200 }
