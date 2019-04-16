@@ -7,7 +7,7 @@ module PiVouchers
       margin: [40, 75],
     }
 
-    def initialize(path, voucher)
+    def initialize(voucher)
       Prawn::Font::AFM.hide_m17n_warning = true
       @voucher = voucher
       @path = Rails.root.join("public/pdf/voucher_#{@voucher.id}.pdf")
