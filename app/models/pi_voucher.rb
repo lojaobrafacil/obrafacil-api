@@ -42,7 +42,7 @@ class PiVoucher < ApplicationRecord
   end
 
   def generate_pdf
-    PiVouchers::PdfService.new(self).call
+    PiVouchers::PdfService.new(self).call rescue nil
   end
 
   def attachment_remove_if_inactive!
