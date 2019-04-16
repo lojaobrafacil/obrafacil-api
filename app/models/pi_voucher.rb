@@ -42,7 +42,7 @@ class PiVoucher < ApplicationRecord
   end
 
   def generate_pdf
-    PiVouchers::PdfService.new(Rails.root.join("public/voucher_#{self.id}.pdf"), self).call
+    PiVouchers::PdfService.new(self).call
   end
 
   def attachment_remove_if_inactive!

@@ -9,8 +9,8 @@ module PiVouchers
 
     def initialize(path, voucher)
       Prawn::Font::AFM.hide_m17n_warning = true
-      @path = path
       @voucher = voucher
+      @path = Rails.root.join("public/pdf/voucher_#{@voucher.id}.pdf")
       super()
     end
 
