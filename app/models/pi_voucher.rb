@@ -10,7 +10,7 @@ class PiVoucher < ApplicationRecord
 
   enum status: [:used, :active, :inactive]
 
-  mount_uploader :attachment, ReportFileUploader
+  mount_uploader :attachment, VoucherFileUploader
 
   def validate_status
     if self.id
