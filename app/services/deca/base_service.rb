@@ -14,6 +14,7 @@ module Deca
 
     def get
       url = URI("#{@url}/#{@path}")
+      p url
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       request = Net::HTTP::Get.new(url)
@@ -23,6 +24,9 @@ module Deca
 
       response = http.request(request)
       @response = JSON.parse(response.read_body)
+      @id = @response["data"].first["id"] rescue nil
+      @body["id"] = @id if @id
+      @response
     end
 
     def post
@@ -37,6 +41,8 @@ module Deca
 
         response = http.request(request, @body)
         @response = JSON.parse(response.read_body)
+        @id = @response["data"].first["id"] rescue nil
+        @response
       end
     end
 
@@ -45,7 +51,7 @@ module Deca
         url = URI("#{@url}/#{@path}")
         http = Net::HTTP.new(url.host, url.port)
         http.use_ssl = true
-        request = Net::HTTP::Put.new(url)
+        request = Net::HTTP::Patch.new(url)
         request["Accept"] = "application/vnd.api+json"
         request["Content-Type"] = "application/vnd.api+json"
         request["Authorization"] = "Bearer #{@credentials["token"]}"

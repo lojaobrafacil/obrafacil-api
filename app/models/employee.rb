@@ -17,15 +17,22 @@ class Employee < ApplicationRecord
   validates :admin, :change_partners, :change_clients, :change_cashiers, :order_creation,
             :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution,
             :order_cost, :order_done, :order_price_reduce,
-            :order_inactive, inclusion: {in: [true, false]}
+            :order_inactive, inclusion: { in: [true, false] }
   validates_uniqueness_of :federal_registration, conditions: -> { where.not(active: false) }, case_sensitive: true
-  before_save :valid_federal_registration
   include Contact
+  before_save :default_values, if: Proc.new { |employee| employee.active? }
+  after_save :send_to_deca, if: Proc.new { |employee| employee.active? }
 
-  def valid_federal_registration
-    self.federal_registration.gsub!(/[^0-9[a-z]+]\s*/, "")
+  def default_values
+    self.name = self.name.strip.upcase rescue nil
+    self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+    self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
   end
 
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
+
+  def send_to_deca
+    DecaEmployeesWorker.perform_async(self.id) if name_changed? || federal_registration_changed? || email_changed?
+  end
 end

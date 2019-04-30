@@ -6,7 +6,7 @@ module Deca
       @query = options[:query].collect { |k, v| "#{k}=#{CGI::escape(v.to_s)}" }.join("&") rescue nil
       @path = @id ? "escritorios/#{@id}" : "escritorios"
       @path = @path + "?#{@query}" if @query
-      @body = options[:body] rescue nil
+      @body = { "data": { "type": "escritorios", "attributes": options[:body] } }
       super
     end
   end

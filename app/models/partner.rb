@@ -17,9 +17,10 @@ class Partner < ApplicationRecord
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind
-  validates_uniqueness_of :federal_registration, if: Proc.new { |partner| partner.active? }
   include Contact
-  after_save :update_user, :premio_ideal, :default_values
+  validates_uniqueness_of :federal_registration, if: Proc.new { |partner| partner.active? }
+  after_save :update_user, :premio_ideal, if: Proc.new { |partner| partner.active? }
+  before_save :default_values, if: Proc.new { |partner| partner.active? }
   before_destroy :remove_relations
   alias_attribute :vouchers, :pi_vouchers
 
@@ -29,7 +30,9 @@ class Partner < ApplicationRecord
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
 
   def default_values
-    self.name.strip
+    self.name = self.name.strip.upcase rescue nil
+    self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+    self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
   end
 
   def update_user
