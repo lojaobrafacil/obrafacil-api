@@ -59,10 +59,10 @@ class Api::PartnersController < Api::BaseController
   end
 
   def send_sms
-    if sms_params[:partner_ids].empty? && params[:send] != "all"
+    if sms_params[:partner_ids].empty? && ["pre_active", "active"].include?(params[:status])
       render json: { errors: I18n.t("models.partner.errors.sms.partner_ids") }, status: 404
     end
-    params[:send] == "all" ? SmsPartnersWorker.perform_async(partner_ids: ::Partner.active.pluck(:id)) : SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids])
+    SmsPartnersWorker.perform_async(partner_ids: ::Partner.where(id: sms_params[:partner_ids], status: params[:status]).pluck(:id))
     render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
   end
 
