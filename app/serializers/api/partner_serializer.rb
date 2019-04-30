@@ -3,9 +3,13 @@ class Api::PartnerSerializer < ActiveModel::Serializer
              :started_date, :renewal_date, :description, :origin, :percent, :agency, :account,
              :favored, :bank_id, :bank_name, :partner_group_id, :partner_group_name, :ocupation,
              :discount3, :discount5, :addresses, :phones, :emails, :discount8, :cash_redemption,
-             :updated_at, :created_at
+             :updated_at, :created_at, :active
 
   has_one :user
+
+  def active
+    object.active?
+  end
 
   def bank_name
     object.bank ? object.bank.name : nil
