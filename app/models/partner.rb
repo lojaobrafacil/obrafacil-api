@@ -12,18 +12,16 @@ class Partner < ApplicationRecord
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :commissions, allow_destroy: true
+  enum status: [:pre_active, :active, :inactive]
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind
-  validates_uniqueness_of :federal_registration, scope: :active
+  validates_uniqueness_of :federal_registration, if: Proc.new { |partner| partner.active? }
   include Contact
   after_save :update_user, :premio_ideal, :default_values
   before_destroy :remove_relations
   alias_attribute :vouchers, :pi_vouchers
-
-  def self.active; where("active = true").order(:id); end
-  def self.inactive; where("active = false").order(:id); end
 
   def email; emails.find_by(primary: true) || emails.first; end
   def phone; phones.find_by(primary: true) || phones.first; end
@@ -35,7 +33,7 @@ class Partner < ApplicationRecord
   end
 
   def update_user
-    if self.active
+    if self.active?
       if user = self.user
         user.update(federal_registration: self.federal_registration.to_s, email: self.federal_registration.to_s + "@obrafacil.com") if user.federal_registration != self.federal_registration
       elsif user = User.find_by(federal_registration: self.federal_registration)
@@ -105,7 +103,7 @@ class Partner < ApplicationRecord
   end
 
   def remove_relations
-    self.update(active: false)
+    self.update(status: "inactive")
     log = self.log_premio_ideals
     if log
       log.each do |l|

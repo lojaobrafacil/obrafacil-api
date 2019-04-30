@@ -5,10 +5,19 @@ class Api::PiVouchersController < Api::BaseController
   def index
     if params[:partner_id]
       @pi_vouchers = policy_scope(PiVoucher).where(partner_id: params[:partner_id]).order(updated_at: :desc) rescue nil
-      paginate json: @pi_vouchers, status: 200
     else
-      render json: { errors: "partner_id is required" }, status: 404
+      case params[:status]
+      when "not_used"
+        @pi_vouchers = policy_scope(PiVoucher)&.where(status: "active")
+      when "used_not_received"
+        @pi_vouchers = policy_scope(PiVoucher)&.where(received_at: nil, status: "used")
+      when "used_received"
+        @pi_vouchers = policy_scope(PiVoucher)&.where.not(received_at: nil, status: ["active", "inactive"]) rescue nil
+      else
+        @pi_voucher = []
+      end
     end
+    paginate json: @pi_vouchers, status: 200 rescue render json: { errors: { error: I18n.t("models.pi_voucher.errors.not_found") } }, status: 422
   end
 
   def show

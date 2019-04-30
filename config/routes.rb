@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     resources :partners do
       collection do
         put ":id/reset_password", to: "partners#reset_password"
-        post "send_sms", to: "partners#send_sms"
+        post "send_sms/:status", to: "partners#send_sms", constraints: { status: /active|pre_active/ }
       end
     end
     resources :partner_groups
@@ -61,10 +61,9 @@ Rails.application.routes.draw do
 
     resources :pi_vouchers, except: [:update, :destroy] do
       collection do
+        get ":status", to: "pi_vouchers#index", constraints: { status: /not_used|used_not_received|used_received/ }
         post ":id/send_email", to: "pi_vouchers#send_email"
-        put ":id/:status", to: "pi_vouchers#update",
-                           constraints: { status: /used|inactivate|received/ },
-                           as: :status
+        put ":id/:status", to: "pi_vouchers#update", constraints: { status: /used|inactivate|received/ }
       end
     end
 

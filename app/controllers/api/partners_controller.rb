@@ -3,16 +3,20 @@ class Api::PartnersController < Api::BaseController
   before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
 
   def index
-    @partners = ::Partner.all
-    if @partners&.empty? or @partners.nil?
-      render json: @partners, status: 200
-    else
-      query = []
-      query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name]
-      query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration]
-      query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id]
-      @partners = params.empty? ? @partners : @partners.where(query.join(" and "))
-      paginate json: @partners.order(:name).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :description, :cash_redemption]), status: 200
+    begin
+      @partners = ::Partner.statuses.keys.include?(params[:status]) ? ::Partner.where(status: params[:status]) : ::Partner.all
+      if @partners&.empty? or @partners.nil?
+        render json: @partners, status: 200
+      else
+        query = []
+        query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name]
+        query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration]
+        query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id]
+        @partners = params.empty? ? @partners : @partners.where(query.join(" and "))
+        paginate json: @partners.order(:name).as_json(only: [:id, :name, :federal_registration, :state_registration, :status, :description, :cash_redemption]), status: 200
+      end
+    rescue
+      render json: { errors: I18n.t("models.partner.errors.rescue") }, status: 404
     end
   end
 
@@ -75,7 +79,7 @@ class Api::PartnersController < Api::BaseController
 
   def partner_params
     params.permit(:name, :federal_registration, :state_registration,
-                  :kind, :active, :started_date, :renewal_date, :description, :origin, :percent, :agency,
+                  :kind, :status, :started_date, :renewal_date, :description, :origin, :percent, :agency,
                   :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8,
                   :cash_redemption, :partner_group_id)
   end

@@ -13,6 +13,7 @@ pt-BR:
         company_id: "Company é obrigatório"
         used_at: "Company é obrigatório"
         received_at: "Já foi recebido"
+        not_found: "Nenhum voucher encontrado"
         status:
           inactive: "Após inativo não pode ser alterado"
           received_at: "Não pode ser inativado pois ja foi recebido"
@@ -41,6 +42,7 @@ pt-BR:
         sms:
           message: "Mensagem é obrigatorio"
           partner_ids: "Partner_ids é obrigatorio"
+        rescue: "Parametros invalidos"
       response:
         reset_password:
           success: "Senha atualizada com Sucesso"

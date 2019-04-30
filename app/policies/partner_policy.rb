@@ -22,7 +22,7 @@ class PartnerPolicy < ApplicationPolicy
   def permitted_attributes
     if user.is_a?(Api) || user&.change_partners || user&.admin
       [:name, :federal_registration, :state_registration,
-       :kind, :active, :started_date, :renewal_date, :description, :origin, :percent, :agency,
+       :kind, :status, :started_date, :renewal_date, :description, :origin, :percent, :agency,
        :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8, :cash_redemption]
     else
       []
