@@ -33,6 +33,6 @@ class Employee < ApplicationRecord
   def self.inactive; where("active = false").order(:id); end
 
   def send_to_deca
-    DecaEmployeesWorker.perform_async(self.id) if name_changed? || federal_registration_changed? || email_changed?
+    DecaEmployeesWorker.perform_async(self.id)
   end
 end
