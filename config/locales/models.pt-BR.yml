@@ -49,3 +49,9 @@ pt-BR:
           error: "Não foi possivel atualizar. Senhas não coincidem"
         sms:
           success: "Estamos enviando as mensagens"
+    employee:
+      errors:
+        password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
+        invalid_password: "Senha atual invalida"
+      success:
+        reset_password: "Senha atualizada com Sucesso"

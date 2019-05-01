@@ -10,7 +10,11 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "hubco" : "api" }, path: "/" do
     mount_devise_token_auth_for "Employee", at: "auth"
     as :employee do
-      resources :employees
+      resources :employees do
+        collection do
+          put ":id/password", to: "employees#password"
+        end
+      end
     end
     resources :users, only: [:index, :show, :update]
     resources :addresses
@@ -74,8 +78,6 @@ Rails.application.routes.draw do
       put "premio_ideals/:id/retry", to: "premio_ideals#retry"
       get "workers/sms", to: "workers#sms"
     end
-
-    put "change_employee_password/:id", to: "employees#change_employee_password"
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
 

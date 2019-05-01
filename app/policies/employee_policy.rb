@@ -7,7 +7,7 @@ class EmployeePolicy < ApplicationPolicy
     user.is_a?(Api) || user.admin
   end
 
-  def change_employee_password?
+  def password?
     user.is_a?(Api) || user.id == record.id || user.admin
   end
 

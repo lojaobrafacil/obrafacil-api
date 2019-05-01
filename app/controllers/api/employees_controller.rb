@@ -34,7 +34,7 @@ class Api::EmployeesController < Api::ContactsController
       update_contact(@employee)
       render json: @employee, status: 201
     else
-      render json: {errors: @employee.errors}, status: 422
+      render json: { errors: @employee.errors }, status: 422
     end
   end
 
@@ -45,7 +45,7 @@ class Api::EmployeesController < Api::ContactsController
       update_contact(@employee)
       render json: @employee, status: 200
     else
-      render json: {errors: @employee.errors}, status: 422
+      render json: { errors: @employee.errors }, status: 422
     end
   end
 
@@ -56,20 +56,20 @@ class Api::EmployeesController < Api::ContactsController
     head 204
   end
 
-  def change_employee_password
+  def password
     @employee = Employee.find(params[:id])
     authorize @employee
-    if @employee.update(employee_password_params)
-      render json: {status: "Senha atualizada"}, status: 201
+    if @employee.update_password(employee_password_params[:old_password], employee_password_params[:password], employee_password_params[:password_confirmation])
+      render json: { success: I18n.t("models.employee.success.reset_password") }, status: 201
     else
-      render json: {errors: {error: "Confirmação de senha incorreta"}}, status: 422
+      render json: { errors: @employee.errors }, status: 422
     end
   end
 
   private
 
   def employee_password_params
-    params.permit(:password, :password_confirmation)
+    params.permit(:password, :password_confirmation, :old_password)
   end
 
   def employee_params
