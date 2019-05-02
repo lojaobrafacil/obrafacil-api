@@ -62,7 +62,7 @@ class Partner < ApplicationRecord
     partner_id = self.id
     register = !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration
     if self.active?
-      if self.register? && self.register.size >= 10
+      if register && register.size >= 10
         begin
           body = self.body_params
           x = Net::HTTP.post_form(URI.parse(premio_ideal_url), body)
