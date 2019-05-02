@@ -18,7 +18,8 @@ class Partner < ApplicationRecord
   enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind
   include Contact
-  validates_uniqueness_of :federal_registration, if: Proc.new { |partner| partner.active? }
+  validates :federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? }
+  validates :favored_federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? }
   after_save :update_user, :premio_ideal, if: Proc.new { |partner| partner.active? }
   before_save :default_values, if: Proc.new { |partner| partner.active? }
   before_destroy :remove_relations
@@ -32,6 +33,7 @@ class Partner < ApplicationRecord
   def default_values
     self.name = self.name.strip.upcase rescue nil
     self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+    self.favored_federal_registration = self.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
     self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
   end
 
@@ -58,9 +60,9 @@ class Partner < ApplicationRecord
 
   def premio_ideal
     partner_id = self.id
-    body = ""
+    register = !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration
     if self.active?
-      if self.federal_registration? && self.federal_registration.size >= 10
+      if self.register? && self.register.size >= 10
         begin
           body = self.body_params
           x = Net::HTTP.post_form(URI.parse(premio_ideal_url), body)
@@ -87,7 +89,7 @@ class Partner < ApplicationRecord
   def body_params
     {
       "name": self.name.as_json,
-      "cpfCnpj": self.federal_registration.as_json,
+      "cpfCnpj": !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration,
       "address": if self.addresses.empty?; "null"; elsif self.addresses.first.street.nil? || self.addresses.first.street == ""; "null"; else self.addresses.first.street.as_json end,
       "number": if self.addresses.empty?; "000"; elsif self.addresses.first.number.nil? || self.addresses.first.number == ""; "000"; else self.addresses.first.number.as_json end,
       "complement": if self.addresses.empty?; "null"; elsif self.addresses.first.complement.nil? || self.addresses.first.complement == ""; "null"; else self.addresses.first.complement.as_json end,
