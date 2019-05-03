@@ -4,12 +4,14 @@ module Deca
 
     def initialize(options)
       @host = ENV["DECA_ENDPOINT"] || "https://homologacao.decaclub.com.br/exclusive/api"
-      @credentials = login unless !@credentials.empty? && @credentials["created"].to_time + @credentials["token_lifetime"].to_i.hours > Time.now
+      @credentials = login
     end
 
     def login
-      req = Net::HTTP.post_form(URI.parse("#{@host}/login.json"), { username: ENV["DECA_USERNAME"], password: ENV["DECA_PASSWORD"] })
-      JSON.parse(req.body)["data"]["attributes"]
+      if @credentials.nil? || @credentials.empty? || @credentials["created"].to_time + @credentials["token_lifetime"].to_i.hours > Time.now
+        req = Net::HTTP.post_form(URI.parse("#{@host}/login.json"), { username: ENV["DECA_USERNAME"], password: ENV["DECA_PASSWORD"] })
+        JSON.parse(req.body)["data"]["attributes"]
+      end
     end
 
     def get
