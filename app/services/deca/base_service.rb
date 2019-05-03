@@ -4,7 +4,7 @@ module Deca
 
     def initialize(options)
       @host = ENV["DECA_ENDPOINT"] || "https://homologacao.decaclub.com.br/exclusive/api"
-      @credentials = login unless !@credentials.nil? && @credentials["created"].to_time + @credentials["created"].to_i.hours > Time.now
+      @credentials = login unless !@credentials.empty? && @credentials["created"].to_time + @credentials["token_lifetime"].to_i.hours > Time.now
     end
 
     def login
