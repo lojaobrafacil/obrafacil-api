@@ -7,9 +7,9 @@ module PiVouchers
       margin: [40, 75],
     }
 
-    def initialize(voucher)
+    def initialize(id)
       Prawn::Font::AFM.hide_m17n_warning = true
-      @voucher = voucher
+      @voucher = Voucher.find(id)
       @path = "voucher_#{@voucher.id}.pdf"
       super()
     end

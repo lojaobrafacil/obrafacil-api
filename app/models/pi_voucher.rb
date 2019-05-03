@@ -42,7 +42,7 @@ class PiVoucher < ApplicationRecord
   end
 
   def generate_pdf
-    PiVouchers::PdfService.new(self).call ? true : errors.add(:base, I18n.t("models.pi_voucher.errors.pdf"))
+    PiVouchers::PdfService.new(self.id).call ? true : errors.add(:base, I18n.t("models.pi_voucher.errors.pdf"))
   end
 
   def attachment_remove_if_inactive!
