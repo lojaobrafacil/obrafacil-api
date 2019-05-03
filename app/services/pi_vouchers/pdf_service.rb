@@ -9,7 +9,7 @@ module PiVouchers
 
     def initialize(id)
       Prawn::Font::AFM.hide_m17n_warning = true
-      @voucher = Voucher.find(id)
+      @voucher = PiVoucher.find(id)
       @path = "voucher_#{@voucher.id}.pdf"
       super()
     end
@@ -23,7 +23,6 @@ module PiVouchers
     end
 
     def call
-      p can_execute?
       if can_execute?
         render
       end
