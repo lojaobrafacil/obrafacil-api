@@ -8,7 +8,9 @@ module Deca
     end
 
     def login
-      if @credentials.nil? || @credentials.empty? || @credentials["created"].to_time + @credentials["token_lifetime"].to_i.hours > Time.now
+      if !(@credentials.nil? || @credentials.empty?) && @credentials["created"].to_time + @credentials["token_lifetime"].to_i.hours > Time.now
+        @credentials
+      else
         req = Net::HTTP.post_form(URI.parse("#{@host}/login.json"), { username: ENV["DECA_USERNAME"], password: ENV["DECA_PASSWORD"] })
         JSON.parse(req.body)["data"]["attributes"]
       end
