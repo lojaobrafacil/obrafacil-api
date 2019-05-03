@@ -1,5 +1,5 @@
 class Api::PiVouchersController < Api::BaseController
-  before_action :set_pi_voucher, only: [:show, :send_email, :update]
+  before_action :set_pi_voucher, only: [:show, :send_email, :update, :generate_pdf]
   before_action :authenticate_admin_or_api!
 
   def index
@@ -36,6 +36,15 @@ class Api::PiVouchersController < Api::BaseController
       end
     rescue
       render json: { errors: { error: I18n.t("models.pi_voucher.response.email.error") } }, status: 422
+    end
+  end
+
+  def generate_pdf
+    @pi_voucher.generate_pdf
+    if @pi_voucher.generate_pdf
+      render json: { success: "true" }, status: 200
+    else
+      render json: { errors: { error: "false" } }, status: 422
     end
   end
 
