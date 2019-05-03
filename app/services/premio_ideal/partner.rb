@@ -2,7 +2,7 @@ module PremioIdeal
   class Partner
     def initialize(partner_id)
       @partner_id = partner_id
-      @partner = Partner.find_by(id: partner_id)
+      @partner = ::Partner.find_by(id: partner_id)
     end
 
     def send
