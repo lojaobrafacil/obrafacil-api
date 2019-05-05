@@ -1,5 +1,5 @@
 class PiVoucherPolicy < ApplicationPolicy
-  def show?
+  def set_pi_voucher?
     PiVoucher.where(:id => record.id).exists? && (user.is_a?(Api) || user&.change_partners || user&.admin)
   end
 
