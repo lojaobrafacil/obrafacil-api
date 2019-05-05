@@ -14,6 +14,7 @@ pt-BR:
         used_at: "Company é obrigatório"
         received_at: "Já foi recebido"
         not_found: "Nenhum voucher encontrado"
+        partner_id: "Partner_id é obrigatorio"
         status:
           inactive: "Após inativo não pode ser alterado"
           received_at: "Não pode ser inativado pois ja foi recebido"
