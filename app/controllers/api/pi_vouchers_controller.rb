@@ -26,10 +26,12 @@ class Api::PiVouchersController < Api::BaseController
   end
 
   def show
+    authorize @pi_voucher
     render json: @pi_voucher, status: 200
   end
 
   def send_email
+    authorize @pi_voucher
     begin
       if !@pi_voucher.inactive? && !@pi_voucher.used?
         PiVoucherEmailsWorker.perform_async(@pi_voucher.id)
@@ -53,6 +55,7 @@ class Api::PiVouchersController < Api::BaseController
 
   def create
     @pi_voucher = PiVoucher.new(params.permit(:value, :partner_id))
+    authorize @pi_voucher
     if @pi_voucher.save
       render json: @pi_voucher, status: 201
     else
@@ -61,6 +64,7 @@ class Api::PiVouchersController < Api::BaseController
   end
 
   def update
+    authorize @pi_voucher
     case params[:status]
     when "used"
       @pi_voucher.assign_attributes(used_at: Time.now, status: "used", company_id: params.permit(:company_id)[:company_id])
@@ -80,7 +84,6 @@ class Api::PiVouchersController < Api::BaseController
 
   def set_pi_voucher
     @pi_voucher = PiVoucher.find_by(id: params[:id])
-    authorize @pi_voucher
     head 404 unless @pi_voucher
   end
 end
