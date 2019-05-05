@@ -16,6 +16,7 @@ module PiVouchers
 
     def can_execute?
       @voucher ? true : add_error("Voucher is mandatory.", 404)
+      @voucher.active? ? true : add_error("Voucher is not active.", 404)
     end
 
     def success?
