@@ -8,10 +8,9 @@ module PiVouchers
     }
 
     def initialize(id)
-      p "ENTREI 2"
       Prawn::Font::AFM.hide_m17n_warning = true
       @voucher = PiVoucher.find(id)
-      @path = Rails.root.join("tmp/voucher_#{id}.pdf")
+      @path = "voucher_#{@voucher.id}.pdf"
       super()
     end
 
@@ -68,17 +67,14 @@ module PiVouchers
           pdf_op.draw_text "Valido somente para utilização em lojas físicas.", :at => [0, 250], :size => 10
 
           pdf_op.draw_text "https://www.lojaobrafacil.com.br", :at => [0, 0], :size => 10
-          pdf.render_file(@path)
         end
-        p "ENTREI 3"
-
-        if file = File.new(@path)
-          p "ENTREI "
-          @voucher.update(attachment: file)
-          File.delete(@path)
-        end
+        tmpfile = Tempfile.new(@path)
+        tmpfile.binmode
+        tmpfile.write pdf.render
+        @voucher.update(attachment: tmpfile)
+        tmpfile.close
+        tmpfile.unlink
       rescue
-        File.delete(@path) rescue nil
         return add_error({ error: "Erro ao gerar PDF, tente novamente", content: @voucher }, 404)
       end
       return { success: true, message: "Processado com sucesso", status: 200 }
