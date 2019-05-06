@@ -42,6 +42,7 @@ class PiVoucher < ApplicationRecord
   end
 
   def generate_pdf
+    p "entrei 1"
     PiVouchers::PdfService.new(self.id).call ? true : errors.add(:base, I18n.t("models.pi_voucher.errors.pdf"))
   end
 
