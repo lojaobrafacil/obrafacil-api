@@ -2,10 +2,10 @@ class VoucherFileUploader < CarrierWave::Uploader::Base
   storage :aws
 
   def store_dir
-    "#{model.class.to_s.underscore}"
+    "#{model.class.to_s.underscore}/#{model.id}"
   end
 
   def filename
-    "voucher_#{model.id}.pdf"
+    "voucher.pdf"
   end
 end
