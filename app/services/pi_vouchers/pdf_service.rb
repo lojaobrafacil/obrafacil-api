@@ -10,7 +10,7 @@ module PiVouchers
     def initialize(id)
       Prawn::Font::AFM.hide_m17n_warning = true
       @voucher = PiVoucher.find(id)
-      @path = "voucher_#{@voucher.id}.pdf"
+      @path = "voucher_#{id}.pdf"
       super()
     end
 
@@ -71,7 +71,9 @@ module PiVouchers
         tmpfile = Tempfile.new(@path)
         tmpfile.binmode
         tmpfile.write pdf.render
+        p tmpfile
         @voucher.update(attachment: tmpfile)
+        p @voucher.attachment.url
         tmpfile.close
         tmpfile.unlink
       rescue
