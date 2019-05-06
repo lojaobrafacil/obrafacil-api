@@ -3,11 +3,6 @@ class Api::PartnersController < Api::BaseController
   before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
 
   def index
-    p "AWS_ACCESS_KEY_ID: #{ENV["AWS_ACCESS_KEY_ID"]}"
-    p "AWS_SECRET_ACCESS_KEY: #{ENV["AWS_SECRET_ACCESS_KEY"]}"
-    p "AWS_REGION: #{ENV["AWS_REGION"]}"
-    p "S3_BUCKET_NAME: #{ENV["S3_BUCKET_NAME"]}"
-    p "AWS_S3_URL: #{ENV["AWS_S3_URL"]}"
     begin
       @partners = ::Partner.statuses.keys.include?(params[:status]) ? ::Partner.where(status: params[:status]) : ::Partner.all
       if @partners&.empty? or @partners.nil?
