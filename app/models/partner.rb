@@ -16,7 +16,7 @@ class Partner < ApplicationRecord
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
-  validates_presence_of :name, :kind
+  validates_presence_of :name, :kind, :status
   include Contact
   validates :federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? }
   validates :favored_federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? }
