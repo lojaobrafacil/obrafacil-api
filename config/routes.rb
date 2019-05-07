@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     resources :partners do
       collection do
         put ":id/reset_password", to: "partners#reset_password"
-        post "send_sms/:status", to: "partners#send_sms", constraints: { status: /active|pre_active/ }
+        post "send_sms/:status", to: "partners#send_sms", constraints: { status: /active|pre_active|transfer_points/ }
       end
     end
     resources :partner_groups

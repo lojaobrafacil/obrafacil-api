@@ -59,11 +59,12 @@ class Api::PartnersController < Api::BaseController
   end
 
   def send_sms
-    if sms_params[:partner_ids].empty? && ["pre_active", "active"].include?(params[:status])
+    if sms_params[:partner_ids].empty?
       render json: { errors: I18n.t("models.partner.errors.sms.partner_ids") }, status: 404
+    else
+      SmsPartnersWorker.perform_async(partner_ids: ::Partner.where(id: sms_params[:partner_ids], status: params[:status]).pluck(:id), status: params[:status])
+      render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
     end
-    SmsPartnersWorker.perform_async(partner_ids: ::Partner.where(id: sms_params[:partner_ids], status: params[:status]).pluck(:id), status: params[:status])
-    render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
   end
 
   private
