@@ -9,7 +9,7 @@ class SmsPartnersWorker
       @name = partner.phone.contact.split(" ")[0] rescue ""
       @phone = partner.phone.phone rescue nil
       @message = case obj["status"]
-                 when "new_user"
+                 when "pre_active"
                    "[ObraFacil]Olá!Estamos aguardando seu cadastro!Cadastre se e receba vantagens e descontos a seus clientes! bit.ly/2D8RyJ7"
                  when "active"
                    "[ObraFacil]Olá #{@name}!Troque seus pontos acumulados em dinheiro ou em produtos da nossa loja até o fim deste mês! bit.ly/2D8RyJ7"

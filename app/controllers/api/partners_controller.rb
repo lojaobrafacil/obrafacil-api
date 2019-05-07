@@ -62,7 +62,7 @@ class Api::PartnersController < Api::BaseController
     if sms_params[:partner_ids].empty?
       render json: { errors: I18n.t("models.partner.errors.sms.partner_ids") }, status: 404
     else
-      SmsPartnersWorker.perform_async(partner_ids: ::Partner.where(id: sms_params[:partner_ids], status: params[:status]).pluck(:id), status: params[:status])
+      SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids], status: params[:status])
       render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
     end
   end
