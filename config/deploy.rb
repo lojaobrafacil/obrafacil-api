@@ -38,10 +38,11 @@ set :keep_releases, 5
 set :branch, "master"
 set :log_level, :debug
 
-after "deploy:finished", "deploy:restart"
 namespace :deploy do
   task :restart do
     invoke "unicorn:stop"
     invoke "unicorn:start"
   end
+
+  after :publishing, :restart
 end

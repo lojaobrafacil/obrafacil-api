@@ -785,8 +785,6 @@ GEM
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
-    binding_of_caller (0.8.0)
-      debug_inspector (>= 0.0.1)
     builder (3.2.3)
     byebug (11.0.1)
     capistrano (3.11.0)
@@ -796,9 +794,6 @@ GEM
       sshkit (>= 1.9.0)
     capistrano-bundler (1.5.0)
       capistrano (~> 3.1)
-    capistrano-figaro-yml (1.0.5)
-      capistrano (~> 3.1)
-      sshkit (~> 1.2, >= 1.2.0)
     capistrano-rails (1.4.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -826,7 +821,6 @@ GEM
     connection_pool (2.2.2)
     crass (1.0.4)
     database_cleaner (1.7.0)
-    debug_inspector (0.0.3)
     devise (4.6.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -1096,11 +1090,9 @@ DEPENDENCIES
   awesome_print
   aws-sdk
   better_errors
-  binding_of_caller
   byebug
   capistrano (= 3.11.0)
   capistrano-bundler (~> 1.4)
-  capistrano-figaro-yml
   capistrano-rails (~> 1.4)
   capistrano-rails-collection
   capistrano-rvm
