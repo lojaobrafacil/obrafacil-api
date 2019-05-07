@@ -9,7 +9,12 @@ class SmsPartnersWorker
       @name = partner.phone.contact.split(" ")[0] rescue nil
       @phone = partner.phone.phone rescue nil
       if @phone
-        service = Notifications::SmsService.new(@phone, "[ObraFacil]Ola #{@name}!Troque seus pontos acumulados em dinheiro ou em produtos da nossa loja até o fim deste mês! bit.ly/2D8RyJ7")
+        service = Notifications::SmsService.new(@phone, case obj[:status]
+        when "pre_active"
+          "[ObraFacil]Olá!Estamos aguardando seu cadastro!Cadastre se e receba vantagens e descontos a seus clientes! bit.ly/2D8RyJ7"
+        when "active"
+          "[ObraFacil]Ola #{@name}!Troque seus pontos acumulados em dinheiro ou em produtos da nossa loja até o fim deste mês! bit.ly/2D8RyJ7"
+        end)
         if service.call
           @log_messages[:success] << { partner_id: partner.id, phone_number: @phone, message: service.message }
         else
