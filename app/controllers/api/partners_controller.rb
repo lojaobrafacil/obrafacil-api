@@ -3,20 +3,21 @@ class Api::PartnersController < Api::BaseController
   before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
 
   def index
+    @partners = policy_scope ::Partner
     begin
-      @partners = ::Partner.statuses.keys.include?(params[:status]) ? ::Partner.where(status: params[:status]) : ::Partner.all
-      if @partners&.empty? or @partners.nil?
-        render json: @partners, status: 200
-      else
+      if @partners
+        @partners = @partners.where(status: params[:status]) if params[:status] && !params[:status].empty?
         query = []
-        query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name]
-        query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration]
-        query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id]
+        query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name] && !params[:name].empty?
+        query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration] && !params[:federal_registration].empty?
+        query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id] && !params[:partner_group_id].empty?
         @partners = params.empty? ? @partners : @partners.where(query.join(" and "))
         paginate json: @partners.order(:name).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :status, :description, :cash_redemption]), status: 200
+      else
+        head 404
       end
-    rescue
-      render json: { errors: I18n.t("models.partner.errors.rescue") }, status: 404
+    rescue => e
+      render json: { errors: e }, status: 404
     end
   end
 
