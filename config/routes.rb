@@ -77,7 +77,7 @@ Rails.application.routes.draw do
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
       put "premio_ideals/:id/retry", to: "premio_ideals#retry"
-      get "workers/sms", to: "workers#sms"
+      resources :workers, only: [:index, :show]
     end
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
