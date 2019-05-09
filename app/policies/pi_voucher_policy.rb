@@ -14,7 +14,7 @@ class PiVoucherPolicy < ApplicationPolicy
   end
 
   def create?
-    show?
+    user.is_a?(Api) || user&.change_partners || user&.admin
   end
 
   def update?
