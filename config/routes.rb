@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get "version" => "application#version"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "hubco" : "api" }, path: "/" do
-    mount_devise_token_auth_for "Employee", at: "auth"
+    mount_devise_token_auth_for "Employee", at: "auth", skip: [:registrations]
     as :employee do
       resources :employees do
         collection do
@@ -81,25 +81,12 @@ Rails.application.routes.draw do
     end
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
+  end
 
-    namespace :partner do
-      mount_devise_token_auth_for "User", at: "auth"
-      put "reset_password", to: :reset_password, controller: "users"
-      resources :partners, only: [:index]
-      resources :commissions, only: [:index]
-    end
-
-    namespace :client do
-      mount_devise_token_auth_for "User", at: "auth"
-      put "reset_password", to: :reset_password, controller: "users"
-      resources :address_types, only: [:index, :show]
-      resources :email_types, only: [:index, :show]
-      resources :phone_types, only: [:index, :show]
-      resources :cities, only: [:index, :show]
-      resources :regions, only: [:index, :show]
-      resources :states, only: [:index, :show]
-      resources :clients, only: [:show, :update]
-      get "allbanks", to: :allbanks, controller: "banks"
-    end
+  namespace :partner, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
+    mount_devise_token_auth_for "User", at: "auth", skip: [:registrations]
+    put "reset_password", to: :reset_password, controller: "users"
+    resources :selfs, only: [:index]
+    resources :commissions, only: [:index]
   end
 end
