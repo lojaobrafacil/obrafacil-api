@@ -9,9 +9,9 @@ class VoucherFileUploader < CarrierWave::Uploader::Base
     p "========================="
     p "entrei filename"
     p model
-    p ENV['AWS_ACCESS_KEY_ID']
-    p ENV['AWS_SECRET_ACCESS_KEY']
+    p ENV["AWS_ACCESS_KEY_ID"]
+    p ENV["AWS_SECRET_ACCESS_KEY"]
     p "========================="
-    "voucher_#{model.id}.pdf" 
+    "voucher_#{model.id}.pdf"
   end
 end
