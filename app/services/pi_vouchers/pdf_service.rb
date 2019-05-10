@@ -39,6 +39,7 @@ module PiVouchers
 
     def render
       begin
+        p "Entrei"
         pdf = Prawn::Document.new(PDF_OPTIONS) do |pdf_op|
           pdf_op.image open("https://images-americanas.b2w.io/marketplace/logo/grande/5909339000129.jpg"), width: 100, :at => [380, 90]
           pdf_op.move_down 30
@@ -72,6 +73,7 @@ module PiVouchers
         tmpfile.binmode
         tmpfile.write pdf.render
         @voucher.update(attachment: tmpfile)
+        p @voucher
         tmpfile.close
         tmpfile.unlink
       rescue

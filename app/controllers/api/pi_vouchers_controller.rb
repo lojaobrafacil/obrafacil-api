@@ -44,7 +44,7 @@ class Api::PiVouchersController < Api::BaseController
     end
   end
 
-  def generate_pdf
+  def generate
     @pi_voucher.generate_pdf
     if @pi_voucher.generate_pdf
       render json: { success: "true" }, status: 200
