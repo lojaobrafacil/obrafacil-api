@@ -7,15 +7,15 @@ class PdfPiVoucher < Prawn::Document
   }
 
   def initialize(voucher)
+    super()
     Prawn::Font::AFM.hide_m17n_warning = true
     @voucher = voucher
-    @path = "tmp/voucher_#{@voucher.id}.pdf"
-    super()
+    @path = Rails.root.join("tmp/voucher_#{@voucher.id}.pdf")
   end
 
   def render
     pdf = Prawn::Document.new(PDF_OPTIONS) do |pdf|
-      pdf.image open("https://images-americanas.b2w.io/marketplace/logo/grande/5909339000129.jpg"), width: 100, :at => [380, 90]
+      pdf.image open("https://s3-sa-east-1.amazonaws.com/hubcoapp-images/logo.jpg"), width: 100, :at => [380, 90]
       pdf.move_down 30
 
       pdf.fill_color "225599"
