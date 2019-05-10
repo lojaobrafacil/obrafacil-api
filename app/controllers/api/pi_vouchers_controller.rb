@@ -1,5 +1,5 @@
 class Api::PiVouchersController < Api::BaseController
-  before_action :set_pi_voucher, only: [:show, :send_email, :update, :generate_pdf]
+  before_action :set_pi_voucher, only: [:show, :send_email, :update, :generate]
   before_action :authenticate_admin_or_api!
 
   def index
