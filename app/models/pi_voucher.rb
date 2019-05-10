@@ -3,10 +3,10 @@ class PiVoucher < ApplicationRecord
   belongs_to :company, optional: true
   belongs_to :partner
   validates_presence_of :expiration_date, :value, :status
-  after_initialize :default_values
+  before_create :default_values
   before_validation :validate_status
   after_create :generate_pdf
-  after_save :attachment_remove_if_inactive!
+  after_save :attachment_remove_if_inactive!, if: Proc.new { |pi_voucher| self.attachment.remove! if pi_voucher.inactive? }
 
   enum status: [:used, :active, :inactive]
 
@@ -43,10 +43,6 @@ class PiVoucher < ApplicationRecord
 
   def generate_pdf
     PiVouchers::PdfService.new(self.id).call ? true : errors.add(:base, I18n.t("models.pi_voucher.errors.pdf"))
-  end
-
-  def attachment_remove_if_inactive!
-    self.attachment.remove! if self.inactive?
   end
 
   private
