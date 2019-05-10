@@ -43,9 +43,9 @@ class PiVoucher < ApplicationRecord
 
   def generate_pdf
     PdfPiVoucher.new(self).render
-    file = File.new(Rails.root.join("tmp/voucher_#{@voucher.id}.pdf"))
+    file = File.new(Rails.root.join("tmp/voucher_#{self.id}.pdf"))
     self.update(attachment: file)
-    File.delete(Rails.root.join("tmp/voucher_#{@voucher.id}.pdf"))
+    File.delete(Rails.root.join("tmp/voucher_#{self.id}.pdf"))
   end
 
   def attachment_remove_if_inactive!
