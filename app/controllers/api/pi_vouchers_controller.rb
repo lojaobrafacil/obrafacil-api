@@ -44,15 +44,6 @@ class Api::PiVouchersController < Api::BaseController
     end
   end
 
-  def generate
-    @pi_voucher.generate_pdf
-    if @pi_voucher.generate_pdf
-      render json: @pi_voucher, status: 200
-    else
-      render json: { errors: { error: "false" } }, status: 422
-    end
-  end
-
   def create
     @pi_voucher = PiVoucher.new(params.permit(:value, :partner_id))
     authorize @pi_voucher

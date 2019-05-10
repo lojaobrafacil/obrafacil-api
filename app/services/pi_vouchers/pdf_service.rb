@@ -10,7 +10,7 @@ module PiVouchers
     def initialize(id)
       Prawn::Font::AFM.hide_m17n_warning = true
       @voucher = PiVoucher.find(id)
-      @path = "voucher_#{@voucher.id}.pdf"
+      @path = "tmp/voucher_#{@voucher.id}.pdf"
       super()
     end
 
@@ -39,7 +39,6 @@ module PiVouchers
 
     def render
       begin
-        p "Entrei"
         pdf = Prawn::Document.new(PDF_OPTIONS) do |pdf_op|
           pdf_op.image open("https://images-americanas.b2w.io/marketplace/logo/grande/5909339000129.jpg"), width: 100, :at => [380, 90]
           pdf_op.move_down 30
@@ -68,15 +67,14 @@ module PiVouchers
           pdf_op.draw_text "Valido somente para utilização em lojas físicas.", :at => [0, 250], :size => 10
 
           pdf_op.draw_text "https://www.lojaobrafacil.com.br", :at => [0, 0], :size => 10
+          pdf_op.render_file(@path)
         end
-        tmpfile = Tempfile.new(@path)
-        tmpfile.binmode
-        tmpfile.write pdf.render
+        tmpfile = File.new(@path)
         @voucher.update(attachment: tmpfile)
-        p @voucher
         tmpfile.close
-        tmpfile.unlink
+        File.delete(@path) if File.exist?(@path)
       rescue
+        File.delete(@path) if File.exist?(@path)
         return add_error({ error: "Erro ao gerar PDF, tente novamente", content: @voucher }, 404)
       end
       return { success: true, message: "Processado com sucesso", status: 200 }
