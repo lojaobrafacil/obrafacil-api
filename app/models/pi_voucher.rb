@@ -3,7 +3,7 @@ class PiVoucher < ApplicationRecord
   belongs_to :company, optional: true
   belongs_to :partner
   validates_presence_of :expiration_date, :value, :status
-  before_create :default_values
+  after_initialize :default_values
   before_validation :validate_status
   after_create :generate_pdf
   after_save :attachment_remove_if_inactive!, if: Proc.new { |pi_voucher| pi_voucher.inactive? }
@@ -52,6 +52,6 @@ class PiVoucher < ApplicationRecord
   private
 
   def default_values
-    self.expiration_date = Time.now + 30.days
+    self.expiration_date ||= Time.now + 30.days
   end
 end
