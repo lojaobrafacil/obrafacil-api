@@ -14,7 +14,7 @@ namespace :dev do
         kind: [0, 1].sample,
         birth_date: Faker::Date.birthday(18, 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
-        tax_regime: ["simple", "normal", "presumed"].sample,
+        tax_regime: Client.tax_regimes.keys.sample,
         description: Faker::Lorem.paragraph(2),
         order_description: Faker::Lorem.sentence(3),
         limit: Faker::Number.decimal(4),
@@ -37,13 +37,15 @@ namespace :dev do
         kind: [0, 1].sample,
         started_date: Faker::Date.birthday(18, 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
-        origin: ["shop", "internet", "relationship"].sample,
+        origin: Partner.origins.keys.sample,
+        status: Partner.statuses.keys.sample,
         description: Faker::Lorem.paragraph(2),
         ocupation: Faker::Lorem.sentence(3),
         bank: Bank.all.sample,
         agency: Faker::Number.number(4),
         account: Faker::Number.number(6),
         favored: Faker::Name.name,
+        favored_federal_registration: fr,
         user: User.create(email: fr + "@obrafacil.com", password: 12345678, password_confirmation: 12345678, federal_registration: fr),
       )
       p.emails.create(email: p_email, email_type: EmailType.all.sample)
@@ -57,8 +59,7 @@ namespace :dev do
     Employee.create!(email: "client@client.com", federal_registration: "22222222222", name: "client", password: "client2020", password_confirmation: "client2020", change_clients: true)
     Employee.create!(email: "product@product.com", federal_registration: "33333333333", name: "product", password: "product2020", password_confirmation: "product2020", change_products: true)
     (1..20).to_a.each do
-      fr = Faker::Number.number(8)
-      e_email = fr.to_s + "@obrafacil.com"
+      fr = Faker::Number.unique.number(8)
       e = Employee.create!(
         name: Faker::Name.name,
         federal_registration: fr,
@@ -72,13 +73,14 @@ namespace :dev do
         change_clients: "false",
         order_creation: "false",
         limit_price_percentage: 3,
-        email: e_email,
+        email: fr.to_s + "@obrafacil.com",
+        phone: Faker::PhoneNumber.phone_number,
+        street: Faker::Address.street_name,
+        zipcode: Faker::Number.number(8),
+        city: City.all.sample,
         password: 12345678,
         password_confirmation: 12345678,
       )
-      e.emails.create(email: e_email, email_type: EmailType.all.sample)
-      e.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
-      e.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
     end
     p "Criando Empregados ....[OK]"
 
@@ -90,7 +92,7 @@ namespace :dev do
         federal_registration: Faker::Number.number(8),
         state_registration: Faker::Number.number(9),
         birth_date: Faker::Date.birthday(18, 65),
-        tax_regime: ["simple", "normal", "presumed"].sample,
+        tax_regime: Company.tax_regimes.keys.sample,
         description: Faker::Lorem.paragraph(2),
       )
       c.emails.create(email: Faker::Internet.email, email_type: EmailType.all.sample)
@@ -108,7 +110,7 @@ namespace :dev do
       state_registration: Faker::Number.number(9),
       kind: [0, 1].sample,
       birth_date: Faker::Date.birthday(18, 65),
-      tax_regime: ["simple", "normal", "presumed"].sample,
+      tax_regime: Supplier.tax_regimes.keys.sample,
       description: Faker::Lorem.paragraph(2),
     )
     p.emails.create(email: p_email, email_type: EmailType.all.sample)
@@ -134,7 +136,7 @@ namespace :dev do
         supplier: Supplier.all.sample,
         sku: Faker::Number.decimal(6),
         sku_xml: Faker::Number.decimal(6),
-        kind: ["own", "third_party", "not_marketed"].sample,
+        kind: Product.kinds.keys.sample,
         sub_category: SubCategory.find_or_create_by!(name: Faker::Lorem.word, category: Category.find_or_create_by!(name: Faker::Lorem.word)),
         unit: Unit.all.sample,
       )

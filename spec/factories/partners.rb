@@ -14,6 +14,7 @@ FactoryBot.define do
     agency { Faker::Number.number(4) }
     account { Faker::Number.number(7) }
     favored { Faker::Name.name }
+    favored_federal_registration { Faker::Code.isbn }
     bank_id { create(:bank).id }
     partner_group_id { create(:partner_group).id }
     emails { build_list :email, 3 }
