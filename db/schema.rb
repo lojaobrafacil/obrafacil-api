@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_09_185351) do
+ActiveRecord::Schema.define(version: 2019_05_02_021419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,6 +247,15 @@ ActiveRecord::Schema.define(version: 2019_04_09_185351) do
     t.boolean "order_done", default: false
     t.boolean "order_price_reduce", default: false
     t.boolean "order_inactive", default: false
+    t.string "celphone"
+    t.string "phone"
+    t.string "street"
+    t.string "neighborhood"
+    t.string "zipcode"
+    t.string "complement"
+    t.string "number"
+    t.bigint "city_id"
+    t.index ["city_id"], name: "index_employees_on_city_id"
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_employees_on_uid_and_provider", unique: true
@@ -257,29 +266,6 @@ ActiveRecord::Schema.define(version: 2019_04_09_185351) do
     t.bigint "permission_id"
     t.index ["employee_id"], name: "index_employees_permissions_on_employee_id"
     t.index ["permission_id"], name: "index_employees_permissions_on_permission_id"
-  end
-
-  create_table "events", force: :cascade do |t|
-    t.string "name"
-    t.time "starts_at"
-    t.time "finishes_at"
-    t.date "day_starts_at"
-    t.date "day_finishes_at"
-    t.string "place"
-    t.text "description"
-    t.string "image"
-    t.string "instagram_url"
-    t.boolean "canceled", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "galeries", force: :cascade do |t|
-    t.string "image"
-    t.bigint "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_galeries_on_event_id"
   end
 
   create_table "ibpts", force: :cascade do |t|
@@ -313,7 +299,7 @@ ActiveRecord::Schema.define(version: 2019_04_09_185351) do
     t.string "name"
     t.json "content"
     t.string "status"
-    t.datetime "started_at", default: "2019-04-10 18:00:33"
+    t.datetime "started_at", default: "2019-05-13 17:20:48"
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -354,7 +340,6 @@ ActiveRecord::Schema.define(version: 2019_04_09_185351) do
     t.string "federal_registration"
     t.string "state_registration"
     t.integer "kind"
-    t.boolean "active", default: true
     t.datetime "renewal_date"
     t.text "description"
     t.integer "origin"
@@ -373,6 +358,8 @@ ActiveRecord::Schema.define(version: 2019_04_09_185351) do
     t.integer "cash_redemption"
     t.string "discount5"
     t.bigint "partner_group_id"
+    t.integer "status"
+    t.string "favored_federal_registration"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["partner_group_id"], name: "index_partners_on_partner_group_id"
     t.index ["user_id"], name: "index_partners_on_user_id"
@@ -562,7 +549,7 @@ ActiveRecord::Schema.define(version: 2019_04_09_185351) do
   add_foreign_key "company_products", "companies"
   add_foreign_key "company_products", "products"
   add_foreign_key "emails", "email_types"
-  add_foreign_key "galeries", "events"
+  add_foreign_key "employees", "cities"
   add_foreign_key "image_products", "products"
   add_foreign_key "log_premio_ideals", "partners"
   add_foreign_key "orders", "carriers"

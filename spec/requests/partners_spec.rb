@@ -48,12 +48,12 @@ RSpec.describe "Partner API", type: :request do
       end
 
       it "returns the json data for the created partner" do
-        expect(json_body[:name]).to eq(partner_params[:name])
+        expect(json_body[:name]).to eq(partner_params[:name].titleize)
       end
     end
 
     context "when the request params are invalid" do
-      let(:partner_params) { {name: ""} }
+      let(:partner_params) { { name: "" } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)
@@ -71,19 +71,19 @@ RSpec.describe "Partner API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:partner_params) { {name: "Novo"} }
+      let(:partner_params) { { name: "Novo" } }
 
       it "return status code 200" do
         expect(response).to have_http_status(200)
       end
 
       it "return the json data for the updated partner" do
-        expect(json_body[:name]).to eq(partner_params[:name])
+        expect(json_body[:name]).to eq(partner_params[:name].titleize)
       end
     end
 
     context "when the request params are invalid" do
-      let(:partner_params) { {name: nil} }
+      let(:partner_params) { { name: nil } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)

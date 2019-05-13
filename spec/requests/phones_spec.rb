@@ -4,6 +4,7 @@ RSpec.describe "Phone API", type: :request do
   before do
     @api = create(:api)
     @phones = create_list(:phone, 5)
+    @client = create(:client)
     @phone = @phones.first
     @phone_id = @phone.id
     @auth_data = "?access_id=#{@api.access_id}&access_key=#{@api.access_key}"
@@ -41,7 +42,7 @@ RSpec.describe "Phone API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:phone_params) { attributes_for(:phone) }
+      let(:phone_params) { attributes_for(:phone, phonable_type: "Client", phonable_id: @client.id) }
 
       it "return status code 201" do
         expect(response).to have_http_status(201)

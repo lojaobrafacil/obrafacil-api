@@ -7,7 +7,6 @@ class AddPhoneAndAddressToEmployee < ActiveRecord::Migration[5.2]
     add_column :employees, :zipcode, :string
     add_column :employees, :complement, :string
     add_column :employees, :number, :string
-    add_column :employees, :city, :string
-    add_column :employees, :state, :string
+    add_reference :employees, :city, foreign_key: true
   end
 end

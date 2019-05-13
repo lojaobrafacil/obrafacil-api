@@ -48,12 +48,12 @@ RSpec.describe "Client API", type: :request do
       end
 
       it "returns the json data for the created client" do
-        expect(json_body[:name]).to eq(client_params[:name])
+        expect(json_body[:name]).to eq(client_params[:name].titleize)
       end
     end
 
     context "when the request params are invalid" do
-      let(:client_params) { {name: ""} }
+      let(:client_params) { { name: "" } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)
@@ -71,19 +71,19 @@ RSpec.describe "Client API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:client_params) { {name: "Arthur"} }
+      let(:client_params) { { name: "Arthur" } }
 
       it "return status code 200" do
         expect(response).to have_http_status(200)
       end
 
       it "return the json data for the updated client" do
-        expect(json_body[:name]).to eq(client_params[:name])
+        expect(json_body[:name]).to eq(client_params[:name].titleize)
       end
     end
 
     context "when the request params are invalid" do
-      let(:client_params) { {name: nil} }
+      let(:client_params) { { name: nil } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)

@@ -31,7 +31,7 @@ class Partner < ApplicationRecord
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
 
   def default_values
-    self.name = self.name.strip.downcase.capitalize rescue nil
+    self.name = self.name.strip.titleize rescue nil
     self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
     self.favored_federal_registration = !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration
     self.favored_federal_registration = self.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil

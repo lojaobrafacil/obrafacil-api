@@ -19,7 +19,7 @@ class Employee < ApplicationRecord
   before_validation :format_phone
 
   def default_values
-    self.name = self.name.strip.upcase rescue nil
+    self.name = self.name.strip.titleize rescue nil
     self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
     self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
   end

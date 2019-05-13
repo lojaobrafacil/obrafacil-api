@@ -21,7 +21,7 @@ class Api::PhonesController < Api::BaseController
     if @phone.save
       render json: @phone, status: 201
     else
-      render json: {errors: @phone.errors}, status: 422
+      render json: { errors: @phone.errors }, status: 422
     end
   end
 
@@ -31,7 +31,7 @@ class Api::PhonesController < Api::BaseController
     if @phone.update(phone_params)
       render json: @phone, status: 200
     else
-      render json: {errors: @phone.errors}, status: 422
+      render json: { errors: @phone.errors }, status: 422
     end
   end
 

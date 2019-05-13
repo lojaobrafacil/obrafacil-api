@@ -14,7 +14,7 @@ FactoryBot.define do
     neighborhood { Faker::Address.street_name }
     zipcode { Faker::Number.number(8) }
     number { Faker::Number.number(4) }
-    city_id { create(:city).id }
+    city { create(:city) }
     password { "12345678" }
     password_confirmation { "12345678" }
   end
