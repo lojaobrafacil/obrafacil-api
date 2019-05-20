@@ -15,6 +15,8 @@ class SmsPartnersWorker
                    "[ObraFacil]Olá #{@name}!Troque seus pontos acumulados em dinheiro ou em produtos da nossa loja até o fim deste mês! bit.ly/2D8RyJ7"
                  when "transfer_points"
                    "[ObraFácil]Olá #{@name}!Seus pontos em dinheiro foram transferidos automaticamente. Por favor conferir o valor na sua conta ou entre em contato."
+                 when "workshop"
+                   "[ObraFacil]Olá!Café Francês + Workshop Sanitrit nesta quarta:como montar um banheiro sem quebrar o piso. Se inscreva !http://bit.ly/2JY2MUW"
                  end
       if @phone
         service = Notifications::SmsService.new(@phone, @message)
