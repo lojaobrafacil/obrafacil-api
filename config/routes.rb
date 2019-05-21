@@ -81,6 +81,8 @@ Rails.application.routes.draw do
     end
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
+
+    get 'zipcodes/:code', to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
   end
 
   namespace :partner, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
@@ -88,5 +90,7 @@ Rails.application.routes.draw do
     put "reset_password", to: :reset_password, controller: "users"
     resources :selfs, only: [:index]
     resources :commissions, only: [:index]
+    resources :banks, only: [:index]
+    get 'zipcodes/:code', to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
   end
 end
