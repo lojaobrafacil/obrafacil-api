@@ -56,3 +56,9 @@ pt-BR:
         invalid_password: "Senha atual invalida"
       success:
         reset_password: "Senha atualizada com Sucesso"
+    user:
+      errors:
+        password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
+        invalid_password: "Senha atual invalida"
+      success:
+        reset_password: "Senha atualizada com Sucesso"

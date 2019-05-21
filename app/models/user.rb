@@ -9,4 +9,11 @@ class User < ApplicationRecord
   has_one :partner
   enum kind: [:admin, :normal]
   validates_uniqueness_of :federal_registration
+
+  def update_password(current_password, password, password_confirmation)
+    msg ||= I18n.t("models.user.errors.invalid_password") unless valid_password?(current_password)
+    msg ||= I18n.t("models.user.errors.password_not_match") unless password == password_confirmation
+    msg.nil? ? update(password: password) : errors.add(:password, msg)
+    msg.nil?
+  end
 end
