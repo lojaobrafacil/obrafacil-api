@@ -13,7 +13,7 @@ class User < ApplicationRecord
   def update_password(current_password, password, password_confirmation)
     msg ||= I18n.t("models.user.errors.invalid_password") unless valid_password?(current_password)
     msg ||= I18n.t("models.user.errors.password_not_match") unless password == password_confirmation
-    msg.nil? ? update(password: password) : errors.add(:password, msg)
+    msg.nil? ? update(password: password, password_confirmation: password_confirmation) : errors.add(:password, msg)
     msg.nil?
   end
 end
