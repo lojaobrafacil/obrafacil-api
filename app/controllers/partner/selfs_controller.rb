@@ -1,4 +1,6 @@
 class Partner::SelfsController < Partner::BaseController
+  before_action :authenticate_partner_user!, except: [:create]
+
   def index
     @partner = current_partner_user.partner
     render json: @partner, status: 200, serializer: Partner::SelfSerializer
@@ -6,7 +8,7 @@ class Partner::SelfsController < Partner::BaseController
 
   def create
     @partner = Partner.new(partner_params)
-
+    @partner.status = "review"
     if @partner.save
       render json: { success: "Obrigado por se cadastrar" }, status: 201
     else
@@ -26,11 +28,11 @@ class Partner::SelfsController < Partner::BaseController
 
   def partner_params
     params.permit(:name, :federal_registration, :state_registration, :agency, :account,
-                   :favored, :favored_federal_registration, :bank_id, :ocupation,
-                   addresses_attributes: [:street, :number, :complement, :neighborhood, :zipcode,
-                                          :description, :address_type_id, :city_id, :_delete],
-                   phones: [:id, :phone, :contact, :phone_type_id, :primary, :_delete],
-                   emails: [:id, :email, :contact, :email_type_id, :primary, :_delete])
+                  :favored, :favored_federal_registration, :bank_id, :ocupation, :kind,
+                  addresses_attributes: [:street, :number, :complement, :neighborhood, :zipcode,
+                                         :description, :address_type_id, :city_id, :_delete],
+                  phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_delete],
+                  emails_attributes: [:id, :email, :contact, :email_type_id, :primary, :_delete])
   end
 
   def user_password_params

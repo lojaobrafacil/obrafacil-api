@@ -62,3 +62,12 @@ pt-BR:
         invalid_password: "Senha atual invalida"
       success:
         reset_password: "Senha atualizada com Sucesso"
+  attributes:
+    partner:
+      kind: Tipo
+      name: Nome
+      federal_registration: CPF / CNPJ
+      favored_federal_registration: CPF / CNPJ do favorecido
+  errors:
+    messages:
+      blank: Não pode ficar em branco

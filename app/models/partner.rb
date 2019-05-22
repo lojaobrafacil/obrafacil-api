@@ -12,16 +12,16 @@ class Partner < ApplicationRecord
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :commissions, allow_destroy: true
-  enum status: [:pre_active, :active, :inactive]
+  enum status: [:pre_active, :active, :inactive, :review]
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind, :status
   include Contact
-  validates :federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? }
-  validates :favored_federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? }
+  validates :federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? || partner.review? }
+  validates :favored_federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? || partner.review? }
   after_save :update_user, :premio_ideal, if: Proc.new { |partner| partner.active? }
-  before_validation :default_values, if: Proc.new { |partner| partner.active? }
+  before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
   before_destroy :remove_relations
   alias_attribute :vouchers, :pi_vouchers
 

@@ -82,15 +82,15 @@ Rails.application.routes.draw do
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
 
-    get 'zipcodes/:code', to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
+    get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
   end
 
   namespace :partner, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
     mount_devise_token_auth_for "User", at: "auth", skip: [:registrations]
-    put 'selfs/password', to: "selfs#update_password"
-    resources :selfs, only: [:index]
+    put "selfs/password", to: "selfs#update_password"
+    resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
-    get 'zipcodes/:code', to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
+    get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
   end
 end
