@@ -27,7 +27,7 @@ class PartnerPolicy < ApplicationPolicy
     if show?
       [:name, :federal_registration, :state_registration,
        :kind, :status, :started_date, :renewal_date, :description, :origin, :percent, :agency,
-       :ocupation, :account, :favored, :user_id, :bank_id, :discount3, :discount5, :discount8, :cash_redemption]
+       :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption]
     else
       []
     end
