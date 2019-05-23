@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   root "welcomes#index"
   require "sidekiq/web"
 
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+    username == "devuser" && password == "nopassword"
+  end
+
   mount Sidekiq::Web => "/sidekiq"
   mount Rswag::Api::Engine => "/docs"
   mount Rswag::Ui::Engine => "/docs"
@@ -26,7 +30,7 @@ Rails.application.routes.draw do
     resources :phone_types
     resources :coupons do
       collection do
-        get 'by_code/:code', to: "coupons#by_code"
+        get "by_code/:code", to: "coupons#by_code"
       end
     end
     resources :cities

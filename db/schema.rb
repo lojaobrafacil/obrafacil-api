@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_22_191807) do
+ActiveRecord::Schema.define(version: 2019_05_23_194136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2019_05_22_191807) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "kind", default: 1
   end
 
   create_table "banks", force: :cascade do |t|
@@ -204,6 +205,8 @@ ActiveRecord::Schema.define(version: 2019_05_22_191807) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "partner_id"
+    t.index ["partner_id"], name: "index_coupons_on_partner_id"
   end
 
   create_table "email_types", force: :cascade do |t|
@@ -372,7 +375,6 @@ ActiveRecord::Schema.define(version: 2019_05_22_191807) do
     t.datetime "started_date"
     t.string "ocupation"
     t.integer "cash_redemption"
-    t.string "discount5"
     t.bigint "partner_group_id"
     t.integer "status"
     t.string "favored_federal_registration"
@@ -576,6 +578,7 @@ ActiveRecord::Schema.define(version: 2019_05_22_191807) do
   add_foreign_key "commissions", "partners"
   add_foreign_key "company_products", "companies"
   add_foreign_key "company_products", "products"
+  add_foreign_key "coupons", "partners"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "cities"
   add_foreign_key "image_products", "products"
