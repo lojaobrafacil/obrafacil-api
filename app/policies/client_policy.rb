@@ -1,14 +1,18 @@
 class ClientPolicy < ApplicationPolicy
   def show?
-    Client.where(:id => record.id).exists? && (user.is_a?(Api) || user.change_clients || user.admin)
+    if user.is_a?(Api)
+      user.admin?
+    else
+      user.change_clients? || user.admin?
+    end
   end
 
   def destroy?
-    user.is_a?(Api) || user.admin
+    show?
   end
 
   def permitted_attributes
-    if user.is_a?(Api) || user.change_clients || user.admin
+    if show?
       [:name, :federal_registration, :state_registration,
        :international_registration, :kind, :active, :birth_date, :renewal_date,
        :tax_regime, :description, :order_description, :limit, :billing_type_id, :user_id]
@@ -19,8 +23,16 @@ class ClientPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.is_a?(Api) || user.change_clients || user.admin
+      if show?
         scope.all
+      end
+    end
+
+    def show?
+      if user.is_a?(Api)
+        user.admin?
+      else
+        user.change_clients? || user.admin?
       end
     end
   end

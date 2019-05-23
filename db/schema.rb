@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_021419) do
+ActiveRecord::Schema.define(version: 2019_05_22_191807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,6 +188,24 @@ ActiveRecord::Schema.define(version: 2019_05_02_021419) do
     t.index ["product_id"], name: "index_company_products_on_product_id"
   end
 
+  create_table "coupons", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.float "discount"
+    t.integer "status"
+    t.integer "kind"
+    t.float "max_value"
+    t.datetime "expired_at"
+    t.datetime "starts_at"
+    t.integer "total_uses"
+    t.integer "client_uses"
+    t.boolean "shipping"
+    t.boolean "logged"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "email_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -299,7 +317,7 @@ ActiveRecord::Schema.define(version: 2019_05_02_021419) do
     t.string "name"
     t.json "content"
     t.string "status"
-    t.datetime "started_at", default: "2019-05-13 17:20:48"
+    t.datetime "started_at", default: "2019-05-22 05:46:30"
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -353,8 +371,6 @@ ActiveRecord::Schema.define(version: 2019_05_02_021419) do
     t.datetime "updated_at", null: false
     t.datetime "started_date"
     t.string "ocupation"
-    t.string "discount3"
-    t.string "discount8"
     t.integer "cash_redemption"
     t.string "discount5"
     t.bigint "partner_group_id"
@@ -538,6 +554,18 @@ ActiveRecord::Schema.define(version: 2019_05_02_021419) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "zipcodes", force: :cascade do |t|
+    t.string "code"
+    t.string "place"
+    t.string "neighborhood"
+    t.bigint "city_id"
+    t.string "ibge"
+    t.string "gia"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["city_id"], name: "index_zipcodes_on_city_id"
+  end
+
   add_foreign_key "addresses", "address_types"
   add_foreign_key "addresses", "cities"
   add_foreign_key "cashier_payments", "cashiers"
@@ -569,4 +597,5 @@ ActiveRecord::Schema.define(version: 2019_05_02_021419) do
   add_foreign_key "states", "regions"
   add_foreign_key "sub_categories", "categories"
   add_foreign_key "suppliers", "billing_types"
+  add_foreign_key "zipcodes", "cities"
 end

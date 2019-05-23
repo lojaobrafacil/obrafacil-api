@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  pundit:
+    errors: 
+      not_autorize: "Access denied"

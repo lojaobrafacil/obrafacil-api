@@ -3,6 +3,14 @@ class CategoryPolicy < ApplicationPolicy
     true
   end
 
+  def create?
+    if user.is_a?(Api)
+      user.admin?
+    else
+      user.change_products? || user.admin?
+    end
+  end
+
   def update?
     create?
   end
@@ -12,7 +20,7 @@ class CategoryPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user.is_a?(Api) || user.admin
+    if user.admin?
       [:name]
     else
       []

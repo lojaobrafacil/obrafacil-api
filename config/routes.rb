@@ -24,6 +24,11 @@ Rails.application.routes.draw do
     resources :email_types
     resources :phones
     resources :phone_types
+    resources :coupons do
+      collection do
+        get 'by_code/:code', to: "coupons#by_code"
+      end
+    end
     resources :cities
     resources :regions
     resources :states

@@ -3,6 +3,14 @@ class SubCategoryPolicy < ApplicationPolicy
     true
   end
 
+  def create?
+    if user&.is_a?(Api)
+      user.admin?
+    else
+      user.change_products? || user.admin?
+    end
+  end
+
   def update?
     create?
   end
@@ -12,7 +20,7 @@ class SubCategoryPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user.is_a?(Api) || user.admin
+    if create?
       [:name, :category_id]
     else
       []

@@ -11,7 +11,7 @@ require "json"
 
 Employee.create!(email: "admin@admin.com", federal_registration: "12345678910", name: "SysAdmin", password: "admin2020", password_confirmation: "admin2020", admin: true)
 
-Api.create!(name: "test", federal_registration: "12345678912").update(access_id: "7997CD2C9B5DDEF2478E", access_key: "4EA029056C02874149F5CC2BCF8A5C5BAD4DFAAD37E05B374E2777E43349B9A0")
+Api.create!(name: "test", federal_registration: "12345678912", kind: 0).update(access_id: "7997CD2C9B5DDEF2478E", access_key: "4EA029056C02874149F5CC2BCF8A5C5BAD4DFAAD37E05B374E2777E43349B9A0")
 
 module BRPopulate
   def self.states

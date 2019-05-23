@@ -1,20 +1,24 @@
 class PiVoucherPolicy < ApplicationPolicy
   def show?
-    PiVoucher.where(:id => record.id).exists? && (user.is_a?(Api) || user&.change_partners || user&.admin)
+    if user&.is_a?(Api)
+      user.admin?
+    else
+      user.change_partners? || user.admin?
+    end
   end
 
   def send_email?
-    user.is_a?(Api) || user&.change_partners || user&.admin
+    show?
   end
 
   def permitted_attributes
-    if user.is_a?(Api) || user&.change_partners || user&.admin
+    if show?
       [:value, :used_at, :status, :received_at, :company_id, :partner_id]
     end
   end
 
   def create?
-    user.is_a?(Api) || user&.change_partners || user&.admin
+    show?
   end
 
   def update?
@@ -23,8 +27,16 @@ class PiVoucherPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.is_a?(Api) || user&.change_partners || user&.admin
+      if show?
         scope.all
+      end
+    end
+
+    def show?
+      if user&.is_a?(Api)
+        user.admin?
+      else
+        user.change_partners? || user.admin?
       end
     end
   end

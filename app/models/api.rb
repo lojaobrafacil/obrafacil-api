@@ -3,6 +3,7 @@ class Api < ApplicationRecord
   validates_uniqueness_of [:access_id, :access_key], presence: true
 
   before_validation :generate_new_tokens!, on: :create
+  enum kind: [:admin, :reader]
 
   def generate_new_tokens!
     self.access_id = SecureRandom.hex(10).upcase

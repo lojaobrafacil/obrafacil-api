@@ -4,24 +4,7 @@ class ApplicationController < ActionController::API
   respond_to :json, :xls, :csv
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  def authenticate_admin_or_api!
-    if params[:access_id] && params[:access_key]
-      authenticate_admin!
-    else
-      authenticate_api_employee!
-    end
-  end
-
-  def authenticate_admin!
-    current_api_employee = @current_user = Api.find_by(access_id: params[:access_id], access_key: params[:access_key])
-    if @current_user != nil && @current_user.active
-      return true
-    elsif !@current_user&.active
-      return render json: { error: I18n.t("devise.failure.inactive") }, status: 422
-    else
-      return render json: { error: I18n.t("devise.failure.unauthenticated") }, status: 422
-    end
-  end
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def version
     render(json: {
@@ -29,5 +12,11 @@ class ApplicationController < ActionController::API
              minimum: 200,
              title: "HUBCO API V2",
            })
+  end
+
+  private
+
+  def user_not_authorized
+    render json: { errors: I18n.t("pundit.errors.not_autorize") }, status: 401
   end
 end

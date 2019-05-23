@@ -3,6 +3,10 @@ class StatePolicy < ApplicationPolicy
     true
   end
 
+  def create?
+    user&.admin?
+  end
+
   def update?
     create?
   end
@@ -12,7 +16,7 @@ class StatePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user.is_a?(Api) || user.admin
+    if create?
       [:name, :acronym, :region_id]
     else
       []
