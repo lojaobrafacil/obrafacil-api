@@ -1,6 +1,8 @@
 class Partner::SelfSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :agency, :account,
-             :favored, :favored_federal_registration, :bank_name, :discount5, :addresses, :phones, :emails
+             :favored, :favored_federal_registration, :bank_name, :addresses, :phones, :emails
+
+  has_one :coupon
 
   def bank_name
     object.bank ? object.bank.name : nil
