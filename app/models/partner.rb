@@ -42,11 +42,11 @@ class Partner < ApplicationRecord
 
   def create_coupon
     Coupon.create(name: self.name,
-                       discount: 5.0,
-                       kind: 0,
-                       status: 1,
-                       starts_at: DateTime.now(),
-                       expired_at: DateTime.now + 1.year) if self.coupon.nil?
+                  discount: 5.0,
+                  kind: 0,
+                  status: 1,
+                  starts_at: DateTime.now(),
+                  expired_at: DateTime.now + 1.year) if self.coupon.nil?
   end
 
   def update_user
