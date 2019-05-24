@@ -43,6 +43,8 @@ Rails.application.routes.draw do
       collection do
         put ":id/reset_password", to: "partners#reset_password"
         post "send_sms/:status", to: "partners#send_sms", constraints: { status: /active|pre_active|transfer_points|workshop/ }
+        get "by_federal_registration/:federal_registration", to: "partners#by_federal_registration"
+        get "by_favored_federal_registration/:favored_federal_registration", to: "partners#by_favored_federal_registration"
       end
     end
     resources :partner_groups

@@ -11,13 +11,13 @@ class Partner::SelfsController < Partner::BaseController
     if !@partner
       head 404
     else
-      render json: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais" }, status: 200      
+      render json: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais t: (11) 3031-6891" }, status: 200      
     end
   end
 
   def create
     if !Partner.find_by(federal_registration: partner_params[:federal_registration].gsub(/[^0-9A-Za-z]/, "").upcase).nil?
-      render json: { errors: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais" } }, status: 404
+      render json: { errors: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais t: (11) 3031-6891" } }, status: 404
     else
       @partner = Partner.new(partner_params)
       @partner.status = "review"

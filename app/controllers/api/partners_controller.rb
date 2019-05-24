@@ -68,6 +68,24 @@ class Api::PartnersController < Api::BaseController
     end
   end
 
+  def by_federal_registration
+    @partner = Partner.find_by(federal_registration: params[:federal_registration])
+    if !@partner || @partner.id == params[:id]&.to_i
+      head 404
+    else
+      render json: @partner, status: 200
+    end
+  end
+
+  def by_favored_federal_registration
+    @partner = Partner.find_by(favored_federal_registration: params[:favored_federal_registration])
+    if !@partner || @partner.id == params[:id]&.to_i
+      head 404
+    else
+      render json: @partner, status: 200
+    end
+  end
+
   private
 
   def set_partner
