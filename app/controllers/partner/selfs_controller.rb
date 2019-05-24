@@ -31,8 +31,7 @@ class Partner::SelfsController < Partner::BaseController
 
   def update_password
     @user = current_partner_user
-    @user.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
-    if @user.valid?
+    if @user.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
       render json: { success: I18n.t("models.user.success.reset_password") }, status: 201
     else
       render json: { errors: @user.errors }, status: 422
