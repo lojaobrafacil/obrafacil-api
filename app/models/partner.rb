@@ -22,6 +22,7 @@ class Partner < ApplicationRecord
   validates :federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? || partner.review? }
   validates :favored_federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? || partner.review? }
   after_save :update_user, :premio_ideal, if: Proc.new { |partner| partner.active? }
+  after_save :create_coupon, if: Proc.new { |partner| partner.active? || partner.review? }
   before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
   before_destroy :remove_relations
   alias_attribute :vouchers, :pi_vouchers
@@ -37,6 +38,15 @@ class Partner < ApplicationRecord
     self.favored_federal_registration = !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration
     self.favored_federal_registration = self.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
     self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+  end
+
+  def create_coupon
+    self.coupon.create(name: self.name,
+                       discount: 5.0,
+                       kind: 0,
+                       status: 1,
+                       starts_at: DateTime.now(),
+                       expired_at: DateTime.now + 1.year) if self.coupon.nil?
   end
 
   def update_user
