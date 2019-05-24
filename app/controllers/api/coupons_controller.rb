@@ -23,7 +23,7 @@ class Api::CouponsController < Api::BaseController
     if @coupon.save
       render json: @coupon, status: 201
     else
-      render json: {errors: @coupon.errors}, status: 422
+      render json: { errors: @coupon.errors }, status: 422
     end
   end
 
@@ -32,7 +32,7 @@ class Api::CouponsController < Api::BaseController
     if @coupon.update(coupon_params)
       render json: @coupon, status: 200
     else
-      render json: {errors: @coupon.errors}, status: 422
+      render json: { errors: @coupon.errors }, status: 422
     end
   end
 
@@ -52,5 +52,4 @@ class Api::CouponsController < Api::BaseController
   def coupon_params
     params.permit(policy(Coupon).permitted_attributes)
   end
-
 end
