@@ -97,6 +97,7 @@ Rails.application.routes.draw do
   namespace :partner, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
     mount_devise_token_auth_for "User", at: "auth", skip: [:registrations]
     put "selfs/password", to: "selfs#update_password"
+    get "selfs/by_federal_registration/:federal_registration", to: "selfs#by_federal_registration"
     resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]

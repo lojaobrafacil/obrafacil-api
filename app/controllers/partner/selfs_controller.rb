@@ -1,18 +1,31 @@
 class Partner::SelfsController < Partner::BaseController
-  before_action :authenticate_partner_user!, except: [:create]
+  before_action :authenticate_partner_user!, except: [:create, :by_federal_registration]
 
   def index
     @partner = current_partner_user.partner
     render json: @partner, status: 200, serializer: Partner::SelfSerializer
   end
 
-  def create
-    @partner = Partner.new(partner_params)
-    @partner.status = "review"
-    if @partner.save
-      render json: { success: "Obrigado por se cadastrar" }, status: 201
+  def by_federal_registration
+    @partner = Partner.find_by(federal_registration: params[:federal_registration])
+    if !@partner
+      head 404
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais" }, status: 200      
+    end
+  end
+
+  def create
+    if !Partner.find_by(federal_registration: partner_params[:federal_registration])
+      render json: { errors: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais" } }, status: 404
+    else
+      @partner = Partner.new(partner_params)
+      @partner.status = "review"
+      if @partner.save
+        render json: { success: "Obrigado por se cadastrar" }, status: 201
+      else
+        render json: { errors: @partner.errors }, status: 422
+      end
     end
   end
 
