@@ -27,6 +27,11 @@ describe "Coupons API" do
                  client_uses: { type: :string },
                  shipping: { type: :string },
                  logged: { type: :string },
+                 partner: { type: :object, properties: {
+                   id: { type: :integer },
+                   name: { type: :string },
+                   status: { type: :string },
+                 } },
                  description: { type: :string },
                  created_at: { type: :string },
                  updated_at: { type: :string },
@@ -60,6 +65,11 @@ describe "Coupons API" do
             client_uses: { type: :string },
             shipping: { type: :string },
             logged: { type: :string },
+            partner: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              status: { type: :string },
+            } },
             description: { type: :string },
             created_at: { type: :string },
             updated_at: { type: :string },
@@ -158,22 +168,97 @@ describe "Coupons API" do
     end
   end
 
-  path "/coupons/{id}" do
-    delete "Destroy a coupon" do
+  path "/coupons/by_code/{code}" do
+    get "Retrieves a coupon by code" do
       tags "Coupons"
       consumes "application/json"
       params_auth
-      parameter name: :id, :in => :path, :type => :string, required: true
+      parameter name: :code, :in => :path, :type => :string, required: true, description: "Coupon code"
+      parameter name: :client_federal_registration, :in => :query, :type => :string, required: false, description: "To validate usage per client"
 
-      response 204, "coupon destroyed" do
+      response 204, "Success" do
         auth_api
-        let(:id) { create(:coupon).id }
+        let(:code) { create(:coupon).code }
+        let(:client_federal_registration) { Faker::Number.number(11) }
+        schema type: :object, properties: {
+                 id: { type: :integer },
+                 name: { type: :string },
+                 code: { type: :string },
+                 discount: { type: :string },
+                 status: { type: :string },
+                 kind: { type: :string },
+                 max_value: { type: :string },
+                 expired_at: { type: :string },
+                 starts_at: { type: :string },
+                 total_uses: { type: :string },
+                 client_uses: { type: :string },
+                 shipping: { type: :string },
+                 logged: { type: :string },
+                 partner: { type: :object, properties: {
+                   id: { type: :integer },
+                   name: { type: :string },
+                   status: { type: :string },
+                 } },
+                 description: { type: :string },
+                 created_at: { type: :string },
+                 updated_at: { type: :string },
+               }
         run_test!
       end
 
       response 404, "Not Found" do
         auth_api
-        let(:id) { "invalid" }
+        let(:code) { "661A52S" }
+        schema type: :object, properties: {
+                 errors: { type: :string, example: I18n.t("models.coupon.errors.not_found") },
+               }
+        run_test!
+      end
+    end
+  end
+
+  path "/coupons/use/{code}" do
+    post "Use a coupon by code" do
+      tags "Coupons"
+      consumes "application/json"
+      params_auth
+      parameter name: :code, :in => :path, :type => :string, required: true
+
+      parameter name: :coupon, in: :body, schema: {
+        type: :object,
+        properties: {
+          external_order_id: { type: :string, example: Faker::Number.number(4) },
+          client_federal_registration: { type: :string, example: Faker::Number.number(11) },
+        },
+        required: ["external_order_id", "client_federal_registration"],
+      }
+
+      response 200, "coupon used" do
+        auth_api
+        let(:code) { create(:coupon).code }
+        let(:coupon) { attributes_for(:log_coupon) }
+        schema type: :object, properties: {
+                 success: { type: :string, example: I18n.t("models.coupon.response.used") },
+               }
+        run_test!
+      end
+
+      response 404, "Not Found" do
+        auth_api
+        let(:code) { "661A52S" }
+        schema type: :object, properties: {
+                 errors: { type: :string, example: I18n.t("models.coupon.errors.not_found") },
+               }
+        run_test!
+      end
+
+      response 422, "invalid request" do
+        auth_api
+        let(:code) { create(:coupon).code }
+        let(:coupon) { attributes_for(:log_coupon, external_order_id: nil) }
+        schema type: :object, properties: {
+          errors: { type: :string, example: I18n.t("models.coupon.errors.already_used") },
+        }
         run_test!
       end
     end

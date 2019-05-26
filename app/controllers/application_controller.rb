@@ -3,7 +3,6 @@ class ApplicationController < ActionController::API
   Mime::Type.register "application/csv", :csv
   respond_to :json, :xls, :csv
   include DeviseTokenAuth::Concerns::SetUserByToken
-
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def version

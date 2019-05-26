@@ -7,24 +7,31 @@ pt-BR:
       phone: 
         attributes: 
           primary: "Deve haver apenas um telefone principal"
+    coupon:
+      errors:
+        params: "%{param} é obrigatório"
+        already_used: "Cupom já foi utilizado"
+        not_found: "Não encontrado"
+      response:
+        used: "Ok"
     pi_voucher:
       errors:
         pdf: "Não foi possivel gerar o PDF"
-        company_id: "Company é obrigatório"
-        used_at: "Company é obrigatório"
+        company_id: "company_id é obrigatório"
+        used_at: "used_at é obrigatório"
         received_at: "Já foi recebido"
         not_found: "Nenhum voucher encontrado"
-        partner_id: "Partner_id é obrigatorio"
+        partner_id: "Partner_id é obrigatório"
         status:
-          received_at: "Não pode ser inativado pois ja foi recebido"
+          received_at: "Não pode ser inativado pois já foi recebido"
           used_to_inactive: "Não pode ir de usado para inativo"
           used_to_active: "Não pode ir de usado para ativo"
           already_used: "Já foi usado"
       response:
         email:  
-          success: "Email enviado com sucesso"
-          not_send: "Email só pode ser usado para vouchers ativos"
-          error: "Erro ao enviar o email"
+          success: "E-mail enviado com sucesso"
+          not_send: "E-mail só pode ser usado para vouchers ativos"
+          error: "Erro ao enviar o e-mail"
         inactivate: 
           error: "Voucher não pode ser inativado, confirme se já não foi usado ou se está inativo"
         used: 
@@ -35,13 +42,13 @@ pt-BR:
       response:
         create_many:
           success: "Estamos criando as commissoes"
-        required_year:  "Year é obrigatorio"
-        required_partner:  "Partner_id é obrigatorio"
+        required_year:  "Year é obrigatório"
+        required_partner:  "Partner_id é obrigatório"
     partner:
       errors:
         sms:
-          message: "Mensagem é obrigatorio"
-          partner_ids: "Partner_ids é obrigatorio"
+          message: "Mensagem é obrigatório"
+          partner_ids: "Partner_ids é obrigatório"
         rescue: "Parametros invalidos"
       response:
         reset_password:

@@ -19,6 +19,10 @@ class CouponPolicy < ApplicationPolicy
     end
   end
 
+  def use?
+    by_code?
+  end
+
   def permitted_attributes
     if show?
       [:name, :code, :discount, :status, :kind, :max_value, :expired_at,

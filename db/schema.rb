@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_23_194136) do
+ActiveRecord::Schema.define(version: 2019_05_26_181136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -306,6 +306,15 @@ ActiveRecord::Schema.define(version: 2019_05_23_194136) do
     t.index ["product_id"], name: "index_image_products_on_product_id"
   end
 
+  create_table "log_coupons", force: :cascade do |t|
+    t.bigint "coupon_id"
+    t.string "external_order_id"
+    t.string "client_federan_registration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coupon_id"], name: "index_log_coupons_on_coupon_id"
+  end
+
   create_table "log_premio_ideals", force: :cascade do |t|
     t.integer "status"
     t.text "error"
@@ -378,6 +387,11 @@ ActiveRecord::Schema.define(version: 2019_05_23_194136) do
     t.bigint "partner_group_id"
     t.integer "status"
     t.string "favored_federal_registration"
+    t.string "site"
+    t.string "register"
+    t.datetime "deleted_at"
+    t.integer "deleted_by_id"
+    t.integer "created_by_id"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["partner_group_id"], name: "index_partners_on_partner_group_id"
     t.index ["user_id"], name: "index_partners_on_user_id"
@@ -582,6 +596,7 @@ ActiveRecord::Schema.define(version: 2019_05_23_194136) do
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "cities"
   add_foreign_key "image_products", "products"
+  add_foreign_key "log_coupons", "coupons"
   add_foreign_key "log_premio_ideals", "partners"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
