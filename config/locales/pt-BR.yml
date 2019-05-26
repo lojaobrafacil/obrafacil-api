@@ -6,6 +6,31 @@ pt-BR:
         restrict_dependent_destroy:
           has_one: Não é possível excluir o registro pois existe um %{record} dependente
           has_many: Não é possível excluir o registro pois existem %{record} dependentes
+      partner:
+        status:
+          deleted_at: "Deletado em %{deleted_at} e não pode ser alterado"
+          deleted_by: "Não pode ficar em branco"
+          created_by: "Não pode ficar em branco"
+          active_to_review: "Não é possível alterar o status de Ativo para Revisão"
+          active_to_pre_active: "Não é possível alterar o status de Ativo para Pré Ativo"
+          pre_active_to_review: "Não é possível alterar o status de Pré Ativo para Revisão"
+          review_to_pre_active: "Não é possível alterar o status de Revisão para Pré Ativo"
+          inactive: "Não é possível alterar um parceiro inativo"
+    models:
+      user: "Usuário"
+      partner: "Parceiro"
+    attributes:
+      user:
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmar Senha"
+        current_password: "Senha Atual"
+        remember_me: "Lembre-se de mim"
+      partner:
+        kind: "Tipo"
+        name: "Nome"
+        federal_registration: "CPF / CNPJ"
+        favored_federal_registration: "CPF / CNPJ do favorecido"
   date:
     abbr_day_names:
     - Dom
@@ -108,39 +133,39 @@ pt-BR:
   errors:
     format: "%{attribute} %{message}"
     messages:
-      accepted: deve ser aceito
-      blank: não pode ficar em branco
-      present: deve ficar em branco
-      confirmation: não é igual a %{attribute}
-      empty: não pode ficar vazio
-      equal_to: deve ser igual a %{count}
-      even: deve ser par
-      exclusion: não está disponível
-      greater_than: deve ser maior que %{count}
-      greater_than_or_equal_to: deve ser maior ou igual a %{count}
-      inclusion: não está incluído na lista
-      invalid: não é válido
-      less_than: deve ser menor que %{count}
-      less_than_or_equal_to: deve ser menor ou igual a %{count}
+      accepted: Deve ser aceito
+      blank: Não pode ficar em branco
+      present: Deve ficar em branco
+      confirmation: Não é igual a %{attribute}
+      empty: Não pode ficar vazio
+      equal_to: Deve ser igual a %{count}
+      even: Deve ser par
+      exclusion: Não está disponível
+      greater_than: Deve ser maior que %{count}
+      greater_than_or_equal_to: Deve ser maior ou igual a %{count}
+      inclusion: Não está incluído na lista
+      invalid: Não é válido
+      less_than: Deve ser menor que %{count}
+      less_than_or_equal_to: Deve ser menor ou igual a %{count}
       model_invalid: 'A validação falhou: %{errors}'
-      not_a_number: não é um número
-      not_an_integer: não é um número inteiro
-      odd: deve ser ímpar
-      required: é obrigatório(a)
+      not_a_number: Não é um número
+      not_an_integer: Não é um número inteiro
+      odd: Deve ser ímpar
+      required: É obrigatório(a)
       taken: já está em uso
       too_long:
-        one: 'é muito longo (máximo: 1 caracter)'
-        other: 'é muito longo (máximo: %{count} caracteres)'
+        one: 'É muito longo (máximo: 1 caracter)'
+        other: 'É muito longo (máximo: %{count} caracteres)'
       too_short:
-        one: 'é muito curto (mínimo: 1 caracter)'
-        other: 'é muito curto (mínimo: %{count} caracteres)'
+        one: 'É muito curto (mínimo: 1 caracter)'
+        other: 'É muito curto (mínimo: %{count} caracteres)'
       wrong_length:
-        one: não possui o tamanho esperado (1 caracter)
-        other: não possui o tamanho esperado (%{count} caracteres)
-      other_than: deve ser diferente de %{count}    
-      carrierwave_processing_error: falhou em ser processado
-      carrierwave_integrity_error: não é um tipo de arquivo permitido
-      carrierwave_download_error: não pôde ser baixado
+        one: Não possui o tamanho esperado (1 caracter)
+        other: Não possui o tamanho esperado (%{count} caracteres)
+      other_than: Deve ser diferente de %{count}    
+      carrierwave_processing_error: Falhou em ser processado
+      carrierwave_integrity_error: Não é um tipo de arquivo permitido
+      carrierwave_download_error: Não pôde ser baixado
       extension_whitelist_error: "Não é permitido o envio de arquivos %{extension}, tipos permitidos: %{allowed_types}"
       extension_blacklist_error: "Não é permitido o envio de arquivos %{extension}, tipos proibidos: %{prohibited_types}"
       content_type_whitelist_error: "Não é permitido o envio de arquivos %{content_type}"

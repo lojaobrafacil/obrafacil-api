@@ -2,6 +2,8 @@ class Partner < ApplicationRecord
   belongs_to :bank, optional: true
   belongs_to :user, optional: true
   belongs_to :partner_group, optional: true
+  belongs_to :deleted_by, :class_name => "Employee", :foreign_key => "deleted_by_id", optional: true
+  belongs_to :created_by, :class_name => "Employee", :foreign_key => "created_by_id", optional: true
   has_one :coupon, dependent: :destroy
   has_many :log_premio_ideals, class_name: "Log::PremioIdeal", dependent: :destroy
   has_many :commissions, dependent: :destroy
@@ -13,7 +15,7 @@ class Partner < ApplicationRecord
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :commissions, allow_destroy: true
-  enum status: [:pre_active, :active, :inactive, :review]
+  enum status: [:pre_active, :active, :inactive, :review, :deleted]
   enum kind: [:physical, :legal]
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
@@ -22,9 +24,9 @@ class Partner < ApplicationRecord
   validates :federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? || partner.review? }
   validates :favored_federal_registration, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }, if: Proc.new { |partner| partner.active? || partner.review? }
   after_save :update_user, :premio_ideal, if: Proc.new { |partner| partner.active? }
-  after_save :create_coupon, if: Proc.new { |partner| partner.active? }
+  after_save :create_coupon
+  before_validation :validate_status
   before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
-  before_destroy :remove_relations
   alias_attribute :vouchers, :pi_vouchers
 
   def email; emails.find_by(primary: true) || emails.first; end
@@ -41,12 +43,15 @@ class Partner < ApplicationRecord
   end
 
   def create_coupon
-    Coupon.create(name: self.name,
-                  discount: 5.0,
-                  kind: 0,
-                  status: 1,
-                  starts_at: DateTime.now(),
-                  expired_at: DateTime.now + 1.year) if self.coupon.nil?
+    if self.active?
+      if self.coupon.nil?
+        Coupon.create(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 1, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year)
+      else
+        self.coupon.update(status: 1)
+      end
+    else
+      self.coupon.update(status: 0) if !self.coupon.nil?
+    end
   end
 
   def update_user
@@ -74,18 +79,14 @@ class Partner < ApplicationRecord
     PremioIdealWorker.perform_async(id)
   end
 
-  def remove_relations
-    self.update(status: "inactive")
-    log = self.log_premio_ideals
-    if log
-      log.each do |l|
-        Log::PremioIdeal.find(l.id)
+  def destroy(employee_id)
+    self.assign_attributes({ status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id, user: nil })
+    if self.save
+      User.where(federal_registration: self.federal_registration).each do |user|
+        user.destroy if user.client.nil? rescue nil
       end
-    end
-    u = self.user
-    if u
-      u.update(partner: nil)
-      u.destroy
+    else
+      false
     end
   end
 
@@ -103,5 +104,25 @@ class Partner < ApplicationRecord
       (select coalesce(sum(c.order_price), 0) from commissions as c where c.partner_id = partners.id and extract(year from c.order_date) = #{year} and extract(month from c.order_date) = 10) as outubro, 
       (select coalesce(sum(c.order_price), 0) from commissions as c where c.partner_id = partners.id and extract(year from c.order_date) = #{year} and extract(month from c.order_date) = 11) as novembro, 
       (select coalesce(sum(c.order_price), 0) from commissions as c where c.partner_id = partners.id and extract(year from c.order_date) = #{year} and extract(month from c.order_date) = 12) as dezembro")
+  end
+
+  private
+
+  def validate_status
+    if self.status_changed?
+      case self.status_in_database
+      when "review"
+        errors.add(:status, I18n.t("activerecord.errors.partner.status.review_to_pre_active")) if self.status == "pre_active"
+      when "pre_active"
+        errors.add(:status, I18n.t("activerecord.errors.partner.status.pre_active_to_review")) if self.status == "review"
+      when "active"
+        errors.add(:status, I18n.t("activerecord.errors.partner.status.active_to_review")) if self.status == "review"
+        errors.add(:status, I18n.t("activerecord.errors.partner.status.active_to_pre_active")) if self.status == "pre_active"
+      end
+    end
+    errors.add(:deleted_at, I18n.t("activerecord.errors.partner.status.deleted_at", deleted_at: self.deleted_at.strftime("%d/%m/%Y %H:%M:%S"))) if !self.deleted_at_in_database.nil?
+    errors.add(:deleted_by, I18n.t("errors.messages.blank")) if !self.deleted_at.nil? && self.deleted_by.nil?
+    errors.add(:created_by, I18n.t("errors.messages.blank")) if self.created_by.nil?
+    self.errors.messages.empty? ? true : (false; throw(:abort))
   end
 end
