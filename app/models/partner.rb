@@ -26,6 +26,7 @@ class Partner < ApplicationRecord
   after_save :update_user, :premio_ideal, if: Proc.new { |partner| partner.active? }
   after_save :create_coupon
   before_validation :validate_status
+  before_validation :validate_status, on: :update
   before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
   alias_attribute :vouchers, :pi_vouchers
 
@@ -122,7 +123,10 @@ class Partner < ApplicationRecord
     end
     errors.add(:deleted_at, I18n.t("activerecord.errors.partner.status.deleted_at", deleted_at: self.deleted_at.strftime("%d/%m/%Y %H:%M:%S"))) if !self.deleted_at_in_database.nil?
     errors.add(:deleted_by, I18n.t("errors.messages.blank")) if !self.deleted_at.nil? && self.deleted_by.nil?
-    errors.add(:created_by, I18n.t("errors.messages.blank")) if self.created_by.nil?
     self.errors.messages.empty? ? true : (false; throw(:abort))
+  end
+
+  def validate_on_update
+    errors.add(:created_by, I18n.t("errors.messages.blank")) if self.created_by.nil?
   end
 end
