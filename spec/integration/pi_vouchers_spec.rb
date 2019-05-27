@@ -136,8 +136,8 @@ describe "PiVouchers API" do
     end
   end
 
-  path "/pi_vouchers/{id}/used" do
-    put "used a pi_voucher" do
+  path "/pi_vouchers/{id}/use" do
+    put "use a pi_voucher" do
       tags "PiVouchers"
       consumes "application/json"
       params_auth
@@ -155,6 +155,27 @@ describe "PiVouchers API" do
         auth_api
         let(:pi_voucher) { { company_id: create(:company).id } }
         let(:id) { create(:pi_voucher, status: "active", received_at: nil).id }
+        schema type: :object,
+          properties: {
+            id: { type: :integer },
+            expiration_date: { type: :string },
+            value: { type: :string },
+            used_at: { type: :string, 'x-nullable': true },
+            status: { type: :string },
+            received_at: { type: :string, 'x-nullable': true },
+            send_email_at: { type: :string, 'x-nullable': true },
+            attachment_url: { type: :string },
+            created_at: { type: :string },
+            updated_at: { type: :string },
+            company: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string },
+            } },
+            partner: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string },
+            } },
+          }
         run_test!
       end
 
@@ -162,6 +183,14 @@ describe "PiVouchers API" do
         auth_api
         let(:pi_voucher) { { company_id: nil } }
         let(:id) { create(:pi_voucher, status: "used", company_id: nil).id }
+        schema type: :object,
+          properties: {
+            errors: { type: :array, items: {
+              type: :object, properties: {
+                error_key: { type: :string, description: "the 'error_key' is the key of the error" },
+              },
+            } },
+          }
         run_test!
       end
     end
@@ -177,12 +206,41 @@ describe "PiVouchers API" do
       response 200, "Premio ideal voucher received" do
         auth_api
         let(:id) { create(:pi_voucher, status: "active", received_at: nil).id }
+        schema type: :object,
+          properties: {
+            id: { type: :integer },
+            expiration_date: { type: :string },
+            value: { type: :string },
+            used_at: { type: :string, 'x-nullable': true },
+            status: { type: :string },
+            received_at: { type: :string, 'x-nullable': true },
+            send_email_at: { type: :string, 'x-nullable': true },
+            attachment_url: { type: :string },
+            created_at: { type: :string },
+            updated_at: { type: :string },
+            company: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string },
+            } },
+            partner: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string },
+            } },
+          }
         run_test!
       end
 
       response 422, "voucher is already received" do
         auth_api
         let(:id) { create(:pi_voucher, received_at: Time.now - 1.hour).id }
+        schema type: :object,
+          properties: {
+            errors: { type: :array, items: {
+              type: :object, properties: {
+                error_key: { type: :string, description: "the 'error_key' is the key of the error" },
+              },
+            } },
+          }
         run_test!
       end
     end
@@ -198,12 +256,42 @@ describe "PiVouchers API" do
       response 200, "Email will be sent by background job" do
         auth_api
         let(:id) { create(:pi_voucher).id }
+        schema type: :object,
+          properties: {
+            id: { type: :integer },
+            expiration_date: { type: :string },
+            value: { type: :string },
+            used_at: { type: :string, 'x-nullable': true },
+            status: { type: :string },
+            received_at: { type: :string, 'x-nullable': true },
+            send_email_at: { type: :string, 'x-nullable': true },
+            attachment_url: { type: :string },
+            created_at: { type: :string },
+            updated_at: { type: :string },
+            company: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string },
+            } },
+            partner: { type: :object, properties: {
+              id: { type: :integer },
+              name: { type: :string },
+            } },
+          }
         run_test!
       end
 
       response 422, "voucher is inactive or used" do
         auth_api
         let(:id) { create(:pi_voucher, status: "used", received_at: Time.now - 1.hour).id }
+
+        schema type: :object,
+          properties: {
+            errors: { type: :array, items: {
+              type: :object, properties: {
+                error_key: { type: :string, description: "the 'error_key' is the key of the error" },
+              },
+            } },
+          }
         run_test!
       end
     end

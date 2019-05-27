@@ -57,7 +57,7 @@ class Api::PiVouchersController < Api::BaseController
   def update
     authorize @pi_voucher
     case params[:status]
-    when "used"
+    when "use"
       @pi_voucher.assign_attributes(used_at: Time.now, status: "used", company_id: params.permit(:company_id)[:company_id])
     when "inactivate"
       @pi_voucher.assign_attributes(status: "inactive")
