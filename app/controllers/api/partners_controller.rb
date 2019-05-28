@@ -73,7 +73,7 @@ class Api::PartnersController < Api::BaseController
   end
 
   def by_federal_registration
-    @partner = Partner.find_by(federal_registration: params[:federal_registration])
+    @partner = Partner.where(federal_registration: params[:federal_registration]).where.not(status: "deleted").first
     if !@partner || @partner.id == params[:id]&.to_i
       head 404
     else
@@ -82,7 +82,7 @@ class Api::PartnersController < Api::BaseController
   end
 
   def by_favored_federal_registration
-    @partner = Partner.find_by(favored_federal_registration: params[:favored_federal_registration])
+    @partner = Partner.where(favored_federal_registration: params[:favored_federal_registration]).where.not(status: "deleted").first
     if !@partner || @partner.id == params[:id]&.to_i
       head 404
     else
