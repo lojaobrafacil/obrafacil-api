@@ -25,3 +25,4 @@ test-partner.json
 /ruby.xlsx
 /public/reports
 .DS_Store
+vendor/bundle
