@@ -24,4 +24,8 @@ class Client < ApplicationRecord
     self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
     self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
   end
+
+  def destroy(employee_id)
+    self.assign_attributes({ status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id }).save
+  end
 end

@@ -32,7 +32,7 @@ class Api::ClientsController < Api::ContactsController
       update_contact(@client)
       render json: @client, status: 201
     else
-      render json: {errors: @client.errors}, status: 422
+      render json: { errors: @client.errors }, status: 422
     end
   end
 
@@ -43,17 +43,17 @@ class Api::ClientsController < Api::ContactsController
       update_contact(@client)
       render json: @client, status: 200
     else
-      render json: {errors: @client.errors}, status: 422
+      render json: { errors: @client.errors }, status: 422
     end
   end
 
   def destroy
-    @client = Client.find(params[:id])
     authorize @client
-    user = @client.user
-    @client.destroy
-    user.destroy if user.partner
-    head 204
+    if @client.destroy(current_api_employee.id)
+      render json: { success: I18n.t("models.client.response.delete.success") }, status: 200
+    else
+      render json: { errors: @client.errors }, status: 422
+    end
   end
 
   private

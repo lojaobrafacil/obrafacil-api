@@ -1,4 +1,4 @@
-class Partner::BanksController < ApplicationController
+class ApiPartner::BanksController < ApplicationController
   def index
     bank = Bank.all
     render json: bank.as_json(only: [:id, :name, :code]), status: 200

@@ -1,8 +1,8 @@
-class Partner::SelfsController < Partner::BaseController
-  before_action :authenticate_partner_partner!, except: [:create, :by_federal_registration]
+class ApiPartner::SelfsController < ApiPartner::BaseController
+  before_action :authenticate_api_partner_partner!, except: [:create, :by_federal_registration]
 
   def index
-    @partner = current_partner_partner
+    @partner = current_api_partner_partner
     render json: @partner, status: 200, serializer: Partner::SelfSerializer
   end
 
@@ -30,10 +30,10 @@ class Partner::SelfsController < Partner::BaseController
   end
 
   def update_password
-    if current_partner_partner.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
+    if current_api_partner_partner.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
       render json: { success: I18n.t("models.user.success.reset_password") }, status: 201
     else
-      render json: { errors: current_partner_partner.errors }, status: 422
+      render json: { errors: current_api_partner_partner.errors }, status: 422
     end
   end
 

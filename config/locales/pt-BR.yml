@@ -6,31 +6,37 @@ pt-BR:
         restrict_dependent_destroy:
           has_one: Não é possível excluir o registro pois existe um %{record} dependente
           has_many: Não é possível excluir o registro pois existem %{record} dependentes
-      partner:
-        status:
-          deleted_at: "Deletado em %{deleted_at} e não pode ser alterado"
-          deleted_by: "Não pode ficar em branco"
-          created_by: "Não pode ficar em branco"
-          active_to_review: "Não é possível alterar o status de Ativo para Revisão"
-          active_to_pre_active: "Não é possível alterar o status de Ativo para Pré Ativo"
-          pre_active_to_review: "Não é possível alterar o status de Pré Ativo para Revisão"
-          review_to_pre_active: "Não é possível alterar o status de Revisão para Pré Ativo"
-          inactive: "Não é possível alterar um parceiro inativo"
+        partner:
+          status:
+            deleted_at: Deletado em %{deleted_at} e não pode ser alterado
+            deleted_by: Não pode ficar em branco
+            created_by: Não pode ficar em branco
+            active_to_review: Não é possível alterar o status de Ativo para Revisão
+            active_to_pre_active: Não é possível alterar o status de Ativo para Pré Ativo
+            pre_active_to_review: Não é possível alterar o status de Pré Ativo para Revisão
+            review_to_pre_active: Não é possível alterar o status de Revisão para Pré Ativo
+            inactive: Não é possível alterar um parceiro inativo
     models:
-      user: "Usuário"
-      partner: "Parceiro"
-    attributes:
       user:
-        email: "E-mail"
-        password: "Senha"
-        password_confirmation: "Confirmar Senha"
-        current_password: "Senha Atual"
-        remember_me: "Lembre-se de mim"
+        one: Usuário
+        other: Usuários
       partner:
-        kind: "Tipo"
-        name: "Nome"
-        federal_registration: "CPF / CNPJ"
-        favored_federal_registration: "CPF / CNPJ do favorecido"
+        one: Parceiro
+        other: Parceiros
+      client:
+        one: Cliente
+        other: Clientes
+    attributes:
+      partner:
+        name: Nome
+        email: E-mail
+        federal_registration: E-mail
+        status:
+          active: Ativo
+          inactive: Inativo
+          pre_active: Pré ativo
+          review: Revisão
+          deleted: Deletado
   date:
     abbr_day_names:
     - Dom
@@ -41,7 +47,7 @@ pt-BR:
     - Sex
     - Sáb
     abbr_month_names:
-    -
+    - 
     - Jan
     - Fev
     - Mar
@@ -67,7 +73,7 @@ pt-BR:
       long: "%d de %B de %Y"
       short: "%d de %B"
     month_names:
-    -
+    - 
     - Janeiro
     - Fevereiro
     - Março
@@ -99,69 +105,57 @@ pt-BR:
         one: quase 1 ano
         other: quase %{count} anos
       half_a_minute: meio minuto
-      less_than_x_minutes:
-        one: menos de um minuto
-        other: menos de %{count} minutos
       less_than_x_seconds:
         one: menos de 1 segundo
         other: menos de %{count} segundos
+      less_than_x_minutes:
+        one: menos de um minuto
+        other: menos de %{count} minutos
       over_x_years:
         one: mais de 1 ano
         other: mais de %{count} anos
-      x_days:
-        one: 1 dia
-        other: "%{count} dias"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
       x_minutes:
         one: 1 minuto
         other: "%{count} minutos"
+      x_days:
+        one: 1 dia
+        other: "%{count} dias"
       x_months:
         one: 1 mês
         other: "%{count} meses"
       x_years:
         one: 1 ano
         other: "%{count} anos"
-      x_seconds:
-        one: 1 segundo
-        other: "%{count} segundos"
     prompts:
-      day: Dia
-      hour: Hora
-      minute: Minuto
-      month: Mês
       second: Segundo
+      minute: Minuto
+      hour: Hora
+      day: Dia
+      month: Mês
       year: Ano
   errors:
     format: "%{attribute} %{message}"
     messages:
-      accepted: Deve ser aceito
-      blank: Não pode ficar em branco
-      present: Deve ficar em branco
-      confirmation: Não é igual a %{attribute}
-      empty: Não pode ficar vazio
-      equal_to: Deve ser igual a %{count}
-      even: Deve ser par
-      exclusion: Não está disponível
-      greater_than: Deve ser maior que %{count}
-      greater_than_or_equal_to: Deve ser maior ou igual a %{count}
-      inclusion: Não está incluído na lista
-      invalid: Não é válido
-      less_than: Deve ser menor que %{count}
-      less_than_or_equal_to: Deve ser menor ou igual a %{count}
+      accepted: deve ser aceito
+      blank: não pode ficar em branco
+      confirmation: não é igual a %{attribute}
+      empty: não pode ficar vazio
+      equal_to: deve ser igual a %{count}
+      even: deve ser par
+      exclusion: não está disponível
+      greater_than: deve ser maior que %{count}
+      greater_than_or_equal_to: deve ser maior ou igual a %{count}
+      inclusion: não está incluído na lista
+      invalid: não é válido
+      less_than: deve ser menor que %{count}
+      less_than_or_equal_to: deve ser menor ou igual a %{count}
       model_invalid: 'A validação falhou: %{errors}'
-      not_a_number: Não é um número
-      not_an_integer: Não é um número inteiro
-      odd: Deve ser ímpar
-      required: É obrigatório(a)
-      taken: já está em uso
-      too_long:
-        one: 'É muito longo (máximo: 1 caracter)'
-        other: 'É muito longo (máximo: %{count} caracteres)'
-      too_short:
-        one: 'É muito curto (mínimo: 1 caracter)'
-        other: 'É muito curto (mínimo: %{count} caracteres)'
-      wrong_length:
-        one: Não possui o tamanho esperado (1 caracter)
-        other: Não possui o tamanho esperado (%{count} caracteres)
+      not_a_number: não é um número
+      not_an_integer: não é um número inteiro
+      odd: deve ser ímpar
       other_than: Deve ser diferente de %{count}    
       carrierwave_processing_error: Falhou em ser processado
       carrierwave_integrity_error: Não é um tipo de arquivo permitido
@@ -174,11 +168,24 @@ pt-BR:
       mini_magick_processing_error: "Falha ao manipular com MiniMagick, talvez arquivo não seja uma imagem? Erro original: %{e}"
       min_size_error: "O tamanho do arquivo deve ser maior do que %{min_size}"
       max_size_error: "O tamanho do arquivo deve ser inferior a %{max_size}"
+      present: deve ficar em branco
+      required: é obrigatório(a)
+      taken: já está em uso
+      too_long:
+        one: 'é muito longo (máximo: 1 caracter)'
+        other: 'é muito longo (máximo: %{count} caracteres)'
+      too_short:
+        one: 'é muito curto (mínimo: 1 caracter)'
+        other: 'é muito curto (mínimo: %{count} caracteres)'
+      wrong_length:
+        one: não possui o tamanho esperado (1 caracter)
+        other: não possui o tamanho esperado (%{count} caracteres)
+        
     template:
       body: 'Por favor, verifique o(s) seguinte(s) campo(s):'
       header:
         one: 'Não foi possível gravar %{model}: 1 erro'
-        other: 'Não foi possível gravar %{model}: %{count} erros'     
+        other: 'Não foi possível gravar %{model}: %{count} erros'
   helpers:
     select:
       prompt: Por favor selecione
@@ -221,7 +228,7 @@ pt-BR:
             other: trilhões
           unit: ''
       format:
-        delimiter: ""
+        delimiter: ''
         precision: 3
         significant: true
         strip_insignificant_zeros: true
@@ -231,9 +238,11 @@ pt-BR:
           byte:
             one: Byte
             other: Bytes
+          eb: EB
           gb: GB
           kb: KB
           mb: MB
+          pb: PB
           tb: TB
     percentage:
       format:
@@ -254,61 +263,6 @@ pt-BR:
       long: "%d de %B de %Y, %H:%M"
       short: "%d de %B, %H:%M"
     pm: ''
-
-  devise:
-    confirmations:
-      confirmed: "Sua conta foi confirmada com sucesso. Você está logado."
-      send_instructions: "Dentro de minutos, você receberá um e-mail com instruções para a confirmação da sua conta."
-      send_paranoid_instructions: "Se o seu endereço de e-mail estiver cadastrado, você receberá uma mensagem com instruções para confirmação da sua conta."
-    failure:
-      already_authenticated: "Você já está logado."
-      inactive: "Sua conta não está ativada."
-      invalid: "%{authentication_keys} ou senha inválida."
-      locked: "Sua conta está bloqueada."
-      last_attempt: "Você tem mais uma tentativa antes de bloquear sua conta."
-      not_found_in_database: "%{authentication_keys} ou senha inválida."
-      timeout: "Sua sessão expirou, por favor, efetue login novamente para continuar."
-      unauthenticated: "Para continuar, efetue login ou registre-se."
-      unconfirmed: "Antes de continuar, confirme a sua conta."
-    mailer:
-      confirmation_instructions:
-        subject: "Instruções de confirmação"
-      reset_password_instructions:
-        subject: "Instruções de troca de senha"
-      unlock_instructions:
-        subject: "Instruções de desbloqueio"
-    passwords:
-      no_token: "Você só pode acessar essa página através de um e-mail de troca de senha. Se já estiver acessando por um e-mail, verifique se a URL fornecida está completa."
-      send_instructions: "Dentro de minutos, você receberá um e-mail com instruções para a troca da sua senha."
-      send_paranoid_instructions: "Se o seu endereço de e-mail estiver cadastrado, você receberá um link de recuperação da senha via e-mail."
-      updated: "Sua senha foi alterada com sucesso. Você está logado."
-      updated_not_active: "Sua senha foi alterada com sucesso."
-    registrations:
-      destroyed: "Sua conta foi cancelada com sucesso. Esperamos vê-lo novamente em breve."
-      signed_up: "Login efetuado com sucesso. Se não foi autorizado, a confirmação será enviada por e-mail."
-      signed_up_but_inactive: "Você foi cadastrado com sucesso. No entanto, não foi possível efetuar login, pois sua conta não foi ativada."
-      signed_up_but_locked: "Você foi cadastrado com sucesso. No entanto, não foi possível efetuar login, pois sua conta está bloqueada."
-      signed_up_but_unconfirmed: "Uma mensagem com um link de confirmação foi enviada para o seu endereço de e-mail. Por favor, abra o link para confirmar a sua conta."
-      update_needs_confirmation: "Você atualizou a sua conta com sucesso, mas o seu novo endereço de e-mail precisa ser confirmado. Por favor, acesse-o e clique no link de confirmação que enviamos."
-      updated: "Sua conta foi atualizada com sucesso."
-    sessions:
-      signed_in: "Login efetuado com sucesso!"
-      signed_out: "Saiu com sucesso."
-      already_signed_out: "Saiu com sucesso."
-    unlocks:
-      send_instructions: "Dentro de minutos, você receberá um email com instruções para o desbloqueio da sua conta."
-      send_paranoid_instructions: "Se sua conta existir, você receberá um e-mail com instruções para desbloqueá-la em alguns minutos."
-      unlocked: "Sua conta foi desbloqueada com sucesso. Efetue login para continuar."
-    errors:
-      messages:
-        already_confirmed: "já foi confirmado"
-        confirmation_period_expired: "precisa ser confirmada em até %{period}, por favor, solicite uma nova"
-        expired: "expirou, por favor, solicite uma nova"
-        not_found: "não encontrado"
-        not_locked: "não foi bloqueado"
-        not_saved:
-          one: "Não foi possível salvar %{resource}: 1 erro"
-          other: "Não foi possível salvar %{resource}: %{count} erros."
   pundit:
     errors: 
       not_autorize: "Acesso negado"

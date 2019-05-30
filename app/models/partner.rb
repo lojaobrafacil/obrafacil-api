@@ -2,7 +2,7 @@ class Partner < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :omniauthable
+         :omniauthable
   include DeviseTokenAuth::Concerns::User
   include Contact
   belongs_to :bank, optional: true
@@ -36,12 +36,13 @@ class Partner < ApplicationRecord
   after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
   after_save :create_coupon
   before_validation :validate_status
+  before_validation :set_default_to_devise, on: :create
   before_validation :validate_on_update, on: :update
   before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
   alias_attribute :vouchers, :pi_vouchers
 
-  def email; emails.find_by(primary: true) || emails.first; end
-  def phone; phones.find_by(primary: true) || phones.first; end
+  def primary_email; emails.find_by(primary: true) || emails.first; end
+  def primary_phone; phones.find_by(primary: true) || phones.first; end
 
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
 
@@ -70,14 +71,7 @@ class Partner < ApplicationRecord
   end
 
   def destroy(employee_id)
-    self.assign_attributes({ status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id, user: nil })
-    if self.save
-      User.where(federal_registration: self.federal_registration).each do |user|
-        user.destroy if user.client.nil? rescue nil
-      end
-    else
-      false
-    end
+    self.assign_attributes({ status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id }).save
   end
 
   def self.commissions_by_year(year)
@@ -94,6 +88,25 @@ class Partner < ApplicationRecord
       (select coalesce(sum(c.order_price), 0) from commissions as c where c.partner_id = partners.id and extract(year from c.order_date) = #{year} and extract(month from c.order_date) = 10) as outubro, 
       (select coalesce(sum(c.order_price), 0) from commissions as c where c.partner_id = partners.id and extract(year from c.order_date) = #{year} and extract(month from c.order_date) = 11) as novembro, 
       (select coalesce(sum(c.order_price), 0) from commissions as c where c.partner_id = partners.id and extract(year from c.order_date) = #{year} and extract(month from c.order_date) = 12) as dezembro")
+  end
+
+  def active_for_authentication?
+    super && self.active?
+  end
+
+  def inactive_message
+    self.active? ? super : :inactive
+  end
+
+  def provider
+    "federal_registration"
+  end
+
+  def update_password(current_password, password, password_confirmation)
+    msg ||= I18n.t("models.user.errors.invalid_password") unless self.valid_password?(current_password)
+    msg ||= I18n.t("models.user.errors.password_not_match") unless password == password_confirmation
+    msg.nil? ? update(password: password, password_confirmation: password_confirmation) : errors.add(:password, msg)
+    msg.nil?
   end
 
   private
@@ -117,5 +130,11 @@ class Partner < ApplicationRecord
 
   def validate_on_update
     errors.add(:created_by, I18n.t("errors.messages.blank")) if self.created_by.nil?
+  end
+
+  # to devise
+  def set_default_to_devise
+    self.uid = (Partner.last.id + 1).t_s + p.federal_registration
+    self.password = self.password_confirmation = self.federal_registration
   end
 end

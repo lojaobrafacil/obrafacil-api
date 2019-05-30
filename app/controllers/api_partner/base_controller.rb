@@ -1,4 +1,4 @@
-class Partner::BaseController < ApplicationController
+class ApiPartner::BaseController < ApplicationController
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected

@@ -55,8 +55,7 @@ class Api::PartnersController < Api::BaseController
 
   def reset_password
     authorize @partner
-    user = @partner.user
-    if user&.reset_password(params[:password], params[:password_confirmation])
+    if @partner.reset_password(params[:password], params[:password_confirmation])
       render json: { success: I18n.t("models.partner.response.reset_password.success") }, status: 201
     else
       render json: { errors: I18n.t("models.partner.response.reset_password.error") }, status: 422
@@ -104,7 +103,7 @@ class Api::PartnersController < Api::BaseController
   def partner_params
     params.permit(:name, :federal_registration, :state_registration,
                   :kind, :status, :started_date, :renewal_date, :description, :origin, :percent,
-                  :agency, :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption,
+                  :agency, :ocupation, :account, :favored, :bank_id, :cash_redemption,
                   :partner_group_id, :favored_federal_registration)
   end
 end

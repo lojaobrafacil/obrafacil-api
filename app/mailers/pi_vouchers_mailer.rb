@@ -7,6 +7,6 @@ class PiVouchersMailer < ApplicationMailer
     @name = @partner.name.split(" ")[0]
     @pdf = open(@pi_voucher.attachment_url).read
     attachments["voucher_#{@pi_voucher.id}.pdf"] = @pdf
-    mail(to: @partner.email.email, subject: "ObraFacil: Seu voucher esta disponível!")
+    mail(to: @partner.primary_email.email, subject: "ObraFacil: Seu voucher esta disponível!")
   end
 end

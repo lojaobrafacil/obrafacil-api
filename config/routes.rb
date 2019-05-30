@@ -98,7 +98,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api_partner, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
-    mount_devise_token_auth_for "Partner", at: "auth", skip: [:registrations]
+    mount_devise_token_auth_for "Partner", at: "auth", skip: [:registrations], controllers: { sessions: "api_partner/sessions" }
     put "selfs/password", to: "selfs#update_password"
     get "selfs/by_federal_registration/:federal_registration", to: "selfs#by_federal_registration"
     resources :selfs, only: [:index, :create]
@@ -107,7 +107,7 @@ Rails.application.routes.draw do
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
   end
 
-  namespace :api_client, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
+  namespace :api_client, defaults: { format: :json }, constraints: { subdomain: "client" }, path: "/" do
     mount_devise_token_auth_for "Client", at: "auth"
     as :client do
       # Define routes for Client within this block.

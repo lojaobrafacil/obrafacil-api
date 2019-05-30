@@ -5,7 +5,6 @@ class Api::PartnerSerializer < ActiveModel::Serializer
              :addresses, :phones, :emails, :cash_redemption, :favored_federal_registration,
              :updated_at, :created_at, :deleted_at
 
-  has_one :user
   has_one :coupon
   has_one :created_by
   has_one :deleted_by
@@ -33,7 +32,7 @@ class Api::PartnerSerializer < ActiveModel::Serializer
   def created_by
     object.created_by.as_json(only: [:id, :name])
   end
-  
+
   def deleted_by
     object.deleted_by.as_json(only: [:id, :name])
   end
