@@ -5,7 +5,7 @@ FactoryBot.define do
     state_registration { Faker::Code.isbn }
     international_registration { Faker::Code.isbn }
     kind { ["physical", "legal"].sample }
-    active { true }
+    status { "active" }
     birth_date { Faker::Date.birthday(18, 65) }
     renewal_date { Faker::Date.forward(10000) }
     tax_regime { ["simple", "normal", "presumed"].sample }

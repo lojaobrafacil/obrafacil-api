@@ -1,8 +1,8 @@
 class Partner::SelfsController < Partner::BaseController
-  before_action :authenticate_partner_user!, except: [:create, :by_federal_registration]
+  before_action :authenticate_partner_partner!, except: [:create, :by_federal_registration]
 
   def index
-    @partner = current_partner_user.partner
+    @partner = current_partner_partner
     render json: @partner, status: 200, serializer: Partner::SelfSerializer
   end
 
@@ -11,7 +11,7 @@ class Partner::SelfsController < Partner::BaseController
     if !@partner
       head 404
     else
-      render json: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais t: (11) 3031-6891" }, status: 200      
+      render json: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais t: (11) 3031-6891" }, status: 200
     end
   end
 
@@ -30,11 +30,10 @@ class Partner::SelfsController < Partner::BaseController
   end
 
   def update_password
-    @user = current_partner_user
-    if @user.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
+    if current_partner_partner.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
       render json: { success: I18n.t("models.user.success.reset_password") }, status: 201
     else
-      render json: { errors: @user.errors }, status: 422
+      render json: { errors: current_partner_partner.errors }, status: 422
     end
   end
 

@@ -1,7 +1,8 @@
 class Partner::CommissionsController < Partner::BaseController
-  before_action :authenticate_partner_user!
+  before_action :authenticate_partner_partner!
+
   def index
-    commissions = Commission.where("partner_id = ?", params[:partner_id]).order("order_date desc") if params[:partner_id]
+    commissions = current_partner_partner.commissions.order("order_date desc")
     paginate json: commissions, status: 200
   end
 end

@@ -14,7 +14,7 @@ class ClientPolicy < ApplicationPolicy
   def permitted_attributes
     if show?
       [:name, :federal_registration, :state_registration,
-       :international_registration, :kind, :active, :birth_date, :renewal_date,
+       :international_registration, :kind, :status, :birth_date, :renewal_date,
        :tax_regime, :description, :order_description, :limit, :billing_type_id, :user_id]
     else
       []

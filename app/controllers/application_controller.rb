@@ -4,13 +4,18 @@ class ApplicationController < ActionController::API
   respond_to :json, :xls, :csv
   include DeviseTokenAuth::Concerns::SetUserByToken
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  before_action :set_locale
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
 
   def version
     render(json: {
              current: 200,
              minimum: 200,
              title: "HUBCO API V2",
-             env: Rails.env
+             env: Rails.env,
            })
   end
 
