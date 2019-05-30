@@ -1,6 +1,11 @@
 class Partner < ApplicationRecord
+  # Include default devise modules.
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable, :omniauthable
+  include DeviseTokenAuth::Concerns::User
+  include Contact
   belongs_to :bank, optional: true
-  belongs_to :user, optional: true
   belongs_to :partner_group, optional: true
   belongs_to :deleted_by, :class_name => "Employee", :foreign_key => "deleted_by_id", optional: true
   belongs_to :created_by, :class_name => "Employee", :foreign_key => "created_by_id", optional: true
@@ -20,7 +25,6 @@ class Partner < ApplicationRecord
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind, :status
-  include Contact
   validates :federal_registration,
             presence: true,
             uniqueness: { allow_blank: true, case_sensitive: true },
@@ -29,7 +33,7 @@ class Partner < ApplicationRecord
             presence: true,
             uniqueness: { allow_blank: true, case_sensitive: true },
             if: Proc.new { |partner| (partner.active? || partner.review?) && ["active", "review"].map { |value| Partner.where.not(id: partner.id).where(favored_federal_registration: partner.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase).pluck(:status).include?(value) }.include?(true) }
-  after_save :update_user, :premio_ideal, if: Proc.new { |partner| partner.active? }
+  after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
   after_save :create_coupon
   before_validation :validate_status
   before_validation :validate_on_update, on: :update
@@ -58,27 +62,6 @@ class Partner < ApplicationRecord
       end
     else
       self.coupon.update(status: 0) if !self.coupon.nil?
-    end
-  end
-
-  def update_user
-    if self.active?
-      if user = self.user
-        user.update(federal_registration: self.federal_registration.to_s, email: self.federal_registration.to_s + "@obrafacil.com") if user.federal_registration != self.federal_registration
-      elsif user = User.find_by(federal_registration: self.federal_registration)
-        user.update(partner: self)
-      else
-        self.build_user(email: self.federal_registration.to_s + "@obrafacil.com",
-                        federal_registration: self.federal_registration,
-                        password: "obrafacil2018",
-                        password_confirmation: "obrafacil2018").save
-      end
-    else
-      u = self.user
-      if u
-        u.update(partner: nil)
-        u.destroy
-      end
     end
   end
 

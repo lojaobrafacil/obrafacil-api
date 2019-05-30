@@ -97,13 +97,20 @@ Rails.application.routes.draw do
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
   end
 
-  namespace :partner, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
-    mount_devise_token_auth_for "User", at: "auth", skip: [:registrations]
+  namespace :api_partner, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
+    mount_devise_token_auth_for "Partner", at: "auth", skip: [:registrations]
     put "selfs/password", to: "selfs#update_password"
     get "selfs/by_federal_registration/:federal_registration", to: "selfs#by_federal_registration"
     resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
+  end
+
+  namespace :api_client, defaults: { format: :json }, constraints: { subdomain: "partner" }, path: "/" do
+    mount_devise_token_auth_for "Client", at: "auth"
+    as :client do
+      # Define routes for Client within this block.
+    end
   end
 end
