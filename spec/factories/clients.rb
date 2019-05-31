@@ -13,6 +13,5 @@ FactoryBot.define do
     order_description { Faker::Lorem.paragraph }
     limit { Faker::Number.decimal(2) }
     billing_type_id { create(:billing_type).id }
-    user_id { create(:user).id }
   end
 end

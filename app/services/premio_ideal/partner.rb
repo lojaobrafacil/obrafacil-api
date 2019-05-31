@@ -65,7 +65,8 @@ module PremioIdeal
           and partners.id = #{@partner.id}
           and emails.primary = phones.primary
           and partners.started_date is null").as_json
-      if resp = query_response.select { |e| e["primary"] == true }.first
+      if query_response.empty?
+      elsif resp = query_response.select { |e| e["primary"] == true }.first
         resp.delete "primary"
         resp
       else

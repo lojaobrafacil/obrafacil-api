@@ -1,5 +1,6 @@
 class Api::ClientsController < Api::ContactsController
   before_action :authenticate_admin_or_api!
+  before_action :set_client, expect: [:create]
 
   def index
     @clients = policy_scope Client
@@ -16,13 +17,8 @@ class Api::ClientsController < Api::ContactsController
   end
 
   def show
-    @client = Client.find_by(id: params[:id])
-    if @client
-      authorize @client
-      render json: @client, status: 200
-    else
-      head 404
-    end
+    authorize @client
+    render json: @client, status: 200
   end
 
   def create
@@ -37,7 +33,6 @@ class Api::ClientsController < Api::ContactsController
   end
 
   def update
-    @client = Client.find(params[:id])
     authorize @client
     if @client.update(client_params)
       update_contact(@client)
@@ -49,7 +44,7 @@ class Api::ClientsController < Api::ContactsController
 
   def destroy
     authorize @client
-    if @client.destroy(current_api_employee.id)
+    if @client.destroy
       render json: { success: I18n.t("models.client.response.delete.success") }, status: 200
     else
       render json: { errors: @client.errors }, status: 422
@@ -57,6 +52,11 @@ class Api::ClientsController < Api::ContactsController
   end
 
   private
+
+  def set_client
+    @client = Client.find_by(id: params[:id])
+    head 404 unless @client
+  end
 
   def client_params
     params.permit(policy(Client).permitted_attributes)

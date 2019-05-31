@@ -32,6 +32,7 @@ pt-BR:
         email: E-mail
         federal_registration: E-mail
         status:
+          one: Status
           active: Ativo
           inactive: Inativo
           pre_active: Pré ativo

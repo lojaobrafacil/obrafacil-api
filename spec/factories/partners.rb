@@ -17,6 +17,7 @@ FactoryBot.define do
     favored_federal_registration { Faker::Code.isbn }
     bank_id { create(:bank).id }
     partner_group_id { create(:partner_group).id }
+    created_by_id { create(:employee).id }
     emails { build_list :email, 3 }
     phones { build_list :phone, 3 }
     addresses { build_list :address, 3 }

@@ -100,12 +100,12 @@ RSpec.describe "Partner API", type: :request do
       delete "/partners/#{@partner_id}#{@auth_data}", params: {}.to_json
     end
 
-    it "return status code 204" do
-      expect(response).to have_http_status(204)
+    it "return status code 200" do
+      expect(response).to have_http_status(200)
     end
 
     it "removes the user from database" do
-      expect(Partner.find_by(id: @partner_id)).to be_nil
+      expect(Partner.find_by(id: @partner_id).status).to eq("deleted")
     end
   end
 end

@@ -1,5 +1,4 @@
 class Partner < ApplicationRecord
-  # Include default devise modules.
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
@@ -46,14 +45,6 @@ class Partner < ApplicationRecord
 
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
 
-  def default_values
-    self.name = self.name.strip.titleize rescue nil
-    self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
-    self.favored_federal_registration = !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration
-    self.favored_federal_registration = self.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
-    self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
-  end
-
   def create_coupon
     if self.active?
       if self.coupon.nil?
@@ -67,11 +58,12 @@ class Partner < ApplicationRecord
   end
 
   def premio_ideal
-    PremioIdealWorker.perform_async(id)
+    PremioIdealWorker.perform_async(id) if !devise_attributes_changed?
   end
 
   def destroy(employee_id)
-    self.assign_attributes({ status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id }).save
+    p self.id
+    self.update(status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id)
   end
 
   def self.commissions_by_year(year)
@@ -109,7 +101,19 @@ class Partner < ApplicationRecord
     msg.nil?
   end
 
+  def record_timestamps
+    !self.new_record? && self.changed? && devise_attributes_changed? ? false : true
+  end
+
   private
+
+  def default_values
+    self.name = self.name.strip.titleize if self.name_changed? || self.new_record? rescue nil
+    self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase if self.federal_registration_changed? || self.new_record? rescue nil
+    self.favored_federal_registration = !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration rescue nil
+    self.favored_federal_registration = self.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase if self.favored_federal_registration_changed? || self.new_record? rescue nil
+    self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase if self.state_registration_changed? || self.new_record? rescue nil
+  end
 
   def validate_status
     if self.status_changed?
@@ -134,7 +138,15 @@ class Partner < ApplicationRecord
 
   # to devise
   def set_default_to_devise
-    self.uid = (Partner.last.id + 1).t_s + p.federal_registration
-    self.password = self.password_confirmation = self.federal_registration
+    self.uid = ((Partner.last&.id || 0) + 1).to_s + self.federal_registration rescue nil
+    self.password = self.password_confirmation = "obrafacil2018" rescue nil  ##SecureRandom.hex(4).upcase
+  end
+
+  def devise_attributes_changed?
+    arr = self.changes.symbolize_keys.keys
+    [:reset_password_token, :reset_password_sent_at, :allow_password_change, :remember_created_at, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :tokens].map {
+      |key|
+      arr.include?(key)
+    }.include?(true)
   end
 end

@@ -8,7 +8,11 @@ class EmployeePolicy < ApplicationPolicy
   end
 
   def destroy?
-    false
+    if user.is_a?(Api)
+      user.admin?
+    else
+      user.admin?
+    end
   end
 
   def password?

@@ -27,7 +27,7 @@ class Api::PartnersController < Api::BaseController
 
   def create
     @partner = ::Partner.new(partner_params)
-    @partner.created_by = current_api_employee
+    @partner.created_by_id = @current_user.id
     if @partner.save
       render json: @partner, status: 201
     else
@@ -36,7 +36,7 @@ class Api::PartnersController < Api::BaseController
   end
 
   def update
-    @partner.created_by ||= current_api_employee
+    @partner.created_by_id ||= @current_user.id
     if @partner.update(partner_params)
       render json: @partner, status: 200
     else
@@ -46,7 +46,7 @@ class Api::PartnersController < Api::BaseController
 
   def destroy
     authorize @partner
-    if @partner.destroy(current_api_employee.id)
+    if @partner.destroy(@current_user.id)
       render json: { success: I18n.t("models.partner.response.delete.success") }, status: 200
     else
       render json: { errors: @partner.errors }, status: 422

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_26_181136) do
+ActiveRecord::Schema.define(version: 2019_05_30_014748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,19 +124,40 @@ ActiveRecord::Schema.define(version: 2019_05_26_181136) do
     t.string "state_registration"
     t.string "international_registration"
     t.integer "kind"
-    t.boolean "active", default: true
-    t.datetime "birth_date"
     t.datetime "renewal_date"
     t.integer "tax_regime"
     t.text "description"
     t.string "order_description"
     t.float "limit"
     t.bigint "billing_type_id"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.boolean "allow_password_change", default: false
+    t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "image"
+    t.string "email"
+    t.json "tokens"
+    t.integer "status"
+    t.datetime "birthday"
     t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
-    t.index ["user_id"], name: "index_clients_on_user_id"
+    t.index ["confirmation_token"], name: "index_clients_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_clients_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_clients_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_clients_on_uid_and_provider", unique: true
   end
 
   create_table "commissions", force: :cascade do |t|
@@ -378,7 +399,6 @@ ActiveRecord::Schema.define(version: 2019_05_26_181136) do
     t.string "account"
     t.string "favored"
     t.bigint "bank_id"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "started_date"
@@ -392,9 +412,31 @@ ActiveRecord::Schema.define(version: 2019_05_26_181136) do
     t.datetime "deleted_at"
     t.integer "deleted_by_id"
     t.integer "created_by_id"
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.boolean "allow_password_change", default: false
+    t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "image"
+    t.string "email"
+    t.json "tokens"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
+    t.index ["confirmation_token"], name: "index_partners_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_partners_on_email", unique: true
     t.index ["partner_group_id"], name: "index_partners_on_partner_group_id"
-    t.index ["user_id"], name: "index_partners_on_user_id"
+    t.index ["reset_password_token"], name: "index_partners_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_partners_on_uid_and_provider", unique: true
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -588,7 +630,6 @@ ActiveRecord::Schema.define(version: 2019_05_26_181136) do
   add_foreign_key "cashier_payments", "payment_methods"
   add_foreign_key "cities", "states"
   add_foreign_key "clients", "billing_types"
-  add_foreign_key "clients", "users"
   add_foreign_key "commissions", "partners"
   add_foreign_key "company_products", "companies"
   add_foreign_key "company_products", "products"
@@ -604,7 +645,6 @@ ActiveRecord::Schema.define(version: 2019_05_26_181136) do
   add_foreign_key "orders", "companies"
   add_foreign_key "orders", "price_percentages"
   add_foreign_key "partners", "banks"
-  add_foreign_key "partners", "users"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "pi_vouchers", "companies"
   add_foreign_key "pi_vouchers", "partners"

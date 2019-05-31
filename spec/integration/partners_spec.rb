@@ -169,7 +169,7 @@ describe "Partners API" do
           bank_id: { type: :integer },
           ocupation: { type: :string, example: Faker::Job.field },
           cash_redemption: { type: :string, example: "true, false or maybe" },
-          partner_group_id: { type: :integer }
+          partner_group_id: { type: :integer },
         },
         required: ["name", "federal_registration", "kind"],
       }

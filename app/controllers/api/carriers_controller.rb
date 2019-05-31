@@ -3,7 +3,15 @@ class Api::CarriersController < Api::ContactsController
 
   def index
     @carriers = policy_scope Carrier
-    paginate json: @carriers.order(:id), status: 200
+    begin
+      if @carriers
+        paginate json: @carriers.order(:id), status: 200
+      else
+        head 404
+      end
+    rescue => e
+      render json: { errors: e }, status: 404
+    end
   end
 
   def show
@@ -23,7 +31,7 @@ class Api::CarriersController < Api::ContactsController
       update_contact(@carrier)
       render json: @carrier, status: 201
     else
-      render json: {errors: @carrier.errors}, status: 422
+      render json: { errors: @carrier.errors }, status: 422
     end
   end
 
@@ -34,7 +42,7 @@ class Api::CarriersController < Api::ContactsController
       update_contact(@carrier)
       render json: @carrier, status: 200
     else
-      render json: {errors: @carrier.errors}, status: 422
+      render json: { errors: @carrier.errors }, status: 422
     end
   end
 

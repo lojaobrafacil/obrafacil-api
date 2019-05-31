@@ -53,7 +53,7 @@ RSpec.describe "Carrier API", type: :request do
     end
 
     context "when the request params are invalid" do
-      let(:carrier_params) { {name: ""} }
+      let(:carrier_params) { { name: "" } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)
@@ -71,7 +71,7 @@ RSpec.describe "Carrier API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:carrier_params) { {name: "Comercial"} }
+      let(:carrier_params) { { name: "Comercial" } }
 
       it "return status code 200" do
         expect(response).to have_http_status(200)
@@ -83,7 +83,7 @@ RSpec.describe "Carrier API", type: :request do
     end
 
     context "when the request params are invalid" do
-      let(:carrier_params) { {name: nil} }
+      let(:carrier_params) { { name: nil } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)

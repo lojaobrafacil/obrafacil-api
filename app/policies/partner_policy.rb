@@ -24,10 +24,14 @@ class PartnerPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if show?
+    if user&.is_a?(Api) && user.admin?
       [:name, :federal_registration, :state_registration,
        :kind, :status, :started_date, :renewal_date, :description, :origin, :percent, :agency,
        :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption]
+    elsif show?
+      [:name, :federal_registration, :state_registration,
+       :kind, :status, :started_date, :renewal_date, :description, :origin, :percent, :agency,
+       :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption, :deleted_by_id]
     else
       []
     end
