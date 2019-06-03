@@ -17,16 +17,16 @@ describe "Coupons API" do
                  id: { type: :integer },
                  name: { type: :string },
                  code: { type: :string },
-                 discount: { type: :string },
+                 discount: { type: :float },
                  status: { type: :string },
                  kind: { type: :string },
-                 max_value: { type: :string },
+                 max_value: { type: :float },
                  expired_at: { type: :string },
                  starts_at: { type: :string },
-                 total_uses: { type: :string },
-                 client_uses: { type: :string },
-                 shipping: { type: :string },
-                 logged: { type: :string },
+                 total_uses: { type: :integer },
+                 client_uses: { type: :integer },
+                 shipping: { type: :boolean },
+                 logged: { type: :boolean },
                  partner: { type: :object, properties: {
                    id: { type: :integer },
                    name: { type: :string },
@@ -55,16 +55,16 @@ describe "Coupons API" do
             id: { type: :integer },
             name: { type: :string },
             code: { type: :string },
-            discount: { type: :string },
+            discount: { type: :float },
             status: { type: :string },
             kind: { type: :string },
-            max_value: { type: :string },
+            max_value: { type: :float },
             expired_at: { type: :string },
             starts_at: { type: :string },
-            total_uses: { type: :string },
-            client_uses: { type: :string },
-            shipping: { type: :string },
-            logged: { type: :string },
+            total_uses: { type: :integer },
+            client_uses: { type: :integer },
+            shipping: { type: :boolean },
+            logged: { type: :boolean },
             partner: { type: :object, properties: {
               id: { type: :integer },
               name: { type: :string },
@@ -75,7 +75,7 @@ describe "Coupons API" do
             updated_at: { type: :string },
           }
 
-        let(:id) { create(:coupon).id }
+        let(:id) { create(:partner).coupon.id }
         run_test!
       end
 
@@ -97,16 +97,16 @@ describe "Coupons API" do
         type: :object,
         properties: {
           name: { type: :string, example: Faker::Name.name },
-          discount: { type: :string, example: Faker::Number.decimal(1, 0) },
+          discount: { type: :float, example: Faker::Number.decimal(1, 0) },
           status: { type: :string, example: "active or inactive" },
           kind: { type: :string, example: "percent or value" },
-          max_value: { type: :string, example: Faker::Number.decimal(3, 0) },
+          max_value: { type: :float, example: Faker::Number.decimal(3, 0) },
           expired_at: { type: :string, example: DateTime.now + 1.year },
           starts_at: { type: :string, example: DateTime.now },
-          total_uses: { type: :string, example: Faker::Number.number(2) },
-          client_uses: { type: :string, example: Faker::Number.number(2) },
-          shipping: { type: :string, example: "true or false" },
-          logged: { type: :string, example: "true or false" },
+          total_uses: { type: :integer, example: Faker::Number.number(2) },
+          client_uses: { type: :integer, example: Faker::Number.number(2) },
+          shipping: { type: :boolean, example: "true or false" },
+          logged: { type: :boolean, example: "true or false" },
           description: { type: :string, example: Faker::Lorem.paragraph },
         },
         required: ["name", "discount", "starts_at", "expired_at"],
@@ -176,24 +176,24 @@ describe "Coupons API" do
       parameter name: :code, :in => :path, :type => :string, required: true, description: "Coupon code"
       parameter name: :client_federal_registration, :in => :query, :type => :string, required: false, description: "To validate usage per client"
 
-      response 204, "Success" do
+      response 200, "Success" do
         auth_api
-        let(:code) { create(:coupon).code }
+        let(:code) { create(:partner).coupon.code }
         let(:client_federal_registration) { Faker::Number.number(11) }
         schema type: :object, properties: {
                  id: { type: :integer },
                  name: { type: :string },
                  code: { type: :string },
-                 discount: { type: :string },
+                 discount: { type: :float },
                  status: { type: :string },
                  kind: { type: :string },
-                 max_value: { type: :string },
+                 max_value: { type: :float },
                  expired_at: { type: :string },
                  starts_at: { type: :string },
-                 total_uses: { type: :string },
-                 client_uses: { type: :string },
-                 shipping: { type: :string },
-                 logged: { type: :string },
+                 total_uses: { type: :integer },
+                 client_uses: { type: :integer },
+                 shipping: { type: :boolean },
+                 logged: { type: :boolean },
                  partner: { type: :object, properties: {
                    id: { type: :integer },
                    name: { type: :string },
@@ -208,7 +208,7 @@ describe "Coupons API" do
 
       response 404, "Not Found" do
         auth_api
-        let(:code) { "661A52S" }
+        let(:code) { "invalid" }
         schema type: :object, properties: {
                  errors: { type: :string, example: I18n.t("models.coupon.errors.not_found") },
                }
@@ -245,7 +245,8 @@ describe "Coupons API" do
 
       response 404, "Not Found" do
         auth_api
-        let(:code) { "661A52S" }
+        let(:code) { "invalid" }
+        let(:coupon) { attributes_for(:log_coupon) }
         schema type: :object, properties: {
                  errors: { type: :string, example: I18n.t("models.coupon.errors.not_found") },
                }
@@ -255,7 +256,7 @@ describe "Coupons API" do
       response 422, "invalid request" do
         auth_api
         let(:code) { create(:coupon).code }
-        let(:coupon) { attributes_for(:log_coupon, external_order_id: nil) }
+        let(:coupon) { { external_order_id: nil } }
         schema type: :object, properties: {
           errors: { type: :string, example: I18n.t("models.coupon.errors.already_used") },
         }

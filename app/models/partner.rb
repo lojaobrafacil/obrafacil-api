@@ -62,7 +62,6 @@ class Partner < ApplicationRecord
   end
 
   def destroy(employee_id)
-    p self.id
     self.update(status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id)
   end
 

@@ -36,6 +36,7 @@ describe "Partners API" do
 
       response 200, "partner found" do
         auth_api
+        let(:id) { create(:partner).id }
         schema type: :object,
           properties: {
             id: { type: :integer },
@@ -110,28 +111,25 @@ describe "Partners API" do
               updated_at: { type: :string },
               created_at: { type: :string },
             } } },
-            coupon: { type: :array,
-                     items: { type: :object, properties: {
+            coupon: { type: :object, properties: {
               id: { type: :integer },
               name: { type: :string },
               code: { type: :string },
-              discount: { type: :string },
+              discount: { type: :float },
               status: { type: :string },
               kind: { type: :string },
-              max_value: { type: :string },
+              max_value: { type: :float },
               expired_at: { type: :string },
               starts_at: { type: :string },
-              total_uses: { type: :string },
-              client_uses: { type: :string },
-              shipping: { type: :string },
-              logged: { type: :string },
+              total_uses: { type: :integer },
+              client_uses: { type: :integer },
+              shipping: { type: :boolean },
+              logged: { type: :boolean },
               description: { type: :string },
               created_at: { type: :string },
               updated_at: { type: :string },
-            } } },
+            } },
           }
-
-        let(:id) { create(:partner).id }
         run_test!
       end
 
@@ -243,9 +241,9 @@ describe "Partners API" do
       params_auth
       parameter name: :id, :in => :path, :type => :string, required: true
 
-      response 204, "partner destroyed" do
+      response 200, "partner destroyed" do
         auth_api
-        let(:id) { create(:partner).id }
+        let(:id) { create(:partner, deleted_by_id: create(:employee).id).id }
         run_test!
       end
 

@@ -13,6 +13,7 @@ RSpec.describe "Client API", type: :request do
     before do
       get "/clients#{@auth_data}", params: {}
     end
+
     it "return 5 clients from database" do
       expect(json_body.count).to eq(5)
     end

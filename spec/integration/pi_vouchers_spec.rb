@@ -185,11 +185,11 @@ describe "PiVouchers API" do
         let(:id) { create(:pi_voucher, status: "used", company_id: nil).id }
         schema type: :object,
           properties: {
-            errors: { type: :array, items: {
+            errors: {
               type: :object, properties: {
-                error_key: { type: :string, description: "the 'error_key' is the key of the error" },
+                status: { type: :array },
               },
-            } },
+            },
           }
         run_test!
       end
@@ -234,13 +234,13 @@ describe "PiVouchers API" do
         auth_api
         let(:id) { create(:pi_voucher, received_at: Time.now - 1.hour).id }
         schema type: :object,
-          properties: {
-            errors: { type: :array, items: {
-              type: :object, properties: {
-                error_key: { type: :string, description: "the 'error_key' is the key of the error" },
-              },
-            } },
-          }
+               properties: {
+                 errors: {
+                   type: :object, properties: {
+                     status: { type: :array },
+                   },
+                 },
+               }
         run_test!
       end
     end
@@ -285,13 +285,13 @@ describe "PiVouchers API" do
         let(:id) { create(:pi_voucher, status: "used", received_at: Time.now - 1.hour).id }
 
         schema type: :object,
-          properties: {
-            errors: { type: :array, items: {
-              type: :object, properties: {
-                error_key: { type: :string, description: "the 'error_key' is the key of the error" },
-              },
-            } },
-          }
+               properties: {
+                 errors: {
+                   type: :object, properties: {
+                     status: { type: :array },
+                   },
+                 },
+               }
         run_test!
       end
     end

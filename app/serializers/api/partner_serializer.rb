@@ -3,7 +3,7 @@ class Api::PartnerSerializer < ActiveModel::Serializer
              :started_date, :renewal_date, :description, :origin, :percent, :agency, :account,
              :favored, :bank_id, :bank_name, :partner_group_id, :partner_group_name, :ocupation,
              :addresses, :phones, :emails, :cash_redemption, :favored_federal_registration,
-             :updated_at, :created_at, :deleted_at
+             :register, :site, :updated_at, :created_at, :deleted_at
 
   has_one :coupon
   has_one :created_by

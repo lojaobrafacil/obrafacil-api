@@ -18,6 +18,7 @@ FactoryBot.define do
     bank_id { create(:bank).id }
     partner_group_id { create(:partner_group).id }
     created_by_id { create(:employee).id }
+    coupon { create(:coupon) }
     emails { build_list :email, 3 }
     phones { build_list :phone, 3 }
     addresses { build_list :address, 3 }

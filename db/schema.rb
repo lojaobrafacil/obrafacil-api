@@ -330,7 +330,7 @@ ActiveRecord::Schema.define(version: 2019_05_30_014748) do
   create_table "log_coupons", force: :cascade do |t|
     t.bigint "coupon_id"
     t.string "external_order_id"
-    t.string "client_federan_registration"
+    t.string "client_federal_registration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coupon_id"], name: "index_log_coupons_on_coupon_id"
@@ -350,7 +350,7 @@ ActiveRecord::Schema.define(version: 2019_05_30_014748) do
     t.string "name"
     t.json "content"
     t.string "status"
-    t.datetime "started_at", default: "2019-05-22 05:46:30"
+    t.datetime "started_at", default: "2019-06-03 16:08:09"
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

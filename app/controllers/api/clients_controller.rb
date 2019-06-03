@@ -1,6 +1,6 @@
 class Api::ClientsController < Api::ContactsController
   before_action :authenticate_admin_or_api!
-  before_action :set_client, expect: [:create]
+  before_action :set_client, only: [:show, :update, :destroy]
 
   def index
     @clients = policy_scope Client

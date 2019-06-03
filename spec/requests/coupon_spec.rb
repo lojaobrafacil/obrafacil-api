@@ -14,7 +14,7 @@ RSpec.describe "Coupon API", type: :request do
       get "/coupons#{@auth_data}", params: {}
     end
     it "return 5 company products from database" do
-      expect(json_body.count).to eq(15)
+      expect(json_body.count).to eq(5)
     end
 
     it "return status 200" do
@@ -28,7 +28,7 @@ RSpec.describe "Coupon API", type: :request do
     end
 
     it "return company product from database" do
-      expect(json_body[:stock]).to eq(@coupon.stock)
+      expect(json_body[:id]).to eq(@coupon.id)
     end
 
     it "return status 200" do
@@ -42,19 +42,19 @@ RSpec.describe "Coupon API", type: :request do
     end
 
     context "when the request params are valid" do
-      let(:coupon_params) { {stock_max: 25} }
+      let(:coupon_params) { { name: "25" } }
 
       it "return status code 200" do
         expect(response).to have_http_status(200)
       end
 
       it "return the json data for the updated company product" do
-        expect(json_body[:stock_max]).to eq(coupon_params[:stock_max])
+        expect(json_body[:name]).to eq(coupon_params[:name])
       end
     end
 
     context "when the request params are invalid" do
-      let(:coupon_params) { {stock_max: nil} }
+      let(:coupon_params) { { name: nil } }
 
       it "return status code 422" do
         expect(response).to have_http_status(422)

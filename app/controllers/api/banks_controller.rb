@@ -23,7 +23,7 @@ class Api::BanksController < Api::BaseController
     if @bank.save
       render json: @bank, status: 201
     else
-      render json: {errors: @bank.errors}, status: 422
+      render json: { errors: @bank.errors }, status: 422
     end
   end
 
@@ -32,7 +32,7 @@ class Api::BanksController < Api::BaseController
     if @bank.update(bank_params)
       render json: @bank, status: 200
     else
-      render json: {errors: @bank.errors}, status: 422
+      render json: { errors: @bank.errors }, status: 422
     end
   end
 
