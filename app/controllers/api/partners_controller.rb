@@ -55,8 +55,9 @@ class Api::PartnersController < Api::BaseController
 
   def reset_password
     authorize @partner
-    if @partner.reset_password(params[:password], params[:password_confirmation])
-      render json: { success: I18n.t("models.partner.response.reset_password.success") }, status: 201
+    p reset_password_params
+    if @partner.reset_password(reset_password_params[:password], reset_password_params[:password_confirmation])
+      render json: { success: I18n.t("models.partner.response.reset_password.success") }, status: 200
     else
       render json: { errors: I18n.t("models.partner.response.reset_password.error") }, status: 422
     end
@@ -98,6 +99,10 @@ class Api::PartnersController < Api::BaseController
 
   def sms_params
     params.permit(partner_ids: [])
+  end
+
+  def reset_password_params
+    params.permit(:password, :password_confirmation)
   end
 
   def partner_params
