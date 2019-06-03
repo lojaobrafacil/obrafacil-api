@@ -6,6 +6,12 @@ class Coupon < ApplicationRecord
   belongs_to :partner, optional: true
   has_many :logs, class_name: "Log::Coupon"
 
+  attr_accessor :uses
+
+  def uses
+    self.logs.count rescue 0
+  end
+
   def default_values
     self.code ||= generate_code
     self.shipping ||= false

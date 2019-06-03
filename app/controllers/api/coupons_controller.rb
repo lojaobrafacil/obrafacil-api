@@ -17,7 +17,8 @@ class Api::CouponsController < Api::BaseController
 
   def by_code
     authorize @coupon
-    if params[:client_federal_registration] && @coupon.client_uses != 0
+    @coupon.status = "inactive" if @coupon.total_uses > 0 && @coupon.uses >= @coupon.total_uses
+    if @coupon.status != "inactive" && params[:client_federal_registration] && @coupon.client_uses != 0
       num_of_use_by_client = @coupon.logs.where(client_federal_registration: params[:client_federal_registration]).count
       @coupon.status = "inactive" if num_of_use_by_client >= @coupon.client_uses
     end
