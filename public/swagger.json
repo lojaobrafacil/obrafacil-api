@@ -1,0 +1,5247 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Hubco API",
+    "version": "200"
+  },
+  "paths": {
+    "/banks": {
+      "get": {
+        "summary": "All a banks",
+        "tags": [
+          "Banks"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "bank found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "code": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a bank",
+        "tags": [
+          "Banks"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "bank",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "example": "2445"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "ABN AMRO HOARE GOVETT SECURITIES"
+                },
+                "slug": {
+                  "type": "string",
+                  "example": "ABBOTSTONE AGRICULTURAL PROPERTY UNIT TRUST"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Aut et ut. Odio et dolor. Laudantium aut quia."
+                }
+              },
+              "required": [
+                "code",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "bank created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/banks/{id}": {
+      "get": {
+        "summary": "Retrieves a bank",
+        "tags": [
+          "Banks"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "bank found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "code": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "bank not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a bank",
+        "tags": [
+          "Banks"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "bank",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "example": "1403"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "ABN AMRO HOARE GOVETT LIMITED"
+                },
+                "slug": {
+                  "type": "string",
+                  "example": "ABN AMRO MEZZANINE (UK) LIMITED"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Illum voluptatem rerum. Occaecati qui nihil. Et rerum laborum."
+                }
+              },
+              "required": [
+                "code",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "bank updated"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a bank",
+        "tags": [
+          "Banks"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "bank destroyed"
+          },
+          "404": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/cities": {
+      "get": {
+        "summary": "All a cities",
+        "tags": [
+          "Cities"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          },
+          {
+            "name": "state_id",
+            "in": "query",
+            "type": "string",
+            "description": "cities of state ...",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "city found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Acrelândia"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities/{id}": {
+      "get": {
+        "summary": "Retrieves a city",
+        "tags": [
+          "Cities"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "city found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Acrelândia"
+                },
+                "capital": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "state": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Acre"
+                    },
+                    "acronym": {
+                      "type": "string",
+                      "example": "AC"
+                    },
+                    "region_id": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2018-03-15T16:54:07.739Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2018-03-15T16:54:07.739Z"
+                    }
+                  }
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "city not found"
+          }
+        }
+      }
+    },
+    "/commissions": {
+      "get": {
+        "summary": "All a commissions",
+        "tags": [
+          "Commissions"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          },
+          {
+            "name": "partner_id",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "x-nullable": true
+                  },
+                  "order_id": {
+                    "type": "integer",
+                    "x-nullable": true
+                  },
+                  "order_date": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "client_name": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "order_price": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "return_price": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "points": {
+                    "type": "integer",
+                    "x-nullable": true
+                  },
+                  "percent_date": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "percent": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "percent_value": {
+                    "type": "integer",
+                    "x-nullable": true
+                  },
+                  "sent_date": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "partner_id": {
+                    "type": "integer",
+                    "x-nullable": true
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "partner_id is required"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "commission",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "type": "string",
+                  "example": 1
+                },
+                "order_date": {
+                  "type": "string",
+                  "example": "1977-03-25"
+                },
+                "client_name": {
+                  "type": "string",
+                  "example": "Heloísa Carreira"
+                },
+                "order_price": {
+                  "type": "string",
+                  "example": ".08"
+                },
+                "return_price": {
+                  "type": "string",
+                  "example": ".06"
+                },
+                "points": {
+                  "type": "string",
+                  "example": "484"
+                },
+                "percent_date": {
+                  "type": "string",
+                  "example": "1954-10-24"
+                },
+                "percent": {
+                  "type": "string",
+                  "example": ".07"
+                },
+                "percent_value": {
+                  "type": "string",
+                  "example": ".07"
+                },
+                "sent_date": {
+                  "type": "string",
+                  "example": "1973-09-17"
+                },
+                "partner_id": {
+                  "type": "string",
+                  "example": 1
+                }
+              },
+              "required": [
+                "partner_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "commission created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/by_year/{partner_id}/{year}": {
+      "get": {
+        "summary": "retrives a commissions by year of partner",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "partner_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "order_id": {
+                    "type": "integer"
+                  },
+                  "order_date": {
+                    "type": "string"
+                  },
+                  "client_name": {
+                    "type": "string"
+                  },
+                  "order_price": {
+                    "type": "string"
+                  },
+                  "return_price": {
+                    "type": "string"
+                  },
+                  "points": {
+                    "type": "integer"
+                  },
+                  "percent_date": {
+                    "type": "string"
+                  },
+                  "percent": {
+                    "type": "string"
+                  },
+                  "percent_value": {
+                    "type": "string"
+                  },
+                  "sent_date": {
+                    "type": "string"
+                  },
+                  "partner_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/consolidated_by_year/{year}": {
+      "get": {
+        "summary": "retrives a commissions consolidated by year",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "nome_parceiro": {
+                    "type": "string"
+                  },
+                  "janeiro": {
+                    "type": "string"
+                  },
+                  "fevereiro": {
+                    "type": "string"
+                  },
+                  "marco": {
+                    "type": "string"
+                  },
+                  "abril": {
+                    "type": "string"
+                  },
+                  "maio": {
+                    "type": "string"
+                  },
+                  "junho": {
+                    "type": "string"
+                  },
+                  "julho": {
+                    "type": "string"
+                  },
+                  "agosto": {
+                    "type": "string"
+                  },
+                  "setembro": {
+                    "type": "string"
+                  },
+                  "outubro": {
+                    "type": "string"
+                  },
+                  "novembro": {
+                    "type": "string"
+                  },
+                  "dezembro": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/{id}": {
+      "put": {
+        "summary": "Updates a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "commission",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "order_date": {
+                  "type": "string",
+                  "example": "1986-08-12"
+                },
+                "client_name": {
+                  "type": "string",
+                  "example": "Mathias Fontinhas"
+                },
+                "order_price": {
+                  "type": "string",
+                  "example": ".08"
+                },
+                "return_price": {
+                  "type": "string",
+                  "example": ".02"
+                },
+                "points": {
+                  "type": "string",
+                  "example": "152"
+                },
+                "percent_date": {
+                  "type": "string",
+                  "example": "1964-12-07"
+                },
+                "percent": {
+                  "type": "string",
+                  "example": ".06"
+                },
+                "percent_value": {
+                  "type": "string",
+                  "example": ".03"
+                },
+                "sent_date": {
+                  "type": "string",
+                  "example": "1956-09-24"
+                },
+                "partner_id": {
+                  "type": "integer",
+                  "example": 1
+                }
+              },
+              "required": [
+                "partner_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "commission updated"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "commission destroyed"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/commissions/destroy_all/{partner_id}": {
+      "delete": {
+        "summary": "Destroy a commission",
+        "tags": [
+          "Commissions"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "partner_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "commission destroyed"
+          },
+          "422": {
+            "description": "partner_id is required"
+          }
+        }
+      }
+    },
+    "/companies": {
+      "get": {
+        "summary": "All a companies",
+        "tags": [
+          "Companies"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "company found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "fantaty_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a company",
+        "tags": [
+          "Companies"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "company",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Ana Luiza Lima"
+                },
+                "fantasy_name": {
+                  "type": "string",
+                  "example": "Rafael Arriaga"
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "965102515-8"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "419673497-9"
+                },
+                "invoice_save": {
+                  "type": "string",
+                  "example": "597743043-4"
+                },
+                "invouce_return": {
+                  "type": "string",
+                  "example": "091744513-9"
+                },
+                "pis_percent": {
+                  "type": "string",
+                  "example": "291231522-0"
+                },
+                "confins_percent": {
+                  "type": "string",
+                  "example": "145926108-9"
+                },
+                "icmsn_percent": {
+                  "type": "string",
+                  "example": "310370922-6"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "example": "1986-10-13"
+                },
+                "tax_regime": {
+                  "type": "string",
+                  "example": "2039-06-18"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "simple",
+                  "description": "pode ser simple, normal ou presumed"
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind",
+                "tax_regime"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "company created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/companies/{id}": {
+      "get": {
+        "summary": "Retrieves a company",
+        "tags": [
+          "Companies"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "company found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "fantasy_name": {
+                  "type": "string"
+                },
+                "federal_registration": {
+                  "type": "string"
+                },
+                "state_registration": {
+                  "type": "string"
+                },
+                "invoice_save": {
+                  "type": "string"
+                },
+                "invouce_return": {
+                  "type": "string"
+                },
+                "pis_percent": {
+                  "type": "integer"
+                },
+                "confins_percent": {
+                  "type": "integer"
+                },
+                "icmsn_percent": {
+                  "type": "integer"
+                },
+                "birth_date": {
+                  "type": "string"
+                },
+                "tax_regime": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "addresses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "number": {
+                        "type": "string"
+                      },
+                      "complement": {
+                        "type": "string"
+                      },
+                      "neighborhood": {
+                        "type": "string"
+                      },
+                      "zipcode": {
+                        "type": "integer"
+                      },
+                      "ibge": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "address_type_id": {
+                        "type": "integer"
+                      },
+                      "address_type_name": {
+                        "type": "string"
+                      },
+                      "city_id": {
+                        "type": "integer"
+                      },
+                      "city_name": {
+                        "type": "string"
+                      },
+                      "state_id": {
+                        "type": "integer"
+                      },
+                      "state_name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "phones": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string"
+                      },
+                      "phone_type_id": {
+                        "type": "integer"
+                      },
+                      "phone_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string"
+                      },
+                      "email_type_id": {
+                        "type": "integer"
+                      },
+                      "email_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "company not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a company",
+        "tags": [
+          "Companies"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "company",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Dr. Maria Clara de Oliveira"
+                },
+                "fantasy_name": {
+                  "type": "string",
+                  "example": "Maria Luiza Coutinho"
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "007535196-X"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "842578152-3"
+                },
+                "invoice_save": {
+                  "type": "string",
+                  "example": "445895761-9"
+                },
+                "invouce_return": {
+                  "type": "string",
+                  "example": "042223080-4"
+                },
+                "pis_percent": {
+                  "type": "string",
+                  "example": "062476901-1"
+                },
+                "confins_percent": {
+                  "type": "string",
+                  "example": "519388868-2"
+                },
+                "icmsn_percent": {
+                  "type": "string",
+                  "example": "853132841-1"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "example": "1970-03-24"
+                },
+                "tax_regime": {
+                  "type": "string",
+                  "example": "2038-10-04"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "simple",
+                  "description": "pode ser simple, normal ou presumed"
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind",
+                "tax_regime"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "company updated"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a company",
+        "tags": [
+          "Companies"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "company destroyed"
+          },
+          "404": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/coupons": {
+      "get": {
+        "summary": "All a coupons",
+        "tags": [
+          "Coupons"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "coupon found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  },
+                  "discount": {
+                    "type": "float"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "string"
+                  },
+                  "max_value": {
+                    "type": "float"
+                  },
+                  "expired_at": {
+                    "type": "string"
+                  },
+                  "starts_at": {
+                    "type": "string"
+                  },
+                  "total_uses": {
+                    "type": "integer"
+                  },
+                  "client_uses": {
+                    "type": "integer"
+                  },
+                  "shipping": {
+                    "type": "boolean"
+                  },
+                  "logged": {
+                    "type": "boolean"
+                  },
+                  "partner": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a coupon",
+        "tags": [
+          "Coupons"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "coupon",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Letícia Grotas"
+                },
+                "discount": {
+                  "type": "float",
+                  "example": "0.0"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "active or inactive"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "percent or value"
+                },
+                "max_value": {
+                  "type": "float",
+                  "example": "583.0"
+                },
+                "expired_at": {
+                  "type": "string",
+                  "example": "2020-06-03T15:36:06-03:00"
+                },
+                "starts_at": {
+                  "type": "string",
+                  "example": "2019-06-03T15:36:06-03:00"
+                },
+                "total_uses": {
+                  "type": "integer",
+                  "example": "10"
+                },
+                "client_uses": {
+                  "type": "integer",
+                  "example": "43"
+                },
+                "shipping": {
+                  "type": "boolean",
+                  "example": "true or false"
+                },
+                "logged": {
+                  "type": "boolean",
+                  "example": "true or false"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Eum architecto ut. Eligendi repudiandae pariatur. Soluta est recusandae."
+                }
+              },
+              "required": [
+                "name",
+                "discount",
+                "starts_at",
+                "expired_at"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "coupon created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/coupons/{id}": {
+      "get": {
+        "summary": "Retrieves a coupon",
+        "tags": [
+          "Coupons"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "coupon found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "discount": {
+                  "type": "float"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "max_value": {
+                  "type": "float"
+                },
+                "expired_at": {
+                  "type": "string"
+                },
+                "starts_at": {
+                  "type": "string"
+                },
+                "total_uses": {
+                  "type": "integer"
+                },
+                "client_uses": {
+                  "type": "integer"
+                },
+                "shipping": {
+                  "type": "boolean"
+                },
+                "logged": {
+                  "type": "boolean"
+                },
+                "partner": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "description": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "coupon not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a coupon",
+        "tags": [
+          "Coupons"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "coupon",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Lorena Matoso"
+                },
+                "discount": {
+                  "type": "string",
+                  "example": "8.0"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "active or inactive"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "percent or value"
+                },
+                "max_value": {
+                  "type": "string",
+                  "example": "376.0"
+                },
+                "expired_at": {
+                  "type": "string",
+                  "example": "2020-06-03T15:36:06-03:00"
+                },
+                "starts_at": {
+                  "type": "string",
+                  "example": "2019-06-03T15:36:06-03:00"
+                },
+                "total_uses": {
+                  "type": "string",
+                  "example": "47"
+                },
+                "client_uses": {
+                  "type": "string",
+                  "example": "91"
+                },
+                "shipping": {
+                  "type": "string",
+                  "example": "true or false"
+                },
+                "logged": {
+                  "type": "string",
+                  "example": "true or false"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Dolorem incidunt tempora. Qui aut quia. Tenetur reprehenderit aut."
+                }
+              },
+              "required": [
+                "name",
+                "discount",
+                "starts_at",
+                "expired_at"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "coupon updated"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/coupons/by_code/{code}": {
+      "get": {
+        "summary": "Retrieves a coupon by code",
+        "tags": [
+          "Coupons"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "code",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Coupon code"
+          },
+          {
+            "name": "client_federal_registration",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "To validate usage per client"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "discount": {
+                  "type": "float"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "max_value": {
+                  "type": "float"
+                },
+                "expired_at": {
+                  "type": "string"
+                },
+                "starts_at": {
+                  "type": "string"
+                },
+                "total_uses": {
+                  "type": "integer"
+                },
+                "client_uses": {
+                  "type": "integer"
+                },
+                "shipping": {
+                  "type": "boolean"
+                },
+                "logged": {
+                  "type": "boolean"
+                },
+                "partner": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "description": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Não encontrado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/coupons/use/{code}": {
+      "post": {
+        "summary": "Use a coupon by code",
+        "tags": [
+          "Coupons"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "code",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "coupon",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "external_order_id": {
+                  "type": "string",
+                  "example": "6240"
+                },
+                "client_federal_registration": {
+                  "type": "string",
+                  "example": "23672037539"
+                }
+              },
+              "required": [
+                "external_order_id",
+                "client_federal_registration"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "coupon used",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "string",
+                  "example": "Ok"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Não encontrado"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Cupom já foi utilizado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/partners": {
+      "get": {
+        "summary": "All a partners",
+        "tags": [
+          "Partners"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "partner found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "federal_registration": {
+                    "type": "string"
+                  },
+                  "state_registration": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "cash_redemption": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a partner",
+        "tags": [
+          "Partners"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "partner",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Ana Clara Pires"
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "081091981-8"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "243475566-6"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "physical or legal"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "pre_active, active or inactive"
+                },
+                "started_date": {
+                  "type": "string",
+                  "example": "1970-03-01"
+                },
+                "renewal_date": {
+                  "type": "string",
+                  "example": "2022-07-24"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Rem fugiat quod. Porro temporibus et. Est aut enim."
+                },
+                "origin": {
+                  "type": "string",
+                  "example": "shop, internet, relationship or nivaldo"
+                },
+                "percent": {
+                  "type": "string",
+                  "example": ".06"
+                },
+                "agency": {
+                  "type": "string",
+                  "example": "7306"
+                },
+                "account": {
+                  "type": "string",
+                  "example": "9320589"
+                },
+                "favored": {
+                  "type": "string",
+                  "example": "Sophie Xavier"
+                },
+                "favored_federal_registration": {
+                  "type": "string",
+                  "example": "224550532-8"
+                },
+                "bank_id": {
+                  "type": "integer"
+                },
+                "ocupation": {
+                  "type": "string",
+                  "example": "TI"
+                },
+                "cash_redemption": {
+                  "type": "string",
+                  "example": "true, false or maybe"
+                },
+                "partner_group_id": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "partner created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/partners/{id}": {
+      "get": {
+        "summary": "Retrieves a partner",
+        "tags": [
+          "Partners"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "partner found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "federal_registration": {
+                  "type": "string"
+                },
+                "state_registration": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "started_date": {
+                  "type": "string"
+                },
+                "renewal_date": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "origin": {
+                  "type": "string"
+                },
+                "percent": {
+                  "type": "integer"
+                },
+                "agency": {
+                  "type": "string"
+                },
+                "account": {
+                  "type": "string"
+                },
+                "favored": {
+                  "type": "string"
+                },
+                "favored_federal_registration": {
+                  "type": "string"
+                },
+                "bank_id": {
+                  "type": "integer"
+                },
+                "ocupation": {
+                  "type": "string"
+                },
+                "partner_group": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "federal_registration": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "x-nullable": true
+                    },
+                    "partner_id": {
+                      "type": "integer",
+                      "x-nullable": true
+                    },
+                    "client_id": {
+                      "type": "integer",
+                      "x-nullable": true
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "cash_redemption": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "addresses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "number": {
+                        "type": "string"
+                      },
+                      "complement": {
+                        "type": "string"
+                      },
+                      "neighborhood": {
+                        "type": "string"
+                      },
+                      "zipcode": {
+                        "type": "string"
+                      },
+                      "ibge": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "address_type_id": {
+                        "type": "integer"
+                      },
+                      "address_type_name": {
+                        "type": "string"
+                      },
+                      "city_id": {
+                        "type": "integer"
+                      },
+                      "city_name": {
+                        "type": "string"
+                      },
+                      "state_id": {
+                        "type": "integer"
+                      },
+                      "state_name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "phones": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string",
+                        "x-nullable": true
+                      },
+                      "phone_type_id": {
+                        "type": "integer"
+                      },
+                      "phone_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string",
+                        "x-nullable": true
+                      },
+                      "email_type_id": {
+                        "type": "integer"
+                      },
+                      "email_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "coupon": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "discount": {
+                      "type": "float"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "max_value": {
+                      "type": "float"
+                    },
+                    "expired_at": {
+                      "type": "string"
+                    },
+                    "starts_at": {
+                      "type": "string"
+                    },
+                    "total_uses": {
+                      "type": "integer"
+                    },
+                    "client_uses": {
+                      "type": "integer"
+                    },
+                    "shipping": {
+                      "type": "boolean"
+                    },
+                    "logged": {
+                      "type": "boolean"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "partner not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a partner",
+        "tags": [
+          "Partners"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "partner",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Isabella Muniz"
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "570185383-7"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "542691067-7"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "physical or legal"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "pre_active, active or inactive"
+                },
+                "started_date": {
+                  "type": "string",
+                  "example": "1954-10-12"
+                },
+                "renewal_date": {
+                  "type": "string",
+                  "example": "2027-01-01"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Quia doloribus sunt. Quo harum reiciendis. Ducimus iusto placeat."
+                },
+                "origin": {
+                  "type": "string",
+                  "example": "shop, internet, relationship or nivaldo"
+                },
+                "percent": {
+                  "type": "string",
+                  "example": ".09"
+                },
+                "agency": {
+                  "type": "string",
+                  "example": "7105"
+                },
+                "account": {
+                  "type": "string",
+                  "example": "4410602"
+                },
+                "favored": {
+                  "type": "string",
+                  "example": "Breno Arantes"
+                },
+                "favored_federal_registration": {
+                  "type": "string",
+                  "example": "288958143-8"
+                },
+                "bank_id": {
+                  "type": "integer"
+                },
+                "ocupation": {
+                  "type": "string",
+                  "example": "Educação"
+                },
+                "cash_redemption": {
+                  "type": "string",
+                  "example": "true, false or maybe"
+                },
+                "partner_group_id": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "partner updated"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a partner",
+        "tags": [
+          "Partners"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "partner destroyed"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/pi_vouchers": {
+      "get": {
+        "summary": "All a pi_vouchers",
+        "tags": [
+          "PiVouchers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          },
+          {
+            "name": "partner_id",
+            "in": "query",
+            "type": "string",
+            "description": "id of partner",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "expiration_date": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "used_at": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "received_at": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "send_email_at": {
+                    "type": "string",
+                    "x-nullable": true
+                  },
+                  "attachment_url": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "partner": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "pi_voucher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "used, active or inactive"
+                },
+                "received_at": {
+                  "type": "string",
+                  "example": "1996-10-16"
+                },
+                "used_at": {
+                  "type": "string",
+                  "example": "2019-06-04"
+                },
+                "value": {
+                  "type": "string",
+                  "example": "9571"
+                },
+                "company_id": {
+                  "type": "integer"
+                },
+                "partner_id": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "value",
+                "partner_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Premio ideal voucher created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}": {
+      "get": {
+        "summary": "Retrieves a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "expiration_date": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "used_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "status": {
+                  "type": "string"
+                },
+                "received_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "send_email_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "attachment_url": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "partner": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Premio ideal voucher not found"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/inactivate": {
+      "put": {
+        "summary": "inactivate a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher inactivated"
+          },
+          "422": {
+            "description": "voucher is already inactive"
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/use": {
+      "put": {
+        "summary": "use a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "pi_voucher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "company_id": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "company_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher used",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "expiration_date": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "used_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "status": {
+                  "type": "string"
+                },
+                "received_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "send_email_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "attachment_url": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "partner": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "voucher is already used",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/received": {
+      "put": {
+        "summary": "received a pi_voucher",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Premio ideal voucher received",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "expiration_date": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "used_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "status": {
+                  "type": "string"
+                },
+                "received_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "send_email_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "attachment_url": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "partner": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "voucher is already received",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pi_vouchers/{id}/send_email": {
+      "post": {
+        "summary": "send email a partner",
+        "tags": [
+          "PiVouchers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email will be sent by background job",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "expiration_date": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "used_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "status": {
+                  "type": "string"
+                },
+                "received_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "send_email_at": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "attachment_url": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "partner": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "voucher is inactive or used",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "All a products",
+        "tags": [
+          "Products"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "product found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "active": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a product",
+        "tags": [
+          "Products"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "product",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Fantastic Iron Watch"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Copper"
+                },
+                "ncm": {
+                  "type": "string",
+                  "example": "14.04"
+                },
+                "icms": {
+                  "type": "string",
+                  "example": "32.09"
+                },
+                "ipi": {
+                  "type": "string",
+                  "example": "90.04"
+                },
+                "cest": {
+                  "type": "string",
+                  "example": "44.05"
+                },
+                "bar_code": {
+                  "type": "string",
+                  "example": "7894916512510"
+                },
+                "reduction": {
+                  "type": "string",
+                  "example": "45.05"
+                },
+                "weight": {
+                  "type": "string",
+                  "example": "78.07"
+                },
+                "height": {
+                  "type": "string",
+                  "example": "56.07"
+                },
+                "width": {
+                  "type": "string",
+                  "example": "85.07"
+                },
+                "length": {
+                  "type": "string",
+                  "example": "10.04"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "third_party",
+                  "description": "pode ser own, third_party ou not_marketed"
+                },
+                "active": {
+                  "type": "string",
+                  "example": true
+                },
+                "unit_id": {
+                  "type": "string",
+                  "example": 11
+                },
+                "sku": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "sku_xml": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "sub_category_id": {
+                  "type": "string",
+                  "example": 1
+                },
+                "supplier_id": {
+                  "type": "string",
+                  "example": 1
+                }
+              },
+              "required": [
+                "name",
+                "kind"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "product created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Retrieves a product",
+        "tags": [
+          "Products"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "product found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Incredible Copper Wallet"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Silk"
+                },
+                "ncm": {
+                  "type": "integer",
+                  "example": "60.01"
+                },
+                "icms": {
+                  "type": "number",
+                  "example": "84.08"
+                },
+                "ipi": {
+                  "type": "number",
+                  "example": "81.01"
+                },
+                "cest": {
+                  "type": "number",
+                  "example": "60.09"
+                },
+                "bar_code": {
+                  "type": "string",
+                  "example": "7894916512510"
+                },
+                "reduction": {
+                  "type": "number",
+                  "example": "49.04"
+                },
+                "weight": {
+                  "type": "number",
+                  "example": "26.09"
+                },
+                "height": {
+                  "type": "number",
+                  "example": "25.07"
+                },
+                "width": {
+                  "type": "number",
+                  "example": "23.06"
+                },
+                "length": {
+                  "type": "number",
+                  "example": "57.07"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "third_party",
+                  "description": "pode ser own, third_party ou not_marketed"
+                },
+                "active": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "unit_id": {
+                  "type": "integer",
+                  "example": 11
+                },
+                "unit_name": {
+                  "type": "string",
+                  "example": "DZ"
+                },
+                "sku": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "sku_xml": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "sub_category_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "sub_category_name": {
+                  "type": "string",
+                  "example": "consequuntur"
+                },
+                "supplier_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "supplier_name": {
+                  "type": "string",
+                  "example": "Brites LTDA"
+                },
+                "supplier_fantasy_name": {
+                  "type": "string",
+                  "example": "Brites"
+                },
+                "category_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "category_name": {
+                  "type": "string",
+                  "example": "ex"
+                },
+                "company_products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "code": {
+                        "type": "string",
+                        "example": 111,
+                        "description": "Codigo interno da FogoesShop/ObraFacil"
+                      },
+                      "stock": {
+                        "type": "string",
+                        "example": 0.0
+                      },
+                      "stock_min": {
+                        "type": "string",
+                        "example": 0.0
+                      },
+                      "stock_max": {
+                        "type": "string",
+                        "example": 0.0
+                      },
+                      "cost": {
+                        "type": "string"
+                      },
+                      "discount": {
+                        "type": "string"
+                      },
+                      "st": {
+                        "type": "string"
+                      },
+                      "margin": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "product not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a product",
+        "tags": [
+          "Products"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "product",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Incredible Cotton Car"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Paper"
+                },
+                "ncm": {
+                  "type": "float",
+                  "example": "82.01"
+                },
+                "icms": {
+                  "type": "float",
+                  "example": "38.02"
+                },
+                "ipi": {
+                  "type": "float",
+                  "example": "46.02"
+                },
+                "cest": {
+                  "type": "float",
+                  "example": "89.01"
+                },
+                "color": {
+                  "type": "string",
+                  "example": "#bda3c9"
+                },
+                "bar_code": {
+                  "type": "string",
+                  "example": "7894916512510"
+                },
+                "reduction": {
+                  "type": "string",
+                  "example": "15.03"
+                },
+                "weight": {
+                  "type": "float",
+                  "example": "40.03"
+                },
+                "height": {
+                  "type": "float",
+                  "example": "28.04"
+                },
+                "width": {
+                  "type": "float",
+                  "example": "31.05"
+                },
+                "length": {
+                  "type": "float",
+                  "example": "71.09"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "third_party",
+                  "description": "pode ser own, third_party ou not_marketed"
+                },
+                "active": {
+                  "type": "string",
+                  "example": true
+                },
+                "unit_id": {
+                  "type": "integer",
+                  "example": 11
+                },
+                "sku": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "sku_xml": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "sub_category_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "supplier_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "company_products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "code": {
+                        "type": "string",
+                        "example": 111,
+                        "description": "Codigo interno da FogoesShop/ObraFacil"
+                      },
+                      "stock": {
+                        "type": "integer",
+                        "example": 0.0
+                      },
+                      "stock_min": {
+                        "type": "integer",
+                        "example": 0.0
+                      },
+                      "stock_max": {
+                        "type": "integer",
+                        "example": 0.0
+                      },
+                      "cost": {
+                        "type": "float"
+                      },
+                      "discount": {
+                        "type": "float"
+                      },
+                      "st": {
+                        "type": "string"
+                      },
+                      "margin": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "kind"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "product updated"
+          },
+          "404": {
+            "description": "invalid request"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a product",
+        "tags": [
+          "Products"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "product destroyed"
+          },
+          "404": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/regions": {
+      "get": {
+        "summary": "All a regions",
+        "tags": [
+          "Regions"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "region found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Norte"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "example": "2018-03-15T16:54:07.552Z"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "example": "2018-03-15T16:54:07.552Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/regions/{id}": {
+      "get": {
+        "summary": "Retrieves a region",
+        "tags": [
+          "Regions"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "region found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Norte"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "region not found"
+          }
+        }
+      }
+    },
+    "/states": {
+      "get": {
+        "summary": "All a states",
+        "tags": [
+          "States"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "state found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Acre"
+                  },
+                  "acronym": {
+                    "type": "string",
+                    "example": "AC"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/states/{id}": {
+      "get": {
+        "summary": "Retrieves a state",
+        "tags": [
+          "States"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "state found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Acre"
+                },
+                "acronym": {
+                  "type": "string",
+                  "example": "AC"
+                },
+                "region": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Norte"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2018-03-15T16:54:07.739Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2018-03-15T16:54:07.739Z"
+                    }
+                  }
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "state not found"
+          }
+        }
+      }
+    },
+    "/suppliers": {
+      "get": {
+        "summary": "All a suppliers",
+        "tags": [
+          "Suppliers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "supplier found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "fantaty_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a supplier",
+        "tags": [
+          "Suppliers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "supplier",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Olívia Morais"
+                },
+                "fantasy_name": {
+                  "type": "string",
+                  "example": "Laura Mendes"
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "521157860-0"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "917107606-9"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "physical",
+                  "description": "physical or legal"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "example": "1969-03-06"
+                },
+                "tax_regime": {
+                  "type": "string",
+                  "example": "2035-02-19"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "simple",
+                  "description": "pode ser simple, normal ou presumed"
+                },
+                "billing_type_id": {
+                  "type": "integer"
+                },
+                "addresses": {
+                  "type": "object",
+                  "properties": {
+                    "street": {
+                      "type": "string",
+                      "example": "Travessa Bernardo Nascimento"
+                    },
+                    "number": {
+                      "type": "string",
+                      "example": "Rodovia Paula"
+                    },
+                    "complement": {
+                      "type": "string",
+                      "example": "79424283"
+                    },
+                    "neighborhood": {
+                      "type": "string",
+                      "example": "59677155"
+                    },
+                    "zipcode": {
+                      "type": "integer",
+                      "example": "9483"
+                    },
+                    "ibge": {
+                      "type": "string",
+                      "example": "183"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Maxime modi qui. Et quia quidem. Voluptatem explicabo nostrum."
+                    },
+                    "address_type_id": {
+                      "type": "integer",
+                      "description": "outros é 4"
+                    },
+                    "city_id": {
+                      "type": "integer",
+                      "description": "são paulo é 5351"
+                    }
+                  },
+                  "required": [
+                    "street",
+                    "zipcode"
+                  ]
+                },
+                "phones": {
+                  "type": "object",
+                  "properties": {
+                    "phone": {
+                      "type": "string",
+                      "example": "(81) 8393-5321"
+                    },
+                    "contact": {
+                      "type": "string",
+                      "example": "Deneval Moura"
+                    },
+                    "phone_type_id": {
+                      "type": "integer",
+                      "description": "outros é 4"
+                    }
+                  },
+                  "required": [
+                    "phone",
+                    "phone_type_id"
+                  ]
+                },
+                "emails": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "nicolasa@cremin.name"
+                    },
+                    "contact": {
+                      "type": "string",
+                      "example": "Davi Lucas Guedes"
+                    },
+                    "email_type_id": {
+                      "type": "integer",
+                      "description": "outros é 4"
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "email_type_id"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind",
+                "tax_regime"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "supplier created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/suppliers/{id}": {
+      "get": {
+        "summary": "Retrieves a supplier",
+        "tags": [
+          "Suppliers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "supplier found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "fantasy_name": {
+                  "type": "string"
+                },
+                "federal_registration": {
+                  "type": "string"
+                },
+                "state_registration": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "birth_date": {
+                  "type": "string"
+                },
+                "tax_regime": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "billing_type_id": {
+                  "type": "integer"
+                },
+                "updated_at": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "addresses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "number": {
+                        "type": "string"
+                      },
+                      "complement": {
+                        "type": "string"
+                      },
+                      "neighborhood": {
+                        "type": "string"
+                      },
+                      "zipcode": {
+                        "type": "integer"
+                      },
+                      "ibge": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "address_type_id": {
+                        "type": "integer"
+                      },
+                      "address_type_name": {
+                        "type": "string"
+                      },
+                      "city_id": {
+                        "type": "integer"
+                      },
+                      "city_name": {
+                        "type": "string"
+                      },
+                      "state_id": {
+                        "type": "integer"
+                      },
+                      "state_name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "phones": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string"
+                      },
+                      "phone_type_id": {
+                        "type": "integer"
+                      },
+                      "phone_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "contact": {
+                        "type": "string"
+                      },
+                      "email_type_id": {
+                        "type": "integer"
+                      },
+                      "email_type_name": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "supplier not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a supplier",
+        "tags": [
+          "Suppliers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "supplier",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Gúbio Cardoso"
+                },
+                "fantasy_name": {
+                  "type": "string",
+                  "example": "Nicole Brum"
+                },
+                "federal_registration": {
+                  "type": "string",
+                  "example": "783367125-8"
+                },
+                "state_registration": {
+                  "type": "string",
+                  "example": "548738516-5"
+                },
+                "kind": {
+                  "type": "string",
+                  "example": "physical",
+                  "description": "physical or legal"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "example": "1994-06-30"
+                },
+                "tax_regime": {
+                  "type": "string",
+                  "example": "2044-08-11"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "simple",
+                  "description": "pode ser simple, normal ou presumed"
+                },
+                "billing_type_id": {
+                  "type": "integer"
+                },
+                "addresses": {
+                  "type": "object",
+                  "properties": {
+                    "street": {
+                      "type": "string",
+                      "example": "Ponte Yasmin Banheira"
+                    },
+                    "number": {
+                      "type": "string",
+                      "example": "Rua Janaína Simão"
+                    },
+                    "complement": {
+                      "type": "string",
+                      "example": "66226002"
+                    },
+                    "neighborhood": {
+                      "type": "string",
+                      "example": "24136304"
+                    },
+                    "zipcode": {
+                      "type": "integer",
+                      "example": "8728"
+                    },
+                    "ibge": {
+                      "type": "string",
+                      "example": "1982"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Occaecati laborum sunt. Voluptas et quaerat. Rerum dignissimos qui."
+                    },
+                    "address_type_id": {
+                      "type": "integer",
+                      "description": "outros é 4"
+                    },
+                    "city_id": {
+                      "type": "integer",
+                      "description": "são paulo é 5351"
+                    }
+                  },
+                  "required": [
+                    "street",
+                    "zipcode"
+                  ]
+                },
+                "phones": {
+                  "type": "object",
+                  "properties": {
+                    "phone": {
+                      "type": "string",
+                      "example": "(49) 8839-5809"
+                    },
+                    "contact": {
+                      "type": "string",
+                      "example": "Roberto Aguiar"
+                    },
+                    "phone_type_id": {
+                      "type": "integer",
+                      "description": "outros é 4"
+                    }
+                  },
+                  "required": [
+                    "phone",
+                    "phone_type_id"
+                  ]
+                },
+                "emails": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "lottie@shields.name"
+                    },
+                    "contact": {
+                      "type": "string",
+                      "example": "Dr. Theo Fontinhas"
+                    },
+                    "email_type_id": {
+                      "type": "integer",
+                      "description": "outros é 4"
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "email_type_id"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "federal_registration",
+                "kind",
+                "tax_regime"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "supplier updated"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a supplier",
+        "tags": [
+          "Suppliers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "supplier destroyed"
+          },
+          "404": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/units": {
+      "get": {
+        "summary": "All a units",
+        "tags": [
+          "Units"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "page number",
+            "required": false
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "type": "string",
+            "description": "itens per page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "unit found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "m2"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Metro quadrado"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a unit",
+        "tags": [
+          "Units"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "unit",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "m2"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Metro quadrado"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                }
+              },
+              "required": [
+                "name",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "unit created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/units/{id}": {
+      "get": {
+        "summary": "Retrieves a unit",
+        "tags": [
+          "Units"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "unit found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "m2"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Metro quadrado"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "unit not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a unit",
+        "tags": [
+          "Units"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "unit",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "m2"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Metro quadrado"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2018-03-15T16:54:07.552Z"
+                }
+              },
+              "required": [
+                "name",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "unit updated"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a unit",
+        "tags": [
+          "Units"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_id",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-id"
+          },
+          {
+            "name": "access_key",
+            "in": "query",
+            "type": "string",
+            "description": "your-access-key"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "unit destroyed"
+          },
+          "404": {
+            "description": "invalid request"
+          }
+        }
+      }
+    }
+  }
+}

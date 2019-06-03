@@ -1,0 +1,75 @@
+pt-BR:
+  models:
+    errors:
+      email: 
+        attributes: 
+          primary: "Deve haver apenas um E-mail principal"
+      phone: 
+        attributes: 
+          primary: "Deve haver apenas um telefone principal"
+    coupon:
+      errors:
+        params: "%{param} é obrigatório"
+        already_used: "Cupom já foi utilizado"
+        not_found: "Não encontrado"
+      response:
+        used: "Ok"
+    pi_voucher:
+      errors:
+        pdf: "Não foi possivel gerar o PDF"
+        company_id: "company_id é obrigatório"
+        used_at: "used_at é obrigatório"
+        received_at: "Já foi recebido"
+        not_found: "Nenhum voucher encontrado"
+        partner_id: "Partner_id é obrigatório"
+        status:
+          received_at: "Não pode ser inativado pois já foi recebido"
+          used_to_inactive: "Não pode ir de usado para inativo"
+          used_to_active: "Não pode ir de usado para ativo"
+          already_used: "Já foi usado"
+      response:
+        email:  
+          success: "E-mail enviado com sucesso"
+          not_send: "E-mail só pode ser usado para vouchers ativos"
+          error: "Erro ao enviar o e-mail"
+        inactivate: 
+          error: "Voucher não pode ser inativado, confirme se já não foi usado ou se está inativo"
+        used: 
+          error: "Voucher não pode ser usado, confirme se já não foi usado ou se está inativo"
+        received: 
+          error: "Voucher não pode ser recebido, confirme se já não foi recebido ou se está inativo"
+    commission:
+      response:
+        create_many:
+          success: "Estamos criando as commissoes"
+        required_year:  "Year é obrigatório"
+        required_partner:  "Partner_id é obrigatório"
+    partner:
+      errors:
+        sms:
+          message: "Mensagem é obrigatório"
+          partner_ids: "Partner_ids é obrigatório"
+        rescue: "Parametros invalidos"
+      response:
+        reset_password:
+          success: "Senha atualizada com Sucesso"
+          error: "Não foi possivel atualizar. Senhas não coincidem"
+        sms:
+          success: "Estamos enviando as mensagens"
+        delete:
+          success: "Deletado com sucesso"
+    employee:
+      errors:
+        password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
+        invalid_password: "Senha atual invalida"
+      success:
+        reset_password: "Senha atualizada com Sucesso"
+    user:
+      errors:
+        password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
+        invalid_password: "Senha atual invalida"
+      success:
+        reset_password: "Senha atualizada com Sucesso"
+  errors:
+    messages:
+      blank: Não pode ficar em branco

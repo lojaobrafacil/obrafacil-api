@@ -44,7 +44,7 @@ group :test do
   gem 'rails-controller-testing'
 	gem "factory_bot_rails"
 end
-gem 'faker', :git => 'git://github.com/stympy/faker.git', :branch => 'master'
+gem 'faker'
 
 group :development, :staging do
   gem 'listen', '>= 3.0.5', '< 3.2'
