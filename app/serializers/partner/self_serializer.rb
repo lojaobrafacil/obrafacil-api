@@ -1,6 +1,7 @@
 class Partner::SelfSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :agency, :account,
-             :favored, :favored_federal_registration, :bank_name, :addresses, :phones, :emails
+             :favored, :favored_federal_registration, :bank_name, :register, :site,
+             :addresses, :phones, :emails
 
   has_one :coupon
 
