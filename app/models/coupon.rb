@@ -1,5 +1,6 @@
 class Coupon < ApplicationRecord
   validates_presence_of :name, :code, :discount, :kind, :status, :starts_at, :expired_at
+  validates_uniqueness_of :code, if: Proc.new { |coupon| coupon.active? }
   enum kind: [:percent, :value]
   enum status: [:inactive, :active]
   before_validation :default_values, on: :create
@@ -19,6 +20,16 @@ class Coupon < ApplicationRecord
     self.total_uses ||= 0
     self.client_uses ||= 0
     self.max_value ||= 0
+  end
+
+  def self.find_by_code(code, client_federal_registration = nil)
+    @coupon = Coupon.find_by(code: code)
+    @coupon.status = "inactive" if (@coupon.total_uses > 0 && @coupon.uses >= @coupon.total_uses) || @coupon.expired_at <= Time.now || @coupon.starts_at > Time.now
+    if @coupon.status != "inactive" && client_federal_registration && @coupon.client_uses != 0
+      num_of_use_by_client = @coupon.logs.where(client_federal_registration: client_federal_registration).count
+      @coupon.status = "inactive" if num_of_use_by_client >= @coupon.client_uses
+    end
+    @coupon
   end
 
   def use(params)
