@@ -55,7 +55,6 @@ class Api::PartnersController < Api::BaseController
 
   def reset_password
     authorize @partner
-    p reset_password_params
     if @partner.reset_password(reset_password_params[:password], reset_password_params[:password_confirmation])
       render json: { success: I18n.t("models.partner.response.reset_password.success") }, status: 200
     else

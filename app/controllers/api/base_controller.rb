@@ -1,5 +1,6 @@
 class Api::BaseController < ApplicationController
   include Pundit
+  before_action :pundit_user
 
   def authenticate_admin_or_api!
     if params[:access_id] && params[:access_key]
