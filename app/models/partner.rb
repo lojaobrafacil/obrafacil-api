@@ -137,7 +137,6 @@ class Partner < ApplicationRecord
 
   # to devise
   def set_default_to_devise
-    byebug
     self.uid = SecureRandom.uuid rescue nil
     self.password = self.password_confirmation = "obrafacil2018" rescue nil  ##SecureRandom.hex(4).upcase
   end
