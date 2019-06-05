@@ -118,15 +118,15 @@ class Partner < ApplicationRecord
     if self.status_changed?
       case self.status_in_database
       when "review"
-        errors.add(:status, I18n.t("activerecord.errors.partner.status.review_to_pre_active")) if self.status == "pre_active"
+        errors.add(:status, I18n.t("activerecord.errors.messages.partner.status.review_to_pre_active")) if self.status == "pre_active"
       when "pre_active"
-        errors.add(:status, I18n.t("activerecord.errors.partner.status.pre_active_to_review")) if self.status == "review"
+        errors.add(:status, I18n.t("activerecord.errors.messages.partner.status.pre_active_to_review")) if self.status == "review"
       when "active"
-        errors.add(:status, I18n.t("activerecord.errors.partner.status.active_to_review")) if self.status == "review"
-        errors.add(:status, I18n.t("activerecord.errors.partner.status.active_to_pre_active")) if self.status == "pre_active"
+        errors.add(:status, I18n.t("activerecord.errors.messages.partner.status.active_to_review")) if self.status == "review"
+        errors.add(:status, I18n.t("activerecord.errors.messages.partner.status.active_to_pre_active")) if self.status == "pre_active"
       end
     end
-    errors.add(:deleted_at, I18n.t("activerecord.errors.partner.status.deleted_at", deleted_at: self.deleted_at.strftime("%d/%m/%Y %H:%M:%S"))) if !self.deleted_at_in_database.nil?
+    errors.add(:deleted_at, I18n.t("activerecord.errors.messages.partner.status.deleted_at", deleted_at: self.deleted_at.strftime("%d/%m/%Y %H:%M:%S"))) if !self.deleted_at_in_database.nil?
     errors.add(:deleted_by, I18n.t("errors.messages.blank")) if !self.deleted_at.nil? && self.deleted_by.nil?
     self.errors.messages.empty? ? true : (false; throw(:abort))
   end
