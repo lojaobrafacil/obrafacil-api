@@ -15,11 +15,8 @@ class Coupon < ApplicationRecord
 
   def default_values
     self.code ||= generate_code
-    self.shipping ||= false
-    self.logged ||= false
     self.total_uses ||= 0
     self.client_uses ||= 0
-    self.max_value ||= 0
   end
 
   def self.find_by_code(code, client_federal_registration = nil)
