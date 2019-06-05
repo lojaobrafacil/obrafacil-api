@@ -12,12 +12,12 @@ class Api::BaseController < ApplicationController
 
   def authenticate_admin!
     current_api_employee = @current_user = Api.find_by(access_id: params[:access_id], access_key: params[:access_key])
-    if @current_user != nil && @current_user.active
-      return true
-    elsif !@current_user&.active
+    if @current_user == nil
+      return render json: { error: I18n.t("devise.failure.unauthenticated") }, status: 422
+    elsif !@current_user.active?
       return render json: { error: I18n.t("devise.failure.inactive") }, status: 422
     else
-      return render json: { error: I18n.t("devise.failure.unauthenticated") }, status: 422
+      return true
     end
   end
 

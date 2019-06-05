@@ -23,13 +23,17 @@ class Coupon < ApplicationRecord
   end
 
   def self.find_by_code(code, client_federal_registration = nil)
-    @coupon = Coupon.find_by(code: code)
-    @coupon.status = "inactive" if (@coupon.total_uses > 0 && @coupon.uses >= @coupon.total_uses) || @coupon.expired_at <= Time.now || @coupon.starts_at > Time.now
-    if @coupon.status != "inactive" && client_federal_registration && @coupon.client_uses != 0
-      num_of_use_by_client = @coupon.logs.where(client_federal_registration: client_federal_registration).count
-      @coupon.status = "inactive" if num_of_use_by_client >= @coupon.client_uses
+    begin
+      @coupon = Coupon.find_by(code: code)
+      @coupon.status = "inactive" if (@coupon.total_uses > 0 && @coupon.uses >= @coupon.total_uses) || @coupon.expired_at <= Time.now || @coupon.starts_at > Time.now
+      if @coupon.status != "inactive" && client_federal_registration && @coupon.client_uses != 0
+        num_of_use_by_client = @coupon.logs.where(client_federal_registration: client_federal_registration).count
+        @coupon.status = "inactive" if num_of_use_by_client >= @coupon.client_uses
+      end
+      @coupon
+    rescue
+      nil
     end
-    @coupon
   end
 
   def use(params)
@@ -39,7 +43,7 @@ class Coupon < ApplicationRecord
     if !params[:client_federal_registration].blank? && !params[:external_order_id].blank?
       if self.logs.where(external_order_id: params[:external_order_id]).empty?
         num_of_use = self.logs.count
-        errors.add(:base, I18n.t("models.coupon.errors.already_used")) if num_of_use >= self.total_uses
+        errors.add(:base, I18n.t("models.coupon.errors.already_used")) if self.total_uses > 0 && num_of_use >= self.total_uses
         if self.client_uses != 0
           num_of_use_by_client = self.logs.where(client_federal_registration: params[:client_federal_registration]).count
           errors.add(:base, I18n.t("models.coupon.errors.already_used")) if num_of_use_by_client >= self.client_uses
