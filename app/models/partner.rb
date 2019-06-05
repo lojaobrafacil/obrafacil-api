@@ -110,8 +110,8 @@ class Partner < ApplicationRecord
     self.name = self.name.strip.titleize if self.name_changed? || self.new_record? rescue nil
     self.federal_registration = self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase if self.federal_registration_changed? || self.new_record? rescue nil
     self.favored_federal_registration = !self.favored_federal_registration&.empty? ? self.favored_federal_registration : self.federal_registration rescue nil
-    self.favored_federal_registration = self.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase if self.favored_federal_registration_changed? || self.new_record? rescue nil
-    self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase if self.state_registration_changed? || self.new_record? rescue nil
+    self.favored_federal_registration = self.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+    self.state_registration = self.state_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
   end
 
   def validate_status
