@@ -35,7 +35,7 @@ class Partner < ApplicationRecord
   after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
   after_save :create_coupon
   before_validation :validate_status
-  before_validation :set_default_to_devise, on: :create
+  before_validation :set_default_to_devise, if: Proc.new { |partner| partner.uid.to_s.empty? }
   before_validation :validate_on_update, on: :update
   before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
   alias_attribute :vouchers, :pi_vouchers
@@ -137,8 +137,8 @@ class Partner < ApplicationRecord
 
   # to devise
   def set_default_to_devise
-    self.uid = SecureRandom.uuid rescue nil
-    self.password = self.password_confirmation = "obrafacil2018" rescue nil  ##SecureRandom.hex(4).upcase
+    self.uid = SecureRandom.uuid
+    self.password = self.password_confirmation = "obrafacil2018"
   end
 
   def devise_attributes_changed?
