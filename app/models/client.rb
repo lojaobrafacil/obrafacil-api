@@ -61,8 +61,8 @@ class Client < ApplicationRecord
 
   # to devise
   def set_default_to_devise
-    self.uid = ((Client.last&.id || 0) + 1).to_s + self.federal_registration rescue nil
-    self.password = self.password_confirmation = SecureRandom.hex(4).upcase rescue nil
+    self.uid = SecureRandom.uuid
+    self.password = self.password_confirmation = SecureRandom.hex
   end
 
   def devise_attributes_changed?

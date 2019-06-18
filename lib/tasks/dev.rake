@@ -3,13 +3,26 @@ require "faker"
 namespace :dev do
   desc "Generate DB Faker"
   task generate_db: :environment do
+    puts "== 1 \n#{%x(rake dev:generate_clients)}"
+    puts "== 2 \n#{%x(rake dev:generate_partners)}"
+    puts "== 3 \n#{%x(rake dev:generate_employees)}"
+    puts "== 4 \n#{%x(rake dev:generate_companies)}"
+    puts "== 5 \n#{%x(rake dev:generate_suppliers)}"
+    puts "== 6 \n#{%x(rake dev:generate_products)}"
+    puts "== 7 \n#{%x(rake dev:generate_cachiers)}"
+    puts "== 8 \n#{%x(rake dev:generate_payment_methods)}"
+    puts "== 9 \n#{%x(rake dev:generate_carriers)}"
+    puts "== 10 \n#{%x(rake dev:generate_orders)}"
+  end
+
+  desc "Generate Clients faker"
+  task generate_clients: :environment do
     p "Criando Clientes "
     (1..20).to_a.each do
       c_email = Faker::Internet.email
-      fr = Faker::Number.number(8)
       c = Client.create!(
         name: Faker::Name.name,
-        federal_registration: fr,
+        federal_registration: Faker::Number.number(8),
         state_registration: Faker::Number.number(9),
         kind: [0, 1].sample,
         status: Client.statuses.keys.sample,
@@ -19,21 +32,22 @@ namespace :dev do
         description: Faker::Lorem.paragraph(2),
         order_description: Faker::Lorem.sentence(3),
         limit: Faker::Number.decimal(4),
-        user: User.create(email: fr + "@obrafacil.com", password: 12345678, password_confirmation: 12345678, federal_registration: fr),
       )
       c.emails.create(email: c_email, email_type: EmailType.all.sample)
       c.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
       c.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
     end
     p "Criando Clientes ....[OK]"
+  end
 
+  desc "Generate Partners faker"
+  task generate_partners: :environment do
     p "Criando Parceiros "
     (1..20).to_a.each do
       p_email = Faker::Internet.email
-      fr = Faker::Number.number(10)
       p = Partner.create!(
         name: Faker::Name.name,
-        federal_registration: fr,
+        federal_registration: Faker::Number.number(10),
         state_registration: Faker::Number.number(9),
         kind: [0, 1].sample,
         started_date: Faker::Date.birthday(18, 65),
@@ -46,15 +60,17 @@ namespace :dev do
         agency: Faker::Number.number(4),
         account: Faker::Number.number(6),
         favored: Faker::Name.name,
-        favored_federal_registration: fr,
-        user: User.create(email: fr + "@obrafacil.com", password: 12345678, password_confirmation: 12345678, federal_registration: fr),
+        favored_federal_registration: Faker::Number.number(10),
       )
       p.emails.create(email: p_email, email_type: EmailType.all.sample)
       p.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
       p.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
     end
     p "Criando Parceiros ....[OK]"
+  end
 
+  desc "Generate Employees faker"
+  task generate_employees: :environment do
     p "Criando Empregados "
     Employee.create!(email: "partner@partner.com", federal_registration: "11111111111", name: "partner", password: "partner2020", password_confirmation: "partner2020", change_partners: true)
     Employee.create!(email: "client@client.com", federal_registration: "22222222222", name: "client", password: "client2020", password_confirmation: "client2020", change_clients: true)
@@ -84,7 +100,10 @@ namespace :dev do
       )
     end
     p "Criando Empregados ....[OK]"
+  end
 
+  desc "Generate Companies faker"
+  task generate_companies: :environment do
     p "Criando Empresas "
     (1..5).to_a.each do
       c = Company.create(
@@ -101,7 +120,10 @@ namespace :dev do
       c.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
     end
     p "Criando Empresas ....[OK]"
+  end
 
+  desc "Generate Suppliers faker"
+  task generate_suppliers: :environment do
     p "Criando Fornecedores "
     p_email = Faker::Internet.email
     p = Supplier.create!(
@@ -118,7 +140,10 @@ namespace :dev do
     p.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
     p.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
     p "Criando Fornecedores ....[OK]"
+  end
 
+  desc "Generate Products faker"
+  task generate_products: :environment do
     p "Criando Produtos"
     (1..200).to_a.each do
       Product.create!(
@@ -143,7 +168,10 @@ namespace :dev do
       )
     end
     p "Criando Produtos ....[OK]"
+  end
 
+  desc "Generate Cashiers faker"
+  task generate_cashiers: :environment do
     p "Criando Cashiers"
     Cashier.create!(
       start_date: Time.now - 5.hour,
@@ -154,7 +182,10 @@ namespace :dev do
       finish_date: Time.now - 6.hour,
     )
     p "Criando Cashiers ....[OK]"
+  end
 
+  desc "Generate Payment Methods faker"
+  task generate_payment_methods: :environment do
     p "Criando Payment Methods"
     PaymentMethod.create!(name: "CARTÃO DE CREDITO")
     PaymentMethod.create!(name: "CARTÃO DE DEBITO")
@@ -163,7 +194,10 @@ namespace :dev do
     PaymentMethod.create!(name: "VALE")
     PaymentMethod.create!(name: "BOLETO")
     p "Criando Payment Methods ....[OK]"
+  end
 
+  desc "Generate Carriers faker"
+  task generate_carriers: :environment do
     p "Criando Carriers"
     (1..10).to_a.each do
       Carrier.create!(
@@ -175,7 +209,10 @@ namespace :dev do
       )
     end
     p "Criando Carriers ....[OK]"
+  end
 
+  desc "Generate Orders faker"
+  task generate_orders: :environment do
     p "Criando Orders"
     (1..200).to_a.each do
       o = Order.create!(
