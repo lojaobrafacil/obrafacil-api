@@ -3,7 +3,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
 
   def index
     @partner = current_api_partner_partner
-    render json: @partner, status: 200, serializer: Partner::SelfSerializer
+    render json: @partner, status: 200, serializer: ApiPartner::SelfSerializer
   end
 
   def by_federal_registration
@@ -22,6 +22,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
       @partner = Partner.new(partner_params)
       @partner.status = "review"
       if @partner.save
+        PartnerMailer.new_partner(@partner).deliver_now
         render json: { success: "Obrigado por se cadastrar" }, status: 201
       else
         render json: { errors: @partner.errors }, status: 422

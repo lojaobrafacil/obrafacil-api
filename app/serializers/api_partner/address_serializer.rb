@@ -1,4 +1,4 @@
-class Partner::AddressSerializer < ActiveModel::Serializer
+class ApiPartner::AddressSerializer < ActiveModel::Serializer
   attributes :id, :street, :number, :complement, :neighborhood, :zipcode, :ibge,
     :description, :address_type_id, :address_type_name, :city_id, :city_name, :state_id,
     :state_name, :addressable_id, :addressable_type

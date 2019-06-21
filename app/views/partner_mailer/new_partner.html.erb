@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Novo parceiro</h1>
+    Nome: <%= @partner.name %> <br/>
+    CPN / CNPJ : <%= @partner.federal_registration %> <br/>
+    RG / IE: <%= @partner.state_registration %> <br/>
+    Agencia: <%= @partner.agency %> <br/>
+    Conta: <%= @partner.account %> <br/>
+    Favorecido: <%= @partner.favored %> <br/>
+    CPN / CNPJ do favorecido: <%= @partner.favored_federal_registration %> <br/>
+    Banco: <%= @partner.bank.name %> <br/>
+    Ocupaçaão: <%= @partner.ocupation %> <br/>
+    Tipo: <%= @partner.kind %> <br/>
+    Site: <%= @partner.site %> <br/>
+    CAU / ABD: <%= @partner.register %> <br/>
+    Endereço: <%= "#{@partner.addresses.first.street}, #{@partner.addresses.first.number}, #{@partner.addresses.first.zipcode}, #{@partner.addresses.first.city.name}, , #{@partner.addresses.first.city.state.acronym}" %> <br/>
+    Telefone: <%= @partner.phones.first.phone %> <br/>
+    Email: <%= @partner.emails.first.email %> <br/>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-class Partner::EmailSerializer < ActiveModel::Serializer
+class ApiPartner::EmailSerializer < ActiveModel::Serializer
   attributes :id, :email, :contact, :primary, :email_type_id, :email_type_name,
              :emailable_id, :emailable_type, :updated_at, :created_at
 
