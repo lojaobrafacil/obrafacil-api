@@ -3,4 +3,9 @@ class PartnerMailer < ApplicationMailer
     @partner = partner
     mail(to: "relacionamento@lojaobrafacil.com.br", subject: "ObraFacil: Novo Parceiro!")
   end
+
+  def new_indication(partner)
+    @partner = partner
+    mail(to: "relacionamento@lojaobrafacil.com.br", subject: "ObraFacil: Nova indicação!")
+  end
 end

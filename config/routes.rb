@@ -105,6 +105,7 @@ Rails.application.routes.draw do
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
+    post "indication", to: "selfs#indication"
   end
 
   namespace :api_client, defaults: { format: :json }, constraints: { subdomain: "client" }, path: "/" do

@@ -1,5 +1,5 @@
 class ApiPartner::SelfsController < ApiPartner::BaseController
-  before_action :authenticate_api_partner_partner!, except: [:create, :by_federal_registration]
+  before_action :authenticate_api_partner_partner!, except: [:create, :by_federal_registration, :indication]
 
   def index
     @partner = current_api_partner_partner
@@ -30,6 +30,23 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
     end
   end
 
+  def indication
+    if Email.find_by(email: indication_params[:email].strip).nil?
+      @partner = Partner.new({ name: indication_params[:partner_name],
+                               site: indication_params[:site],
+                               kind: 0,
+                               status: "pre_active",
+                               phones_attributes: [{ phone: indication_params[:phone], phone_type_id: 4, primary: true }],
+                               emails_attributes: [{ email: indication_params[:email], email_type_id: 4, primary: true }],
+                               description: "Indicação do cliente: #{indication_params[:client_name]}" })
+
+      if @partner.save
+        PartnerMailer.new_indication(@partner).deliver_now
+      end
+    end
+    render json: { success: "Obrigado por sua indicação" }, status: 201
+  end
+
   def update_password
     if current_api_partner_partner.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
       render json: { success: I18n.t("models.user.success.reset_password") }, status: 201
@@ -37,6 +54,8 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
       render json: { errors: current_api_partner_partner.errors }, status: 422
     end
   end
+
+  private
 
   def partner_params
     params.permit(:name, :federal_registration, :state_registration, :agency, :account,
@@ -46,6 +65,10 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
                                          :description, :address_type_id, :city_id, :_delete],
                   phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_delete],
                   emails_attributes: [:id, :email, :contact, :email_type_id, :primary, :_delete])
+  end
+
+  def indication_params
+    params.permit(:client_name, :partner_name, :email, :phone, :site)
   end
 
   def user_password_params
