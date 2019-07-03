@@ -228,8 +228,36 @@ namespace :dev do
         carrier: Carrier.all.sample,
         company: Company.all.sample,
       )
-      # o.order_payments.create(payment_method: PaymentMethod.all.sample, value: Faker::Commerce.price)
     end
     p "Criando Orders ....[OK]"
+  end
+
+  desc "Generate Highlights faker"
+  task generate_highlights: :environment do
+    p "Criando Highlights"
+    (1..2).to_a.each do
+      Highlight.create!(
+        title_1: Faker::Lorem.sentence(3).titleize,
+        content_1: Faker::Lorem.paragraph(50),
+        content_2: Faker::Lorem.paragraph(50),
+        content_3: Faker::Lorem.paragraph(50),
+        remote_image_1_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Capa_Youtube.png",
+        remote_image_2_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Capa_Perfil-Comum.png",
+        remote_image_3_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Instagram_Facebook.png",
+        link: "campain/2019",
+        kind: "campain",
+        status: 1,
+      )
+    end
+    (1..20).to_a.each do
+      Highlight.create!(
+        title_1: Faker::Lorem.sentence(3).titleize,
+        content_1: Faker::Lorem.paragraph(1),
+        remote_image_1_url: Faker::Avatar.image,
+        kind: ["event", "normal", "score", "winner"].sample,
+        status: 1,
+      )
+    end
+    p "Criando Highlights ....[OK]"
   end
 end

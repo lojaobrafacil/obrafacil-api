@@ -76,6 +76,12 @@ Rails.application.routes.draw do
     resources :apis
     resources :company_products, only: [:index, :show, :update]
 
+    resources :highlights do
+      collection do
+        get ":kind", to: "highlights#index", constraints: { kind: /normal|campain|winner|event|score/ }
+      end
+    end
+
     resources :pi_vouchers, except: [:update, :destroy] do
       collection do
         get "by_status/:status", to: "pi_vouchers#by_status", constraints: { status: /not_used|used_not_received|used_received/ }

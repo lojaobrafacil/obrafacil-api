@@ -12,7 +12,7 @@ class Api::PartnersController < Api::BaseController
         query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration] && !params[:federal_registration].empty?
         query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id] && !params[:partner_group_id].empty?
         @partners = params.empty? ? @partners : @partners.where(query.join(" and "))
-        paginate json: @partners.order(:name).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :status, :description, :cash_redemption]), status: 200
+        paginate json: @partners.order(:name), status: 200, each_serializer: Api::PartnersSerializer
       else
         head 404
       end
