@@ -101,7 +101,7 @@ class Partner < ApplicationRecord
   end
 
   def record_timestamps
-    !self.new_record? && self.changed? && devise_attributes_changed? ? false : true
+    !self.new_record? && self.changed? && !devise_attributes_changed?
   end
 
   private

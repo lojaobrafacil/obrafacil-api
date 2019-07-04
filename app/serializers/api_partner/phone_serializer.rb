@@ -7,6 +7,6 @@ class ApiPartner::PhoneSerializer < ActiveModel::Serializer
   end
 
   def phone
-    object.formatted_phone
+    object.formatted_phone rescue object.phone
   end
 end
