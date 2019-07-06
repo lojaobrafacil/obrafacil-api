@@ -1,5 +1,5 @@
 class ApiPartner::SelfsController < ApiPartner::BaseController
-  before_action :authenticate_api_partner_partner!, except: [:create, :by_federal_registration, :indication]
+  before_action :authenticate_api_partner_partner!, except: [:create, :by_federal_registration, :reset_by_federal_registration, :indication]
 
   def index
     @partner = current_api_partner_partner

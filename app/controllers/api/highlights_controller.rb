@@ -4,7 +4,7 @@ class Api::HighlightsController < Api::BaseController
 
   def index
     @highlights = params[:kind] ? Highlight.where(kind: params[:kind]) : Highlight.where.not(kind: "campain")
-    render json: @highlights, status: 200
+    paginate json: @highlights, status: 200
   end
 
   def show

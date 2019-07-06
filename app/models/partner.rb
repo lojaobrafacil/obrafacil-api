@@ -100,6 +100,13 @@ class Partner < ApplicationRecord
     msg.nil?
   end
 
+  def forgot_password
+    if self.primary_email
+      self.update(reset_password_token: Devise.friendly_token(120), reset_password_sent_at: Time.now)
+      PartnerMailer.forgot_password_instruction(self).deliver_now
+    end
+  end
+
   def record_timestamps
     !self.new_record? && self.changed? && !devise_attributes_changed?
   end

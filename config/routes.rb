@@ -107,6 +107,9 @@ Rails.application.routes.draw do
     mount_devise_token_auth_for "Partner", at: "auth", skip: [:registrations], controllers: { sessions: "api_partner/sessions" }
     put "selfs/password", to: "selfs#update_password"
     get "selfs/by_federal_registration/:federal_registration", to: "selfs#by_federal_registration"
+    post "forgot_password/:federal_registration", to: "passwords#forgot_password"
+    get "validate_to_reset_password/:federal_registration", to: "passwords#validate_to_reset_password"
+    post "reset_password", to: "passwords#reset_password"
     resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
