@@ -16,6 +16,7 @@ class PartnerPreview < ActionMailer::Preview
       reset_password_sent_at: Time.now,
       emails_attributes: [{
         email: "arthurjm95@gmail.com",
+        contact: "Arthur Moura",
         primary: true,
       }],
     )

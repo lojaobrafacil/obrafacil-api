@@ -11,6 +11,7 @@ class PartnerMailer < ApplicationMailer
 
   def forgot_password_instruction(partner)
     @partner = partner
+    @partner_name = @partner.primary_email.contact
     @url = "#{ENV["WEB_ENDPOINT"]}/redefinir-senha?t=#{@partner.reset_password_token}&c=#{Base64.encode64 @partner.federal_registration}"
     mail(to: @partner.primary_email.email, subject: "Programa Mais Descontos: Esqueceu sua senha!")
   end
