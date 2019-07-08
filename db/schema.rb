@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_30_014748) do
+ActiveRecord::Schema.define(version: 2019_07_02_152748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,13 +216,10 @@ ActiveRecord::Schema.define(version: 2019_05_30_014748) do
     t.float "discount"
     t.integer "status"
     t.integer "kind"
-    t.float "max_value"
     t.datetime "expired_at"
     t.datetime "starts_at"
     t.integer "total_uses"
     t.integer "client_uses"
-    t.boolean "shipping"
-    t.boolean "logged"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -308,6 +305,25 @@ ActiveRecord::Schema.define(version: 2019_05_30_014748) do
     t.bigint "permission_id"
     t.index ["employee_id"], name: "index_employees_permissions_on_employee_id"
     t.index ["permission_id"], name: "index_employees_permissions_on_permission_id"
+  end
+
+  create_table "highlights", force: :cascade do |t|
+    t.string "title_1"
+    t.string "title_2"
+    t.text "content_1"
+    t.text "content_2"
+    t.text "content_3"
+    t.string "image_1"
+    t.string "image_2"
+    t.string "image_3"
+    t.string "link"
+    t.datetime "expires_at"
+    t.datetime "starts_in"
+    t.integer "status", default: 1
+    t.integer "kind", default: 0
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "ibpts", force: :cascade do |t|

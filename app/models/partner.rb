@@ -108,7 +108,7 @@ class Partner < ApplicationRecord
   end
 
   def record_timestamps
-    !self.new_record? && self.changed? && !devise_attributes_changed?
+    self.new_record? || (self.changed? && !devise_attributes_changed?)
   end
 
   private
@@ -134,7 +134,7 @@ class Partner < ApplicationRecord
       end
     end
     errors.add(:deleted_at, I18n.t("activerecord.errors.messages.partner.status.deleted_at", deleted_at: self.deleted_at.strftime("%d/%m/%Y %H:%M:%S"))) if !self.deleted_at_in_database.nil?
-    errors.add(:deleted_by, I18n.t("errors.messages.blank")) if !self.deleted_at.nil? && self.deleted_by.nil?
+    errors.add(:deleted_by, I18n.t("errors.messages.blank")) if !self.deleted_at.nil? && self.deleted_by_id.nil?
     self.errors.messages.empty? ? true : (false; throw(:abort))
   end
 

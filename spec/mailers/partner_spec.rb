@@ -5,18 +5,33 @@ RSpec.describe PartnerMailer, type: :mailer do
     @partner = create(:partner)
   end
 
-  test "forgot_password_instruction" do
-    # Create the email and store it for further assertions
-    email = PartnerMailer.forgot_password_instruction(@partner)
+  describe "forgot_password_instruction" do
+    let(:email) { PartnerMailer.forgot_password_instruction(@partner) }
 
-    # Send the email, then test that it got queued
-    assert_emails 1 do
-      email.deliver_now
+    it "renders the headers" do
+      expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
+      expect(email.to).to eq([@partner.primary_email.email])
+      expect(email.subject).to eq("Programa Mais Descontos: Esqueceu sua senha!")
     end
+  end
 
-    # Test the body of the sent email contains what we expect it to
-    assert_equal ["naoresponda@lojaobrafacil.com.br"], email.from
-    assert_equal [@partner.primary_email.email], email.to
-    assert_equal "Programa Mais Descontos: Esqueceu sua senha!", email.subject
+  describe "new_indication" do
+    let(:email) { PartnerMailer.new_indication(@partner) }
+
+    it "renders the headers" do
+      expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
+      expect(email.to).to eq(["relacionamento@lojaobrafacil.com.br"])
+      expect(email.subject).to eq("ObraFacil: Nova indicação!")
+    end
+  end
+
+  describe "new_partner" do
+    let(:email) { PartnerMailer.new_partner(@partner) }
+
+    it "renders the headers" do
+      expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
+      expect(email.to).to eq(["relacionamento@lojaobrafacil.com.br"])
+      expect(email.subject).to eq("ObraFacil: Novo Parceiro!")
+    end
   end
 end

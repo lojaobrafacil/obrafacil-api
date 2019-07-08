@@ -9,7 +9,7 @@ namespace :dev do
     puts "== 4 \n#{%x(rake dev:generate_companies)}"
     puts "== 5 \n#{%x(rake dev:generate_suppliers)}"
     puts "== 6 \n#{%x(rake dev:generate_products)}"
-    puts "== 7 \n#{%x(rake dev:generate_cachiers)}"
+    puts "== 7 \n#{%x(rake dev:generate_cashiers)}"
     puts "== 8 \n#{%x(rake dev:generate_payment_methods)}"
     puts "== 9 \n#{%x(rake dev:generate_carriers)}"
     puts "== 10 \n#{%x(rake dev:generate_orders)}"
@@ -44,8 +44,7 @@ namespace :dev do
   task generate_partners: :environment do
     p "Criando Parceiros "
     (1..20).to_a.each do
-      p_email = Faker::Internet.email
-      p = Partner.create!(
+      p = Partner.new(
         name: Faker::Name.name,
         federal_registration: Faker::Number.number(10),
         state_registration: Faker::Number.number(9),
@@ -61,10 +60,10 @@ namespace :dev do
         account: Faker::Number.number(6),
         favored: Faker::Name.name,
         favored_federal_registration: Faker::Number.number(10),
+        emails_attributes: [{ email: Faker::Internet.email, email_type: EmailType.all.sample }],
+        phones_attributes: [{ phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample }],
+        addresses_attributes: [{ street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample }],
       )
-      p.emails.create(email: p_email, email_type: EmailType.all.sample)
-      p.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
-      p.addresses.create(street: Faker::Address.street_name, zipcode: Faker::Number.number(8), address_type: AddressType.all.sample, city: City.all.sample)
     end
     p "Criando Parceiros ....[OK]"
   end
