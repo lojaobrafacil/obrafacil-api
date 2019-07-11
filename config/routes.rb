@@ -78,7 +78,7 @@ Rails.application.routes.draw do
 
     resources :highlights do
       collection do
-        get ":kind", to: "highlights#index", constraints: { kind: /normal|winner|event|score/ }
+        get ":kind", to: "highlights#index", constraints: { kind: /normal|winner|event/ }
       end
     end
 
@@ -117,6 +117,10 @@ Rails.application.routes.draw do
     resources :banks, only: [:index]
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     post "indication", to: "selfs#indication"
+    get "web", to: "welcomes#web"
+    get "campains", to: "welcomes#campains"
+    get "highlights", to: "welcomes#highlights"
+    get "highlights/:kind", to: "welcomes#highlights", constraints: { kind: /normal|winner|event/ }
   end
 
   namespace :api_client, defaults: { format: :json }, constraints: { subdomain: "client" }, path: "/" do

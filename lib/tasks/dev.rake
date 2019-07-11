@@ -256,7 +256,7 @@ namespace :dev do
         remote_image_1_url: ["https://image.freepik.com/fotos-gratis/a-imagem-macro-do-close-up-das-flores-e-usada-como-uma-imagem-de-fundo-foto-macro-close-up_34433-346.jpg",
                              "https://img1.ibxk.com.br/2019/02/25/25044125149117.jpg?w=700",
                              "https://i2.wp.com/amplino.org/wp-content/uploads/2018/07/f90ad163e157e67abcf755cb526ea064.jpg?resize=541%2C494&ssl=1"].sample,
-        kind: ["event", "normal", "score", "winner"].sample,
+        kind: ["event", "normal", "winner"].sample,
         status: 1,
       )
     end
