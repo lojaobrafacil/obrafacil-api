@@ -37,7 +37,7 @@ class Api::HighlightsController < Api::BaseController
   private
 
   def set_highlight
-    @highlight = Highlight.find_by(id: params[:id])
+    @highlight = Highlight.where.not(kind: "campain").find_by(id: params[:id])
     head 404 if @highlight.nil?
   end
 

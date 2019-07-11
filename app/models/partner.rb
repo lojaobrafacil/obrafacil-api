@@ -102,7 +102,7 @@ class Partner < ApplicationRecord
 
   def forgot_password
     if self.primary_email
-      self.update(reset_password_token: Devise.friendly_token(120), reset_password_sent_at: Time.now)
+      self.update(reset_password_token: Devise.friendly_token(50), reset_password_sent_at: Time.now)
       PartnerMailer.forgot_password_instruction(self).deliver_now
     end
   end

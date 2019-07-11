@@ -78,9 +78,11 @@ Rails.application.routes.draw do
 
     resources :highlights do
       collection do
-        get ":kind", to: "highlights#index", constraints: { kind: /normal|campain|winner|event|score/ }
+        get ":kind", to: "highlights#index", constraints: { kind: /normal|winner|event|score/ }
       end
     end
+
+    resources :campains
 
     resources :pi_vouchers, except: [:update, :destroy] do
       collection do
