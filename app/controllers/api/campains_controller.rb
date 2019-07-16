@@ -13,7 +13,7 @@ class Api::CampainsController < Api::BaseController
 
   def create
     @campain = Highlight.new(campain_params)
-
+    @campain.kind = "campain"
     if @campain.save
       render json: @campain, status: 201, serializer: Api::CampainSerializer
     else
@@ -22,6 +22,8 @@ class Api::CampainsController < Api::BaseController
   end
 
   def update
+    @campain.remove_image_2! if campain_params[:image_2] == "remove"
+    @campain.remove_image_3! if campain_params[:image_3] == "remove"
     if @campain.update(campain_params)
       render json: @campain, status: 200, serializer: Api::CampainSerializer
     else

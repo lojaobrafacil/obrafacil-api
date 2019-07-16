@@ -20,11 +20,11 @@ class ApiPartner::WelcomesController < ApplicationController
   def highlights
     @highlights = Highlight.where.not(kind: "campain").where(status: "active")
     @highlights = @highlights.where(kind: params[:kind]) if !params[:kind].to_s.empty?
-    paginate json: @highlights, status: 200, each_serializer: ApiPartner::HighlightSerializer
+    paginate json: @highlights.order(:position, created_at: :desc), status: 200, each_serializer: ApiPartner::HighlightSerializer
   end
 
   def campains
-    @highlights = Highlight.campain
+    @highlights = Highlight.campain.order(position: :desc, created_at: :desc)
     paginate json: @highlights, status: 200, each_serializer: ApiPartner::CampainSerializer
   end
 end
