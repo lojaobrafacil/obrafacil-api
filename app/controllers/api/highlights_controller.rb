@@ -6,7 +6,7 @@ class Api::HighlightsController < Api::BaseController
     query = []
     query << " status = '#{Highlight.statuses[params[:status]]}'" if !params[:status].to_s.empty?
     query << " kind = '#{Highlight.kinds[params[:kind]]}'" if !params[:kind].to_s.empty?
-    @highlights = Highlight.where.not(kind: "campain").where(query.join(" and ").to_s).order(position: :desc, updated_at: :desc)
+    @highlights = Highlight.where.not(kind: "campain").where(query.join(" and ").to_s).order("position DESC NULLS LAST, created_at DESC")
     paginate json: @highlights, status: 200
   end
 

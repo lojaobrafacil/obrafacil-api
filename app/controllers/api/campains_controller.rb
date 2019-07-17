@@ -4,7 +4,7 @@ class Api::CampainsController < Api::BaseController
 
   def index
     @campains = Highlight.campain
-    paginate json: @campains, status: 200, each_serializer: Api::CampainSerializer
+    paginate json: @campains.order("position DESC NULLS LAST, created_at DESC"), status: 200, each_serializer: Api::CampainSerializer
   end
 
   def show

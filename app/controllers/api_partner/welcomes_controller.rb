@@ -19,12 +19,21 @@ class ApiPartner::WelcomesController < ApplicationController
 
   def highlights
     @highlights = Highlight.where.not(kind: "campain").where(status: "active")
-    @highlights = @highlights.where(kind: params[:kind]) if !params[:kind].to_s.empty?
-    paginate json: @highlights.order(:position, created_at: :desc), status: 200, each_serializer: ApiPartner::HighlightSerializer
+    if !params[:kind].to_s.empty?
+      @highlights = @highlights.where(kind: params[:kind])
+    else
+      @highlights = @highlights.where("(expires_at is null or expires_at > '#{Time.now}') and (starts_in is null or starts_in < '#{Time.now}')")
+    end
+    paginate json: @highlights.order("position DESC NULLS LAST, created_at DESC"), status: 200, each_serializer: ApiPartner::HighlightSerializer
+  end
+
+  def winners
+    @highlights = Highlight.winner.where("status = 1 and position between #{params[:year]}00 and #{params[:year]}99")
+    paginate json: @highlights.order("position DESC NULLS LAST, created_at DESC"), status: 200, each_serializer: ApiPartner::HighlightSerializer
   end
 
   def campains
-    @highlights = Highlight.campain.order(position: :desc, created_at: :desc)
+    @highlights = Highlight.campain.order("position DESC NULLS LAST, created_at DESC")
     paginate json: @highlights, status: 200, each_serializer: ApiPartner::CampainSerializer
   end
 end

@@ -121,6 +121,7 @@ Rails.application.routes.draw do
     get "campains", to: "welcomes#campains"
     get "highlights", to: "welcomes#highlights"
     get "highlights/:kind", to: "welcomes#highlights", constraints: { kind: /normal|winner|event/ }
+    get "winners/:year", to: "welcomes#winners", constraints: { kind: /[0-9|]+/ }
   end
 
   namespace :api_client, defaults: { format: :json }, constraints: { subdomain: "client" }, path: "/" do
