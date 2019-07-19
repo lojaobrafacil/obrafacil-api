@@ -14,7 +14,7 @@ class CreateHighlights < ActiveRecord::Migration[5.2]
       t.datetime :starts_in
       t.integer :status, default: 1
       t.integer :kind, default: 0
-      t.integer :position
+      t.integer :position, default: 1
 
       t.timestamps
     end
