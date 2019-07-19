@@ -89,6 +89,14 @@ class Api::PartnersController < Api::BaseController
     end
   end
 
+  def upload_image
+    if @partner.update(partner_image_params)
+      render json: @partner, status: 200
+    else
+      render json: { errors: @partner.errors }, status: 422
+    end
+  end
+
   private
 
   def set_partner
@@ -108,6 +116,11 @@ class Api::PartnersController < Api::BaseController
     params.permit(:name, :federal_registration, :state_registration,
                   :kind, :status, :started_date, :renewal_date, :description, :origin, :percent,
                   :agency, :ocupation, :account, :favored, :bank_id, :cash_redemption,
-                  :partner_group_id, :favored_federal_registration, :site, :register)
+                  :partner_group_id, :favored_federal_registration, :site, :register,
+                  :instagram, :aboutme)
+  end
+
+  def partner_image_params
+    params.permit(:avatar, :image)
   end
 end

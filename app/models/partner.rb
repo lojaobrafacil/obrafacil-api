@@ -39,6 +39,8 @@ class Partner < ApplicationRecord
   before_validation :validate_on_update, on: :update
   before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
   alias_attribute :vouchers, :pi_vouchers
+  mount_uploader :avatar, PartnerAvatarUploader
+  mount_uploader :project_image, PartnerImageUploader
 
   def primary_email; emails.find_by(primary: true) || emails.first; end
   def primary_phone; phones.find_by(primary: true) || phones.first; end

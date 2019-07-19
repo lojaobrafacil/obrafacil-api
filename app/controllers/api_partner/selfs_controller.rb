@@ -16,17 +16,25 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
   end
 
   def create
-    if !Partner.find_by(federal_registration: partner_params[:federal_registration].gsub(/[^0-9A-Za-z]/, "").upcase).nil?
+    if !partner_params[:federal_registration].to_s.empty? && !Partner.find_by(federal_registration: partner_params[:federal_registration].gsub(/[^0-9A-Za-z]/, "").upcase).nil?
       render json: { errors: { "CPF / CNPJ": " já esta cadastrado, entre em contato conosco para saber mais t: (11) 3031-6891" } }, status: 404
     else
       @partner = Partner.new(partner_params)
       @partner.status = "review"
       if @partner.save
-        PartnerMailer.new_partner(@partner).deliver_now
+        PartnerMailer.new_partner(@partner).deliver_now rescue nil
         render json: { success: "Obrigado por se cadastrar" }, status: 201
       else
         render json: { errors: @partner.errors }, status: 422
       end
+    end
+  end
+
+  def upload_image
+    if @partner.update(partner_image_params)
+      render json: @partner, status: 200
+    else
+      render json: { errors: @partner.errors }, status: 422
     end
   end
 
@@ -41,7 +49,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
                                description: "Indicação do cliente: #{indication_params[:client_name]}" })
 
       if @partner.save
-        PartnerMailer.new_indication(@partner).deliver_now
+        PartnerMailer.new_indication(@partner).deliver_now rescue nil
       end
     end
     render json: { success: "Obrigado por sua indicação" }, status: 201
@@ -60,7 +68,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
   def partner_params
     params.permit(:name, :federal_registration, :state_registration, :agency, :account,
                   :favored, :favored_federal_registration, :bank_id, :ocupation,
-                  :kind, :site, :register,
+                  :kind, :site, :register, :avatar, :project_image,
                   addresses_attributes: [:street, :number, :complement, :neighborhood, :zipcode,
                                          :description, :address_type_id, :city_id, :_delete],
                   phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_delete],
