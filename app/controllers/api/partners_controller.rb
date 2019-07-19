@@ -117,7 +117,11 @@ class Api::PartnersController < Api::BaseController
                   :kind, :status, :started_date, :renewal_date, :description, :origin, :percent,
                   :agency, :ocupation, :account, :favored, :bank_id, :cash_redemption,
                   :partner_group_id, :favored_federal_registration, :site, :register,
-                  :instagram, :aboutme)
+                  :avatar, :project_image, :instagram, :aboutme,
+                  addresses_attributes: [:street, :number, :complement, :neighborhood, :zipcode,
+                                         :description, :address_type_id, :city_id, :_delete],
+                  phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_delete],
+                  emails_attributes: [:id, :email, :contact, :email_type_id, :primary, :_delete])
   end
 
   def partner_image_params

@@ -9,6 +9,6 @@ class PartnerAvatarUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "avatar.#{file.extension}"
+    "avatar.#{file.extension}" if original_filename.present?
   end
 end
