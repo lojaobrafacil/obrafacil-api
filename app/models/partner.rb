@@ -24,6 +24,7 @@ class Partner < ApplicationRecord
   enum origin: [:shop, :internet, :relationship, :nivaldo]
   enum cash_redemption: [:true, :false, :maybe]
   validates_presence_of :name, :kind, :status
+  validates_length_of :aboutme, :maximum => 255, allow_blank: true
   validates :federal_registration,
             presence: true,
             uniqueness: { allow_blank: true, case_sensitive: true },
