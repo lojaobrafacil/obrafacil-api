@@ -8,6 +8,6 @@ class HighlightImageUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{Devise.friendly_token(30)}.#{file.extension}" if original_filename.present?
+    "#{Digest::MD5.hexdigest(self.model.title_1)}.#{file.extension}" if original_filename.present?
   end
 end
