@@ -2,7 +2,7 @@
 lock "3.11.0"
 
 set :application, "emam"
-set :repo_url, "git@bitbucket.org:arthurjm95/emam.git"
+set :repo_url, "git@github.com:Arthurjmoura/api-obrafacil-hubco.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
