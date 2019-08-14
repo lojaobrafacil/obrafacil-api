@@ -14,7 +14,7 @@ class DecaSalesWorker
     (@body["email"] = @sale.email) rescue nil
     (@body["nome"] = @sale.name.split(" ")[0]) rescue nil
     (@body["sobrenome"] = @sale.name.split(" ").drop(1).join(" ")) rescue nil
-    (@body["telefone"] = @sale.phone.phone) rescue nil
+    (@body["telefone"] = @sale.primary_phone.phone) rescue nil
     (@body["valor"] = "1300.00") rescue nil
     (@body["pessoa_tipo"] = "PF") rescue nil
     (@body["cpf_cnpj"] = @sale.federal_registration) rescue nil
