@@ -21,8 +21,9 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
     else
       @partner = Partner.new(partner_params)
       @partner.status = "review"
-      PartnerMailer.new_partner(@partner).deliver_now rescue nil
-      @partner.save
+      if @partner.save
+        PartnerMailer.new_partner(@partner).deliver_now rescue nil
+      end
       render json: { success: "Recebemos sua solicitação, aguarde a validação do cadastro" }, status: 201
     end
   end
