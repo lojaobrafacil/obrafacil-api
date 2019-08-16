@@ -75,7 +75,12 @@ class ToXlsx
             end
           end
         end
-        unless ["emails", "phones", "addresses"].include?(attr)
+        if attr == "attachment"
+          worksheet.write(row, col, object.attachment_url, format)
+          col += 1
+        end
+
+        unless ["emails", "phones", "addresses", "attachment"].include?(attr)
           worksheet.write(row, col, object[attr].to_s, format)
           col += 1
         end

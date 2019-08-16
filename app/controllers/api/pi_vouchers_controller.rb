@@ -18,11 +18,21 @@ class Api::PiVouchersController < Api::BaseController
     when "used_not_received"
       @pi_vouchers = policy_scope(PiVoucher)&.where(received_at: nil, status: "used")
     when "used_received"
-      @pi_vouchers = policy_scope(PiVoucher)&.where.not(received_at: nil, status: ["active", "inactive"]) rescue nil
+      @pi_vouchers = policy_scope(PiVoucher)&.where.not(received_at: nil, status: ["active", "inactive"])
     else
-      @pi_voucher = []
+      render json: { errors: { error: I18n.t("models.pi_voucher.errors.not_found") } }, status: 422
     end
-    paginate json: @pi_vouchers, status: 200 rescue render json: { errors: { error: I18n.t("models.pi_voucher.errors.not_found") } }, status: 422
+    respond_with do |format|
+      format.json { paginate json: @pi_vouchers, status: 200 }
+      format.csv { send_data @pi_vouchers.to_csv({ col_sep: "\t" }), filename: "relatorio-vouchers-#{status}-#{Date.today}.csv" }
+      format.xlsx {
+        @filename = "relatorio-vouchers-#{params[:status]}-#{Date.today}.xlsx"
+        ToXlsx.new(@pi_vouchers, { titles: ["Id", "Data de Expiracao", "Valor", "Arquivo", "Email enviado em", "Status", "Recebido da premio ideal em", "Empresa", "Parceiro"],
+                                  attributes: ["id", "expiration_date", "value", "attachment", "send_email_at", "status", "received_at", "company_id", "partner_id"],
+                                  filename: @filename }).generate
+        send_file Rails.root.join("tmp/#{@filename}"), filename: @filename
+      }
+    end
   end
 
   def show
