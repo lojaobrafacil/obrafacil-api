@@ -31,7 +31,7 @@ class Api::PartnersController < Api::BaseController
     if @partner.save
       render json: @partner, status: 201
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: { errors: @partner.errors.full_messages }, status: 422
     end
   end
 
@@ -40,7 +40,7 @@ class Api::PartnersController < Api::BaseController
     if @partner.update(partner_params)
       render json: @partner, status: 200
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: { errors: @partner.errors.full_messages }, status: 422
     end
   end
 
@@ -49,7 +49,7 @@ class Api::PartnersController < Api::BaseController
     if @partner.destroy(@current_user.id)
       render json: { success: I18n.t("models.partner.response.delete.success") }, status: 200
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: { errors: @partner.errors.full_messages }, status: 422
     end
   end
 
@@ -93,7 +93,7 @@ class Api::PartnersController < Api::BaseController
     if @partner.update(partner_image_params)
       render json: @partner, status: 200
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: { errors: @partner.errors.full_messages }, status: 422
     end
   end
 

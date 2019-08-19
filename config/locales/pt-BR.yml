@@ -8,18 +8,15 @@ pt-BR:
           has_many: Não é possível excluir o registro pois existem %{record} dependentes
         partner:
           status:
-            deleted_at: Deletado em %{deleted_at} e não pode ser alterado
+            deleted_at: "%{deleted_at} e não pode ser alterado"
             deleted_by: Não pode ficar em branco
             created_by: Não pode ficar em branco
-            active_to_review: Não é possível alterar o status de Ativo para Revisão
-            active_to_pre_active: Não é possível alterar o status de Ativo para Pré Ativo
-            pre_active_to_review: Não é possível alterar o status de Pré Ativo para Revisão
-            review_to_pre_active: Não é possível alterar o status de Revisão para Pré Ativo
+            active_to_review: Não é possível alterar de Ativo para Revisão
+            active_to_pre_active: Não é possível alterar de Ativo para Pré Ativo
+            pre_active_to_review: Não é possível alterar de Pré Ativo para Revisão
+            review_to_pre_active: Não é possível alterar de Revisão para Pré Ativo
             inactive: Não é possível alterar um parceiro inativo
     models:
-      user:
-        one: Usuário
-        other: Usuários
       partner:
         one: Parceiro
         other: Parceiros
@@ -30,7 +27,40 @@ pt-BR:
       partner:
         name: Nome
         email: E-mail
-        federal_registration: E-mail
+        federal_registration: "CPF / CNPJ"
+        favored_federal_registration: "CPF / CNPJ do favorecido"
+        state_registration: "RG / Inscrição estadual"
+        international_registration: "Passaport / Registro internacional"
+        kind: Tipo
+        renewal_date: "Data de renovação"
+        origin: "Origem do cadastro"
+        percent: "Percentual padrão"
+        agency: Agência
+        account: Conta
+        favored: Favorecido
+        bank_id: "Id do banco"
+        bank: Banco
+        started_date: "Data de início"
+        ocupation: Ocupação
+        site: Site
+        register: "Registro Profissional"
+        cash_redemption: "Resgate em dinheiro"
+        partner_group_id: "Id de grupo de parceiro"
+        partner_group: "Grupo de parceiro"
+        description: "Descrição / Observaçōes"
+        order_description: "Descrição / Observaçōes de pedido"
+        limit: "Limite de credito"
+        billing_type_id: "Id de tipo de faturamento"
+        billing_type: "Tipo de faturamento"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+        deleted_at: "Deletado em"
+        deleted_by_id: "Deletado por"
+        created_by_id: "Criado por"
+        deleted_by: "Deletado por"
+        created_by: "Criado por"
+        image: Imagem
+        birthday: Aniversário
         status:
           one: Status
           active: Ativo
@@ -38,6 +68,7 @@ pt-BR:
           pre_active: Pré ativo
           review: Revisão
           deleted: Deletado
+      
   date:
     abbr_day_names:
     - Dom
@@ -267,3 +298,74 @@ pt-BR:
   pundit:
     errors: 
       not_autorize: "Acesso negado"
+  models:
+    errors:
+      email: 
+        attributes: 
+          primary: "Deve haver apenas um E-mail principal"
+      phone: 
+        attributes: 
+          primary: "Deve haver apenas um telefone principal"
+    coupon:
+      errors:
+        params: "%{param} é obrigatório"
+        already_used: "Cupom já foi utilizado"
+        not_found: "Não encontrado"
+      response:
+        used: "Ok"
+    pi_voucher:
+      errors:
+        pdf: "Não foi possivel gerar o PDF"
+        company_id: "company_id é obrigatório"
+        used_at: "used_at é obrigatório"
+        received_at: "Já foi recebido"
+        not_found: "Nenhum voucher encontrado"
+        partner_id: "Partner_id é obrigatório"
+        status:
+          received_at: "Não pode ser inativado pois já foi recebido"
+          used_to_inactive: "Não pode ir de usado para inativo"
+          used_to_active: "Não pode ir de usado para ativo"
+          already_used: "Já foi usado"
+      response:
+        email:  
+          success: "E-mail enviado com sucesso"
+          not_send: "E-mail só pode ser usado para vouchers ativos"
+          error: "Erro ao enviar o e-mail"
+        inactivate: 
+          error: "Voucher não pode ser inativado, confirme se já não foi usado ou se está inativo"
+        used: 
+          error: "Voucher não pode ser usado, confirme se já não foi usado ou se está inativo"
+        received: 
+          error: "Voucher não pode ser recebido, confirme se já não foi recebido ou se está inativo"
+    commission:
+      response:
+        create_many:
+          success: "Estamos criando as commissoes"
+        required_year:  "Year é obrigatório"
+        required_partner:  "Partner_id é obrigatório"
+    partner:
+      errors:
+        sms:
+          message: "Mensagem é obrigatório"
+          partner_ids: "Partner_ids é obrigatório"
+        rescue: "Parametros invalidos"
+      response:
+        reset_password:
+          success: "Senha atualizada com Sucesso"
+          error: "Não foi possivel atualizar. Senhas não coincidem"
+        sms:
+          success: "Estamos enviando as mensagens"
+        delete:
+          success: "Deletado com sucesso"
+    employee:
+      errors:
+        password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
+        invalid_password: "Senha atual invalida"
+      success:
+        reset_password: "Senha atualizada com Sucesso"
+    user:
+      errors:
+        password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
+        invalid_password: "Senha atual invalida"
+      success:
+        reset_password: "Senha atualizada com Sucesso"

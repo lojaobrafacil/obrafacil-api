@@ -21,7 +21,6 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :users, only: [:index, :show, :update]
     resources :addresses
     resources :address_types
     resources :emails
