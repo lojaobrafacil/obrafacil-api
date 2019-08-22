@@ -22,7 +22,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
       @partner = Partner.new(partner_params)
       @partner.status = "review"
       if @partner.save
-        PartnerMailer.new_partner(@partner).deliver_now rescue nil
+        EmployeeMailer.new_partner(@partner).deliver_now rescue nil
       else
         ap @partner.errors
       end
@@ -49,7 +49,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
                                description: "Indicação do cliente: #{indication_params[:client_name]}" })
 
       if @partner.save
-        PartnerMailer.new_indication(@partner).deliver_now rescue nil
+        EmployeeMailer.new_partner_indication(@partner).deliver_now rescue nil
       end
     end
     render json: { success: "Obrigado por sua indicação" }, status: 201

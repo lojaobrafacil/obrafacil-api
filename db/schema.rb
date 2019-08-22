@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_02_152748) do
+ActiveRecord::Schema.define(version: 2019_07_18_182335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -444,9 +444,12 @@ ActiveRecord::Schema.define(version: 2019_07_02_152748) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
-    t.string "image"
+    t.string "project_image"
     t.string "email"
     t.json "tokens"
+    t.string "instagram"
+    t.string "avatar"
+    t.text "aboutme"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["confirmation_token"], name: "index_partners_on_confirmation_token", unique: true
     t.index ["email"], name: "index_partners_on_email", unique: true
