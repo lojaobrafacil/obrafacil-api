@@ -14,7 +14,7 @@ class Client < ApplicationRecord
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   enum status: [:inactive, :active, :deleted]
-  enum kind: [:physical, :legal]
+  enum kind: [:physical, :legal, :foreign]
   enum tax_regime: [:simple, :normal, :presumed]
   validates_presence_of :name, :kind, :status
   before_save :default_values, if: Proc.new { |client| client.active? }
