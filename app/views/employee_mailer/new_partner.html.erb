@@ -8,20 +8,20 @@
   </head>
   <body>
     <h1>Novo parceiro</h1>
-    Nome: <%= @partner.name %> <br/>
-    CPN / CNPJ : <%= @partner.federal_registration %> <br/>
-    RG / IE: <%= @partner.state_registration %> <br/>
-    Agencia: <%= @partner.agency %> <br/>
-    Conta: <%= @partner.account %> <br/>
-    Favorecido: <%= @partner.favored %> <br/>
-    CPN / CNPJ do favorecido: <%= @partner.favored_federal_registration %> <br/>
-    Banco: <%= @partner.bank.name %> <br/>
-    Ocupaçaão: <%= @partner.ocupation %> <br/>
-    Tipo: <%= @partner.kind %> <br/>
-    Site: <%= @partner.site %> <br/>
-    CAU / ABD: <%= @partner.register %> <br/>
-    Endereço: <%= "#{@partner.addresses.first.street}, #{@partner.addresses.first.number}, #{@partner.addresses.first.zipcode}, #{@partner.addresses.first.city.name}, , #{@partner.addresses.first.city.state.acronym}" %> <br/>
-    Telefone: <%= @partner.phones.first.phone %> <br/>
-    Email: <%= @partner.emails.first.email %> <br/>
+    Nome: <%= @partner.name rescue nil %> <br/>
+    CPN / CNPJ : <%= @partner.federal_registration rescue nil %> <br/>
+    RG / IE: <%= @partner.state_registration rescue nil %> <br/>
+    Agencia: <%= @partner.agency rescue nil %> <br/>
+    Conta: <%= @partner.account rescue nil %> <br/>
+    Favorecido: <%= @partner.favored rescue nil %> <br/>
+    CPN / CNPJ do favorecido: <%= @partner.favored_federal_registration rescue nil %> <br/>
+    Banco: <%= @partner.bank&.name rescue nil %> <br/>
+    Ocupaçaão: <%= @partner.ocupation rescue nil %> <br/>
+    Tipo: <%= @partner.kind rescue nil %> <br/>
+    Site: <%= @partner.site rescue nil %> <br/>
+    CAU / ABD: <%= @partner.register rescue nil %> <br/>
+    Endereço: <%= "#{@partner.addresses.first.street}, #{@partner.addresses.first.number}, #{@partner.addresses.first.zipcode}, #{@partner.addresses.first.city.name}, , #{@partner.addresses.first.city.state.acronym}" rescue nil %> <br/>
+    Telefone: <%= @partner.primary_phone.phone rescue nil %> <br/>
+    Email: <%= @partner.primary_email.email rescue nil %> <br/>
   </body>
 </html>

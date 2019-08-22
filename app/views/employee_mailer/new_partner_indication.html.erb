@@ -7,10 +7,10 @@
     <title>Document</title>
   </head>
   <body>
-    <h1><%= @partner.description %></h1>
-    Nome: <%= @partner.name %> <br/>
-    Site: <%= @partner.site %> <br/>
-    Telefone: <%= @partner.phones.first.phone %> <br/>
-    Email: <%= @partner.emails.first.email %> <br/>
+    <h1><%= @partner.descriptionrescue nil  %></h1>
+    Nome: <%= @partner.name rescue nil %> <br/>
+    Site: <%= @partner.site rescue nil %> <br/>
+    Telefone: <%= @partner.primary_phone.phone rescue nil %> <br/>
+    Email: <%= @partner.primary_email.email rescue nil %> <br/>
   </body>
 </html>
