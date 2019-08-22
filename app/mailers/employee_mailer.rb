@@ -3,7 +3,6 @@ class EmployeeMailer < ApplicationMailer
     @partner = partner
     mail(
       to: "relacionamento@lojaobrafacil.com.br",
-      bcc: BCC_MAIL,
       subject: "ObraFacil: Novo Parceiro!",
     )
   end
@@ -12,7 +11,6 @@ class EmployeeMailer < ApplicationMailer
     @partner = partner
     mail(
       to: "relacionamento@lojaobrafacil.com.br",
-      bcc: BCC_MAIL,
       subject: "ObraFacil: Nova indicação!",
     )
   end

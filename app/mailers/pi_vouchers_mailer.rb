@@ -9,7 +9,6 @@ class PiVouchersMailer < ApplicationMailer
     attachments["voucher_#{@pi_voucher.id}.pdf"] = @pdf
     mail(
       to: @partner.primary_email.email,
-      bcc: BCC_MAIL,
       subject: "ObraFacil: Seu voucher esta disponível!",
     )
   end
