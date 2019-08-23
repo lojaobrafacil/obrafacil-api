@@ -55,6 +55,9 @@ class Partner < ApplicationRecord
       else
         self.coupon.update(status: 1)
       end
+      if self.confirmation_sent_at.nil?
+        PartnerMailer.first_access(self).deliver_now if !self.coupon.nil?
+      end
     else
       self.coupon.update(status: 0) if !self.coupon.nil?
     end
