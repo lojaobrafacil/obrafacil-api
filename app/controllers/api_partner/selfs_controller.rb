@@ -39,7 +39,8 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
   end
 
   def indication
-    if Email.find_by(email: indication_params[:email].strip).nil?
+    @email = Email.find_by(email: indication_params[:email].strip.downcase)
+    if email.nil || @email&.partner.deleted?
       @partner = Partner.new({ name: indication_params[:partner_name],
                                site: indication_params[:site],
                                kind: 0,

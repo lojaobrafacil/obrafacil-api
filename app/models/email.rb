@@ -6,6 +6,14 @@ class Email < ApplicationRecord
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "Invalid E-mail"
   before_validation :delete_write_spaces
 
+  def partner
+    self.emailable_type == "Partner" ? self.emailable : nil
+  end
+
+  def client
+    self.emailable_type == "Client" ? self.emailable : nil
+  end
+
   def delete_write_spaces
     self.email&.delete!(" ")
   end

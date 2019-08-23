@@ -5,6 +5,14 @@ class Phone < ApplicationRecord
   validates_uniqueness_of :primary, scope: [:phonable_id, :phonable_type], message: I18n.t("models.errors.phone.attributes.primary"), if: Proc.new { |phone| phone.primary == true }
   before_validation :format_phone
 
+  def partner
+    self.emailable_type == "Partner" ? self.emailable : nil
+  end
+
+  def client
+    self.emailable_type == "Client" ? self.emailable : nil
+  end
+
   def self.primary(obj = {})
     p = obj.empty? ? where(primary: true) : where(primary: true, phonable_id: obj["phonable_id"], phonable_type: obj["phonable_type"])
     obj["id"] && !obj["id"].nil? ? p.where.not(id: obj["id"]) : p
