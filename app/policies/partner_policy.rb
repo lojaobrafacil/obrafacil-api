@@ -1,9 +1,9 @@
 class PartnerPolicy < ApplicationPolicy
   def show?
     if user&.is_a?(Api)
-      user.admin?
+      user&.admin?
     else
-      user.change_partners? || user.admin?
+      user&.change_partners? || user&.admin?
     end
   end
 
@@ -16,7 +16,7 @@ class PartnerPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user&.admin?
+    user&.change_partners? || user&.admin?
   end
 
   def reset_password?
@@ -24,7 +24,7 @@ class PartnerPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user&.is_a?(Api) && user.admin?
+    if user&.is_a?(Api) && user&.admin?
       [:name, :federal_registration, :state_registration,
        :kind, :status, :started_date, :renewal_date, :description, :origin, :percent, :agency,
        :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption]
@@ -45,10 +45,10 @@ class PartnerPolicy < ApplicationPolicy
     end
 
     def show?
-      if user.is_a?(Api)
-        user.admin?
+      if user&.is_a?(Api)
+        user&.admin?
       else
-        user.change_partners? || user.admin?
+        user&.change_partners? || user&.admin?
       end
     end
   end
