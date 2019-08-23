@@ -23,8 +23,8 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
       @partner.status = "review"
       if @partner.save
         EmployeeMailer.new_partner(@partner).deliver_now rescue nil
+        PartnerMailer.request_access(@partner).deliver_now rescue nil
       else
-        ap @partner.errors
       end
       render json: { success: "Recebemos sua solicitação, aguarde a validação do cadastro" }, status: 201
     end
@@ -47,9 +47,9 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
                                phones_attributes: [{ phone: indication_params[:phone], phone_type_id: 4, primary: true }],
                                emails_attributes: [{ email: indication_params[:email], email_type_id: 4, primary: true }],
                                description: "Indicação do cliente: #{indication_params[:client_name]}" })
-
       if @partner.save
         EmployeeMailer.new_partner_indication(@partner).deliver_now rescue nil
+        PartnerMailer.new_indication(@partner, indication_params[:client_name]).deliver_now rescue nil
       end
     end
     render json: { success: "Obrigado por sua indicação" }, status: 201

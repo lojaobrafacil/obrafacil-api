@@ -421,12 +421,12 @@
                             <h1 class="null" style='color: #2a2a2a; font-family: "Asap", Helvetica,
                                   sans-serif; font-size: 32px; font-style: normal; font-weight: bold; line-height:
                                   125%; letter-spacing: 2px; text-align: center; display: block; margin: 0;
-                                  padding: 0'><span style="text-transform:uppercase">UHUUUULLLLL!!</span>
+                                  padding: 0'><span style="text-transform:uppercase">Olá, <%= @partner_name %></span>
                             </h1>
                             <h2 class="null" style='color: #2a2a2a; font-family: "Asap", Helvetica,
                                   sans-serif; font-size: 24px; font-style: normal; font-weight: bold; line-height:
                                   125%; letter-spacing: 1px; text-align: center; display: block; margin: 0;
-                                  padding: 0'><span>Seu cadastro foi aprovado.</span></h2>
+                                  padding: 0'><span>Já conhece o Programa Mais Descontos?</span></h2>
                           </td>
                         </tr>
                       </tbody>
@@ -453,7 +453,8 @@
                                 color: #2a2a2a; font-family: "Asap", Helvetica, sans-serif; font-size: 16px;
                                 line-height: 150%; text-align: center; padding-top:9px; padding-right: 18px;
                                 padding-bottom: 9px; padding-left: 18px;' valign="top">
-                                Agora você e seus clientes podem obter descontos e benefícios.
+                            Você foi indicado por <b><%= @client_name%></b> para participar do nosso programa de parceiros,
+                            caso você já faça parte do programa desconsidere esse e-mail.
                           </td>
                         </tr>
                         <tr>
@@ -462,18 +463,7 @@
                                 color: #2a2a2a; font-family: "Asap", Helvetica, sans-serif; font-size: 16px;
                                 line-height: 150%; text-align: center; padding-top:9px; padding-right: 18px;
                                 padding-bottom: 9px; padding-left: 18px;' valign="top">
-                                Aproveitei para criar um cupom de desconto para você e, para usar é muito simples, seu cliente irá acessar o site
-                                <a href="https://www.lojaobrafacil.com.br" target="_blank">lojaobrafacil.com.br</a>
-                                e colocar o cupom <b><%= @coupon_code %></b> antes de finalizar seu pedido e pronto.
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="mcnTextContent" style='mso-line-height-rule: exactly;
-                                -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; word-break: break-word;
-                                color: #2a2a2a; font-family: "Asap", Helvetica, sans-serif; font-size: 16px;
-                                line-height: 150%; text-align: center; padding-top:9px; padding-right: 18px;
-                                padding-bottom: 9px; padding-left: 18px;' valign="top">
-                                <b>Para acessar sua conta entre em <a href="https://www.programamaisdescontos.com.br" target="_blank">programamaisdescontos.com.br</a></b>
+                            <b>Para concluir seu cadastro <a href="<%= @url %>%" target="_blank">clique aqui</a>.</b>
                           </td>
                         </tr>
                         <tr>
@@ -482,9 +472,9 @@
                                 color: #2a2a2a; font-family: "Asap", Helvetica, sans-serif; font-size: 12px;
                                 line-height: 150%; text-align: center; padding-top:9px; padding-right: 18px;
                                 padding-bottom: 9px; padding-left: 18px;' valign="top">
-                                Por favor, não responda esse e-mail, caso precise de mais informaçōes você pode entrar
-                                em contato conosco através das nossas centrais de relacionamento, pelo telefone (11)
-                                3031–6891 ou pelo e-mail 
+                            Por favor, não responda esse e-mail, caso precise de mais informaçōes você pode entrar
+                            em contato conosco através das nossas centrais de relacionamento, pelo telefone (11)
+                            3031–6891 ou pelo e-mail 
                             <br/>
                             <a href="mailto:relacionamento@lojaobrafacil.com.br" style="mso-line-height-rule: exactly; -ms-text-size-adjust: 100%;
                                 -webkit-text-size-adjust: 100%; font-weight: normal; text-decoration: none;
@@ -519,7 +509,7 @@
                                 <tr>
                                   <td style="mso-line-height-rule: exactly; -ms-text-size-adjust: 100%;
                                           -webkit-text-size-adjust: 100%">
-                                    <a href="<%=@url%>" style="mso-line-height-rule: exactly; -ms-text-size-adjust: 100%;
+                                    <a href="<%= @web_endpoint %>" style="mso-line-height-rule: exactly; -ms-text-size-adjust: 100%;
                                           -webkit-text-size-adjust: 100%; color: #f57153; font-weight: normal; text-decoration: none;
                                           font-size: 14px; color:#465e80; text-decoration:none;" target="_blank">Programa de parceiros</a>
                                   </td>
