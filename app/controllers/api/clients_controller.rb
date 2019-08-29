@@ -3,16 +3,20 @@ class Api::ClientsController < Api::ContactsController
   before_action :set_client, only: [:show, :update, :destroy]
 
   def index
-    @clients = policy_scope Client
-    if @clients&.empty? or @clients.nil?
-      render json: @clients, status: 200
-    else
-      @clients = if params[:name] && params[:federal_registration]
-                   @clients.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
-                 else
-                   @clients.all
-                 end
-      paginate json: @clients.order(:id).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :description]), status: 200
+    @clients = policy_scope ::Client
+    begin
+      if @clients
+        @clients = @clients.where(status: params[:status]) if params[:status] && !params[:status].empty?
+        query = []
+        query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name] && !params[:name].empty?
+        query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration] && !params[:federal_registration].empty?
+        @clients = params.empty? ? @clients : @clients.where(query.join(" and "))
+        paginate json: @clients.order(:id), status: 200, each_serializer: Api::ClientsSerializer
+      else
+        head 404
+      end
+    rescue => e
+      render json: { errors: e }, status: 404
     end
   end
 

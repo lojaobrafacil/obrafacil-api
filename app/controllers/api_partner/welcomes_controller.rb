@@ -9,9 +9,9 @@ class ApiPartner::WelcomesController < ApplicationController
                        "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-3.png",
                        "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-4.png"],
       videos: [
+        { text: "", url: "https://www.youtube.com/embed/PsJn2RzSDSg" },
+        { text: "", url: "https://www.youtube.com/embed/ROPUQTheyzE" },
         { text: "", url: "https://www.youtube.com/embed/WyW4jXlvyrw" },
-        { text: "", url: "https://www.youtube.com/embed/kU8EJ8-xJJ4" },
-        { text: "", url: "https://www.youtube.com/embed/sTdb4_NQAUE" },
       ],
     }
     render json: @welcomes, status: 200
