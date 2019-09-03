@@ -34,7 +34,7 @@ class Partner < ApplicationRecord
             uniqueness: { allow_blank: true, case_sensitive: true },
             if: Proc.new { |partner| (partner.active? || partner.review?) && ["active", "review"].map { |value| Partner.where.not(id: partner.id).where(favored_federal_registration: partner.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase).pluck(:status).include?(value) }.include?(true) }
   after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
-  after_save :create_coupon
+  before_save :create_coupon
   before_validation :validate_status
   before_validation :set_default_to_devise, if: Proc.new { |partner| partner.uid.to_s.empty? }
   before_validation :validate_on_update, on: :update
@@ -51,7 +51,7 @@ class Partner < ApplicationRecord
   def create_coupon
     if self.active?
       if self.coupon.nil?
-        Coupon.create(partner_id: self.id, name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 1, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year)
+        self.build_coupon(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 1, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year).save
       else
         self.coupon.update(status: 1)
       end
