@@ -56,7 +56,7 @@ class Partner < ApplicationRecord
         self.coupon.update(status: 1)
       end
       if self.confirmation_sent_at.nil?
-        PartnerMailer.first_access(self).deliver_now if !self.coupon.nil?
+        PartnerMailer.first_access(self).deliver_now if !self.coupon.nil? && self.update(confirmation_sent_at: Time.now)
       end
     else
       self.coupon.update(status: 0) if !self.coupon.nil?
@@ -156,7 +156,7 @@ class Partner < ApplicationRecord
 
   def devise_attributes_changed?
     arr = self.changes.symbolize_keys.keys
-    [:reset_password_token, :reset_password_sent_at, :allow_password_change, :remember_created_at, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :tokens].map {
+    [:reset_password_token, :reset_password_sent_at, :allow_password_change, :remember_created_at, :confirmation_token, :confirmed_at, :unconfirmed_email, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :tokens].map {
       |key|
       arr.include?(key)
     }.include?(true)
