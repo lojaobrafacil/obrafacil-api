@@ -357,6 +357,20 @@ pt-BR:
           success: "Estamos enviando as mensagens"
         delete:
           success: "Deletado com sucesso"
+    client:
+      errors:
+        sms:
+          message: "Mensagem é obrigatório"
+          partner_ids: "Partner_ids é obrigatório"
+        rescue: "Parametros invalidos"
+      response:
+        reset_password:
+          success: "Senha atualizada com Sucesso"
+          error: "Não foi possivel atualizar. Senhas não coincidem"
+        sms:
+          success: "Estamos enviando as mensagens"
+        delete:
+          success: "Deletado com sucesso"
     employee:
       errors:
         password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
