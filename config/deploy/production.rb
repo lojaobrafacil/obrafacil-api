@@ -3,9 +3,10 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server "165.227.180.52", user: "deploy", roles: %w{app web}
+# server "165.227.180.52", user: "deploy", roles: %w{app web}
+server "67.205.130.23", user: "deploy", roles: %w{app web}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
-# server "db.example.com", user: "deploy", roles: %w{db}
+# server "hubcoapp.ceohfyrrbarw.us-east-1.rds.amazonaws.com", user: "deploy", roles: %w{db}
 set :sidekiq_role, :app
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
 set :sidekiq_env, "production"

@@ -3,9 +3,14 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-# server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
+# server "165.227.180.52", user: "deploy", roles: %w{app web}
+server "157.245.140.62", user: "deploy", roles: %w{app web}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
+set :sidekiq_role, :app
+set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
+set :sidekiq_env, "production"
+set :rvm_ruby_version, "2.6.0"
 
 # role-based syntax
 # ==================
