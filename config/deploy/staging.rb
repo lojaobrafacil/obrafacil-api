@@ -8,7 +8,7 @@ server "157.245.140.62", user: "deploy", roles: %w{app web}
 # server "db.example.com", user: "deploy", roles: %w{db}
 set :sidekiq_role, :app
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
-set :sidekiq_env, "production"
+set :sidekiq_env, "staging"
 set :rvm_ruby_version, "2.6.0"
 
 # role-based syntax
