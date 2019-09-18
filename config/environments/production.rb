@@ -88,7 +88,7 @@ Rails.application.configure do
     port: 587,
     domain: "lojaobrafacil.com.br",
     user_name: "naoresponda@lojaobrafacil.com.br",
-    password: "JKGrf!lxO5LYTn",
+    password: "naoresponda_jh27",
     authentication: "plain",
     enable_starttls_auto: false,
   }

@@ -25,14 +25,14 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_options = {from: '"Loja Obra Fácil" <naoresponda@lojaobrafacil.com.br>'}
+  config.action_mailer.default_options = { from: '"Loja Obra Fácil" <naoresponda@lojaobrafacil.com.br>' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "mail.lojaobrafacil.com.br",
     port: 587,
     domain: "lojaobrafacil.com.br",
     user_name: "naoresponda@lojaobrafacil.com.br",
-    password: "JKGrf!lxO5LYTn",
+    password: "naoresponda_jh27",
     authentication: "plain",
     enable_starttls_auto: false,
   }
