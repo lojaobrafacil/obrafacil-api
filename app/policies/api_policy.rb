@@ -19,14 +19,6 @@ class ApiPolicy < ApplicationPolicy
     show?
   end
 
-  def permitted_attributes
-    if user.admin?
-      [:name, :federal_registration]
-    else
-      []
-    end
-  end
-
   class Scope < Scope
     def resolve
       if user.admin?

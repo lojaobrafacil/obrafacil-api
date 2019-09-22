@@ -21,7 +21,7 @@ class Zipcode < ApplicationRecord
       end
       @zipcode
     rescue
-      {}
+      nil
     end
   end
 end

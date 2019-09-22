@@ -17,6 +17,9 @@ pt-BR:
             review_to_pre_active: Não pode ser alterado de Revisão para Pré Ativo
             inactive: Não pode ser alterado um parceiro inativo
     models:
+      api:
+        one: Api
+        other: Api's
       partner:
         one: Parceiro
         other: Parceiros
@@ -68,7 +71,25 @@ pt-BR:
           pre_active: Pré ativo
           review: Revisão
           deleted: Deletado
-      
+      api:
+        name: Nome
+        federal_registration: "CPF / CNPJ"
+        active:
+          one: Ativo
+          true: Sim
+          false: nao
+        kind:
+          one: Tipo
+          admin: Admin
+          reader: Leitura
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      bank:
+        name: Nome
+        code: Código
+        description: Descrição
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
   date:
     abbr_day_names:
     - Dom
