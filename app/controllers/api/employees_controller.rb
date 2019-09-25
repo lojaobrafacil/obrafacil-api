@@ -34,7 +34,7 @@ class Api::EmployeesController < Api::ContactsController
       update_contact(@employee)
       render json: @employee, status: 201
     else
-      render json: { errors: @employee.errors }, status: 422
+      render json: { errors: @employee.errors.full_messages }, status: 422
     end
   end
 
@@ -45,7 +45,7 @@ class Api::EmployeesController < Api::ContactsController
       update_contact(@employee)
       render json: @employee, status: 200
     else
-      render json: { errors: @employee.errors }, status: 422
+      render json: { errors: @employee.errors.full_messages }, status: 422
     end
   end
 
@@ -62,7 +62,17 @@ class Api::EmployeesController < Api::ContactsController
     if @employee.update_password(employee_password_params[:old_password], employee_password_params[:password], employee_password_params[:password_confirmation])
       render json: { success: I18n.t("models.employee.success.reset_password") }, status: 201
     else
-      render json: { errors: @employee.errors }, status: 422
+      render json: { errors: @employee.errors.full_messages }, status: 422
+    end
+  end
+
+  def reset_password
+    @employee = Employee.find(params[:id])
+    authorize @employee
+    if @employee.reset_password(employee_password_params[:password], employee_password_params[:password_confirmation])
+      render json: { success: I18n.t("models.employee.success.reset_password") }, status: 201
+    else
+      render json: { errors: @employee.errors.full_messages }, status: 422
     end
   end
 

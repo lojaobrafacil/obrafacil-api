@@ -3,6 +3,9 @@ class Api::AddressSerializer < ActiveModel::Serializer
     :description, :address_type_id, :address_type_name, :city_id, :city_name, :state_id,
     :state_name, :addressable_id, :addressable_type
 
+  has_one :city
+  has_one :address_type
+
   def state_id
     object.city.state_id if object.city
   end

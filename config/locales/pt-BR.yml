@@ -26,6 +26,12 @@ pt-BR:
       client:
         one: Cliente
         other: Clientes
+      employee:
+        one: Funcionário
+        outher: Funcionários
+      phone:
+        one: Telefone
+        outher: Telefones
     attributes:
       partner:
         name: Nome
@@ -88,6 +94,27 @@ pt-BR:
         name: Nome
         code: Código
         description: Descrição
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      employee:
+        name: Nome
+        code: Código
+        password: Senha
+        description: Descrição
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      phone:
+        phone: Telefone
+        contact: Contato
+        primary: Principal
+        phone_type: Tipo
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      email:
+        email: E-mail
+        contact: Contato
+        primary: Principal
+        phone_type: Tipo
         created_at: "Criado em"
         updated_at: "Atualizado em"
   date:
@@ -395,7 +422,8 @@ pt-BR:
     employee:
       errors:
         password_not_match: "Não foi possivel atualizar. Senhas não coincidem"
-        invalid_password: "Senha atual invalida"
+        invalid_password: "atual invalida"
+        password: "invalida"
       success:
         reset_password: "Senha atualizada com Sucesso"
     user:

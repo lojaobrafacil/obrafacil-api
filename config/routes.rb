@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     as :employee do
       resources :employees do
         collection do
+          put ":id/reset_password", to: "employees#reset_password"
           put ":id/password", to: "employees#password"
         end
       end

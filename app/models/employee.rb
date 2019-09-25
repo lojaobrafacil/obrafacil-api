@@ -33,6 +33,15 @@ class Employee < ApplicationRecord
 
   def update_password(old_password, password, password_confirmation)
     msg ||= I18n.t("models.employee.errors.invalid_password") unless valid_password?(old_password)
+    msg ||= I18n.t("models.employee.errors.password") if password.to_s.empty? || password.size < 8
+    msg ||= I18n.t("models.employee.errors.password_not_match") unless password == password_confirmation
+    msg.nil? ? update(password: password) : errors.add(:password, msg)
+    msg.nil?
+  end
+
+  def reset_password(password, password_confirmation)
+    byebug
+    msg ||= I18n.t("models.employee.errors.password") if password.to_s.empty? || password.size < 8
     msg ||= I18n.t("models.employee.errors.password_not_match") unless password == password_confirmation
     msg.nil? ? update(password: password) : errors.add(:password, msg)
     msg.nil?

@@ -16,7 +16,11 @@ class EmployeePolicy < ApplicationPolicy
   end
 
   def password?
-    user.id == record.id || user.admin?
+    user.id == record.id
+  end
+
+  def reset_password?
+    user.admin?
   end
 
   def permitted_attributes

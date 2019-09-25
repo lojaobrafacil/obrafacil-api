@@ -32,7 +32,7 @@ class Api::ClientsController < Api::ContactsController
       update_contact(@client)
       render json: @client, status: 201
     else
-      render json: { errors: @client.errors }, status: 422
+      render json: { errors: @client.errors.full_messages }, status: 422
     end
   end
 
@@ -42,7 +42,7 @@ class Api::ClientsController < Api::ContactsController
       update_contact(@client)
       render json: @client, status: 200
     else
-      render json: { errors: @client.errors }, status: 422
+      render json: { errors: @client.errors.full_messages }, status: 422
     end
   end
 
@@ -51,7 +51,7 @@ class Api::ClientsController < Api::ContactsController
     if @client.destroy
       render json: { success: I18n.t("models.client.response.delete.success") }, status: 200
     else
-      render json: { errors: @client.errors }, status: 422
+      render json: { errors: @client.errors.full_messages }, status: 422
     end
   end
 
@@ -63,6 +63,12 @@ class Api::ClientsController < Api::ContactsController
   end
 
   def client_params
-    params.permit(policy(Client).permitted_attributes)
+    params.permit(:name, :federal_registration, :state_registration,
+                  :international_registration, :kind, :status, :birthday, :renewal_date,
+                  :tax_regime, :description, :order_description, :limit, :limit_pricing_percentage, :billing_type_id,
+                  addresses_attributes: [:id, :street, :number, :complement, :neighborhood, :zipcode,
+                                         :description, :address_type_id, :city_id, :_delete],
+                  phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_delete],
+                  emails_attributes: [:id, :email, :contact, :email_type_id, :primary, :_delete])
   end
 end

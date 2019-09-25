@@ -25,8 +25,9 @@ class CouponPolicy < ApplicationPolicy
 
   def permitted_attributes
     if show?
-      [:name, :code, :discount, :status, :kind, :max_value, :expired_at,
-       :starts_at, :total_uses, :client_uses, :shipping, :logged, :description]
+      [:name, :code, :discount, :status, :kind,
+       :expired_at, :starts_at, :total_uses,
+       :client_uses, :description]
     else
       []
     end
