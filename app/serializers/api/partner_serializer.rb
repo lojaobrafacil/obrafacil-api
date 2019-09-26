@@ -3,7 +3,8 @@ class Api::PartnerSerializer < ActiveModel::Serializer
              :started_date, :renewal_date, :description, :origin, :percent, :agency, :account,
              :favored, :bank_id, :bank_name, :partner_group_id, :partner_group_name, :ocupation,
              :addresses, :phones, :emails, :cash_redemption, :favored_federal_registration,
-             :register, :site, :instagram, :avatar, :project_image, :aboutme, :updated_at, :created_at, :deleted_at
+             :register, :site, :instagram, :avatar, :project_image, :aboutme, :updated_at, :created_at, :deleted_at,
+             :money_pi, :points_pi, :premio_ideal_rescue
 
   has_one :coupon
   has_one :created_by
@@ -35,5 +36,24 @@ class Api::PartnerSerializer < ActiveModel::Serializer
 
   def deleted_by
     object.deleted_by.as_json(only: [:id, :name])
+  end
+
+  def points_pi
+    # 220
+    response = JSON.parse(Net::HTTP.get(URI.parse("https://premioideall.com.br/webapi/api/Participant/GetAvailableBalance?cpf=#{object.favored_federal_registration}&campaignId=220&login=deca&password=deca@acesso"))).symbolize_keys
+    response[:value]
+  end
+
+  def money_pi
+    # 221
+    response = JSON.parse(Net::HTTP.get(URI.parse("https://premioideall.com.br/webapi/api/Participant/GetAvailableBalance?cpf=#{object.favored_federal_registration}&campaignId=221&login=deca&password=deca@acesso"))).symbolize_keys
+    response[:value]
+  end
+
+  def premio_ideal_rescue
+    {
+      "points": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("220")}",
+      "money": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("221")}",
+    }
   end
 end

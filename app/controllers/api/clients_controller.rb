@@ -1,4 +1,4 @@
-class Api::ClientsController < Api::ContactsController
+class Api::ClientsController < Api::BaseController
   before_action :authenticate_admin_or_api!
   before_action :set_client, only: [:show, :update, :destroy]
 
@@ -29,7 +29,6 @@ class Api::ClientsController < Api::ContactsController
     @client = Client.new(client_params)
     authorize @client
     if @client.save
-      update_contact(@client)
       render json: @client, status: 201
     else
       render json: { errors: @client.errors.full_messages }, status: 422
@@ -39,7 +38,6 @@ class Api::ClientsController < Api::ContactsController
   def update
     authorize @client
     if @client.update(client_params)
-      update_contact(@client)
       render json: @client, status: 200
     else
       render json: { errors: @client.errors.full_messages }, status: 422
@@ -67,8 +65,8 @@ class Api::ClientsController < Api::ContactsController
                   :international_registration, :kind, :status, :birthday, :renewal_date,
                   :tax_regime, :description, :order_description, :limit, :limit_pricing_percentage, :billing_type_id,
                   addresses_attributes: [:id, :street, :number, :complement, :neighborhood, :zipcode,
-                                         :description, :address_type_id, :city_id, :_delete],
-                  phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_delete],
-                  emails_attributes: [:id, :email, :contact, :email_type_id, :primary, :_delete])
+                                         :description, :address_type_id, :city_id, :_destroy],
+                  phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_destroy],
+                  emails_attributes: [:id, :email, :contact, :email_type_id, :primary, :_destroy])
   end
 end

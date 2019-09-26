@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_18_182335) do
+ActiveRecord::Schema.define(version: 2019_09_26_151434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_182335) do
     t.json "tokens"
     t.integer "status"
     t.datetime "birthday"
+    t.integer "limit_pricing_percentage", default: 1
     t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
     t.index ["confirmation_token"], name: "index_clients_on_confirmation_token", unique: true
     t.index ["email"], name: "index_clients_on_email", unique: true
@@ -366,7 +367,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_182335) do
     t.string "name"
     t.json "content"
     t.string "status"
-    t.datetime "started_at", default: "2019-06-03 16:08:09"
+    t.datetime "started_at", default: "2019-07-08 03:50:31"
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -410,7 +411,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_182335) do
     t.datetime "renewal_date"
     t.text "description"
     t.integer "origin"
-    t.integer "percent"
+    t.float "percent"
     t.string "agency"
     t.string "account"
     t.string "favored"

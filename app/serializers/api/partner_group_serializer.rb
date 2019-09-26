@@ -1,3 +1,3 @@
 class Api::PartnerGroupSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :created_at, :updated_at
 end

@@ -40,7 +40,6 @@ class Employee < ApplicationRecord
   end
 
   def reset_password(password, password_confirmation)
-    byebug
     msg ||= I18n.t("models.employee.errors.password") if password.to_s.empty? || password.size < 8
     msg ||= I18n.t("models.employee.errors.password_not_match") unless password == password_confirmation
     msg.nil? ? update(password: password) : errors.add(:password, msg)
