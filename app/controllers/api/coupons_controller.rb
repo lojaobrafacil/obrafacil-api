@@ -26,7 +26,7 @@ class Api::CouponsController < Api::BaseController
     if @coupon.save
       render json: @coupon, status: 201
     else
-      render json: { errors: @coupon.errors }, status: 422
+      render json: { errors: @coupon.errors.full_messages }, status: 422
     end
   end
 
@@ -35,7 +35,7 @@ class Api::CouponsController < Api::BaseController
     if @coupon.update(coupon_params)
       render json: @coupon, status: 200
     else
-      render json: { errors: @coupon.errors }, status: 422
+      render json: { errors: @coupon.errors.full_messages }, status: 422
     end
   end
 
@@ -43,7 +43,7 @@ class Api::CouponsController < Api::BaseController
     if @coupon.use(coupon_params_to_use)
       render json: { success: I18n.t("models.coupon.response.used") }, status: 200
     else
-      render json: { errors: @coupon.errors.values.join(", ") }, status: 422
+      render json: { errors: @coupon.errors.full_messages }, status: 422
     end
   end
 

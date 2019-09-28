@@ -14,7 +14,7 @@ class Coupon < ApplicationRecord
   end
 
   def default_values
-    self.code ||= generate_code
+    self.code = generate_code if self.code.to_s.empty?
     self.total_uses ||= 0
     self.client_uses ||= 0
   end

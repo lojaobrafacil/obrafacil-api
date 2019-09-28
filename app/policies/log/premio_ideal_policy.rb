@@ -5,10 +5,16 @@ class Log::PremioIdealPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.change_partners || user.admin
+      if show?
         scope.all.order("updated_at DESC")
+      end
+    end
+
+    def show?
+      if user&.is_a?(Api)
+        user&.admin?
       else
-        []
+        user&.change_partners? || user&.admin?
       end
     end
   end

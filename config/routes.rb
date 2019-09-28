@@ -75,15 +75,12 @@ Rails.application.routes.draw do
     resources :reports, only: [:index, :create]
     resources :apis
     resources :company_products, only: [:index, :show, :update]
-
     resources :highlights do
       collection do
         get ":kind", to: "highlights#index", constraints: { kind: /normal|winner|event/ }
       end
     end
-
     resources :campains
-
     resources :pi_vouchers, except: [:update, :destroy] do
       collection do
         get "by_status/:status", to: "pi_vouchers#by_status", constraints: { status: /not_used|used_not_received|used_received/ }
@@ -91,18 +88,16 @@ Rails.application.routes.draw do
         put ":id/:status", to: "pi_vouchers#update", constraints: { status: /use|inactivate|received/ }
       end
     end
-
-    put "products/:product_id/company_products", to: "company_products#update_code_by_product"
-
     namespace :log do
       resources :premio_ideals, only: [:index, :show]
       put "premio_ideals/:id/retry", to: "premio_ideals#retry"
       resources :workers, only: [:index, :show]
     end
+    put "products/:product_id/company_products", to: "company_products#update_code_by_product"
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
-
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
+    resources :notifications, only: [:index]
   end
 
   namespace :api_partner, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "partner-stg" : "partner" }, path: "/" do

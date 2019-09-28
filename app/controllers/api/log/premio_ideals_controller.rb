@@ -4,7 +4,7 @@ class Api::Log::PremioIdealsController < Api::BaseController
   def index
     premio_ideals = policy_scope ::Log::PremioIdeal
 
-    render json: premio_ideals.limit(300)
+    paginate json: premio_ideals, status: 200
   end
 
   def show
@@ -16,9 +16,9 @@ class Api::Log::PremioIdealsController < Api::BaseController
   def retry
     if ::Log::PremioIdeal.where(id: params[:id]).size > 0
       PremioIdealWorker.perform_async(params[:id], "LOG_RETRY")
-      render json: {data: "Running"}, status: 201
+      render json: { data: "Running" }, status: 201
     else
-      render json: {errors: "Log informado não existe"}, status: 422
+      render json: { errors: "Log informado não existe" }, status: 422
     end
   end
 end
