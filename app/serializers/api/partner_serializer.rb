@@ -6,6 +6,8 @@ class Api::PartnerSerializer < ActiveModel::Serializer
              :register, :site, :instagram, :avatar, :project_image, :aboutme, :updated_at, :created_at, :deleted_at,
              :money_pi, :points_pi, :premio_ideal_rescue
 
+  has_one :bank
+  has_one :partner_group
   has_one :coupon
   has_one :created_by
   has_one :deleted_by
