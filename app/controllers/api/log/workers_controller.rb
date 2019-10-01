@@ -14,7 +14,7 @@ class Api::Log::WorkersController < Api::BaseController
     @smss = ::Log::Worker.where name: "SmsPartnersWorker"
     authorize @smss
 
-    render json: @smss.limit(300), each_serializer: Api::Log::SmsWorkerSerializer
+    render json: @smss.order(finished_at: :desc).limit(300), each_serializer: Api::Log::SmsWorkerSerializer
   end
 
   def show
