@@ -20,7 +20,7 @@ class Api::HighlightsController < Api::BaseController
     if @highlight.save
       render json: @highlight, status: 201
     else
-      render json: { errors: @highlight.errors }, status: 422
+      render json: { errors: @highlight.errors.full_messages }, status: 422
     end
   end
 
@@ -28,7 +28,7 @@ class Api::HighlightsController < Api::BaseController
     if @highlight.update(highlight_params)
       render json: @highlight, status: 200
     else
-      render json: { errors: @highlight.errors }, status: 422
+      render json: { errors: @highlight.errors.full_messages }, status: 422
     end
   end
 

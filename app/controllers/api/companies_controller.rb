@@ -24,7 +24,7 @@ class Api::CompaniesController < Api::ContactsController
       update_contact(@company)
       render json: @company, status: 201
     else
-      render json: { errors: @company.errors }, status: 422
+      render json: { errors: @company.errors.full_messages }, status: 422
     end
   end
 
@@ -34,7 +34,7 @@ class Api::CompaniesController < Api::ContactsController
       update_contact(@company)
       render json: @company, status: 200
     else
-      render json: { errors: @company.errors }, status: 422
+      render json: { errors: @company.errors.full_messages }, status: 422
     end
   end
 

@@ -120,7 +120,7 @@ class Partner < ApplicationRecord
   private
 
   def default_values
-    self.name = self.name.to_s.strip.titleize if self.name_changed? || self.new_record? rescue nil
+    self.name = self.name.to_s.strip.mb_chars.titleize.to_s if self.name_changed? || self.new_record? rescue nil
     self.federal_registration = self.federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase if self.federal_registration_changed? || self.new_record? rescue nil
     self.favored_federal_registration = self.favored_federal_registration.to_s.empty? ? self.federal_registration : self.favored_federal_registration
     self.favored_federal_registration = self.favored_federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil

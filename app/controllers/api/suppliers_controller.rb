@@ -9,7 +9,7 @@ class Api::SuppliersController < Api::ContactsController
                  else
                    @suppliers.all
                  end
-    paginate json: @suppliers.as_json(only: [:id, :name, :fantasy_name, :description]), status: 200
+    paginate json: @suppliers.as_json(only: [:id, :name, :fantasy_name, :federal_registration, :description]), status: 200
   end
 
   def show
@@ -24,7 +24,7 @@ class Api::SuppliersController < Api::ContactsController
       update_contact(@supplier)
       render json: @supplier, status: 201
     else
-      render json: {errors: @supplier.errors}, status: 422
+      render json: { errors: @supplier.errors.full_messages }, status: 422
     end
   end
 
@@ -34,7 +34,7 @@ class Api::SuppliersController < Api::ContactsController
       update_contact(@supplier)
       render json: @supplier, status: 200
     else
-      render json: {errors: @supplier.errors}, status: 422
+      render json: { errors: @supplier.errors.full_messages }, status: 422
     end
   end
 
