@@ -24,7 +24,7 @@ class Api::SubCategoriesController < Api::BaseController
     if @sub_category.save
       render json: @sub_category, status: 201
     else
-      render json: {errors: @sub_category.errors}, status: 422
+      render json: { errors: @sub_category.errors.full_messages }, status: 422
     end
   end
 
@@ -35,7 +35,7 @@ class Api::SubCategoriesController < Api::BaseController
     if @sub_category.update(sub_category_params)
       render json: @sub_category, status: 200
     else
-      render json: {errors: @sub_category.errors}, status: 422
+      render json: { errors: @sub_category.errors.full_messages }, status: 422
     end
   end
 
@@ -46,7 +46,7 @@ class Api::SubCategoriesController < Api::BaseController
       @sub_category.destroy
       head 204
     else
-      render json: {errors: "Sub Categoria não pode ser deletada pois possue produtos"}, status: 422
+      render json: { errors: "Sub Categoria não pode ser deletada pois possue produtos" }, status: 422
     end
   end
 

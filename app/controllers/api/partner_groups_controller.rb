@@ -17,7 +17,7 @@ class Api::PartnerGroupsController < Api::BaseController
     if @partner_group.save
       render json: @partner_group, status: :created
     else
-      render json: {errors: @partner_group.errors}, status: :unprocessable_entity
+      render json: { errors: @partner_group.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -25,7 +25,7 @@ class Api::PartnerGroupsController < Api::BaseController
     if @partner_group.update(partner_group_params)
       render json: @partner_group
     else
-      render json: {errors: @partner_group.errors}, status: :unprocessable_entity
+      render json: { errors: @partner_group.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
