@@ -3,7 +3,7 @@ class EmployeePolicy < ApplicationPolicy
     if user.is_a?(Api)
       user.admin?
     else
-      user.id == record.id || user.admin?
+      user.id == record.id || user.admin? || user.change_employee?
     end
   end
 

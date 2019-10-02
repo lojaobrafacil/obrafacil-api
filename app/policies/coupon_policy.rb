@@ -3,8 +3,12 @@ class CouponPolicy < ApplicationPolicy
     if user.is_a?(Api)
       user.admin?
     else
-      user.change_partners || user.admin
+      user.change_coupon || user.admin
     end
+  end
+
+  def create?
+    show?
   end
 
   def destroy?
