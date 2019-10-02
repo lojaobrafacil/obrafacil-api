@@ -4,7 +4,7 @@ class HighlightPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:id, :title_1, :content_1, :image_1, :expires_at, :starts_in,
+    [:id, :title_1, :title_2, :content_1, :image_1, :expires_at, :starts_in,
      :status, :kind, :position, :link]
   end
 
