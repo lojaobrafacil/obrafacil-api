@@ -60,7 +60,7 @@ class Api::PiVouchersController < Api::BaseController
     if @pi_voucher.save
       render json: @pi_voucher, status: 201
     else
-      render json: { errors: @pi_voucher.errors }, status: 422
+      render json: { errors: @pi_voucher.errors.full_messages }, status: 422
     end
   end
 
@@ -77,7 +77,7 @@ class Api::PiVouchersController < Api::BaseController
     if @pi_voucher.save
       render json: @pi_voucher, status: 200
     else
-      render json: { errors: @pi_voucher.errors }, status: 422
+      render json: { errors: @pi_voucher.errors.full_messages }, status: 422
     end
   end
 

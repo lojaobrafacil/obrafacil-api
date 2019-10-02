@@ -7,10 +7,6 @@ class Api::PiVoucherSerializer < ActiveModel::Serializer
     object.attachment.url
   end
 
-  def value
-    object.value_br
-  end
-
   def company
     object.company.as_json(only: [:id, :name])
   end
