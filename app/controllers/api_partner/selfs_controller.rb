@@ -22,7 +22,6 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
       @partner = Partner.new(partner_params)
       @partner.status = "review"
       if @partner.save
-        notify_employees(@partner)
         EmployeeMailer.new_partner(@partner).deliver_now rescue nil
         PartnerMailer.request_access(@partner).deliver_now rescue nil
       else
@@ -66,12 +65,6 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
   end
 
   private
-
-  def notify_employees(partner)
-    Employee.where("admin = true or change_partners = true").select(:id).each do |emp|
-      Pusher.trigger("employee-#{emp.id}", "new-partner", { message: "Parceiro #{partner.name} se cadastrou.", partner: partner.as_json })
-    end
-  end
 
   def partner_params
     params.permit(:name, :federal_registration, :state_registration, :agency, :account,

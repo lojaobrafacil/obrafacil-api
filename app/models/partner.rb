@@ -34,6 +34,7 @@ class Partner < ApplicationRecord
             uniqueness: { allow_blank: true, case_sensitive: true },
             if: Proc.new { |partner| (partner.active? || partner.review?) && ["active", "review"].map { |value| Partner.where.not(id: partner.id).where(favored_federal_registration: partner.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase).pluck(:status).include?(value) }.include?(true) }
   after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
+  after_create :create_notification
   before_save :create_coupon
   before_validation :validate_status
   before_validation :set_default_to_devise, if: Proc.new { |partner| partner.uid.to_s.empty? }
@@ -118,6 +119,16 @@ class Partner < ApplicationRecord
   end
 
   private
+
+  def create_notification
+    if self.status == "review"
+      Employee.where("admin = true or change_partners = true").pluck(:id).each do |employee_id|
+        @nt = Notification.find_or_create_by!(notified_id: employee_id, notified_type: "Employee", target: self)
+        @nt.update(title: "Novo parceiro #{self.name}", viewed: false)
+        Pusher.trigger("employee-#{employee_id}", "new-partner", { message: "Parceiro #{self.name} se cadastrou.", partner: self.as_json })
+      end
+    end
+  end
 
   def default_values
     self.name = self.name.to_s.strip.mb_chars.titleize.to_s if self.name_changed? || self.new_record? rescue nil

@@ -31,6 +31,7 @@ class Api::PartnersController < Api::BaseController
     if @partner.save
       render json: @partner, status: 201
     else
+      byebug
       render json: { errors: @partner.errors.full_messages }, status: 422
     end
   end
