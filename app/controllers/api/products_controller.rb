@@ -24,7 +24,7 @@ class Api::ProductsController < Api::BaseController
       image_products_attributes(@product) if params[:images]
       render json: @product, status: 201
     else
-      render json: { errors: @product.errors }, status: 422
+      render json: { errors: @product.errors.full_messages }, status: 422
     end
   end
 
@@ -34,7 +34,7 @@ class Api::ProductsController < Api::BaseController
       image_products_attributes(@product) if params[:images]
       render json: @product, status: 200
     else
-      render json: { errors: @product.errors }, status: 422
+      render json: { errors: @product.errors.full_messages }, status: 422
     end
   end
 

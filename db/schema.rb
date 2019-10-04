@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_03_203829) do
+ActiveRecord::Schema.define(version: 2019_10_04_145417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -311,7 +311,7 @@ ActiveRecord::Schema.define(version: 2019_10_03_203829) do
     t.datetime "starts_in"
     t.integer "status", default: 1
     t.integer "kind", default: 0
-    t.integer "position", default: 1
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -356,7 +356,7 @@ ActiveRecord::Schema.define(version: 2019_10_03_203829) do
     t.string "name"
     t.json "content"
     t.string "status"
-    t.datetime "started_at", default: "2019-10-04 03:48:09"
+    t.datetime "started_at", default: "2019-07-08 03:50:31"
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -516,8 +516,8 @@ ActiveRecord::Schema.define(version: 2019_10_03_203829) do
     t.integer "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "company_product_id"
-    t.index ["company_product_id"], name: "index_prices_on_company_product_id"
+    t.bigint "stock_id"
+    t.index ["stock_id"], name: "index_prices_on_stock_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -693,6 +693,7 @@ ActiveRecord::Schema.define(version: 2019_10_03_203829) do
   add_foreign_key "pi_vouchers", "companies"
   add_foreign_key "pi_vouchers", "partners"
   add_foreign_key "price_percentages", "companies"
+  add_foreign_key "prices", "stocks"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
   add_foreign_key "reports", "employees"
