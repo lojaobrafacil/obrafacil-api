@@ -1,4 +1,4 @@
-class CompanyProduct < ApplicationRecord
+class Stock < ApplicationRecord
   belongs_to :company
   belongs_to :product
   has_many :prices

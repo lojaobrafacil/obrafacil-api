@@ -1,6 +1,6 @@
 class Company < ApplicationRecord
   belongs_to :billing_type, optional: true
-  has_many :company_products, dependent: :destroy
+  has_many :stocks, dependent: :destroy
   has_many :price_percentages, dependent: :destroy
   has_many :orders
   has_many :phones, dependent: :destroy, as: :phonable
@@ -16,7 +16,7 @@ class Company < ApplicationRecord
   after_create :workers
 
   def products
-    Product.where("id in (select cp.product_id from company_products as cp where cp.order_id = ?)", self.id)
+    Product.where("id in (select stocks.product_id from stocks where stocks.company_id = ?)", self.id)
   end
 
   def workers

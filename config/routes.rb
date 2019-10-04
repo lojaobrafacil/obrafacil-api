@@ -74,7 +74,7 @@ Rails.application.routes.draw do
     resources :images, only: [:create, :destroy]
     resources :reports, only: [:index, :create]
     resources :apis
-    resources :company_products, only: [:index, :show, :update]
+    resources :stocks, only: [:index, :show, :update]
     resources :highlights do
       collection do
         get ":kind", to: "highlights#index", constraints: { kind: /normal|winner|event/ }
@@ -93,7 +93,7 @@ Rails.application.routes.draw do
       put "premio_ideals/:id/retry", to: "premio_ideals#retry"
       resources :workers, only: [:index, :show]
     end
-    put "products/:product_id/company_products", to: "company_products#update_code_by_product"
+    put "products/:product_id/stocks", to: "stocks#update_code_by_product"
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }

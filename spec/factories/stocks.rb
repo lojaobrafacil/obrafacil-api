@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :company_product do
+  factory :stock do
     stock { Faker::Number.number(3) }
     stock_min { Faker::Number.number(1) }
     stock_max { Faker::Number.number(4) }

@@ -100,19 +100,19 @@
               "properties": {
                 "code": {
                   "type": "integer",
-                  "example": "2445"
+                  "example": "5580"
                 },
                 "name": {
                   "type": "string",
-                  "example": "ABN AMRO HOARE GOVETT SECURITIES"
+                  "example": "ABN AMRO MEZZANINE (UK) LIMITED"
                 },
                 "slug": {
                   "type": "string",
-                  "example": "ABBOTSTONE AGRICULTURAL PROPERTY UNIT TRUST"
+                  "example": "ABBEY LIFE"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Aut et ut. Odio et dolor. Laudantium aut quia."
+                  "example": "Sed optio quaerat. Magni vel nostrum. Illum quia sint."
                 }
               },
               "required": [
@@ -225,19 +225,19 @@
               "properties": {
                 "code": {
                   "type": "integer",
-                  "example": "1403"
+                  "example": "4655"
                 },
                 "name": {
                   "type": "string",
-                  "example": "ABN AMRO HOARE GOVETT LIMITED"
+                  "example": "OTKRITIE SECURITIES LIMITED"
                 },
                 "slug": {
                   "type": "string",
-                  "example": "ABN AMRO MEZZANINE (UK) LIMITED"
+                  "example": "ABN AMRO CORPORATE FINANCE LIMITED"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Illum voluptatem rerum. Occaecati qui nihil. Et rerum laborum."
+                  "example": "Non dolorem veritatis. Ipsam dolores reprehenderit. Quos ex ipsam."
                 }
               },
               "required": [
@@ -592,39 +592,39 @@
                 },
                 "order_date": {
                   "type": "string",
-                  "example": "1977-03-25"
+                  "example": "1996-07-12"
                 },
                 "client_name": {
                   "type": "string",
-                  "example": "Heloísa Carreira"
+                  "example": "Maria Fernanda Viveiros"
                 },
                 "order_price": {
                   "type": "string",
-                  "example": ".08"
+                  "example": ".07"
                 },
                 "return_price": {
                   "type": "string",
-                  "example": ".06"
+                  "example": ".05"
                 },
                 "points": {
                   "type": "string",
-                  "example": "484"
+                  "example": "620"
                 },
                 "percent_date": {
                   "type": "string",
-                  "example": "1954-10-24"
+                  "example": "1956-06-28"
                 },
                 "percent": {
                   "type": "string",
-                  "example": ".07"
+                  "example": ".04"
                 },
                 "percent_value": {
                   "type": "string",
-                  "example": ".07"
+                  "example": ".06"
                 },
                 "sent_date": {
                   "type": "string",
-                  "example": "1973-09-17"
+                  "example": "1994-01-28"
                 },
                 "partner_id": {
                   "type": "string",
@@ -865,11 +865,11 @@
                 },
                 "order_date": {
                   "type": "string",
-                  "example": "1986-08-12"
+                  "example": "1973-07-24"
                 },
                 "client_name": {
                   "type": "string",
-                  "example": "Mathias Fontinhas"
+                  "example": "Srta. Enzo Thiago Guedes"
                 },
                 "order_price": {
                   "type": "string",
@@ -877,27 +877,27 @@
                 },
                 "return_price": {
                   "type": "string",
-                  "example": ".02"
+                  "example": ".08"
                 },
                 "points": {
                   "type": "string",
-                  "example": "152"
+                  "example": "429"
                 },
                 "percent_date": {
                   "type": "string",
-                  "example": "1964-12-07"
+                  "example": "2000-09-03"
                 },
                 "percent": {
                   "type": "string",
-                  "example": ".06"
+                  "example": ".01"
                 },
                 "percent_value": {
                   "type": "string",
-                  "example": ".03"
+                  "example": ".08"
                 },
                 "sent_date": {
                   "type": "string",
-                  "example": "1956-09-24"
+                  "example": "1977-06-29"
                 },
                 "partner_id": {
                   "type": "integer",
@@ -1088,47 +1088,47 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Ana Luiza Lima"
+                  "example": "Srta. Louise Passarinho"
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Rafael Arriaga"
+                  "example": "Ana Luiza Martim Jr."
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "965102515-8"
+                  "example": "455814672-8"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "419673497-9"
+                  "example": "152154871-4"
                 },
                 "invoice_save": {
                   "type": "string",
-                  "example": "597743043-4"
+                  "example": "012468122-0"
                 },
                 "invouce_return": {
                   "type": "string",
-                  "example": "091744513-9"
+                  "example": "697695284-5"
                 },
                 "pis_percent": {
                   "type": "string",
-                  "example": "291231522-0"
+                  "example": "063290756-8"
                 },
                 "confins_percent": {
                   "type": "string",
-                  "example": "145926108-9"
+                  "example": "317552017-0"
                 },
                 "icmsn_percent": {
                   "type": "string",
-                  "example": "310370922-6"
+                  "example": "903190672-7"
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1986-10-13"
+                  "example": "1990-02-13"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2039-06-18"
+                  "example": "2033-05-23"
                 },
                 "description": {
                   "type": "string",
@@ -1386,47 +1386,47 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Dr. Maria Clara de Oliveira"
+                  "example": "Srta. Ana Beatriz Garcez"
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Maria Luiza Coutinho"
+                  "example": "Marcia Diegues"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "007535196-X"
+                  "example": "902753559-0"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "842578152-3"
+                  "example": "074820607-8"
                 },
                 "invoice_save": {
                   "type": "string",
-                  "example": "445895761-9"
+                  "example": "274624419-5"
                 },
                 "invouce_return": {
                   "type": "string",
-                  "example": "042223080-4"
+                  "example": "303452220-7"
                 },
                 "pis_percent": {
                   "type": "string",
-                  "example": "062476901-1"
+                  "example": "074089176-6"
                 },
                 "confins_percent": {
                   "type": "string",
-                  "example": "519388868-2"
+                  "example": "876754079-1"
                 },
                 "icmsn_percent": {
                   "type": "string",
-                  "example": "853132841-1"
+                  "example": "510518480-7"
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1970-03-24"
+                  "example": "2000-03-07"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2038-10-04"
+                  "example": "2030-06-01"
                 },
                 "description": {
                   "type": "string",
@@ -1635,11 +1635,11 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Letícia Grotas"
+                  "example": "Luiz Felipe da Veiga"
                 },
                 "discount": {
                   "type": "float",
-                  "example": "0.0"
+                  "example": "8.0"
                 },
                 "status": {
                   "type": "string",
@@ -1651,23 +1651,23 @@
                 },
                 "max_value": {
                   "type": "float",
-                  "example": "583.0"
+                  "example": "335.0"
                 },
                 "expired_at": {
                   "type": "string",
-                  "example": "2020-06-03T15:36:06-03:00"
+                  "example": "2020-10-03T23:47:24-03:00"
                 },
                 "starts_at": {
                   "type": "string",
-                  "example": "2019-06-03T15:36:06-03:00"
+                  "example": "2019-10-03T23:47:24-03:00"
                 },
                 "total_uses": {
                   "type": "integer",
-                  "example": "10"
+                  "example": "17"
                 },
                 "client_uses": {
                   "type": "integer",
-                  "example": "43"
+                  "example": "21"
                 },
                 "shipping": {
                   "type": "boolean",
@@ -1679,7 +1679,7 @@
                 },
                 "description": {
                   "type": "string",
-                  "example": "Eum architecto ut. Eligendi repudiandae pariatur. Soluta est recusandae."
+                  "example": "Eum magnam repellendus. Consequuntur sequi reiciendis. Voluptatem ea ipsa."
                 }
               },
               "required": [
@@ -1841,11 +1841,11 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Lorena Matoso"
+                  "example": "Emanuel Cerqueira"
                 },
                 "discount": {
                   "type": "string",
-                  "example": "8.0"
+                  "example": "2.0"
                 },
                 "status": {
                   "type": "string",
@@ -1857,23 +1857,23 @@
                 },
                 "max_value": {
                   "type": "string",
-                  "example": "376.0"
+                  "example": "641.0"
                 },
                 "expired_at": {
                   "type": "string",
-                  "example": "2020-06-03T15:36:06-03:00"
+                  "example": "2020-10-03T23:47:24-03:00"
                 },
                 "starts_at": {
                   "type": "string",
-                  "example": "2019-06-03T15:36:06-03:00"
+                  "example": "2019-10-03T23:47:24-03:00"
                 },
                 "total_uses": {
                   "type": "string",
-                  "example": "47"
+                  "example": "17"
                 },
                 "client_uses": {
                   "type": "string",
-                  "example": "91"
+                  "example": "61"
                 },
                 "shipping": {
                   "type": "string",
@@ -1885,7 +1885,7 @@
                 },
                 "description": {
                   "type": "string",
-                  "example": "Dolorem incidunt tempora. Qui aut quia. Tenetur reprehenderit aut."
+                  "example": "Et quod et. Et dolorum nobis. Quam atque voluptas."
                 }
               },
               "required": [
@@ -2066,11 +2066,11 @@
               "properties": {
                 "external_order_id": {
                   "type": "string",
-                  "example": "6240"
+                  "example": "6305"
                 },
                 "client_federal_registration": {
                   "type": "string",
-                  "example": "23672037539"
+                  "example": "47944970119"
                 }
               },
               "required": [
@@ -2221,15 +2221,15 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Ana Clara Pires"
+                  "example": "Kléber Aguiar"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "081091981-8"
+                  "example": "801937472-8"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "243475566-6"
+                  "example": "768761910-2"
                 },
                 "kind": {
                   "type": "string",
@@ -2241,15 +2241,15 @@
                 },
                 "started_date": {
                   "type": "string",
-                  "example": "1970-03-01"
+                  "example": "1979-07-25"
                 },
                 "renewal_date": {
                   "type": "string",
-                  "example": "2022-07-24"
+                  "example": "2027-06-26"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Rem fugiat quod. Porro temporibus et. Est aut enim."
+                  "example": "Aliquid aut ea. Ut autem atque. Voluptates rerum sint."
                 },
                 "origin": {
                   "type": "string",
@@ -2261,26 +2261,26 @@
                 },
                 "agency": {
                   "type": "string",
-                  "example": "7306"
+                  "example": "4216"
                 },
                 "account": {
                   "type": "string",
-                  "example": "9320589"
+                  "example": "3523236"
                 },
                 "favored": {
                   "type": "string",
-                  "example": "Sophie Xavier"
+                  "example": "Maria Eduarda Espinhosa"
                 },
                 "favored_federal_registration": {
                   "type": "string",
-                  "example": "224550532-8"
+                  "example": "251293940-5"
                 },
                 "bank_id": {
                   "type": "integer"
                 },
                 "ocupation": {
                   "type": "string",
-                  "example": "TI"
+                  "example": "Marketing"
                 },
                 "cash_redemption": {
                   "type": "string",
@@ -2653,15 +2653,15 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Isabella Muniz"
+                  "example": "Milena Menendes"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "570185383-7"
+                  "example": "089819900-X"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "542691067-7"
+                  "example": "583910357-8"
                 },
                 "kind": {
                   "type": "string",
@@ -2673,15 +2673,15 @@
                 },
                 "started_date": {
                   "type": "string",
-                  "example": "1954-10-12"
+                  "example": "1965-09-21"
                 },
                 "renewal_date": {
                   "type": "string",
-                  "example": "2027-01-01"
+                  "example": "2023-06-27"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Quia doloribus sunt. Quo harum reiciendis. Ducimus iusto placeat."
+                  "example": "Iure est perspiciatis. Id laborum neque. Mollitia architecto eligendi."
                 },
                 "origin": {
                   "type": "string",
@@ -2689,30 +2689,30 @@
                 },
                 "percent": {
                   "type": "string",
-                  "example": ".09"
+                  "example": ".07"
                 },
                 "agency": {
                   "type": "string",
-                  "example": "7105"
+                  "example": "8272"
                 },
                 "account": {
                   "type": "string",
-                  "example": "4410602"
+                  "example": "1238406"
                 },
                 "favored": {
                   "type": "string",
-                  "example": "Breno Arantes"
+                  "example": "Margarida Parreira"
                 },
                 "favored_federal_registration": {
                   "type": "string",
-                  "example": "288958143-8"
+                  "example": "890398932-5"
                 },
                 "bank_id": {
                   "type": "integer"
                 },
                 "ocupation": {
                   "type": "string",
-                  "example": "Educação"
+                  "example": "Agricultura"
                 },
                 "cash_redemption": {
                   "type": "string",
@@ -2923,15 +2923,15 @@
                 },
                 "received_at": {
                   "type": "string",
-                  "example": "1996-10-16"
+                  "example": "1989-09-30"
                 },
                 "used_at": {
                   "type": "string",
-                  "example": "2019-06-04"
+                  "example": "2019-10-04"
                 },
                 "value": {
                   "type": "string",
-                  "example": "9571"
+                  "example": "2346"
                 },
                 "company_id": {
                   "type": "integer"
@@ -3538,51 +3538,39 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Fantastic Iron Watch"
+                  "example": "Awesome Wooden Bottle"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Copper"
-                },
-                "ncm": {
-                  "type": "string",
-                  "example": "14.04"
-                },
-                "icms": {
-                  "type": "string",
-                  "example": "32.09"
+                  "example": "Concrete"
                 },
                 "ipi": {
                   "type": "string",
-                  "example": "90.04"
+                  "example": "95.08"
                 },
-                "cest": {
-                  "type": "string",
-                  "example": "44.05"
-                },
-                "bar_code": {
+                "barcode": {
                   "type": "string",
                   "example": "7894916512510"
                 },
                 "reduction": {
                   "type": "string",
-                  "example": "45.05"
+                  "example": "59.09"
                 },
                 "weight": {
                   "type": "string",
-                  "example": "78.07"
+                  "example": "60.04"
                 },
                 "height": {
                   "type": "string",
-                  "example": "56.07"
+                  "example": "18.04"
                 },
                 "width": {
                   "type": "string",
-                  "example": "85.07"
+                  "example": "24.02"
                 },
                 "length": {
                   "type": "string",
-                  "example": "10.04"
+                  "example": "13.08"
                 },
                 "kind": {
                   "type": "string",
@@ -3672,51 +3660,39 @@
                 },
                 "name": {
                   "type": "string",
-                  "example": "Incredible Copper Wallet"
+                  "example": "Intelligent Paper Plate"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Silk"
-                },
-                "ncm": {
-                  "type": "integer",
-                  "example": "60.01"
-                },
-                "icms": {
-                  "type": "number",
-                  "example": "84.08"
+                  "example": "Plastic"
                 },
                 "ipi": {
                   "type": "number",
-                  "example": "81.01"
+                  "example": "90.06"
                 },
-                "cest": {
-                  "type": "number",
-                  "example": "60.09"
-                },
-                "bar_code": {
+                "barcode": {
                   "type": "string",
                   "example": "7894916512510"
                 },
                 "reduction": {
                   "type": "number",
-                  "example": "49.04"
+                  "example": "17.07"
                 },
                 "weight": {
                   "type": "number",
-                  "example": "26.09"
+                  "example": "97.09"
                 },
                 "height": {
                   "type": "number",
-                  "example": "25.07"
+                  "example": "85.01"
                 },
                 "width": {
                   "type": "number",
-                  "example": "23.06"
+                  "example": "87.09"
                 },
                 "length": {
                   "type": "number",
-                  "example": "57.07"
+                  "example": "93.07"
                 },
                 "kind": {
                   "type": "string",
@@ -3771,7 +3747,7 @@
                   "type": "string",
                   "example": "ex"
                 },
-                "company_products": {
+                "stocks": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -3857,55 +3833,43 @@
                 },
                 "name": {
                   "type": "string",
-                  "example": "Incredible Cotton Car"
+                  "example": "Durable Steel Hat"
                 },
                 "description": {
                   "type": "string",
-                  "example": "Paper"
-                },
-                "ncm": {
-                  "type": "float",
-                  "example": "82.01"
-                },
-                "icms": {
-                  "type": "float",
-                  "example": "38.02"
+                  "example": "Granite"
                 },
                 "ipi": {
                   "type": "float",
-                  "example": "46.02"
-                },
-                "cest": {
-                  "type": "float",
-                  "example": "89.01"
+                  "example": "20.07"
                 },
                 "color": {
                   "type": "string",
-                  "example": "#bda3c9"
+                  "example": "#6e0f2e"
                 },
-                "bar_code": {
+                "barcode": {
                   "type": "string",
                   "example": "7894916512510"
                 },
                 "reduction": {
                   "type": "string",
-                  "example": "15.03"
+                  "example": "44.08"
                 },
                 "weight": {
                   "type": "float",
-                  "example": "40.03"
+                  "example": "80.03"
                 },
                 "height": {
                   "type": "float",
-                  "example": "28.04"
+                  "example": "27.09"
                 },
                 "width": {
                   "type": "float",
-                  "example": "31.05"
+                  "example": "86.08"
                 },
                 "length": {
                   "type": "float",
-                  "example": "71.09"
+                  "example": "21.08"
                 },
                 "kind": {
                   "type": "string",
@@ -3936,7 +3900,7 @@
                   "type": "integer",
                   "example": 1
                 },
-                "company_products": {
+                "stocks": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -4405,19 +4369,19 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Olívia Morais"
+                  "example": "Gabriela da Fonseca"
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Laura Mendes"
+                  "example": "Dra. Otávio Jaques"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "521157860-0"
+                  "example": "279706574-3"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "917107606-9"
+                  "example": "836145463-2"
                 },
                 "kind": {
                   "type": "string",
@@ -4426,11 +4390,11 @@
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1969-03-06"
+                  "example": "1989-11-10"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2035-02-19"
+                  "example": "2033-04-26"
                 },
                 "description": {
                   "type": "string",
@@ -4445,31 +4409,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Travessa Bernardo Nascimento"
+                      "example": "Ponte Feliciano da Gama"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Rodovia Paula"
+                      "example": "Travessa Kaique Cardoso"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "79424283"
+                      "example": "97770235"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "59677155"
+                      "example": "54043114"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "9483"
+                      "example": "9719"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "183"
+                      "example": "s/n"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Maxime modi qui. Et quia quidem. Voluptatem explicabo nostrum."
+                      "example": "Voluptates maiores eum. Exercitationem aut odit. Facere et aliquam."
                     },
                     "address_type_id": {
                       "type": "integer",
@@ -4490,11 +4454,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(81) 8393-5321"
+                      "example": "(61) 0098-1243"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Deneval Moura"
+                      "example": "Maria Flor Cachoeira"
                     },
                     "phone_type_id": {
                       "type": "integer",
@@ -4511,11 +4475,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "nicolasa@cremin.name"
+                      "example": "bradley@fahey.org"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Davi Lucas Guedes"
+                      "example": "Joaquim Espinhosa"
                     },
                     "email_type_id": {
                       "type": "integer",
@@ -4770,19 +4734,19 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "Gúbio Cardoso"
+                  "example": "Isis Barbosa Jr."
                 },
                 "fantasy_name": {
                   "type": "string",
-                  "example": "Nicole Brum"
+                  "example": "Esther Nogueira"
                 },
                 "federal_registration": {
                   "type": "string",
-                  "example": "783367125-8"
+                  "example": "734999796-5"
                 },
                 "state_registration": {
                   "type": "string",
-                  "example": "548738516-5"
+                  "example": "492542782-2"
                 },
                 "kind": {
                   "type": "string",
@@ -4791,11 +4755,11 @@
                 },
                 "birth_date": {
                   "type": "string",
-                  "example": "1994-06-30"
+                  "example": "1978-11-01"
                 },
                 "tax_regime": {
                   "type": "string",
-                  "example": "2044-08-11"
+                  "example": "2046-05-16"
                 },
                 "description": {
                   "type": "string",
@@ -4810,31 +4774,31 @@
                   "properties": {
                     "street": {
                       "type": "string",
-                      "example": "Ponte Yasmin Banheira"
+                      "example": "Viela Sarah"
                     },
                     "number": {
                       "type": "string",
-                      "example": "Rua Janaína Simão"
+                      "example": "Rodovia Bianca"
                     },
                     "complement": {
                       "type": "string",
-                      "example": "66226002"
+                      "example": "76688851"
                     },
                     "neighborhood": {
                       "type": "string",
-                      "example": "24136304"
+                      "example": "79318429"
                     },
                     "zipcode": {
                       "type": "integer",
-                      "example": "8728"
+                      "example": "5604"
                     },
                     "ibge": {
                       "type": "string",
-                      "example": "1982"
+                      "example": "s/n"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Occaecati laborum sunt. Voluptas et quaerat. Rerum dignissimos qui."
+                      "example": "Consequatur aperiam est. Odit est neque. Fugiat est eos."
                     },
                     "address_type_id": {
                       "type": "integer",
@@ -4855,11 +4819,11 @@
                   "properties": {
                     "phone": {
                       "type": "string",
-                      "example": "(49) 8839-5809"
+                      "example": "(22) 5398-2039"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Roberto Aguiar"
+                      "example": "Augusto Custódio"
                     },
                     "phone_type_id": {
                       "type": "integer",
@@ -4876,11 +4840,11 @@
                   "properties": {
                     "email": {
                       "type": "string",
-                      "example": "lottie@shields.name"
+                      "example": "nyla@wintheiser.biz"
                     },
                     "contact": {
                       "type": "string",
-                      "example": "Dr. Theo Fontinhas"
+                      "example": "Maria da Silveira"
                     },
                     "email_type_id": {
                       "type": "integer",

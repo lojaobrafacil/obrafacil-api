@@ -13,9 +13,9 @@ class ProductPolicy < ApplicationPolicy
 
   def permitted_attributes
     if show?
-      [:name, :description, :ncm, :icms, :ipi, :cest,
-       :bar_code, :reduction, :weight, :height, :width, :length, :supplier_id,
-       :kind, :active, :unit_id, :sku, :sku_xml, :sub_category_id]
+      [:name, :description, :ipi,
+       :barcode, :reduction, :weight, :height, :width, :length, :supplier_id,
+       :kind, :status, :unit_id, :sku, :sku_xml, :sub_category_id]
     else
       []
     end

@@ -1,4 +1,4 @@
-class CompanyProductPolicy < ApplicationPolicy
+class StockPolicy < ApplicationPolicy
   def show?
     if user.is_a?(Api)
       user.admin?

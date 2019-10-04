@@ -149,11 +149,8 @@ namespace :dev do
       Product.create!(
         name: Faker::Commerce.product_name,
         description: Faker::Commerce.product_name,
-        ncm: Faker::Code.isbn,
         ipi: Faker::Number.decimal(2),
-        cest: Faker::Number.decimal(2),
-        icms: Faker::Number.decimal(2),
-        bar_code: Faker::Code.ean,
+        barcode: Faker::Code.ean,
         reduction: Faker::Number.decimal(2),
         weight: Faker::Number.decimal(2),
         height: Faker::Number.decimal(2),

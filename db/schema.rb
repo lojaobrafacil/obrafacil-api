@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_26_151434) do
+ActiveRecord::Schema.define(version: 2019_10_03_203829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,23 +194,6 @@ ActiveRecord::Schema.define(version: 2019_09_26_151434) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "company_products", force: :cascade do |t|
-    t.float "stock"
-    t.float "stock_max"
-    t.float "stock_min"
-    t.bigint "company_id"
-    t.bigint "product_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float "cost"
-    t.float "discount"
-    t.float "st"
-    t.float "margin"
-    t.integer "code"
-    t.index ["company_id"], name: "index_company_products_on_company_id"
-    t.index ["product_id"], name: "index_company_products_on_product_id"
-  end
-
   create_table "coupons", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -295,6 +278,12 @@ ActiveRecord::Schema.define(version: 2019_09_26_151434) do
     t.string "complement"
     t.string "number"
     t.bigint "city_id"
+    t.boolean "change_coupon", default: false
+    t.boolean "change_campain", default: false
+    t.boolean "change_highlight", default: false
+    t.boolean "change_bank", default: false
+    t.boolean "change_carrier", default: false
+    t.boolean "change_employee", default: false
     t.index ["city_id"], name: "index_employees_on_city_id"
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
@@ -371,6 +360,19 @@ ActiveRecord::Schema.define(version: 2019_09_26_151434) do
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "title"
+    t.integer "target_id"
+    t.string "target_type"
+    t.integer "notified_id"
+    t.string "notified_type"
+    t.boolean "viewed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notified_id", "notified_type"], name: "index_notifications_on_notified_id_and_notified_type"
+    t.index ["target_id", "target_type"], name: "index_notifications_on_target_id_and_target_type"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -521,27 +523,28 @@ ActiveRecord::Schema.define(version: 2019_09_26_151434) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "bar_code"
+    t.string "barcode"
     t.float "weight"
     t.float "height"
     t.float "width"
     t.float "length"
     t.string "color"
     t.integer "kind"
-    t.boolean "active", default: true
     t.bigint "sub_category_id"
     t.bigint "unit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "sku"
     t.string "sku_xml"
-    t.float "icms"
-    t.integer "ncm"
     t.float "ipi"
-    t.integer "cest"
     t.float "reduction"
     t.float "suggested_price"
     t.bigint "supplier_id"
+    t.float "suggested_price_site"
+    t.integer "suggested_price_role", default: 0
+    t.integer "status", default: 1
+    t.integer "deleted_by_id"
+    t.datetime "deleted_at"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
@@ -569,6 +572,29 @@ ActiveRecord::Schema.define(version: 2019_09_26_151434) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["region_id"], name: "index_states_on_region_id"
+  end
+
+  create_table "stocks", force: :cascade do |t|
+    t.float "stock"
+    t.float "stock_max"
+    t.float "stock_min"
+    t.bigint "company_id"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "cost"
+    t.float "discount"
+    t.float "st"
+    t.float "margin"
+    t.float "pmva"
+    t.float "vbc"
+    t.float "vbcst"
+    t.float "vicms"
+    t.float "picms"
+    t.float "vicmsst"
+    t.float "picmsst"
+    t.index ["company_id"], name: "index_stocks_on_company_id"
+    t.index ["product_id"], name: "index_stocks_on_product_id"
   end
 
   create_table "sub_categories", force: :cascade do |t|
@@ -651,8 +677,6 @@ ActiveRecord::Schema.define(version: 2019_09_26_151434) do
   add_foreign_key "cities", "states"
   add_foreign_key "clients", "billing_types"
   add_foreign_key "commissions", "partners"
-  add_foreign_key "company_products", "companies"
-  add_foreign_key "company_products", "products"
   add_foreign_key "coupons", "partners"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "cities"
@@ -673,6 +697,8 @@ ActiveRecord::Schema.define(version: 2019_09_26_151434) do
   add_foreign_key "products", "units"
   add_foreign_key "reports", "employees"
   add_foreign_key "states", "regions"
+  add_foreign_key "stocks", "companies"
+  add_foreign_key "stocks", "products"
   add_foreign_key "sub_categories", "categories"
   add_foreign_key "suppliers", "billing_types"
   add_foreign_key "zipcodes", "cities"
