@@ -97,14 +97,14 @@ describe "Coupons API" do
         type: :object,
         properties: {
           name: { type: :string, example: Faker::Name.name },
-          discount: { type: :float, example: Faker::Number.decimal(1, 0) },
+          discount: { type: :float, example: Faker::Number.decimal(l_digits: 2) },
           status: { type: :string, example: "active or inactive" },
           kind: { type: :string, example: "percent or value" },
-          max_value: { type: :float, example: Faker::Number.decimal(3, 0) },
+          max_value: { type: :float, example: Faker::Number.decimal(l_digits: 3) },
           expired_at: { type: :string, example: DateTime.now + 1.year },
           starts_at: { type: :string, example: DateTime.now },
-          total_uses: { type: :integer, example: Faker::Number.number(2) },
-          client_uses: { type: :integer, example: Faker::Number.number(2) },
+          total_uses: { type: :integer, example: Faker::Number.number(digits: 2) },
+          client_uses: { type: :integer, example: Faker::Number.number(digits: 2) },
           shipping: { type: :boolean, example: "true or false" },
           logged: { type: :boolean, example: "true or false" },
           description: { type: :string, example: Faker::Lorem.paragraph },
@@ -137,14 +137,14 @@ describe "Coupons API" do
         type: :object,
         properties: {
           name: { type: :string, example: Faker::Name.name },
-          discount: { type: :string, example: Faker::Number.decimal(1, 0) },
+          discount: { type: :string, example: Faker::Number.decimal(l_digits: 2) },
           status: { type: :string, example: "active or inactive" },
           kind: { type: :string, example: "percent or value" },
-          max_value: { type: :string, example: Faker::Number.decimal(3, 0) },
+          max_value: { type: :string, example: Faker::Number.decimal(l_digits: 3) },
           expired_at: { type: :string, example: DateTime.now + 1.year },
           starts_at: { type: :string, example: DateTime.now },
-          total_uses: { type: :string, example: Faker::Number.number(2) },
-          client_uses: { type: :string, example: Faker::Number.number(2) },
+          total_uses: { type: :string, example: Faker::Number.number(digits: 2) },
+          client_uses: { type: :string, example: Faker::Number.number(digits: 2) },
           shipping: { type: :string, example: "true or false" },
           logged: { type: :string, example: "true or false" },
           description: { type: :string, example: Faker::Lorem.paragraph },
@@ -179,7 +179,7 @@ describe "Coupons API" do
       response 200, "Success" do
         auth_api
         let(:code) { create(:partner).coupon.code }
-        let(:client_federal_registration) { Faker::Number.number(11) }
+        let(:client_federal_registration) { Faker::Number.number(digits: 11) }
         schema type: :object, properties: {
                  id: { type: :integer },
                  name: { type: :string },
@@ -227,8 +227,8 @@ describe "Coupons API" do
       parameter name: :coupon, in: :body, schema: {
         type: :object,
         properties: {
-          external_order_id: { type: :string, example: Faker::Number.number(4) },
-          client_federal_registration: { type: :string, example: Faker::Number.number(11) },
+          external_order_id: { type: :string, example: Faker::Number.number(digits: 4) },
+          client_federal_registration: { type: :string, example: Faker::Number.number(digits: 11) },
         },
         required: ["external_order_id", "client_federal_registration"],
       }

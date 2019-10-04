@@ -1,5 +1,5 @@
 class Api::ProductStockSerializer < ActiveModel::Serializer
-  attributes :id, :code, :stock, :stock_min, :stock_max,
+  attributes :id, :stock, :stock_min, :stock_max,
              :company, :cost, :discount, :st, :margin,
              :updated_at, :created_at
 

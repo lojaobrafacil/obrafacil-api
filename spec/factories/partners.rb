@@ -5,14 +5,14 @@ FactoryBot.define do
     state_registration { Faker::Code.isbn }
     kind { ["physical", "legal"].sample }
     status { "active" }
-    started_date { Faker::Date.birthday(18, 65) }
-    renewal_date { Faker::Date.forward(10000) }
+    started_date { Faker::Date.birthday(min_age: 18, max_age: 65) }
+    renewal_date { Faker::Date.forward(days: 1000) }
     description { Faker::Lorem.paragraph }
     ocupation { Faker::Lorem.paragraph }
     origin { ["shop", "internet", "relationship", "nivaldo"].sample }
-    percent { Faker::Number.decimal(0, 2) }
-    agency { Faker::Number.number(4) }
-    account { Faker::Number.number(7) }
+    percent { Faker::Number.decimal(l_digits: 0, r_digits: 2) }
+    agency { Faker::Number.number(digits: 4) }
+    account { Faker::Number.number(digits: 7) }
     favored { Faker::Name.name }
     favored_federal_registration { Faker::Code.isbn }
     bank_id { create(:bank).id }

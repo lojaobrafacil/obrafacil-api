@@ -3,7 +3,7 @@ class ClientPolicy < ApplicationPolicy
     if user.is_a?(Api)
       user.admin?
     else
-      user.change_clients? || user.admin?
+      user.change_clients || user.admin?
     end
   end
 
@@ -32,7 +32,7 @@ class ClientPolicy < ApplicationPolicy
       if user.is_a?(Api)
         user.admin?
       else
-        user.change_clients? || user.admin?
+        user.change_clients || user.admin?
       end
     end
   end

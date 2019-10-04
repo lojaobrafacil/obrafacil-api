@@ -3,7 +3,7 @@ class BankPolicy < ApplicationPolicy
     if user.is_a?(Api)
       user.admin?
     else
-      user.change_partners? || user.change_clients? || user.admin?
+      user.change_partners || user.change_clients || user.admin?
     end
   end
 

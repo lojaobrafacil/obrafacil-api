@@ -34,7 +34,7 @@ describe "Banks API" do
       parameter name: :bank, in: :body, schema: {
         type: :object,
         properties: {
-          code: { type: :integer, example: Faker::Number.number(4) },
+          code: { type: :integer, example: Faker::Number.number(digits: 4) },
           name: { type: :string, example: Faker::Bank.name },
           slug: { type: :string, example: Faker::Bank.name },
           description: { type: :string, example: Faker::Lorem.paragraph },
@@ -96,7 +96,7 @@ describe "Banks API" do
       parameter name: :bank, in: :body, schema: {
         type: :object,
         properties: {
-          code: { type: :integer, example: Faker::Number.number(4) },
+          code: { type: :integer, example: Faker::Number.number(digits: 4) },
           name: { type: :string, example: Faker::Bank.name },
           slug: { type: :string, example: Faker::Bank.name },
           description: { type: :string, example: Faker::Lorem.paragraph },

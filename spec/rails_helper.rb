@@ -20,7 +20,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.pattern = "./test/**/*_spec.rb"
+  config.pattern = "./spec/**/*_spec.rb"
   config.before(:all, type: :request) do
     host! "api.emamapp.test"
   end

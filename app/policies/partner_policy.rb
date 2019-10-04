@@ -3,7 +3,7 @@ class PartnerPolicy < ApplicationPolicy
     if user&.is_a?(Api)
       user&.admin?
     else
-      user&.change_partners? || user&.admin?
+      user&.change_partners || user&.admin?
     end
   end
 
@@ -16,7 +16,7 @@ class PartnerPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user&.change_partners? || user&.admin?
+    show?
   end
 
   def reset_password?
@@ -48,7 +48,7 @@ class PartnerPolicy < ApplicationPolicy
       if user&.is_a?(Api)
         user&.admin?
       else
-        user&.change_partners? || user&.admin?
+        user&.change_partners || user&.admin?
       end
     end
   end

@@ -17,7 +17,7 @@ describe "PiVouchers API" do
                items: { type: :object, properties: {
                  id: { type: :integer },
                  expiration_date: { type: :string },
-                 value: { type: :string },
+                 value: { type: :float },
                  used_at: { type: :string, 'x-nullable': true },
                  status: { type: :string },
                  received_at: { type: :string, 'x-nullable': true },
@@ -52,7 +52,7 @@ describe "PiVouchers API" do
           properties: {
             id: { type: :integer },
             expiration_date: { type: :string },
-            value: { type: :string },
+            value: { type: :float },
             used_at: { type: :string, 'x-nullable': true },
             status: { type: :string },
             received_at: { type: :string, 'x-nullable': true },
@@ -92,9 +92,9 @@ describe "PiVouchers API" do
         type: :object,
         properties: {
           status: { type: :string, example: "used, active or inactive" },
-          received_at: { type: :string, example: Faker::Date.birthday(18, 65) },
-          used_at: { type: :string, example: Faker::Date.forward(1) },
-          value: { type: :string, example: Faker::Number.number(4) },
+          received_at: { type: :string, example: Faker::Date.birthday(min_age: 18, max_age: 65) },
+          used_at: { type: :string, example: Faker::Date.forward(days: 1) },
+          value: { type: :float, example: Faker::Number.decimal(l_digits: 5) },
           company_id: { type: :integer },
           partner_id: { type: :integer },
         },
@@ -159,7 +159,7 @@ describe "PiVouchers API" do
           properties: {
             id: { type: :integer },
             expiration_date: { type: :string },
-            value: { type: :string },
+            value: { type: :float },
             used_at: { type: :string, 'x-nullable': true },
             status: { type: :string },
             received_at: { type: :string, 'x-nullable': true },
@@ -210,7 +210,7 @@ describe "PiVouchers API" do
           properties: {
             id: { type: :integer },
             expiration_date: { type: :string },
-            value: { type: :string },
+            value: { type: :float },
             used_at: { type: :string, 'x-nullable': true },
             status: { type: :string },
             received_at: { type: :string, 'x-nullable': true },
@@ -260,7 +260,7 @@ describe "PiVouchers API" do
           properties: {
             id: { type: :integer },
             expiration_date: { type: :string },
-            value: { type: :string },
+            value: { type: :float },
             used_at: { type: :string, 'x-nullable': true },
             status: { type: :string },
             received_at: { type: :string, 'x-nullable': true },

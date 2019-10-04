@@ -3,7 +3,7 @@ class UserPolicy < ApplicationPolicy
     if user&.is_a?(Api)
       user.admin?
     else
-      user.change_clients? || user.change_partners? || user.admin?
+      user.change_clients || user.change_partners || user.admin?
     end
   end
 

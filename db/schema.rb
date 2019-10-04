@@ -311,7 +311,7 @@ ActiveRecord::Schema.define(version: 2019_10_03_203829) do
     t.datetime "starts_in"
     t.integer "status", default: 1
     t.integer "kind", default: 0
-    t.integer "position"
+    t.integer "position", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -356,7 +356,7 @@ ActiveRecord::Schema.define(version: 2019_10_03_203829) do
     t.string "name"
     t.json "content"
     t.string "status"
-    t.datetime "started_at", default: "2019-07-08 03:50:31"
+    t.datetime "started_at", default: "2019-10-04 03:48:09"
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
