@@ -42,14 +42,22 @@ class Api::PartnerSerializer < ActiveModel::Serializer
 
   def points_pi
     # 220
-    response = JSON.parse(Net::HTTP.get(URI.parse("https://premioideall.com.br/webapi/api/Participant/GetAvailableBalance?cpf=#{object.favored_federal_registration}&campaignId=220&login=deca&password=deca@acesso"))).symbolize_keys
-    response[:value]
+    begin
+      response = JSON.parse(Net::HTTP.get(URI.parse("https://premioideall.com.br/webapi/api/Participant/GetAvailableBalance?cpf=#{object.favored_federal_registration}&campaignId=220&login=deca&password=deca@acesso"))).symbolize_keys
+      response[:value]
+    rescue
+      nil
+    end
   end
 
   def money_pi
     # 221
-    response = JSON.parse(Net::HTTP.get(URI.parse("https://premioideall.com.br/webapi/api/Participant/GetAvailableBalance?cpf=#{object.favored_federal_registration}&campaignId=221&login=deca&password=deca@acesso"))).symbolize_keys
-    response[:value]
+    begin
+      response = JSON.parse(Net::HTTP.get(URI.parse("https://premioideall.com.br/webapi/api/Participant/GetAvailableBalance?cpf=#{object.favored_federal_registration}&campaignId=221&login=deca&password=deca@acesso"))).symbolize_keys
+      response[:value]
+    rescue
+      nil
+    end
   end
 
   def premio_ideal_rescue

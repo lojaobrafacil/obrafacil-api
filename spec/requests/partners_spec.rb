@@ -2,8 +2,10 @@ require "rails_helper"
 
 RSpec.describe "Partner API", type: :request do
   before do
-    @api = create(:api)
-    @employee = create(:employee)
+    @api = Api.find_or_initialize_by(id: 1)
+    @api.update(attributes_for(:api))
+    @employee = Employee.find_or_initialize_by(id: 1)
+    @employee.update(attributes_for(:employee))
     @partners = create_list(:partner, 5)
     @partner = @partners.first
     @partner_deleted = @partners.last
@@ -100,7 +102,7 @@ RSpec.describe "Partner API", type: :request do
 
   describe "DELETE /partners/:id" do
     before do
-      delete "/partners/#{@partner_deleted.id}#{@auth_data}", params: {}.to_json
+      delete "/partners/#{@partner_deleted.id}#{@auth_data}"
     end
 
     it "return status code 200" do
