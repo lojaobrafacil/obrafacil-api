@@ -6,7 +6,7 @@ RSpec.describe PartnerMailer, type: :mailer do
   end
 
   describe "new_indication" do
-    let(:email) { PartnerMailer.new_indication(@partner) }
+    let(:email) { PartnerMailer.new_indication(@partner, "ClientTest") }
 
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
