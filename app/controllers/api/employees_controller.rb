@@ -1,4 +1,4 @@
-class Api::EmployeesController < Api::ContactsController
+class Api::EmployeesController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   def index
@@ -31,7 +31,6 @@ class Api::EmployeesController < Api::ContactsController
     @employee.password = employee_params["federal_registration"].to_s
     @employee.password_confirmation = employee_params["federal_registration"].to_s
     if @employee.save
-      update_contact(@employee)
       render json: @employee, status: 201
     else
       render json: { errors: @employee.errors.full_messages }, status: 422
@@ -42,7 +41,6 @@ class Api::EmployeesController < Api::ContactsController
     @employee = Employee.find(params[:id])
     authorize @employee
     if @employee.update(employee_params)
-      update_contact(@employee)
       render json: @employee, status: 200
     else
       render json: { errors: @employee.errors.full_messages }, status: 422

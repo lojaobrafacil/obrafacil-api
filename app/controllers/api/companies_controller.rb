@@ -1,4 +1,4 @@
-class Api::CompaniesController < Api::ContactsController
+class Api::CompaniesController < Api::BaseController
   before_action :set_company, only: [:show, :update, :destroy]
   before_action :authenticate_admin_or_api!
 

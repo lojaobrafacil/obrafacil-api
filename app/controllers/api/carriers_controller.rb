@@ -1,4 +1,4 @@
-class Api::CarriersController < Api::ContactsController
+class Api::CarriersController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   def index
@@ -28,7 +28,6 @@ class Api::CarriersController < Api::ContactsController
     @carrier = Carrier.new(carrier_params)
     authorize @carrier
     if @carrier.save
-      update_contact(@carrier)
       render json: @carrier, status: 201
     else
       render json: { errors: @carrier.errors }, status: 422
@@ -39,7 +38,6 @@ class Api::CarriersController < Api::ContactsController
     @carrier = Carrier.find(params[:id])
     authorize @carrier
     if @carrier.update(carrier_params)
-      update_contact(@carrier)
       render json: @carrier, status: 200
     else
       render json: { errors: @carrier.errors }, status: 422

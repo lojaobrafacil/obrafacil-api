@@ -1,4 +1,4 @@
-class Api::StocksController < Api::ContactsController
+class Api::StocksController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   def index

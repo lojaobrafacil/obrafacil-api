@@ -1,4 +1,4 @@
-class Api::SuppliersController < Api::ContactsController
+class Api::SuppliersController < Api::BaseController
   before_action :set_supplier, only: [:show, :update, :destroy]
   before_action :authenticate_admin_or_api!
 
@@ -21,7 +21,6 @@ class Api::SuppliersController < Api::ContactsController
     @supplier = Supplier.new(supplier_params)
     authorize @supplier
     if @supplier.save
-      update_contact(@supplier)
       render json: @supplier, status: 201
     else
       render json: { errors: @supplier.errors.full_messages }, status: 422
@@ -31,7 +30,6 @@ class Api::SuppliersController < Api::ContactsController
   def update
     authorize @supplier
     if @supplier.update(supplier_params)
-      update_contact(@supplier)
       render json: @supplier, status: 200
     else
       render json: { errors: @supplier.errors.full_messages }, status: 422
