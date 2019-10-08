@@ -1,6 +1,14 @@
 class Log::PremioIdealPolicy < ApplicationPolicy
   def show?
-    ::Log::PremioIdeal.where(:id => record.id).exists? && user.admin
+    if user&.is_a?(Api)
+      user&.admin?
+    else
+      user&.change_partners || user&.admin?
+    end
+  end
+
+  def index?
+    show?
   end
 
   class Scope < Scope

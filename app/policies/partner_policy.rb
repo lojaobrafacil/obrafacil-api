@@ -8,7 +8,7 @@ class PartnerPolicy < ApplicationPolicy
   end
 
   def index?
-    show?
+    true
   end
 
   def create?

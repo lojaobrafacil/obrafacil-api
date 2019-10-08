@@ -35,10 +35,19 @@ class Api::CommissionsController < Api::BaseController
       @commissions = ::Partner.commissions_by_year(params[:year])
       respond_with do |format|
         format.json { render json: @commissions.limit(40).as_json }
-        format.csv { send_data @commissions.to_csv({ attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"], col_sep: "\t", default_nil: "0" }), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv" }
+        format.csv {
+          send_data @commissions.to_csv({
+                      attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"],
+                      col_sep: "\t", default_nil: "0",
+                    }), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv"
+        }
         format.xlsx {
-          ToXlsx.new(@commissions, { titles: ["Nome do Parceiro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"], attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"] }).generate
-          send_file Rails.root.join("ruby.xlsx"), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xlsx"
+          path = ToXlsx.new(@commissions, {
+            titles: ["Nome do Parceiro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+            attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"],
+            filename: "#{SecureRandom.uuid}.xlsx",
+          }).generate
+          send_file File.new(path), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xlsx"
         }
       end
     rescue

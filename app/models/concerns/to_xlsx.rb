@@ -99,7 +99,27 @@ class ToXlsx
           worksheet.write(row, col, object.deleted_by&.name, format)
           col += 1
         end
-        unless ["emails", "phones", "addresses", "attachment"].include?(attr)
+        if attr == "status"
+          worksheet.write(row, col, case object.status
+          when "active"
+            "Ativo"
+          when "inactive"
+            "Inativo"
+          when "pre_active"
+            "Pré Ativo"
+          when "deleted"
+            "Deletado"
+          when "review"
+            "Revisar"
+          else
+            ""
+          end, format)
+          col += 1
+        end
+        unless ["emails", "phones", "addresses",
+                "attachment", "coupon", "bank",
+                "partner_group", "created_by",
+                "deleted_by", "status"].include?(attr)
           worksheet.write(row, col, object[attr].to_s, format)
           col += 1
         end

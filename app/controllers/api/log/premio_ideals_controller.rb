@@ -2,9 +2,13 @@ class Api::Log::PremioIdealsController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   def index
+    authorize ::Log::PremioIdeal
     premio_ideals = policy_scope ::Log::PremioIdeal
-
-    paginate json: premio_ideals, status: 200
+    if premio_ideals
+      paginate json: premio_ideals, status: 200
+    else
+      head 404
+    end
   end
 
   def show
