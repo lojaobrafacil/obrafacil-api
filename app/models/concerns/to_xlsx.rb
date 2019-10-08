@@ -79,7 +79,26 @@ class ToXlsx
           worksheet.write(row, col, object.attachment_url, format)
           col += 1
         end
-
+        if attr == "coupon"
+          worksheet.write(row, col, object.coupon&.code, format)
+          col += 1
+        end
+        if attr == "bank"
+          worksheet.write(row, col, object.bank&.name, format)
+          col += 1
+        end
+        if attr == "partner_group"
+          worksheet.write(row, col, object.partner_group&.name, format)
+          col += 1
+        end
+        if attr == "created_by"
+          worksheet.write(row, col, object.created_by&.name, format)
+          col += 1
+        end
+        if attr == "deleted_by"
+          worksheet.write(row, col, object.deleted_by&.name, format)
+          col += 1
+        end
         unless ["emails", "phones", "addresses", "attachment"].include?(attr)
           worksheet.write(row, col, object[attr].to_s, format)
           col += 1
@@ -102,6 +121,26 @@ class ToXlsx
     if titles.include?("addresses")
       left, right = titles.split("addresses")
       titles = left + ["street_1", "neighborhood_1", "zipcode_1", "ibge_1", "complement_1", "description_1", "address_type_1", "city_1", "street_2", "neighborhood_2", "zipcode_2", "ibge_2", "complement_2", "description_2", "address_type_2", "city_2"] + right
+    end
+    if titles.include?("coupon")
+      left, right = titles.split("coupon")
+      titles = left + ["Cupom"] + right
+    end
+    if titles.include?("bank")
+      left, right = titles.split("bank")
+      titles = left + ["banco"] + right
+    end
+    if titles.include?("partner_group")
+      left, right = titles.split("partner_group")
+      titles = left + ["Grupo de parceiro"] + right
+    end
+    if titles.include?("created_by")
+      left, right = titles.split("created_by")
+      titles = left + ["Criado por"] + right
+    end
+    if titles.include?("deleted_by")
+      left, right = titles.split("deleted_by")
+      titles = left + ["Deletado por"] + right
     end
     titles
   end

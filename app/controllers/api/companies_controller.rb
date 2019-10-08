@@ -21,7 +21,6 @@ class Api::CompaniesController < Api::ContactsController
     @company = Company.new(company_params)
     authorize @company
     if @company.save
-      update_contact(@company)
       render json: @company, status: 201
     else
       render json: { errors: @company.errors.full_messages }, status: 422
@@ -31,7 +30,6 @@ class Api::CompaniesController < Api::ContactsController
   def update
     authorize @company
     if @company.update(company_params)
-      update_contact(@company)
       render json: @company, status: 200
     else
       render json: { errors: @company.errors.full_messages }, status: 422
