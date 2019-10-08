@@ -47,6 +47,14 @@ class Api::CouponsController < Api::BaseController
     end
   end
 
+  def destroy
+    if @coupon.update(status: 0)
+      render json: @coupon, status: 200
+    else
+      render json: { errors: @coupon.errors.full_messages }, status: 422
+    end
+  end
+
   private
 
   def set_coupon

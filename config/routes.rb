@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     resources :email_types
     resources :phones
     resources :phone_types
-    resources :coupons, except: [:destroy] do
+    resources :coupons do
       collection do
         get "by_code/:code", to: "coupons#by_code"
         post "use/:code", to: "coupons#use"
