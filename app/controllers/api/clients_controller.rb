@@ -63,7 +63,7 @@ class Api::ClientsController < Api::BaseController
   def client_params
     params.permit(:name, :federal_registration, :state_registration,
                   :international_registration, :kind, :status, :birthday, :renewal_date,
-                  :tax_regime, :description, :order_description, :limit, :limit_pricing_percentage, :billing_type_id,
+                  :tax_regime, :description, :order_description, :limit, :limit_margin, :billing_type_id,
                   addresses_attributes: [:id, :street, :number, :complement, :neighborhood, :zipcode,
                                          :description, :address_type_id, :city_id, :_destroy],
                   phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_destroy],

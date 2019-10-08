@@ -15,7 +15,7 @@ class ClientPolicy < ApplicationPolicy
     if show?
       [:name, :federal_registration, :state_registration,
        :international_registration, :kind, :status, :birthday, :renewal_date,
-       :tax_regime, :description, :order_description, :limit, :limit_pricing_percentage, :billing_type_id, :user_id]
+       :tax_regime, :description, :order_description, :limit, :limit_margin, :billing_type_id, :user_id]
     else
       []
     end

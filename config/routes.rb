@@ -56,7 +56,6 @@ Rails.application.routes.draw do
     resources :sub_categories
     resources :units
     resources :products
-    resources :price_percentages
     resources :carriers
     resources :ibpts
     resources :cfops

@@ -1,7 +1,7 @@
 class Api::ClientSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :international_registration,
              :kind, :status, :birthday, :renewal_date, :tax_regime, :description, :order_description,
-             :limit, :limit_pricing_percentage, :billing_type_id, :billing_type_name, :addresses, :phones, :emails,
+             :limit, :limit_margin, :billing_type_id, :billing_type_name, :addresses, :phones, :emails,
              :created_at, :updated_at
 
   def billing_type_name

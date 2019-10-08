@@ -1,7 +1,6 @@
 class Company < ApplicationRecord
   belongs_to :billing_type, optional: true
   has_many :stocks, dependent: :destroy
-  has_many :price_percentages, dependent: :destroy
   has_many :orders
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
@@ -20,7 +19,6 @@ class Company < ApplicationRecord
   end
 
   def workers
-    CompanyPricesWorker.perform_async(self.id)
     CompanyStocksWorker.perform_async(self.id)
   end
 end

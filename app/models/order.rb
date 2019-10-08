@@ -1,5 +1,4 @@
 class Order < ApplicationRecord
-  belongs_to :price_percentage, optional: true
   belongs_to :employee, optional: true
   belongs_to :cashier, optional: true
   belongs_to :client, optional: true

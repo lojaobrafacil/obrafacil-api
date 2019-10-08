@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_04_145417) do
+ActiveRecord::Schema.define(version: 2019_10_07_235001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
     t.json "tokens"
     t.integer "status"
     t.datetime "birthday"
-    t.integer "limit_pricing_percentage", default: 1
+    t.integer "limit_margin", default: 1
     t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
     t.index ["confirmation_token"], name: "index_clients_on_confirmation_token", unique: true
     t.index ["email"], name: "index_clients_on_email", unique: true
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
     t.integer "icmsn_percent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "margins"
   end
 
   create_table "coupons", force: :cascade do |t|
@@ -258,7 +259,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
     t.boolean "change_partners", default: false
     t.boolean "change_clients", default: false
     t.boolean "order_creation", default: false
-    t.integer "limit_price_percentage", default: 3
+    t.integer "limit_margin", default: 3
     t.boolean "change_cashiers", default: false
     t.boolean "change_suppliers", default: false
     t.boolean "generate_nfe", default: false
@@ -383,7 +384,6 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
     t.float "freight"
     t.datetime "billing_date"
     t.string "file"
-    t.bigint "price_percentage_id"
     t.bigint "cashier_id"
     t.bigint "client_id"
     t.bigint "carrier_id"
@@ -391,12 +391,12 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "employee_id"
+    t.integer "selected_margin", limit: 2
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
     t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
     t.index ["employee_id"], name: "index_orders_on_employee_id"
-    t.index ["price_percentage_id"], name: "index_orders_on_price_percentage_id"
   end
 
   create_table "partner_groups", force: :cascade do |t|
@@ -499,15 +499,6 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_pi_vouchers_on_company_id"
     t.index ["partner_id"], name: "index_pi_vouchers_on_partner_id"
-  end
-
-  create_table "price_percentages", force: :cascade do |t|
-    t.float "margin"
-    t.integer "kind"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "company_id"
-    t.index ["company_id"], name: "index_price_percentages_on_company_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -627,30 +618,6 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.json "tokens"
-    t.string "federal_registration"
-    t.integer "kind"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["federal_registration"], name: "index_users_on_federal_registration", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
-  end
-
   create_table "vehicles", force: :cascade do |t|
     t.string "brand"
     t.string "model"
@@ -687,12 +654,10 @@ ActiveRecord::Schema.define(version: 2019_10_04_145417) do
   add_foreign_key "orders", "cashiers"
   add_foreign_key "orders", "clients"
   add_foreign_key "orders", "companies"
-  add_foreign_key "orders", "price_percentages"
   add_foreign_key "partners", "banks"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "pi_vouchers", "companies"
   add_foreign_key "pi_vouchers", "partners"
-  add_foreign_key "price_percentages", "companies"
   add_foreign_key "prices", "stocks"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"

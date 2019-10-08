@@ -7,7 +7,7 @@ FactoryBot.define do
     freight { Faker::Number.decimal(l_digits: 2) }
     billing_date { Faker::Date.backward(days: 10) }
     file { Faker::File.file_name(dir: "path/to") }
-    price_percentage_id { nil }
+    selected_margin { [1, 2, 3, 4, 5].sample }
     employee_id { create(:employee).id }
     cashier_id { create(:cashier).id }
     client_id { create(:client).id }
