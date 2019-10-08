@@ -3,6 +3,7 @@ class Api::CompaniesController < Api::ContactsController
   before_action :authenticate_admin_or_api!
 
   def index
+    authorize Company
     @companies = policy_scope Company
     @companies = if params["name"]
                    @companies.where("LOWER(name) LIKE LOWER(?)", "%#{params["name"]}%")

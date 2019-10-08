@@ -3,6 +3,7 @@ class Api::PartnersController < Api::BaseController
   before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
 
   def index
+    authorize ::Partner
     @partners = policy_scope ::Partner
     begin
       if @partners

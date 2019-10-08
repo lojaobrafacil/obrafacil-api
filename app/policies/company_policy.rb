@@ -1,6 +1,26 @@
 class CompanyPolicy < ApplicationPolicy
   def show?
-    Company.where(:id => record.id).exists? && user.admin?
+    user.admin?
+  end
+
+  def index?
+    show?
+  end
+
+  def create?
+    show?
+  end
+
+  def reset?
+    show?
+  end
+
+  def destroy?
+    show?
+  end
+
+  def reset_password?
+    show?
   end
 
   def permitted_attributes

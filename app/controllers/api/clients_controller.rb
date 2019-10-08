@@ -3,6 +3,7 @@ class Api::ClientsController < Api::BaseController
   before_action :set_client, only: [:show, :update, :destroy]
 
   def index
+    authorize Client
     @clients = policy_scope ::Client
     begin
       if @clients
