@@ -52,9 +52,9 @@ class Partner < ApplicationRecord
   def create_coupon
     if self.active?
       if self.coupon.nil?
-        self.build_coupon(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 1, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year).save
+        self.build_coupon(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 0, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year).save
       else
-        self.coupon.update(status: 1)
+        self.coupon
       end
       if self.confirmation_sent_at.nil?
         PartnerMailer.first_access(self).deliver_now if !self.primary_email.nil? && !self.coupon.nil? && self.update(confirmation_sent_at: Time.now)
