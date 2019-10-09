@@ -17,7 +17,9 @@ class StockPolicy < ApplicationPolicy
 
   def permitted_attributes
     if show?
-      [:code, :stock_max, :stock_min, :cost, :discount, :st, :margin]
+      [:stock, :stock_max, :stock_min, :cost, :discount,
+       :st, :margin, :pmva, :vbc, :vbcst, :vicms, :picms, :vicmsst,
+       :picmsst, :company_id, :product_id]
     else
       []
     end

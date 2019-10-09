@@ -2,7 +2,7 @@ class Api::ProductSerializer < ActiveModel::Serializer
   attributes :id, :name, :barcode, :weight, :height, :width,
              :length, :color, :kind, :sku, :sku_xml, :ipi, :reduction,
              :suggested_price, :supplier_id, :suggested_price_site, :suggested_price_role,
-             :status, :created_at, :updated_at, :description
+             :status, :created_at, :updated_at, :description, :stocks
   has_one :sub_category
   has_one :unit
   has_one :supplier
