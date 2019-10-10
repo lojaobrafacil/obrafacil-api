@@ -123,11 +123,10 @@ class Partner < ApplicationRecord
   def create_notification
     if self.status == "review"
       Employee.where("admin = true or change_partners = true").pluck(:id).each do |employee_id|
-        @nt = Notification.find_or_create_by!(notified_id: employee_id, notified_type: "Employee", target: self)
+        @nt = Notification.find_or_initialize_by(notified_id: employee_id, notified_type: "Employee", target: self)
         @nt.update(title: "Novo parceiro #{self.name}", viewed: false)
         Pusher.trigger("employee-#{employee_id}", "new-partner", { message: "Parceiro #{self.name} se cadastrou.", partner: self.as_json })
       end
-    else
     end
   end
 

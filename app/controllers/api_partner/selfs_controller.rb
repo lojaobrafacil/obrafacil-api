@@ -21,12 +21,13 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
     else
       @partner = Partner.new(partner_params)
       @partner.status = "review"
-      if @partner.save
+      if @partner.save!
         EmployeeMailer.new_partner(@partner).deliver_now rescue nil
         PartnerMailer.request_access(@partner).deliver_now rescue nil
+        render json: { success: "Recebemos sua solicitação, aguarde a validação do cadastro" }, status: 201
       else
+        render json: { errors: @partner.errors.full_messages }, status: 422
       end
-      render json: { success: "Recebemos sua solicitação, aguarde a validação do cadastro" }, status: 201
     end
   end
 
@@ -34,7 +35,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
     if @partner.update(partner_image_params)
       render json: @partner, status: 200
     else
-      render json: { errors: @partner.errors }, status: 422
+      render json: { errors: @partner.errors.full_messages }, status: 422
     end
   end
 
@@ -60,7 +61,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
     if current_api_partner_partner.update_password(user_password_params[:current_password], user_password_params[:password], user_password_params[:password_confirmation])
       render json: { success: I18n.t("models.user.success.reset_password") }, status: 201
     else
-      render json: { errors: current_api_partner_partner.errors }, status: 422
+      render json: { errors: current_api_partner_partner.errors.full_messages }, status: 422
     end
   end
 
