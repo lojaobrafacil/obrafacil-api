@@ -2239,7 +2239,7 @@
                   "type": "string",
                   "example": "pre_active, active or inactive"
                 },
-                "started_date": {
+                "birthday": {
                   "type": "string",
                   "example": "1965-10-27"
                 },
@@ -2361,7 +2361,7 @@
                 "status": {
                   "type": "string"
                 },
-                "started_date": {
+                "birthday": {
                   "type": "string"
                 },
                 "renewal_date": {
@@ -2671,7 +2671,7 @@
                   "type": "string",
                   "example": "pre_active, active or inactive"
                 },
-                "started_date": {
+                "birthday": {
                   "type": "string",
                   "example": "1971-01-18"
                 },

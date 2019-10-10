@@ -51,7 +51,7 @@ module PremioIdeal
       #   COALESCE(SUBSTRING(phones.phone, 6, 100), '000000000') as cellNumber,
       #   COALESCE(emails.email, 'null@null.com') as email,
       #   phones.primary,
-      #   partners.started_date as birthDate,
+      #   partners.birthday as birthDate,
       #   0 as gender
       # from partners, addresses, phones, cities, states, emails
       #   where partners.id = addresses.addressable_id
@@ -64,7 +64,7 @@ module PremioIdeal
       #     and cities.state_id = states.id
       #     and partners.id = #{@partner.id}
       #     and emails.primary = phones.primary
-      #     and partners.started_date is null").as_json
+      #     and partners.birthday is null").as_json
       # if query_response.empty?
       # elsif resp = query_response.select { |e| e["primary"] == true }.first
       #   resp.delete "primary"
@@ -89,7 +89,7 @@ module PremioIdeal
         "cellDdd": @partner.phones.empty? ? "00" : @partner.primary_phone.phone.delete(" ").delete("-")[3..4].as_json,
         "cellNumber": @partner.phones.empty? ? "000000000" : @partner.primary_phone.phone.delete(" ").delete("-")[5..13].as_json,
         "email": @partner.primary_email.email ? @partner.primary_email.email : "null@null.com",
-        "birthDate": @partner.started_date.as_json,
+        "birthDate": @partner.birthday.as_json,
         "gender": 0,
       }
     end

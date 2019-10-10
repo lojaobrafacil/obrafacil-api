@@ -5,7 +5,7 @@ FactoryBot.define do
     state_registration { Faker::Code.isbn }
     kind { ["physical", "legal"].sample }
     status { "active" }
-    started_date { Faker::Date.birthday(min_age: 18, max_age: 65) }
+    birthday { Faker::Date.birthday(min_age: 18, max_age: 65) }
     renewal_date { Faker::Date.forward(days: 1000) }
     description { Faker::Lorem.paragraph }
     ocupation { Faker::Lorem.paragraph }

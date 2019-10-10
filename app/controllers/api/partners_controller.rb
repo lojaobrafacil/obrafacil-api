@@ -115,7 +115,7 @@ class Api::PartnersController < Api::BaseController
 
   def partner_params
     params.permit(:name, :federal_registration, :state_registration,
-                  :kind, :status, :started_date, :renewal_date, :description, :origin, :percent,
+                  :kind, :status, :birthday, :renewal_date, :description, :origin, :percent,
                   :agency, :ocupation, :account, :favored, :bank_id, :cash_redemption,
                   :partner_group_id, :favored_federal_registration, :site, :register,
                   :avatar, :project_image, :instagram, :aboutme,

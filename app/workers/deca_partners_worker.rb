@@ -9,7 +9,7 @@ class DecaPartnersWorker
     (@body["nome"] = @partner.name.split(" ")[0]) rescue nil
     (@body["sobrenome"] = @partner.name.split(" ").drop(1).join(" ")) rescue nil
     (@body["email"] = @partner.primary_email.email) rescue nil
-    (@body["data_nasc"] = @partner.started_date) rescue nil
+    (@body["data_nasc"] = @partner.birthday) rescue nil
     (@body["tipo_profissao_id"] = 6) rescue nil
     (@body["tel1"] = @partner.primary_phone.phone) rescue nil
     (@body["rg"] = @partner.state_registration) rescue nil

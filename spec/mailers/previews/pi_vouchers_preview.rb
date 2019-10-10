@@ -6,7 +6,7 @@ class PiVouchersPreview < ActionMailer::Preview
     @partner.update(
       name: "Arthur Moura",
       kind: 0,
-      started_date: "13/07/1995",
+      birthday: "13/07/1995",
       renewal_date: Time.new() + (1..10).to_a.sample.year,
       origin: 0,
       status: 1,

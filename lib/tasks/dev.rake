@@ -50,7 +50,7 @@ namespace :dev do
         federal_registration: Faker::Number.number(10),
         state_registration: Faker::Number.number(9),
         kind: [0, 1].sample,
-        started_date: Faker::Date.birthday(min_age: 18, max_age: 65),
+        birthday: Faker::Date.birthday(min_age: 18, max_age: 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         origin: Partner.origins.keys.sample,
         status: Partner.statuses.keys.sample,

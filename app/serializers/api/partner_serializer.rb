@@ -1,6 +1,6 @@
 class Api::PartnerSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :kind, :status,
-             :started_date, :renewal_date, :description, :origin, :percent, :agency, :account,
+             :birthday, :renewal_date, :description, :origin, :percent, :agency, :account,
              :favored, :bank_id, :bank_name, :partner_group_id, :partner_group_name, :ocupation,
              :addresses, :phones, :emails, :cash_redemption, :favored_federal_registration,
              :register, :site, :instagram, :avatar, :project_image, :aboutme, :updated_at, :created_at, :deleted_at,

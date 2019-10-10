@@ -278,6 +278,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.string "zipcode"
     t.string "complement"
     t.string "number"
+    t.string "city"
     t.bigint "city_id"
     t.boolean "change_coupon", default: false
     t.boolean "change_campain", default: false
@@ -312,7 +313,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.datetime "starts_in"
     t.integer "status", default: 1
     t.integer "kind", default: 0
-    t.integer "position"
+    t.integer "position", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -357,7 +358,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.string "name"
     t.json "content"
     t.string "status"
-    t.datetime "started_at", default: "2019-07-08 03:50:31"
+    t.datetime "started_at", default: -> { "CURRENT_DATE" }
     t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -420,7 +421,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.bigint "bank_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "started_date"
+    t.datetime "birthday"
     t.string "ocupation"
     t.integer "cash_redemption"
     t.bigint "partner_group_id"
@@ -531,11 +532,11 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.float "reduction"
     t.float "suggested_price"
     t.bigint "supplier_id"
-    t.float "suggested_price_site"
-    t.integer "suggested_price_role", default: 0
     t.integer "status", default: 1
-    t.integer "deleted_by_id"
     t.datetime "deleted_at"
+    t.integer "deleted_by_id"
+    t.float "suggested_price_site"
+    t.integer "suggested_price_role"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"

@@ -4,7 +4,7 @@ class CreateLogWorkers < ActiveRecord::Migration[5.2]
       t.string :name
       t.json :content
       t.string :status
-      t.datetime :started_at, default: Time.now()
+      t.datetime :started_at, default: -> { "CURRENT_DATE" }
       t.datetime :finished_at
 
       t.timestamps
