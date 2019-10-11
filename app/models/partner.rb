@@ -127,6 +127,8 @@ class Partner < ApplicationRecord
         @nt.update(title: "Novo parceiro #{self.name}", viewed: false)
         Pusher.trigger("employee-#{employee_id}", "new-partner", { message: "Parceiro #{self.name} se cadastrou.", partner: self.as_json })
       end
+    else
+      Notification.where(notified_id: employee_id, notified_type: "Employee", target: self).update(viewed: true)
     end
   end
 
