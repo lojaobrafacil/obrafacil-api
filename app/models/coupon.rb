@@ -6,7 +6,7 @@ class Coupon < ApplicationRecord
   before_validation :default_values, on: :create
   belongs_to :partner, optional: true
   has_many :logs, class_name: "Log::Coupon"
-
+  scope :this_month, -> { where(created_at: Time.now.beginning_of_month..Time.now.end_of_month) }
   attr_accessor :uses
 
   def uses

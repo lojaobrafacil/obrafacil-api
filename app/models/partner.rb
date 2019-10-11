@@ -44,6 +44,7 @@ class Partner < ApplicationRecord
   alias_attribute :vouchers, :pi_vouchers
   mount_uploader :avatar, PartnerAvatarUploader
   mount_uploader :project_image, PartnerImageUploader
+  scope :this_month, -> { where(created_at: Time.now.beginning_of_month..Time.now.end_of_month) }
 
   def primary_email; emails.find_by(primary: true) || emails.first; end
   def primary_phone; phones.find_by(primary: true) || phones.first; end

@@ -97,6 +97,7 @@ Rails.application.routes.draw do
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     resources :notifications, only: [:index, :update]
+    resources :dashboard, only: [:index]
   end
 
   namespace :api_partner, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "partner-stg" : "partner" }, path: "/" do
