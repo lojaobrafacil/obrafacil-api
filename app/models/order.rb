@@ -10,4 +10,8 @@ class Order < ApplicationRecord
   # has_one :partner, through: :order_partner
   validates_presence_of :kind
   enum kind: [:budget, :normal]
+
+  def self.billing_data_range(start_date, end_date)
+    self.where(:billing_date => start_date..end_date)
+  end
 end

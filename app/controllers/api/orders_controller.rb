@@ -3,7 +3,20 @@ class Api::OrdersController < Api::BaseController
 
   def index
     @orders = policy_scope Order
-    paginate json: @orders.order(:id), status: 200
+    @orders = @orders.where(id: params[:ids].split(",")) if !params[:ids].to_s.empty?
+    @orders = @orders.billing_data_range(params[:from].to_time.in_time_zone.beginning_of_day, params[:to].to_time.in_time_zone.end_of_day) if !params[:from].to_time.nil? && !params[:to].to_time.nil?
+    @orders = @orders.where(kind: params[:kind]) if !params[:kind].to_s.empty?
+    @orders = @orders.where(company_id: params[:company_id]) if !params[:company_id].to_s.empty?
+
+    respond_with do |format|
+      format.json { paginate json: @orders.order(:id), status: 200, each_serializer: Api::OrdersSerializer }
+      format.csv { send_data @orders.to_csv({ col_sep: "\t" }), filename: "pedidos-#{Time.now}.csv" }
+      format.xlsx {
+        ToXlsx.new(@orders, { titles: ["codigo", "No. Pedido", "Data da compra", "Nome do Cliente", "Valor do Pedido", "Valor pago com vale", "Enviado em", "Porcentagem", "Pontos/Produtos", "Pontos/Dinheiro", "Data envio", "Criado em", "Atualizado em"],
+                             attributes: ["id", "order_id", "order_date", "client_name", "order_price", "return_price", "percent_date", "percent", "points", "percent_value", "sent_date", "created_at", "updated_at"] }).generate
+        send_file Rails.root.join("ruby.xlsx"), filename: "pedidos-#{Time.now}.xlsx"
+      }
+    end
   end
 
   def show
@@ -22,7 +35,7 @@ class Api::OrdersController < Api::BaseController
     if @order.save
       render json: @order, status: 201
     else
-      render json: {errors: @order.errors}, status: 422
+      render json: { errors: @order.errors }, status: 422
     end
   end
 
@@ -32,7 +45,7 @@ class Api::OrdersController < Api::BaseController
     if @order.update(order_params)
       render json: @order, status: 200
     else
-      render json: {errors: @order.errors}, status: 422
+      render json: { errors: @order.errors }, status: 422
     end
   end
 

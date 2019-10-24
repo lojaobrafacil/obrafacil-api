@@ -30,7 +30,7 @@ namespace :dev do
         birthday: Faker::Date.birthday(min_age: 18, max_age: 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         tax_regime: Client.tax_regimes.keys.sample,
-        description: Faker::Lorem.paragraph(2),
+        description: Faker::Lorem.paragraph,
         order_description: Faker::Lorem.sentence(3),
         limit: Faker::Number.decimal(l_digits: 4),
       )
@@ -54,7 +54,7 @@ namespace :dev do
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         origin: Partner.origins.keys.sample,
         status: Partner.statuses.keys.sample,
-        description: Faker::Lorem.paragraph(2),
+        description: Faker::Lorem.paragraph,
         ocupation: Faker::Lorem.sentence(3),
         bank: Bank.all.sample,
         agency: Faker::Number.number(digits: 4),
@@ -83,7 +83,7 @@ namespace :dev do
         state_registration: Faker::Number.number(9),
         birth_date: Faker::Date.birthday(min_age: 18, max_age: 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
-        description: Faker::Lorem.paragraph(2),
+        description: Faker::Lorem.paragraph,
         commission_percent: Faker::Number.decimal(l_digits: 2),
         admin: "false",
         change_partners: "false",
@@ -113,7 +113,7 @@ namespace :dev do
         state_registration: Faker::Number.number(9),
         birth_date: Faker::Date.birthday(min_age: 18, max_age: 65),
         tax_regime: Company.tax_regimes.keys.sample,
-        description: Faker::Lorem.paragraph(2),
+        description: Faker::Lorem.paragraph,
       )
       c.emails.create(email: Faker::Internet.email, email_type: EmailType.all.sample)
       c.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
@@ -134,7 +134,7 @@ namespace :dev do
       kind: [0, 1].sample,
       birth_date: Faker::Date.birthday(min_age: 18, max_age: 65),
       tax_regime: Supplier.tax_regimes.keys.sample,
-      description: Faker::Lorem.paragraph(2),
+      description: Faker::Lorem.paragraph,
     )
     p.emails.create(email: p_email, email_type: EmailType.all.sample)
     p.phones.create(phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample)
@@ -202,7 +202,7 @@ namespace :dev do
         federal_registration: Faker::Number.number(digits: 8),
         state_registration: Faker::Number.number(9),
         kind: [0, 1].sample,
-        description: Faker::Lorem.paragraph(2),
+        description: Faker::Lorem.paragraph,
       )
     end
     p "Criando Carriers ....[OK]"
@@ -214,7 +214,7 @@ namespace :dev do
     (1..200).to_a.each do
       o = Order.create!(
         kind: ["budget", "normal"].sample,
-        description: Faker::Lorem.paragraph(2),
+        description: Faker::Lorem.paragraph,
         discont: Faker::Commerce.price,
         freight: Faker::Commerce.price,
         billing_date: Time.now,
@@ -235,9 +235,9 @@ namespace :dev do
     (1..2).to_a.each do
       Highlight.create!(
         title_1: Faker::Lorem.sentence(3).titleize,
-        content_1: Faker::Lorem.paragraph(50),
-        content_2: Faker::Lorem.paragraph(50),
-        content_3: Faker::Lorem.paragraph(50),
+        content_1: Faker::Lorem.paragraph,
+        content_2: Faker::Lorem.paragraph,
+        content_3: Faker::Lorem.paragraph,
         remote_image_1_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Capa_Youtube.png",
         remote_image_2_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Capa_Perfil-Comum.png",
         remote_image_3_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Instagram_Facebook.png",
@@ -249,7 +249,7 @@ namespace :dev do
     (1..20).to_a.each do
       Highlight.create!(
         title_1: Faker::Lorem.sentence(3).titleize,
-        content_1: Faker::Lorem.paragraph(1),
+        content_1: Faker::Lorem.paragraph,
         remote_image_1_url: ["https://image.freepik.com/fotos-gratis/a-imagem-macro-do-close-up-das-flores-e-usada-como-uma-imagem-de-fundo-foto-macro-close-up_34433-346.jpg",
                              "https://img1.ibxk.com.br/2019/02/25/25044125149117.jpg?w=700",
                              "https://i2.wp.com/amplino.org/wp-content/uploads/2018/07/f90ad163e157e67abcf755cb526ea064.jpg?resize=541%2C494&ssl=1"].sample,
