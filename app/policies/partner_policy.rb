@@ -43,17 +43,7 @@ class PartnerPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if show?
-        ::Partner.all
-      end
-    end
-
-    def show?
-      if user&.is_a?(Api)
-        user&.admin?
-      else
-        user&.change_partners || user&.admin?
-      end
+      ::Partner.all
     end
   end
 end

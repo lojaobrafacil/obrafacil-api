@@ -1,13 +1,14 @@
-class Api::PartnerSerializer < ActiveModel::Serializer
+class Api::PartnerFullSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :kind, :status,
              :birthday, :renewal_date, :description, :origin, :percent, :agency, :account,
              :favored, :bank_id, :bank_name, :partner_group_id, :partner_group_name, :ocupation,
              :addresses, :phones, :emails, :cash_redemption, :favored_federal_registration,
              :register, :site, :instagram, :avatar, :project_image, :aboutme, :updated_at, :created_at, :deleted_at,
-             :money_pi, :points_pi
+             :money_pi, :points_pi, :premio_ideal_rescue
 
   has_one :bank
   has_one :partner_group
+  has_one :coupon
   has_one :created_by
   has_one :deleted_by
 
@@ -57,5 +58,12 @@ class Api::PartnerSerializer < ActiveModel::Serializer
     rescue
       nil
     end
+  end
+
+  def premio_ideal_rescue
+    {
+      "points": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("220")}",
+      "money": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("221")}",
+    }
   end
 end

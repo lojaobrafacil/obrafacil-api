@@ -3,7 +3,6 @@ class Api::PartnersController < Api::BaseController
   before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
 
   def index
-    authorize ::Partner
     @partners = policy_scope ::Partner
     begin
       if @partners
@@ -23,7 +22,10 @@ class Api::PartnersController < Api::BaseController
   end
 
   def show
-    render json: @partner, status: 200
+    if @current_user.is_a?(Employee) && !(@current_user.admin || @current_user.change_partners)
+      return render json: @partner, status: 200, serializer: Api::PartnerSerializer
+    end
+    render json: @partner, status: 200, serializer: Api::PartnerFullSerializer
   end
 
   def create
