@@ -28,8 +28,6 @@ class Api::EmployeesController < Api::BaseController
   def create
     @employee = Employee.new(employee_params)
     authorize @employee
-    @employee.password = employee_params["federal_registration"].to_s
-    @employee.password_confirmation = employee_params["federal_registration"].to_s
     if @employee.save
       render json: @employee, status: 201
     else

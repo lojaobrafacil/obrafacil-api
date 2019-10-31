@@ -3,7 +3,6 @@ class Employee < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
-
   has_many :cashiers
   has_many :orders
   has_many :reports
@@ -18,6 +17,7 @@ class Employee < ApplicationRecord
   before_save :default_values, if: Proc.new { |employee| employee.active? }
   after_save :send_to_deca, if: Proc.new { |employee| employee.active? }
   before_validation :format_phone
+  before_validation :set_default_password, on: :create, if: Proc.new { |employee| employee.active? }
 
   def default_values
     self.name = self.name.strip.titleize rescue nil
@@ -82,5 +82,12 @@ class Employee < ApplicationRecord
     rescue
       celphone
     end
+  end
+
+  private
+
+  # to devise
+  def set_default_password
+    self.password = self.password_confirmation = (self.federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase rescue self.federal_registration)
   end
 end
