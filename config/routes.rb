@@ -117,6 +117,7 @@ Rails.application.routes.draw do
     get "highlights", to: "welcomes#highlights"
     get "highlights/:kind", to: "welcomes#highlights", constraints: { kind: /normal|winner|event/ }
     get "winners/:year", to: "welcomes#winners", constraints: { kind: /[0-9|]+/ }
+    get "all", to: "welcomes#all"
   end
 
   namespace :api_client, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "client-stg" : "client" }, path: "/" do

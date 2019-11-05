@@ -36,4 +36,12 @@ class ApiPartner::WelcomesController < ApplicationController
     @highlights = Highlight.campain.order("position DESC NULLS LAST, created_at DESC")
     paginate json: @highlights, status: 200, each_serializer: ApiPartner::CampainSerializer
   end
+
+  def all
+    render json: {
+      banks: Bank.all,
+      states: State.all,
+      cities: City.all,
+    }
+  end
 end
