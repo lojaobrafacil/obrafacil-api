@@ -5,6 +5,7 @@ class NewCommissionsMailer < ApplicationMailer
     mail(
       to: @partner.primary_email.email,
       subject: "ObraFacil: Temos atualização das suas pontuações!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
 end

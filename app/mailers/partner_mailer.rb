@@ -11,6 +11,7 @@ class PartnerMailer < ApplicationMailer
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
       subject: "Programa Mais Descontos: Você Foi Indicado!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
 
@@ -23,6 +24,7 @@ class PartnerMailer < ApplicationMailer
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
       subject: "Programa Mais Descontos: Bem vindo!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
 
@@ -36,6 +38,7 @@ class PartnerMailer < ApplicationMailer
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
       subject: "Programa Mais Descontos: APROVADO!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
 
@@ -46,6 +49,7 @@ class PartnerMailer < ApplicationMailer
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
       subject: "Programa Mais Descontos: Esqueceu sua senha!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
 end

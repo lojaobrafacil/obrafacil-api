@@ -10,6 +10,7 @@ class PiVouchersMailer < ApplicationMailer
     mail(
       to: "#{@name}<#{@partner.primary_email.email}>",
       subject: "ObraFacil: Seu voucher esta disponível!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
 end
