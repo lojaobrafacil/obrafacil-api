@@ -61,9 +61,13 @@ class Api::PartnerFullSerializer < ActiveModel::Serializer
   end
 
   def premio_ideal_rescue
-    {
-      "points": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("220")}",
-      "money": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("221")}",
-    }
+    begin
+      {
+        "points": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("220")}",
+        "money": "https://premioideall.com.br/LoginIntegracao.aspx?CPF=#{Base64.strict_encode64(object.favored_federal_registration)}&Campanha=#{Base64.strict_encode64("221")}",
+      }
+    rescue
+      { "points": "", "money": "" }
+    end
   end
 end
