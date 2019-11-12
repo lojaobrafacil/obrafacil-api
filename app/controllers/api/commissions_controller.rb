@@ -44,7 +44,7 @@ class Api::CommissionsController < Api::BaseController
         format.xlsx {
           path = ToXlsx.new(@commissions, {
             titles: ["Nome do Parceiro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-            attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"],
+            attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
             filename: "#{SecureRandom.uuid}.xlsx",
           }).generate
           send_file File.new(path), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xlsx"
