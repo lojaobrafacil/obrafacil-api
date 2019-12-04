@@ -1,5 +1,5 @@
 class Api::OrdersSerializer < ActiveModel::Serializer
-  attributes :id, :kind, :exclusion_date, :billing_date,
+  attributes :id, :kind, :exclusion_at, :billing_at,
              :company, :updated_at, :created_at
 
   def company

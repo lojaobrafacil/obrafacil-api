@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_07_235001) do
+ActiveRecord::Schema.define(version: 2019_10_31_193543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -278,7 +278,6 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.string "zipcode"
     t.string "complement"
     t.string "number"
-    t.string "city"
     t.bigint "city_id"
     t.boolean "change_coupon", default: false
     t.boolean "change_campain", default: false
@@ -313,7 +312,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.datetime "starts_in"
     t.integer "status", default: 1
     t.integer "kind", default: 0
-    t.integer "position", default: 1
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -379,12 +378,11 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
 
   create_table "orders", force: :cascade do |t|
     t.integer "kind"
-    t.datetime "exclusion_date"
+    t.datetime "exclusion_at"
     t.text "description"
-    t.float "discont"
+    t.float "discount"
     t.float "freight"
-    t.datetime "billing_date"
-    t.string "file"
+    t.datetime "billing_at"
     t.bigint "cashier_id"
     t.bigint "client_id"
     t.bigint "carrier_id"
@@ -393,6 +391,8 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.datetime "updated_at", null: false
     t.bigint "employee_id"
     t.integer "selected_margin", limit: 2
+    t.integer "discount_type", limit: 2
+    t.integer "status", limit: 2
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
     t.index ["client_id"], name: "index_orders_on_client_id"
@@ -532,11 +532,11 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.float "reduction"
     t.float "suggested_price"
     t.bigint "supplier_id"
-    t.integer "status", default: 1
-    t.datetime "deleted_at"
-    t.integer "deleted_by_id"
     t.float "suggested_price_site"
-    t.integer "suggested_price_role"
+    t.integer "suggested_price_role", default: 0
+    t.integer "status", default: 1
+    t.integer "deleted_by_id"
+    t.datetime "deleted_at"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"

@@ -4,7 +4,7 @@ class Api::OrdersController < Api::BaseController
   def index
     @orders = policy_scope Order
     @orders = @orders.where(id: params[:ids].split(",")) if !params[:ids].to_s.empty?
-    @orders = @orders.billing_data_range(params[:from].to_time.in_time_zone.beginning_of_day, params[:to].to_time.in_time_zone.end_of_day) if !params[:from].to_time.nil? && !params[:to].to_time.nil?
+    @orders = @orders.billing_at_range(params[:from].to_time.in_time_zone.beginning_of_day, params[:to].to_time.in_time_zone.end_of_day) if !params[:from]&.to_time.nil? && !params[:to]&.to_time.nil?
     @orders = @orders.where(kind: params[:kind]) if !params[:kind].to_s.empty?
     @orders = @orders.where(company_id: params[:company_id]) if !params[:company_id].to_s.empty?
 

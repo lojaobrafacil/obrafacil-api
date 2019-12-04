@@ -10,6 +10,7 @@ class Partner < ApplicationRecord
   belongs_to :created_by, :class_name => "Employee", :foreign_key => "created_by_id", optional: true
   has_one :coupon, dependent: :destroy
   has_many :log_premio_ideals, class_name: "Log::PremioIdeal", dependent: :destroy
+  has_many :orders
   has_many :commissions, dependent: :destroy
   has_many :pi_vouchers
   has_many :phones, dependent: :destroy, as: :phonable
