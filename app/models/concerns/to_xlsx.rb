@@ -11,6 +11,53 @@ class ToXlsx
   end
 
   def generate
+    case @object.class.to_s.split("::").first
+    when "Partner"
+      generate_partner
+    else
+      generate_default
+    end
+  end
+
+  def formatted_titles(titles)
+    titles.each do |title|
+      left, right = titles.split(title)
+      titles = left + [@object.human_attribute_name(title)] + right if ["emails", "phones", "addresses"].exclude?(title)
+    end
+    if titles.include?("emails")
+      left, right = titles.split("emails")
+      titles = left + ["Email 1", "Tipo do Email 1", "Contato 1", "Email 2", "Tipo do Email 2", "Contato 2"] + right
+    end
+    if titles.include?("phones")
+      left, right = titles.split("phones")
+      titles = left + ["Telefone 1", "Tipo do Telefone 1", "Contato 1", "Telefone 2", "Tipo do Telefone 2", "Contato 2"] + right
+    end
+    if titles.include?("addresses")
+      left, right = titles.split("addresses")
+      titles = left + ["Rua 1", "Bairro 1", "Cep 1", "IBGE 1", "Complemento 1", "Descrição 1", "Tipo do endereço 1", "Cidade 1", "Rua 2", "Bairro 2", "Cep 2", "IBGE 2", "Complemento 2", "Descrição 2", "Tipo do endereço 2", "Cidade 2"] + right
+    end
+    titles
+  end
+
+  def generate_default
+    workbook = WriteXLSX.new("tmp/#{@filename}")
+    worksheet = workbook.add_worksheet
+    format = workbook.add_format
+    col = row = 0
+    worksheet.write(row, col, @titles, format)
+    @object.each do |object|
+      col = 0
+      row += 1
+      @attributes.each do |attr|
+        worksheet.write(row, col, object[attr].to_s, format)
+        col += 1
+      end
+    end
+    workbook.close
+    Rails.root.join("tmp/#{@filename}")
+  end
+
+  def generate_partner
     workbook = WriteXLSX.new("tmp/#{@filename}")
     worksheet = workbook.add_worksheet
     format = workbook.add_format
@@ -23,7 +70,7 @@ class ToXlsx
         if attr == "emails"
           for i in 0...2
             email = object.emails[i]
-            if email
+            if !email.to_s.empty?
               worksheet.write(row, col, email.email, format)
               col += 1
               worksheet.write(row, col, email.email_type.name, format)
@@ -38,7 +85,7 @@ class ToXlsx
         if attr == "phones"
           for i in 0...2
             phone = object.phones[i]
-            if phone
+            if !phone.to_s.empty?
               worksheet.write(row, col, phone.formatted_phone(true), format)
               col += 1
               worksheet.write(row, col, phone.phone_type.name, format)
@@ -53,7 +100,7 @@ class ToXlsx
         if attr == "addresses"
           for i in 0...2
             address = object.addresses[i]
-            if address
+            if !address.to_s.empty?
               worksheet.write(row, col, address.street, format)
               col += 1
               worksheet.write(row, col, address.neighborhood, format)
@@ -100,26 +147,26 @@ class ToXlsx
           col += 1
         end
         if attr == "status"
-          worksheet.write(row, col, case object.status
-          when "active"
-            "Ativo"
-          when "inactive"
-            "Inativo"
-          when "pre_active"
-            "Pré Ativo"
-          when "deleted"
-            "Deletado"
-          when "review"
-            "Revisar"
-          else
-            ""
-          end, format)
+          worksheet.write(row, col, Partner.human_enum_name(:status, object.status), format)
+          col += 1
+        end
+        if attr == "kind"
+          worksheet.write(row, col, Partner.human_enum_name(:kind, object.kind), format)
+          col += 1
+        end
+        if attr == "origin"
+          worksheet.write(row, col, Partner.human_enum_name(:origin, object.origin), format)
+          col += 1
+        end
+        if attr == "cash_redemption"
+          worksheet.write(row, col, Partner.human_enum_name(:cash_redemption, object.cash_redemption), format)
           col += 1
         end
         unless ["emails", "phones", "addresses",
                 "attachment", "coupon", "bank",
                 "partner_group", "created_by",
-                "deleted_by", "status"].include?(attr)
+                "deleted_by", "status", "kind",
+                "origin", "cash_redemption"].include?(attr)
           worksheet.write(row, col, object[attr].to_s, format)
           col += 1
         end
@@ -127,41 +174,5 @@ class ToXlsx
     end
     workbook.close
     Rails.root.join("tmp/#{@filename}")
-  end
-
-  def formatted_titles(titles)
-    if titles.include?("emails")
-      left, right = titles.split("emails")
-      titles = left + ["email_1", "email_type_1", "contact_1", "email_2", "email_type_2", "contact_2"] + right
-    end
-    if titles.include?("phones")
-      left, right = titles.split("phones")
-      titles = left + ["phone_1", "phone_type_1", "contact_1", "phone_2", "phone_type_2", "contact_2"] + right
-    end
-    if titles.include?("addresses")
-      left, right = titles.split("addresses")
-      titles = left + ["street_1", "neighborhood_1", "zipcode_1", "ibge_1", "complement_1", "description_1", "address_type_1", "city_1", "street_2", "neighborhood_2", "zipcode_2", "ibge_2", "complement_2", "description_2", "address_type_2", "city_2"] + right
-    end
-    if titles.include?("coupon")
-      left, right = titles.split("coupon")
-      titles = left + ["Cupom"] + right
-    end
-    if titles.include?("bank")
-      left, right = titles.split("bank")
-      titles = left + ["banco"] + right
-    end
-    if titles.include?("partner_group")
-      left, right = titles.split("partner_group")
-      titles = left + ["Grupo de parceiro"] + right
-    end
-    if titles.include?("created_by")
-      left, right = titles.split("created_by")
-      titles = left + ["Criado por"] + right
-    end
-    if titles.include?("deleted_by")
-      left, right = titles.split("deleted_by")
-      titles = left + ["Deletado por"] + right
-    end
-    titles
   end
 end

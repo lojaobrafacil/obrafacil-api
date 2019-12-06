@@ -15,7 +15,7 @@ class Employee < ApplicationRecord
             :order_inactive, inclusion: { in: [true, false] }
   validates_uniqueness_of :federal_registration, conditions: -> { where.not(active: false) }, case_sensitive: true
   before_save :default_values, if: Proc.new { |employee| employee.active? }
-  after_save :send_to_deca, if: Proc.new { |employee| employee.active? }
+  # after_save :send_to_deca, if: Proc.new { |employee| employee.active? }
   before_validation :format_phone
   before_validation :set_default_password, on: :create, if: Proc.new { |employee| employee.active? }
 
