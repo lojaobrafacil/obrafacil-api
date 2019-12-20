@@ -1,4 +1,5 @@
 class ToXlsx
+  include ActionView::Helpers::NumberHelper
   require "rubygems"
   require "write_xlsx"
 
@@ -8,14 +9,17 @@ class ToXlsx
     @attributes = options[:attributes] rescue nil
     @attributes_size = options[:attributes].size rescue nil
     @filename = options[:filename] rescue "ruby.xlsx"
+    @template = options[:template] || @object.class.to_s.split("::").first
   end
 
   def generate
-    case @object.class.to_s.split("::").first
+    case @template
     when "Partner"
-      generate_partner
+      partner
+    when "commissions_by_year"
+      commissions_by_year
     else
-      generate_default
+      default
     end
   end
 
@@ -39,7 +43,7 @@ class ToXlsx
     titles
   end
 
-  def generate_default
+  def default
     workbook = WriteXLSX.new("tmp/#{@filename}")
     worksheet = workbook.add_worksheet
     format = workbook.add_format
@@ -57,7 +61,7 @@ class ToXlsx
     Rails.root.join("tmp/#{@filename}")
   end
 
-  def generate_partner
+  def partner
     workbook = WriteXLSX.new("tmp/#{@filename}")
     worksheet = workbook.add_worksheet
     format = workbook.add_format
@@ -168,6 +172,30 @@ class ToXlsx
                 "deleted_by", "status", "kind",
                 "origin", "cash_redemption"].include?(attr)
           worksheet.write(row, col, object[attr].to_s, format)
+          col += 1
+        end
+      end
+    end
+    workbook.close
+    Rails.root.join("tmp/#{@filename}")
+  end
+
+  def commissions_by_year
+    workbook = WriteXLSX.new("tmp/#{@filename}")
+    worksheet = workbook.add_worksheet
+    format = workbook.add_format
+    format_num = workbook.add_format({ 'num_format': "R$ #,##0" })
+    col = row = 0
+    worksheet.write(row, col, @titles, format)
+    @object.each do |object|
+      col = 0
+      row += 1
+      @attributes.each do |attr|
+        if attr == "nome_parceiro"
+          worksheet.write(row, col, object[attr].to_s, format)
+          col += 1
+        else
+          worksheet.write(row, col, number_to_currency(object[attr], :unit => "R$ ", :separator => ",", :delimiter => "."), format_num)
           col += 1
         end
       end
