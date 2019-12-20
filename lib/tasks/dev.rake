@@ -24,14 +24,14 @@ namespace :dev do
       c = Client.create!(
         name: Faker::Name.name,
         federal_registration: Faker::Number.number(digits: 8),
-        state_registration: Faker::Number.number(9),
+        state_registration: Faker::Number.number(digits: 9),
         kind: [0, 1].sample,
         status: Client.statuses.keys.sample,
         birthday: Faker::Date.birthday(min_age: 18, max_age: 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         tax_regime: Client.tax_regimes.keys.sample,
         description: Faker::Lorem.paragraph,
-        order_description: Faker::Lorem.sentence(3),
+        order_description: Faker::Lorem.sentence(word_count: 3),
         limit: Faker::Number.decimal(l_digits: 4),
       )
       c.emails.create(email: c_email, email_type: EmailType.all.sample)
@@ -47,20 +47,20 @@ namespace :dev do
     (1..20).to_a.each do
       p = Partner.new(
         name: Faker::Name.name,
-        federal_registration: Faker::Number.number(10),
-        state_registration: Faker::Number.number(9),
+        federal_registration: Faker::Number.number(digits: 10),
+        state_registration: Faker::Number.number(digits: 9),
         kind: [0, 1].sample,
         birthday: Faker::Date.birthday(min_age: 18, max_age: 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         origin: Partner.origins.keys.sample,
         status: Partner.statuses.keys.sample,
         description: Faker::Lorem.paragraph,
-        ocupation: Faker::Lorem.sentence(3),
+        ocupation: Faker::Lorem.sentence(word_count: 3),
         bank: Bank.all.sample,
         agency: Faker::Number.number(digits: 4),
         account: Faker::Number.number(digits: 6),
         favored: Faker::Name.name,
-        favored_federal_registration: Faker::Number.number(10),
+        favored_federal_registration: Faker::Number.number(digits: 10),
         emails_attributes: [{ email: Faker::Internet.email, email_type: EmailType.all.sample }],
         phones_attributes: [{ phone: Faker::PhoneNumber.phone_number, phone_type: PhoneType.all.sample }],
         addresses_attributes: [{ street: Faker::Address.street_name, zipcode: Faker::Number.number(digits: 8), address_type: AddressType.all.sample, city: City.all.sample }],
@@ -80,7 +80,7 @@ namespace :dev do
       e = Employee.create!(
         name: Faker::Name.name,
         federal_registration: fr,
-        state_registration: Faker::Number.number(9),
+        state_registration: Faker::Number.number(digits: 9),
         birth_date: Faker::Date.birthday(min_age: 18, max_age: 65),
         renewal_date: Time.new() + (1..10).to_a.sample.year,
         description: Faker::Lorem.paragraph,
@@ -110,7 +110,7 @@ namespace :dev do
         name: Faker::Company.name,
         fantasy_name: Faker::Company.suffix,
         federal_registration: Faker::Number.number(digits: 8),
-        state_registration: Faker::Number.number(9),
+        state_registration: Faker::Number.number(digits: 9),
         birth_date: Faker::Date.birthday(min_age: 18, max_age: 65),
         tax_regime: Company.tax_regimes.keys.sample,
         description: Faker::Lorem.paragraph,
@@ -130,7 +130,7 @@ namespace :dev do
       name: Faker::Company.name,
       fantasy_name: Faker::Company.suffix,
       federal_registration: Faker::Number.number(digits: 8),
-      state_registration: Faker::Number.number(9),
+      state_registration: Faker::Number.number(digits: 9),
       kind: [0, 1].sample,
       birth_date: Faker::Date.birthday(min_age: 18, max_age: 65),
       tax_regime: Supplier.tax_regimes.keys.sample,
@@ -200,7 +200,7 @@ namespace :dev do
       Carrier.create!(
         name: Faker::Name.name,
         federal_registration: Faker::Number.number(digits: 8),
-        state_registration: Faker::Number.number(9),
+        state_registration: Faker::Number.number(digits: 9),
         kind: [0, 1].sample,
         description: Faker::Lorem.paragraph,
       )
@@ -233,8 +233,8 @@ namespace :dev do
   task generate_highlights: :environment do
     p "Criando Highlights"
     (1..2).to_a.each do
-      Highlight.create!(
-        title_1: Faker::Lorem.sentence(3).titleize,
+      h = Highlight.new(
+        title_1: Faker::Lorem.sentence(word_count: 3).titleize,
         content_1: Faker::Lorem.paragraph,
         content_2: Faker::Lorem.paragraph,
         content_3: Faker::Lorem.paragraph,
@@ -245,10 +245,11 @@ namespace :dev do
         kind: "campain",
         status: 1,
       )
+      h.save
     end
     (1..20).to_a.each do
-      Highlight.create!(
-        title_1: Faker::Lorem.sentence(3).titleize,
+      h = Highlight.new(
+        title_1: Faker::Lorem.sentence(word_count: 3).titleize,
         content_1: Faker::Lorem.paragraph,
         remote_image_1_url: ["https://image.freepik.com/fotos-gratis/a-imagem-macro-do-close-up-das-flores-e-usada-como-uma-imagem-de-fundo-foto-macro-close-up_34433-346.jpg",
                              "https://img1.ibxk.com.br/2019/02/25/25044125149117.jpg?w=700",
@@ -256,6 +257,7 @@ namespace :dev do
         kind: ["event", "normal", "winner"].sample,
         status: 1,
       )
+      h.save
     end
     p "Criando Highlights ....[OK]"
   end

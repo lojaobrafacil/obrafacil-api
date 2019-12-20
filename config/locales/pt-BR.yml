@@ -16,6 +16,8 @@ pt-BR:
             pre_active_to_review: Não pode ser alterado de Pré Ativo para Revisão
             review_to_pre_active: Não pode ser alterado de Revisão para Pré Ativo
             inactive: Não pode ser alterado um parceiro inativo
+        commission:
+          required_year: "Necessario informar o ano"
     models:
       api:
         one: Api
@@ -32,6 +34,9 @@ pt-BR:
       phone:
         one: Telefone
         outher: Telefones
+      commissions:
+        one: Comissão
+        outher: Comissões
     attributes:
       partner:
         name: Nome
@@ -41,8 +46,16 @@ pt-BR:
         state_registration: "RG / Inscrição estadual"
         international_registration: "Passaport / Registro internacional"
         kind: Tipo
+        kinds: 
+          physical: Física
+          legal: Jurídica
         renewal_date: "Data de renovação"
         origin: "Origem do cadastro"
+        origins:
+          shop: "Loja"
+          internet: "Internet"
+          relationship: "Relacionamento"
+          nivaldo: "Nivaldo"
         percent: "Percentual padrão"
         agency: Agência
         account: Conta
@@ -54,6 +67,10 @@ pt-BR:
         site: Site
         register: "Registro Profissional"
         cash_redemption: "Resgate em dinheiro"
+        cash_redemptions: 
+          "true": "Sim"
+          "false": "Não"
+          maybe: "Depende"
         partner_group_id: "Id de grupo de parceiro"
         partner_group: "Grupo de parceiro"
         description: "Descrição / Observaçōes"
@@ -68,10 +85,12 @@ pt-BR:
         created_by_id: "Criado por"
         deleted_by: "Deletado por"
         created_by: "Criado por"
+        aboutme: Sobre mim
+        coupon: Cupom
         image: Imagem
         birthday: Aniversário
-        status:
-          one: Status
+        status: Status
+        statuses:
           active: Ativo
           inactive: Inativo
           pre_active: Pré ativo
@@ -82,10 +101,10 @@ pt-BR:
         federal_registration: "CPF / CNPJ"
         active:
           one: Ativo
-          true: Sim
-          false: nao
-        kind:
-          one: Tipo
+          "true": Sim
+          "false": nao
+        kind: Tipo
+        kinds:
           admin: Admin
           reader: Leitura
         created_at: "Criado em"

@@ -2,8 +2,12 @@ class Api::ReportsController < Api::BaseController
   before_action :authenticate_admin_or_api!
 
   def index
-    @reports = Report.order(updated_at: :desc).limit(10)
-    render json: @reports, status: 200
+    if params[:name]
+      @reports = Report.where(name: params[:name].upcase).order(updated_at: :desc).limit(10)
+      render json: @reports, status: 200
+    else
+      render json: { error: "Modelo é obrigatorio" }, status: 200
+    end
   end
 
   def create
@@ -13,27 +17,13 @@ class Api::ReportsController < Api::BaseController
         ReportUploadWorker.perform_async(type: "MODEL",
                                          user_id: current_api_employee.id,
                                          model: params[:model],
-                                         titles: params[:fields].split(","),
+                                         titles: params[:titles] ? params[:titles].split(",") : params[:fields].split(","),
                                          fields: params[:fields].split(","),
                                          pathname: "#{params[:model]}-#{DateTime.now.strftime("%d%m%Y_%H%M%S")}.xlsx")
-        render json: { :success => "Estamos gerando o relatório, assim que estiver pronto, avisaremos." }, status: 200
+        render json: { success: "Estamos gerando o relatório, assim que estiver pronto, avisaremos." }, status: 200
       end
     else
-      render json: { :errors => ["model e fields devem ser enviados"] }, status: 422
+      render json: { errors: ["model e fields devem ser enviados"] }, status: 422
     end
-  end
-
-  private
-
-  def to_hash(item, arr_sep = ",", key_sep = ":")
-    array = item.split(arr_sep)
-    hash = {}
-
-    array.each do |e|
-      key_value = e.split(key_sep)
-      hash[key_value[0]] = key_value[1]
-    end
-
-    return hash
   end
 end

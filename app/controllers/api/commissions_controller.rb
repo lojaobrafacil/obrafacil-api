@@ -37,21 +37,22 @@ class Api::CommissionsController < Api::BaseController
         format.json { render json: @commissions.limit(40).as_json }
         format.csv {
           send_data @commissions.to_csv({
-                      attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro"],
+                      attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro", "soma"],
                       col_sep: "\t", default_nil: "0",
                     }), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv"
         }
         format.xlsx {
           path = ToXlsx.new(@commissions, {
-            titles: ["Nome do Parceiro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-            attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
+            titles: ["Nome do Parceiro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro", "Soma"],
+            attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro", "soma"],
             filename: "#{SecureRandom.uuid}.xlsx",
+            template: "commissions_by_year",
           }).generate
           send_file File.new(path), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.xlsx"
         }
       end
     rescue
-      render json: { errors: { error: I18n.t("models.commissions.response.required_year") } }, status: 422
+      render json: { errors: I18n.t("activerecord.errors.messages.commission.required_year") }, status: 422
     end
   end
 
