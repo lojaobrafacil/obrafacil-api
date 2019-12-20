@@ -215,7 +215,7 @@ namespace :dev do
       o = Order.create!(
         kind: ["budget", "normal"].sample,
         description: Faker::Lorem.paragraph,
-        discont: Faker::Commerce.price,
+        discount: Faker::Commerce.price,
         freight: Faker::Commerce.price,
         billing_date: Time.now,
         selected_margin: [1, 2, 3, 4, 5].sample,

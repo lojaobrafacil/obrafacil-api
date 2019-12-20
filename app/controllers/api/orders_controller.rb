@@ -30,22 +30,22 @@ class Api::OrdersController < Api::BaseController
   end
 
   def create
-    @order = Order.new(order_params)
+    @order = Order.new(create_order_params)
     authorize @order
     if @order.save
       render json: @order, status: 201
     else
-      render json: { errors: @order.errors }, status: 422
+      render json: { errors: @order.errors.full_messages }, status: 422
     end
   end
 
   def update
     @order = Order.find(params[:id])
     authorize @order
-    if @order.update(order_params)
+    if @order.update(update_order_params)
       render json: @order, status: 200
     else
-      render json: { errors: @order.errors }, status: 422
+      render json: { errors: @order.errors.full_messages }, status: 422
     end
   end
 
@@ -58,7 +58,20 @@ class Api::OrdersController < Api::BaseController
 
   private
 
-  def order_params
-    params.permit(policy(Order).permitted_attributes)
+  def create_order_params
+    # params.permit(policy(Order).permitted_attributes)
+    params.permit(
+      [:kind, :description, :discount, :freight, :billing_at,
+       :file, :selected_margin, :employee_id,
+       :client_id, :cashier_id, :carrier_id, :company_id]
+    )
+  end
+
+  def update_order_params
+    params.permit(
+      [:kind, :description, :discount, :freight, :billing_at,
+       :file, :selected_margin, :employee_id,
+       :client_id, :cashier_id, :carrier_id, :company_id]
+    )
   end
 end

@@ -1,6 +1,6 @@
 class Order < TemplateOrder
-  validates :buyer_id, presence: true, numericality: { only_integer: true }
-  validates :buyer_type, presence: true, inclusion: { in: ["Client"], message: "deve ser um Cliente" }
+  validates :buyer_id, presence: false, numericality: { only_integer: true }, allow_nil: true, allow_blank: true
+  validates :buyer_type, presence: false, inclusion: { in: ["Client"], message: "deve ser um Cliente" }, allow_nil: true, allow_blank: true
   belongs_to :cashier, optional: true
   belongs_to :partner, optional: true
   has_one :commission
@@ -42,11 +42,14 @@ class Order < TemplateOrder
       # precisa de funcionario, margem, empresa, 1 produto
       # errors.add(:status, "Orcamento nao pode ir para Pago") if status == "paid"
     when "to_pay"
+      !buyer_id && !buyer_type
+      errors.add(:buyer, "é obrigatorio")
       # precisa de cliente (caso nao seja consumidor final)
       # precisa de funcionario, margem, empresa, 1 produto
       # nao pode voltar para orcamento?
       errors.add(:status, "A pagar nao pode ir para Orcamento") if status == "budget"
     when "paid"
+      sync_commission if partner_id
       # precisa vir de a pagar
       # pode alterar cliente (nao pode voltar para consumidor final), sem alterar tabela
       errors.add(:status, "Pago nao pode ser atualizado") if status_changed?
