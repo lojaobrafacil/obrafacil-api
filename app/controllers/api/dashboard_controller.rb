@@ -20,4 +20,26 @@ class Api::DashboardController < Api::BaseController
     end
     render json: response, status: 200
   end
+
+  def all
+    @nts = @current_user.notifications.order(:viewed, created_at: :desc)
+    response = {
+      current_user: @current_user,
+      states: State.all,
+      address_types: AddressType.all,
+      email_types: EmailType.all,
+      phone_types: PhoneType.all,
+      partner_groups: PartnerGroup.all,
+      banks: Bank.all,
+      notifications: {
+        total: @nts.count,
+        unread: @nts.where(viewed: false).count,
+        content: @nts,
+      },
+      units: Unit.all,
+      suppliers: Supplier.all,
+      companies: Company.all,
+    }
+    render json: response, status: 200
+  end
 end

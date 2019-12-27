@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
   default from: "Programa Mais Descontos <naoresponda@lojaobrafacil.com.br>",
-          bcc: "logs+obrafacil@bramotech.com"
+          bcc: "logsdoarthur+obrafacil@gmail.com"
   layout "mailer"
 end
