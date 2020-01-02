@@ -6,6 +6,7 @@ class Order < TemplateOrder
   has_one :commission
   enum status: [:budget, :to_pay, :paid, :deleted]
   before_validation :state_machine_to_status
+  before_validation :default_values
 
   def sum_itens_price
     122
@@ -33,6 +34,10 @@ class Order < TemplateOrder
       percent_date: Time.now,
       return_price: "",
     }
+  end
+
+  def default_values
+    self.status = 0 if self.status.to_s.empty?
   end
 
   def state_machine_to_status

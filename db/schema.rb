@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_193543) do
+ActiveRecord::Schema.define(version: 2019_10_31_195949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -312,7 +312,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_193543) do
     t.datetime "starts_in"
     t.integer "status", default: 1
     t.integer "kind", default: 0
-    t.integer "position"
+    t.integer "position", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -376,15 +376,23 @@ ActiveRecord::Schema.define(version: 2019_10_31_193543) do
     t.index ["target_id", "target_type"], name: "index_notifications_on_target_id_and_target_type"
   end
 
+  create_table "order_payments", force: :cascade do |t|
+    t.float "value"
+    t.bigint "order_id"
+    t.bigint "payment_method_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_payments_on_order_id"
+    t.index ["payment_method_id"], name: "index_order_payments_on_payment_method_id"
+  end
+
   create_table "orders", force: :cascade do |t|
-    t.integer "kind"
+    t.string "type"
     t.datetime "exclusion_at"
     t.text "description"
     t.float "discount"
     t.float "freight"
-    t.datetime "billing_at"
     t.bigint "cashier_id"
-    t.bigint "client_id"
     t.bigint "carrier_id"
     t.bigint "company_id"
     t.datetime "created_at", null: false
@@ -393,11 +401,18 @@ ActiveRecord::Schema.define(version: 2019_10_31_193543) do
     t.integer "selected_margin", limit: 2
     t.integer "discount_type", limit: 2
     t.integer "status", limit: 2
+    t.string "buyer_type"
+    t.integer "buyer_id"
+    t.bigint "partner_id"
+    t.bigint "order_id"
+    t.integer "billing_employee_id"
+    t.index ["buyer_type", "buyer_id"], name: "index_orders_on_buyer_type_and_buyer_id"
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
-    t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
     t.index ["employee_id"], name: "index_orders_on_employee_id"
+    t.index ["order_id"], name: "index_orders_on_order_id"
+    t.index ["partner_id"], name: "index_orders_on_partner_id"
   end
 
   create_table "partner_groups", force: :cascade do |t|
@@ -651,10 +666,13 @@ ActiveRecord::Schema.define(version: 2019_10_31_193543) do
   add_foreign_key "image_products", "products"
   add_foreign_key "log_coupons", "coupons"
   add_foreign_key "log_premio_ideals", "partners"
+  add_foreign_key "order_payments", "orders"
+  add_foreign_key "order_payments", "payment_methods"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
-  add_foreign_key "orders", "clients"
   add_foreign_key "orders", "companies"
+  add_foreign_key "orders", "orders"
+  add_foreign_key "orders", "partners"
   add_foreign_key "partners", "banks"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "pi_vouchers", "companies"

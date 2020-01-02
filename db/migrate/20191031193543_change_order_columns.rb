@@ -2,7 +2,7 @@ class ChangeOrderColumns < ActiveRecord::Migration[5.2]
   def up
     # TemplateOrder
     remove_column :orders, :file, :string
-    remove_column :orders, :billing_date, :date
+    rename_column :orders, :billing_date, :billing_at
     rename_column :orders, :exclusion_date, :exclusion_at
     rename_column :orders, :discont, :discount
     rename_column :orders, :kind, :type
@@ -24,7 +24,7 @@ class ChangeOrderColumns < ActiveRecord::Migration[5.2]
 
   def down
     add_column :orders, :file, :string
-    add_column :orders, :billing_date, :date
+    rename_column :orders, :billing_at, :billing_date
     rename_column :orders, :exclusion_at, :exclusion_date
     rename_column :orders, :discount, :discont
     rename_column :orders, :type, :kind

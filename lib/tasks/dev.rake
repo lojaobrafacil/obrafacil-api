@@ -213,15 +213,14 @@ namespace :dev do
     p "Criando Orders"
     (1..200).to_a.each do
       o = Order.create!(
-        kind: ["budget", "normal"].sample,
         description: Faker::Lorem.paragraph,
         discount: Faker::Commerce.price,
         freight: Faker::Commerce.price,
-        billing_date: Time.now,
+        billing_at: Time.now,
         selected_margin: [1, 2, 3, 4, 5].sample,
         employee: Employee.all.sample,
         cashier: Cashier.all.sample,
-        client: Client.all.sample,
+        buyer: Client.all.sample,
         carrier: Carrier.all.sample,
         company: Company.all.sample,
       )
