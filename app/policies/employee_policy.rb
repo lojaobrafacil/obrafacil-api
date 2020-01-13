@@ -31,7 +31,7 @@ class EmployeePolicy < ApplicationPolicy
        :order_cost, :order_done, :order_price_reduce, :order_inactive, :order_creation, :limit_margin,
        :change_coupon, :change_campain, :change_highlight, :change_bank, :change_carrier, :change_employee,
        :commission_percent, :description, :street, :number, :complement, :neighborhood, :zipcode,
-       :phone, :celphone, :city_id]
+       :phone, :celphone, :city_id, :company_id]
     else
       [:name, :email, :federal_registration, :state_registration, :birth_date]
     end

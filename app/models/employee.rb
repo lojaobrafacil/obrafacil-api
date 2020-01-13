@@ -7,6 +7,7 @@ class Employee < ApplicationRecord
   has_many :orders
   has_many :reports
   has_many :notifications, dependent: :destroy, as: :notified
+  belongs_to :company, optional: true
   belongs_to :city, optional: true
   validates_presence_of :name, :federal_registration, :limit_margin
   validates :admin, :change_partners, :change_clients, :change_cashiers, :order_creation,

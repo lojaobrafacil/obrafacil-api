@@ -8,6 +8,7 @@ class Api::EmployeeSerializer < ActiveModel::Serializer
              :phone, :celphone, :updated_at, :created_at
 
   has_one :city
+  has_one :company
 
   def phone
     object.formatted_phone
