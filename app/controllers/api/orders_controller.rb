@@ -23,7 +23,7 @@ class Api::OrdersController < Api::BaseController
     @order = Order.find_by(id: params[:id])
     if @order
       authorize @order
-      render json: @order, status: 200
+      render json: @order, status: 200, serializer: Api::OrderSerializer
     else
       head 404
     end
@@ -63,7 +63,7 @@ class Api::OrdersController < Api::BaseController
     params.permit(
       [:description, :discount, :freight, :billing_at,
        :file, :selected_margin, :employee_id,
-       :client_id, :cashier_id, :carrier_id, :company_id]
+       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id]
     )
   end
 
@@ -71,7 +71,7 @@ class Api::OrdersController < Api::BaseController
     params.permit(
       [:description, :discount, :freight, :billing_at,
        :file, :selected_margin, :employee_id,
-       :client_id, :cashier_id, :carrier_id, :company_id]
+       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id]
     )
   end
 end
