@@ -8,7 +8,7 @@ class Api::ClientsController < Api::BaseController
     begin
       if @clients
         @clients = @clients.where(status: params[:status]) if params[:status] && !params[:status].empty?
-        @clients = @clients.where("lower(searcher) ilike lower('%#{params[:searcher]}%') ") if params[:searcher]
+        @clients = @clients.where("lower(searcher) ilike lower('%#{params[:searcher]}') or lower(searcher) ~ lower('#{params[:searcher].strip.gsub(" ", "|")}') ") if params[:searcher]
         paginate json: @clients.order(:id, :searcher), status: 200, each_serializer: Api::ClientsSerializer
       else
         head 404
