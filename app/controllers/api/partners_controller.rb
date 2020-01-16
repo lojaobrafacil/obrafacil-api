@@ -8,6 +8,7 @@ class Api::PartnersController < Api::BaseController
       if @partners
         @partners = @partners.where(status: params[:status]) if params[:status] && !params[:status].empty?
         query = []
+        query << "id in (#{params[:ids]})" if params[:ids] && !params[:ids].empty?
         query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name] && !params[:name].empty?
         query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration] && !params[:federal_registration].empty?
         query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id] && !params[:partner_group_id].empty?
