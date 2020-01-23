@@ -5,9 +5,9 @@ class ToXlsx
 
   def initialize(object, options = {})
     @object = object
-    @titles = formatted_titles(options[:titles])
-    @attributes = options[:attributes] rescue nil
-    @attributes_size = options[:attributes].size rescue nil
+    @attributes = options[:attributes] || object.attribute_names rescue nil
+    @titles = formatted_titles(options[:titles]) rescue formatted_titles(@attributes)
+    @attributes_size = @attributes.size rescue nil
     @filename = options[:filename] rescue "ruby.xlsx"
     @template = options[:template] || @object.class.to_s.split("::").first
   end
