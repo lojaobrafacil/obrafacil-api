@@ -2,9 +2,14 @@ class HighlightImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::RMagick
 
   storage :aws
+  process convert: 'png'
 
   version :small do
-    process resize_and_pad: [500, 350, :transparent]
+    process resize_to_fill: [166, 166]
+  end
+
+  version :medium do
+    process resize_to_fill: [193, 247]
   end
 
   def store_dir
@@ -12,7 +17,7 @@ class HighlightImageUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{secure_token}.#{file.extension}" if original_filename.present?
+    "#{secure_token}.png" if original_filename.present?
   end
 
   protected
@@ -21,4 +26,13 @@ class HighlightImageUploader < CarrierWave::Uploader::Base
     var = :"@#{mounted_as}_secure_token"
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
   end
+
+	def serializable_hash(options = {})
+		e = {}
+		super(options).each do |item|
+			e.merge!(item[0] == "url" ? {item[0] => item[1]} : {item[0] => item[1]["url"]} )
+		end
+		e
+	end
+
 end
