@@ -1,3 +1,4 @@
 class ApiPartner::HighlightSerializer < ActiveModel::Serializer
-  attributes :title_1, :title_2, :content_1, :image_1, :link, :expires_at, :starts_in
+  attributes :id, :title, :subtitle, :image, :metadata, :starts_in,
+             :status, :kind, :position, :created_at, :updated_at
 end

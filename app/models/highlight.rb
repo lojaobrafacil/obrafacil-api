@@ -1,8 +1,6 @@
 class Highlight < ApplicationRecord
-  validates_presence_of :title_1, :content_1, :image_1
+  validates_presence_of :title
   enum status: [:inactive, :active]
   enum kind: [:normal, :campain, :winner, :event]
-  mount_uploader :image_1, HighlightImageUploader
-  mount_uploader :image_2, HighlightImageUploader
-  mount_uploader :image_3, HighlightImageUploader
+  mount_uploader :image, HighlightImageUploader
 end

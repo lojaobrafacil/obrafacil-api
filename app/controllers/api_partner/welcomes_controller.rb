@@ -1,17 +1,25 @@
 class ApiPartner::WelcomesController < ApplicationController
   def web
     videos = JSON.parse(Net::HTTP.get(URI.parse("https://www.googleapis.com/youtube/v3/search?key=AIzaSyBLg6UmJ93T7Bt7JphKiSQUb8IaXurUBeI&channelId=UC-YzYZyjTNNWnWzXHecA8mg&part=id&order=date&maxResults=3"))).symbolize_keys
+    highlight_winner = (Highlight.where(status: "active").where(kind: "winner").order("position DESC NULLS LAST, created_at DESC").limit(4).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil)
+    highlight_normal = (Highlight.where(status: "active").where(kind: "normal").order("position DESC NULLS LAST, created_at DESC").limit(3).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil)
     @welcomes = {
-      highlights: (Highlight.where(status: "active").where.not(kind: ["event", "campain"]).order("position DESC NULLS LAST, created_at DESC").limit(4).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil),
+      highlights: {
+        normal: highlight_normal,
+        winner: highlight_winner,
+      },
       events: (Highlight.where(status: "active").where(kind: "event").order("position DESC NULLS LAST, created_at DESC").limit(4).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil),
       campain_images: ["https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-1.png",
                        "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-2.png",
                        "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-3.png",
                        "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-4.png"],
       videos: [
-        { text: "", url: "https://www.youtube.com/embed/PsJn2RzSDSg" },
-        { text: "", url: "https://www.youtube.com/embed/ROPUQTheyzE" },
-        { text: "", url: "https://www.youtube.com/embed/WyW4jXlvyrw" },
+        { text: "Arquiteta Carol Ferreira", url: "https://www.youtube.com/embed/wd7kbxniqJo" },
+        { text: "Boutique arquitetura", url: "https://www.youtube.com//embed/XXbk4RNLews" },
+        { text: "Projeto D2N Arquitetura e Interiores", url: "https://www.youtube.com/embed/kU8EJ8-xJJ4" },
+        { text: "Arquiteta Carmel", url: "https://www.youtube.com/embed/PsJn2RzSDSg" },
+        { text: "Arquiteto Marcelo Colnaghi", url: "https://www.youtube.com/embed/ROPUQTheyzE" },
+        { text: "Projeto Sesso & Dalanezi", url: "https://www.youtube.com/embed/WyW4jXlvyrw" },
       ],
     }
     render json: @welcomes, status: 200
@@ -20,7 +28,7 @@ class ApiPartner::WelcomesController < ApplicationController
   def highlights
     @highlights = Highlight.where(status: "active")
     if !params[:kind].to_s.empty?
-      @highlights = @highlights.where(kind: params[:kind])
+      @highlights = @highlights.where(kind: params[:kind].split(","))
     else
       @highlights = @highlights.where.not(kind: "campain").where("(expires_at is null or expires_at > '#{Time.now}') and (starts_in is null or starts_in < '#{Time.now}')")
     end
@@ -28,7 +36,7 @@ class ApiPartner::WelcomesController < ApplicationController
   end
 
   def winners
-    @highlights = Highlight.winner.where("status = 1 and position between #{params[:year]}00 and #{params[:year]}99")
+    @highlights = params[:year] ? Highlight.winner.where("status = 1 and position between #{params[:year]}00 and #{params[:year]}99") : Highlight.winner
     paginate json: @highlights.order("position DESC NULLS LAST, created_at DESC"), status: 200, each_serializer: ApiPartner::HighlightSerializer
   end
 
