@@ -12,7 +12,7 @@ RSpec.describe PiVouchersMailer, type: :mailer do
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
       expect(email.to).to eq(["#{@partner.name}<#{@partner.primary_email.email}>"])
-      expect(email.subject).to eq("Programa Mais Descontos: Bem vindo!")
+      expect(email.subject).to eq("Obra Fácil Mais: Bem vindo!")
     end
   end
 end
