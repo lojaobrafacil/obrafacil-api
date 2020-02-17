@@ -6,6 +6,6 @@ class Highlight < ApplicationRecord
   before_save :validate_metadata
 
   def validate_metadata
-    self.metadata = "</>" if self.metadata.to_s.empty?
+    self.metadata = "<p><br></p>" if self.metadata.to_s.empty?
   end
 end
