@@ -8,6 +8,5 @@ class ChangeHighlights < ActiveRecord::Migration[5.2]
     remove_column :highlights, :content_3, :text
     remove_column :highlights, :image_2, :string
     remove_column :highlights, :image_3, :string
-    remove_column :highlights, :link, :string
   end
 end
