@@ -11,7 +11,7 @@ RSpec.describe PartnerMailer, type: :mailer do
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
       expect(email.to).to eq(["#{@partner.primary_email.contact}<#{@partner.primary_email.email}>"])
-      expect(email.subject).to eq("Programa Mais Descontos: Bem vindo!")
+      expect(email.subject).to eq("Obra Fácil Mais: Bem vindo!")
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe PartnerMailer, type: :mailer do
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
       expect(email.to).to eq(["#{@partner.primary_email.contact}<#{@partner.primary_email.email}>"])
-      expect(email.subject).to eq("Programa Mais Descontos: Bem vindo!")
+      expect(email.subject).to eq("Obra Fácil Mais: Bem vindo!")
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe PartnerMailer, type: :mailer do
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
       expect(email.to).to eq(["#{@partner.primary_email.contact}<#{@partner.primary_email.email}>"])
-      expect(email.subject).to eq("Programa Mais Descontos: Bem vindo!")
+      expect(email.subject).to eq("Obra Fácil Mais: Bem vindo!")
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe PartnerMailer, type: :mailer do
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
       expect(email.to).to eq(["#{@partner.primary_email.contact}<#{@partner.primary_email.email}>"])
-      expect(email.subject).to eq("Programa Mais Descontos: Esqueceu sua senha!")
+      expect(email.subject).to eq("Obra Fácil Mais: Esqueceu sua senha!")
     end
   end
 end

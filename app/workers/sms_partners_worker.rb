@@ -16,7 +16,7 @@ class SmsPartnersWorker
                  when "transfer_points"
                    "[ObraFácil]Olá #{@name}!Seus pontos em dinheiro foram transferidos automaticamente. Por favor conferir o valor na sua conta ou entre em contato."
                  when "points_expiration"
-                   "[ObraFacil]Atenção!Amanhã vence seu prazo para resgatar seus pontos em dinheiro no Programa Mais Descontos!https://bit.ly/2D8RyJ7"
+                   "[ObraFacil]Atenção!Amanhã vence seu prazo para resgatar seus pontos em dinheiro no Obra Fácil Mais!https://bit.ly/2D8RyJ7"
                  end
       if @phone
         service = Notifications::SmsService.new(@phone, @message)

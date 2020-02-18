@@ -10,7 +10,7 @@ class PartnerMailer < ApplicationMailer
     @web_endpoint = ENV["WEB_ENDPOINT"]
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
-      subject: "Programa Mais Descontos: Você Foi Indicado!",
+      subject: "Obra Fácil Mais: Você Foi Indicado!",
       reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
@@ -23,7 +23,7 @@ class PartnerMailer < ApplicationMailer
     @url = ENV["WEB_ENDPOINT"]
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
-      subject: "Programa Mais Descontos: Bem vindo!",
+      subject: "Obra Fácil Mais: Bem vindo!",
       reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
@@ -37,7 +37,7 @@ class PartnerMailer < ApplicationMailer
     @url = ENV["WEB_ENDPOINT"]
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
-      subject: "Programa Mais Descontos: APROVADO!",
+      subject: "Obra Fácil Mais: APROVADO!",
       reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
@@ -48,7 +48,7 @@ class PartnerMailer < ApplicationMailer
     @url = "#{ENV["WEB_ENDPOINT"]}/redefinir-senha?t=#{@partner.reset_password_token}&c=#{Base64.encode64 @partner.federal_registration}"
     mail(
       to: "#{@partner_name}<#{@partner.primary_email.email}>",
-      subject: "Programa Mais Descontos: Esqueceu sua senha!",
+      subject: "Obra Fácil Mais: Esqueceu sua senha!",
       reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end

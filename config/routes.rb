@@ -120,6 +120,7 @@ Rails.application.routes.draw do
     get "campains", to: "welcomes#campains"
     get "highlights", to: "welcomes#highlights"
     get "highlights/:kind", to: "welcomes#highlights", constraints: { kind: /normal|winner|event/ }
+    get "winners", to: "welcomes#winners"
     get "winners/:year", to: "welcomes#winners", constraints: { kind: /[0-9|]+/ }
     get "all", to: "welcomes#all"
   end

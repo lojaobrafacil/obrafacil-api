@@ -22,8 +22,6 @@ class Api::CampainsController < Api::BaseController
   end
 
   def update
-    @campain.remove_image_2! if campain_params[:image_2] == "remove"
-    @campain.remove_image_3! if campain_params[:image_3] == "remove"
     if @campain.update(campain_params)
       render json: @campain, status: 200, serializer: Api::CampainSerializer
     else
@@ -44,6 +42,6 @@ class Api::CampainsController < Api::BaseController
   end
 
   def campain_params
-    params.permit(policy(Highlight).permitted_campain_attributes)
+    params.permit(policy(Highlight).permitted_attributes)
   end
 end

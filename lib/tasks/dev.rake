@@ -233,14 +233,9 @@ namespace :dev do
     p "Criando Highlights"
     (1..2).to_a.each do
       h = Highlight.new(
-        title_1: Faker::Lorem.sentence(word_count: 3).titleize,
-        content_1: Faker::Lorem.paragraph,
-        content_2: Faker::Lorem.paragraph,
-        content_3: Faker::Lorem.paragraph,
-        remote_image_1_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Capa_Youtube.png",
-        remote_image_2_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Capa_Perfil-Comum.png",
-        remote_image_3_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Instagram_Facebook.png",
-        link: "campain/2019",
+        title: Faker::Lorem.sentence(word_count: 3).titleize,
+        metadata: Faker::Lorem.paragraph,
+        remote_image_url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/Programa-Mais-Descontos_Ita%CC%81lia-Capa_Youtube.png",
         kind: "campain",
         status: 1,
       )
@@ -248,9 +243,9 @@ namespace :dev do
     end
     (1..20).to_a.each do
       h = Highlight.new(
-        title_1: Faker::Lorem.sentence(word_count: 3).titleize,
-        content_1: Faker::Lorem.paragraph,
-        remote_image_1_url: ["https://image.freepik.com/fotos-gratis/a-imagem-macro-do-close-up-das-flores-e-usada-como-uma-imagem-de-fundo-foto-macro-close-up_34433-346.jpg",
+        title: Faker::Lorem.sentence(word_count: 3).titleize,
+        content: Faker::Lorem.paragraph,
+        remote_image_url: ["https://image.freepik.com/fotos-gratis/a-imagem-macro-do-close-up-das-flores-e-usada-como-uma-imagem-de-fundo-foto-macro-close-up_34433-346.jpg",
                              "https://img1.ibxk.com.br/2019/02/25/25044125149117.jpg?w=700",
                              "https://i2.wp.com/amplino.org/wp-content/uploads/2018/07/f90ad163e157e67abcf755cb526ea064.jpg?resize=541%2C494&ssl=1"].sample,
         kind: ["event", "normal", "winner"].sample,
