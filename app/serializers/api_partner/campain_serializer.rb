@@ -1,3 +1,3 @@
 class ApiPartner::CampainSerializer < ActiveModel::Serializer
-  attributes :title, :subtitle, :metadata, :image, :position
+  attributes :title, :subtitle, :link, :metadata, :image, :position
 end
