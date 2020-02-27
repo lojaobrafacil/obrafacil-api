@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       end
     end
     resources :partner_groups
+    resources :partner_projects
     resources :companies
     resources :suppliers
     resources :permissions

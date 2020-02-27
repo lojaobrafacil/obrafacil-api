@@ -7,9 +7,9 @@ class PartnerProject < ApplicationRecord
   enum status: [:em_analise, :aprovado, :reprovado]
 
   def default_values
-    self.name.strip!
-    self.description.strip!
-    self.city.strip! if city
+    self.name.strip! if self.name
+    self.description.strip! if self.description
+    self.city.strip! if self.city
     self.metadata = "#{partner_id}-#{name.split(" ").join("-")}" if self.name_changed? || self.project_date_changed?
   end
 end
