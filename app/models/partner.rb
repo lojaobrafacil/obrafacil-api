@@ -12,6 +12,7 @@ class Partner < ApplicationRecord
   has_many :log_premio_ideals, class_name: "Log::PremioIdeal", dependent: :destroy
   has_many :commissions, dependent: :destroy
   has_many :pi_vouchers
+  has_many :projects, class_name: :PartnerProject, dependent: :destroy
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
   has_many :emails, dependent: :destroy, as: :emailable

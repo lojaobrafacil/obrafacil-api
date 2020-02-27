@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_07_235001) do
+ActiveRecord::Schema.define(version: 2020_02_26_124531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.integer "status"
     t.datetime "birthday"
     t.integer "limit_margin", default: 1
+    t.string "searcher"
     t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
     t.index ["confirmation_token"], name: "index_clients_on_confirmation_token", unique: true
     t.index ["email"], name: "index_clients_on_email", unique: true
@@ -286,7 +287,9 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.boolean "change_bank", default: false
     t.boolean "change_carrier", default: false
     t.boolean "change_employee", default: false
+    t.bigint "company_id"
     t.index ["city_id"], name: "index_employees_on_city_id"
+    t.index ["company_id"], name: "index_employees_on_company_id"
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_employees_on_uid_and_provider", unique: true
@@ -300,15 +303,10 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
   end
 
   create_table "highlights", force: :cascade do |t|
-    t.string "title_1"
-    t.string "title_2"
-    t.text "content_1"
-    t.text "content_2"
-    t.text "content_3"
-    t.string "image_1"
-    t.string "image_2"
-    t.string "image_3"
-    t.string "link"
+    t.string "title"
+    t.string "subtitle"
+    t.text "metadata"
+    t.string "image"
     t.datetime "expires_at"
     t.datetime "starts_in"
     t.integer "status", default: 1
@@ -316,6 +314,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.integer "position", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "link"
   end
 
   create_table "ibpts", force: :cascade do |t|
@@ -377,31 +376,61 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.index ["target_id", "target_type"], name: "index_notifications_on_target_id_and_target_type"
   end
 
+  create_table "order_payments", force: :cascade do |t|
+    t.float "value"
+    t.bigint "order_id"
+    t.bigint "payment_method_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_payments_on_order_id"
+    t.index ["payment_method_id"], name: "index_order_payments_on_payment_method_id"
+  end
+
   create_table "orders", force: :cascade do |t|
-    t.integer "kind"
-    t.datetime "exclusion_date"
+    t.string "type"
+    t.datetime "exclusion_at"
     t.text "description"
-    t.float "discont"
+    t.float "discount"
     t.float "freight"
-    t.datetime "billing_date"
-    t.string "file"
+    t.datetime "billing_at"
     t.bigint "cashier_id"
-    t.bigint "client_id"
     t.bigint "carrier_id"
     t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "employee_id"
     t.integer "selected_margin", limit: 2
+    t.integer "discount_type", limit: 2
+    t.integer "status", limit: 2
+    t.string "buyer_type"
+    t.integer "buyer_id"
+    t.bigint "partner_id"
+    t.bigint "order_id"
+    t.integer "billing_employee_id"
+    t.index ["buyer_type", "buyer_id"], name: "index_orders_on_buyer_type_and_buyer_id"
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
-    t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
     t.index ["employee_id"], name: "index_orders_on_employee_id"
+    t.index ["order_id"], name: "index_orders_on_order_id"
+    t.index ["partner_id"], name: "index_orders_on_partner_id"
   end
 
   create_table "partner_groups", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "partner_projects", force: :cascade do |t|
+    t.string "name"
+    t.integer "environment"
+    t.text "description"
+    t.string "products"
+    t.date "project_date"
+    t.string "city"
+    t.string "metadata"
+    t.json "images", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -454,6 +483,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.string "instagram"
     t.string "avatar"
     t.text "aboutme"
+    t.string "searcher"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["confirmation_token"], name: "index_partners_on_confirmation_token", unique: true
     t.index ["email"], name: "index_partners_on_email", unique: true
@@ -532,11 +562,11 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
     t.float "reduction"
     t.float "suggested_price"
     t.bigint "supplier_id"
-    t.integer "status", default: 1
-    t.datetime "deleted_at"
-    t.integer "deleted_by_id"
     t.float "suggested_price_site"
-    t.integer "suggested_price_role"
+    t.integer "suggested_price_role", default: 0
+    t.integer "status", default: 1
+    t.integer "deleted_by_id"
+    t.datetime "deleted_at"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
@@ -648,13 +678,17 @@ ActiveRecord::Schema.define(version: 2019_10_07_235001) do
   add_foreign_key "coupons", "partners"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "cities"
+  add_foreign_key "employees", "companies"
   add_foreign_key "image_products", "products"
   add_foreign_key "log_coupons", "coupons"
   add_foreign_key "log_premio_ideals", "partners"
+  add_foreign_key "order_payments", "orders"
+  add_foreign_key "order_payments", "payment_methods"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
-  add_foreign_key "orders", "clients"
   add_foreign_key "orders", "companies"
+  add_foreign_key "orders", "orders"
+  add_foreign_key "orders", "partners"
   add_foreign_key "partners", "banks"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "pi_vouchers", "companies"
