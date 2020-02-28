@@ -3,7 +3,7 @@ class CreatePartnerProjects < ActiveRecord::Migration[5.2]
     create_table :partner_projects do |t|
       t.string :name, null: false
       t.integer :environment, null: false
-      t.integer :status, null: false, default: 1
+      t.integer :status, null: false, default: 0
       t.text :status_rmk
       t.text :description, null: false
       t.string :products
