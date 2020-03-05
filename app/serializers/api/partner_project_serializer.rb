@@ -1,5 +1,5 @@
 class Api::PartnerProjectSerializer < ActiveModel::Serializer
-  attributes :id, :name, :project_date, :description, :environment,
+  attributes :id, :name, :project_date, :content, :environment,
              :status, :status_rmk, :products, :city, :partner, :images,
              :metadata, :created_at, :updated_at
 

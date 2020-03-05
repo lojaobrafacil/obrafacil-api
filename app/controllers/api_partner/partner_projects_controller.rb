@@ -48,7 +48,7 @@ class ApiPartner::PartnerProjectsController < ApiPartner::BaseController
   end
 
   def partner_project_params
-    params.permit(:name, :project_date, :description, :environment,
+    params.permit(:name, :project_date, :content, :environment,
                   :products, :city, :partner_id, images: [])
   end
 end

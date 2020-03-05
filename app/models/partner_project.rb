@@ -1,5 +1,5 @@
 class PartnerProject < ApplicationRecord
-  validates_presence_of :name, :description, :environment
+  validates_presence_of :name, :content, :environment
   belongs_to :partner, optional: false
   before_validation :default_values
   mount_uploaders :images, ProjectImageUploader
@@ -8,7 +8,7 @@ class PartnerProject < ApplicationRecord
 
   def default_values
     self.name.strip! if self.name
-    self.description.strip! if self.description
+    self.content.strip! if self.content
     self.city.strip! if self.city
     self.metadata = "#{partner_id}-#{name.split(" ").join("-")}" if self.name_changed? || self.project_date_changed?
   end
