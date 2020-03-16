@@ -10,13 +10,13 @@ class SmsPartnersWorker
       @phone = partner.primary_phone.phone rescue nil
       @message = case obj["status"]
         when "pre_active"
-          "[ObraFacil]Olá!Estamos aguardando seu cadastro!Cadastre se e receba vantagens e descontos a seus clientes! bit.ly/2D8RyJ7"
+          "[ObraFacil]Olá!Estamos aguardando seu cadastro!Cadastre se e receba vantagens e descontos a seus clientes! bit.ly/2WiqG3Z"
         when "active"
-          "[ObraFacil]Olá #{@name}!Troque seus pontos acumulados em dinheiro ou em produtos da nossa loja até o fim deste mês! bit.ly/2D8RyJ7"
+          "[ObraFacil]Olá #{@name}!Troque seus pontos acumulados em dinheiro ou em produtos da nossa loja até o fim deste mês! bit.ly/2WiqG3Z"
         when "transfer_points"
           "[ObraFácil]Olá #{@name}!Seus pontos em dinheiro foram transferidos automaticamente.Confira o valor na sua conta ou entre em contato."
         when "points_expiration"
-          "[ObraFacil]Olá! Não perca seus pontos!Troque seus pontos em dinheiro ou vale compras da loja até dia 31/03. bit.ly/2D8RyJ7 Dúvidas,3031-6891"
+          "[ObraFacil]Olá! Não perca seus pontos!Troque seus pontos em dinheiro ou vale compras da loja até dia 31/03. bit.ly/2WiqG3Z Dúvidas,3031-6891"
         end
       if @phone
         service = Notifications::SmsService.new(@phone, @message)
