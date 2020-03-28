@@ -8,8 +8,10 @@ class Carrier < ApplicationRecord
   # has_many :orders
   validates_presence_of :name
   enum kind: [:physical, :legal]
-  include Contact
 
   def self.active; where("active = true").order(:id); end
   def self.inactive; where("active = false").order(:id); end
+
+  def primary_email; emails.find_by(primary: true) || emails.first; end
+  def primary_phone; phones.find_by(primary: true) || phones.first; end
 end

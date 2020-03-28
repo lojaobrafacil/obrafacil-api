@@ -3,7 +3,6 @@ class Partner < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
   include DeviseTokenAuth::Concerns::User
-  include Contact
   belongs_to :bank, optional: true
   belongs_to :partner_group, optional: true
   belongs_to :deleted_by, :class_name => "Employee", :foreign_key => "deleted_by_id", optional: true

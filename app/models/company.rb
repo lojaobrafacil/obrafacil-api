@@ -10,9 +10,11 @@ class Company < ApplicationRecord
   accepts_nested_attributes_for :emails, allow_destroy: true
   enum tax_regime: [:simple, :normal, :presumed]
   validates_presence_of :name
-  include Contact
 
   after_create :workers
+
+  def primary_email; emails.find_by(primary: true) || emails.first; end
+  def primary_phone; phones.find_by(primary: true) || phones.first; end
 
   def products
     Product.where("id in (select stocks.product_id from stocks where stocks.company_id = ?)", self.id)

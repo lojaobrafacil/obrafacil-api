@@ -18,3 +18,9 @@ production:
   :concurrency: 25
 staging:
   :concurrency: 15
+
+:schedule:
+  ScheduledMessagesControl:
+    cron: '0 12 * * * America/Sao_Paulo'
+    enabled: true
+    class: ScheduledMessagesControlWorker

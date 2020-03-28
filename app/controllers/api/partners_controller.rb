@@ -66,15 +66,6 @@ class Api::PartnersController < Api::BaseController
     end
   end
 
-  def send_sms
-    if sms_params[:partner_ids].empty?
-      render json: { errors: I18n.t("models.partner.errors.sms.partner_ids") }, status: 404
-    else
-      SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids], status: params[:status])
-      render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
-    end
-  end
-
   def by_federal_registration
     @partner = Partner.where(federal_registration: params[:federal_registration]).where.not(status: "deleted").first
     if !@partner || @partner.id == params[:id]&.to_i

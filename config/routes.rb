@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "welcomes#index"
   require "sidekiq/web"
+  require "sidekiq-scheduler/web"
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username == "devuser" && password == "nopassword"
@@ -61,6 +62,7 @@ Rails.application.routes.draw do
     resources :ibpts
     resources :cfops
     resources :payment_methods
+    resources :scheduled_messages
     resources :cashiers
     resources :orders
     resources :vehicles
