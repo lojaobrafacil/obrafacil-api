@@ -44,7 +44,6 @@ Rails.application.routes.draw do
     resources :partners do
       collection do
         put ":id/reset_password", to: "partners#reset_password"
-        post "send_sms/:status", to: "partners#send_sms", constraints: { status: /active|pre_active|transfer_points|points_expiration/ }
         get "by_federal_registration/:federal_registration", to: "partners#by_federal_registration"
         get "by_favored_federal_registration/:favored_federal_registration", to: "partners#by_favored_federal_registration"
       end
@@ -62,7 +61,11 @@ Rails.application.routes.draw do
     resources :ibpts
     resources :cfops
     resources :payment_methods
-    resources :scheduled_messages
+    resources :scheduled_messages do
+      collection do
+        post ":id/run", to: "scheduled_messages#run"
+      end
+    end
     resources :cashiers
     resources :orders
     resources :vehicles

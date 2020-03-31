@@ -6,7 +6,7 @@ class Api::PartnersController < Api::BaseController
     @partners = policy_scope ::Partner
     begin
       if @partners
-        @partners = @partners.where(status: params[:status]) if params[:status] && !params[:status].empty?
+        @partners = @partners.where(status: params[:status].split(",")) if params[:status] && !params[:status].empty?
         query = []
         query << "id in (#{params[:ids]})" if params[:ids] && !params[:ids].empty? && params[:ids].chomp(",").match?(/^\d+(,\d+)*$/)
         query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name] && !params[:name].empty?

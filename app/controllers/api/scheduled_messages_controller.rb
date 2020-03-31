@@ -3,6 +3,8 @@ class Api::ScheduledMessagesController < Api::BaseController
 
   def index
     @scheduled_messages = ScheduledMessage.all
+    @scheduled_messages = @scheduled_messages.where(status: params[:status].split(",")) if params[:status] && !params[:status].empty?
+    @scheduled_messages = @scheduled_messages.where("LOWER(name) LIKE LOWER('%#{params[:name]}%')") if params[:name] && !params[:name].empty?
     paginate json: @scheduled_messages, status: 200
   end
 
@@ -24,9 +26,19 @@ class Api::ScheduledMessagesController < Api::BaseController
     end
   end
 
+  def run
+    @scheduled_message = ScheduledMessage.find_by(id: params[:id])
+    if @scheduled_message
+      SendSmsWorker.perform_async(@scheduled_message.id)
+      head 204
+    else
+      head 404
+    end
+  end
+
   def update
     @scheduled_message = ScheduledMessage.find(params[:id])
-    if @scheduled_message.update(scheduled_message_update_params)
+    if @scheduled_message.update(scheduled_message_params)
       render json: @scheduled_message, status: 200
     else
       render json: { errors: @scheduled_message.errors.full_messages }, status: 422
@@ -44,9 +56,5 @@ class Api::ScheduledMessagesController < Api::BaseController
   def scheduled_message_params
     params.permit(:name, :text, :status, :receiver_type, :starts_at,
                   :finished_at, :frequency_type, :frequency, :repeat, :receiver_ids => [])
-  end
-
-  def scheduled_message_update_params
-    params.permit(:status, :starts_at, :finished_at)
   end
 end

@@ -14,16 +14,17 @@ class ScheduledMessage < ApplicationRecord
     when "annually"
       ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     else
-      []
+      [""]
     end
   end
 
   def next_date
     if !self.no?
       date = get_date(self.frequency)
+      actualDate = starts_at > Date.today ? starts_at : Date.today
       count = 0
       freq = self.frequency
-      while date < starts_at
+      while date < actualDate
         count += 1
         date = get_date(freq)
         freq += 1
@@ -32,12 +33,14 @@ class ScheduledMessage < ApplicationRecord
       return if self.finished_at && self.finished_at < date
       date
     else
-      self.starts_at >= Date.today ? self.starts_at : nil
+      self.starts_at >= Date.today ? self.starts_at + 1 : nil
     end
   end
 
   def get_date(freq)
     case self.frequency_type
+    when "no"
+      Date.today + 1.day
     when "weekly"
       Date.parse(self.repeat) + (freq * 7).day
     when "monthly"
@@ -57,14 +60,23 @@ class ScheduledMessage < ApplicationRecord
   end
 
   def set_next_execution
+    if self.executed? && self.starts_at_changed? && self.starts_at >= Date.today
+      self.status = "active"
+      self.next_execution = next_date
+    end
     if self.active?
-      if self.finished_at < Date.today
+      if self.finished_at && self.finished_at < Date.today && self.last_execution.empty?
         self.next_execution = nil
-        self.status = "executed"
+        if self.last_execution
+          self.status = "executed"
+        elsif self.no?
+          SendSmsWorker.perform_async(self.id) if Log::Worker.where("name = 'SendSmsWorker' and finished_at is null and created_at = ? and content->'scheduled_message'->>'id' = ?", Date.today, self.id.to_s).empty?
+        end
         return
       end
-      if self.last_execution_changed?
-        self.execution = self.execution + 1
+    end
+    if self.active?
+      if self.starts_at_changed? || self.last_execution_changed? || self.frequency_type_changed? || self.frequency_changed? || self.repeat_changed?
         self.next_execution = next_date
         if !self.next_execution
           self.finished_at = Date.today

@@ -2,7 +2,7 @@ class SendSmsWorker
   include Sidekiq::Worker
 
   def perform(scheduled_message_id)
-    @log = Log::Worker.create(name: "SendSmsWorker")
+    @log = Log::Worker.create(name: "SendSmsWorker", content: { scheduled_message: @scheduled_message })
     @scheduled_message = ScheduledMessage.find_by(id: scheduled_message_id)
     @log_messages = { scheduled_message: @scheduled_message, success: [], errors: [] }
     if @scheduled_message
