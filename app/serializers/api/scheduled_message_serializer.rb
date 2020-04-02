@@ -5,6 +5,6 @@ class Api::ScheduledMessageSerializer < ActiveModel::Serializer
   has_one :created_by
 
   def created_by
-    object.created_by.as_json(only: [:id, :name])
+    object.created_by.as_json(only: [:id, :name, :status])
   end
 end

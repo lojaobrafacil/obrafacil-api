@@ -65,7 +65,7 @@ class ScheduledMessage < ApplicationRecord
       self.next_execution = next_date
     end
     if self.active?
-      if self.finished_at && self.finished_at < Date.today && self.last_execution.empty?
+      if self.finished_at && self.finished_at < Date.today && self.last_execution.to_s.empty?
         self.next_execution = nil
         if self.last_execution
           self.status = "executed"

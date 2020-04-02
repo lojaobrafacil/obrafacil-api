@@ -22,7 +22,6 @@ class Api::DashboardController < Api::BaseController
   end
 
   def all
-    @nts = @current_user.notifications.order(:viewed, created_at: :desc)
     response = {
       current_user: @current_user,
       states: State.all,
@@ -31,11 +30,7 @@ class Api::DashboardController < Api::BaseController
       phone_types: PhoneType.all,
       partner_groups: PartnerGroup.all,
       banks: Bank.all,
-      notifications: {
-        total: @nts.count,
-        unread: @nts.where(viewed: false).count,
-        content: @nts,
-      },
+      notifications: @current_user.notifications.order(:viewed, created_at: :desc).limit(100),
       units: Unit.all,
       suppliers: Supplier.all,
       companies: Company.all,
