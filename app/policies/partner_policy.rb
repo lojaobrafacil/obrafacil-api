@@ -43,7 +43,7 @@ class PartnerPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      ::Partner.all
+      ::Partner
     end
   end
 end

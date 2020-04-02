@@ -10,5 +10,7 @@ class Supplier < ApplicationRecord
   enum kind: [:physical, :legal]
   enum tax_regime: [:simple, :normal, :presumed]
   validates_presence_of :name
-  include Contact
+
+  def primary_email; emails.find_by(primary: true) || emails.first; end
+  def primary_phone; phones.find_by(primary: true) || phones.first; end
 end

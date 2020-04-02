@@ -3,12 +3,7 @@ class Api::NotificationsController < Api::BaseController
   before_action :set_notification, only: [:update]
 
   def index
-    @nts = @current_user.notifications.order(:viewed, created_at: :desc)
-    @notifications = {
-      total: @nts.count,
-      unread: @nts.where(viewed: false).count,
-      content: @nts,
-    }
+    @notifications = @current_user.notifications.order(:viewed, created_at: :desc)
     render json: @notifications, status: 200
   end
 

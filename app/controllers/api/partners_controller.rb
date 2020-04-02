@@ -4,22 +4,19 @@ class Api::PartnersController < Api::BaseController
 
   def index
     @partners = policy_scope ::Partner
-    begin
-      if @partners
-        @partners = @partners.where(status: params[:status]) if params[:status] && !params[:status].empty?
-        query = []
-        query << "id in (#{params[:ids]})" if params[:ids] && !params[:ids].empty? && params[:ids].chomp(",").match?(/^\d+(,\d+)*$/)
-        query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name] && !params[:name].empty?
-        query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration] && !params[:federal_registration].empty?
-        query << "partner_group_id= #{params[:partner_group_id]}" if params[:partner_group_id] && !params[:partner_group_id].empty?
-        @partners = params.empty? ? @partners : @partners.where(query.join(" and "))
-        paginate json: @partners.order(:name), status: 200, each_serializer: Api::PartnersSerializer
-      else
-        head 404
-      end
-    rescue => e
-      render json: { errors: e }, status: 404
+    filparams = filtered_params
+    if !filparams.empty?
+      query = []
+      query << "LOWER(searcher) ILIKE LOWER('%#{filparams[:searcher]}%')" if filparams[:searcher] && !filparams[:searcher].empty?
+      query << "status in (#{Partner.statuses.filter { |i, e| filparams[:status].split(",").include?(i) }.values.join(",")})" if filparams[:status] && !filparams[:status].empty? && filparams[:status].split(",").filter { |i| Partner.statuses.include?(i) }
+      query << "id in (#{filparams[:ids]})" if filparams[:ids] && !filparams[:ids].empty? && filparams[:ids].chomp(",").match?(/^\d+(,\d+)*$/)
+      query << "LOWER(name) LIKE LOWER('%#{filparams[:name]}%')" if filparams[:name] && !filparams[:name].empty?
+      query << "federal_registration LIKE '#{filparams[:federal_registration]}%'" if filparams[:federal_registration] && !filparams[:federal_registration].empty?
+      query << "partner_group_id= #{filparams[:partner_group_id]}" if filparams[:partner_group_id] && !filparams[:partner_group_id].empty?
+      query = query.join(" and ")
     end
+    @partners = filparams[:searcher] ? @partners.where(query).order("position(LOWER('#{filparams[:searcher]}') in lower(searcher)), id, name") : @partners.where(query).order(:name)
+    paginate json: @partners, status: 200, each_serializer: Api::PartnersSerializer
   end
 
   def show
@@ -63,15 +60,6 @@ class Api::PartnersController < Api::BaseController
       render json: { success: I18n.t("models.partner.response.reset_password.success") }, status: 200
     else
       render json: { errors: I18n.t("models.partner.response.reset_password.error") }, status: 422
-    end
-  end
-
-  def send_sms
-    if sms_params[:partner_ids].empty?
-      render json: { errors: I18n.t("models.partner.errors.sms.partner_ids") }, status: 404
-    else
-      SmsPartnersWorker.perform_async(partner_ids: sms_params[:partner_ids], status: params[:status])
-      render json: { success: I18n.t("models.partner.response.sms.success") }, status: 201
     end
   end
 
@@ -130,5 +118,9 @@ class Api::PartnersController < Api::BaseController
 
   def partner_image_params
     params.permit(:avatar, :image)
+  end
+
+  def filtered_params
+    params.permit(:searcher, :status, :ids, :name, :federal_registration, :partner_group_id)
   end
 end

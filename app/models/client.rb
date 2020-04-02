@@ -4,7 +4,6 @@ class Client < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable
   include DeviseTokenAuth::Concerns::User
-  include Contact
   belongs_to :billing_type, optional: true
   has_many :orders, dependent: :destroy
   has_many :phones, dependent: :destroy, as: :phonable

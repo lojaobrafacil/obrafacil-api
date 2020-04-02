@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_195949) do
+ActiveRecord::Schema.define(version: 2020_03_27_181452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -278,6 +278,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
     t.string "zipcode"
     t.string "complement"
     t.string "number"
+    t.string "city"
     t.bigint "city_id"
     t.boolean "change_coupon", default: false
     t.boolean "change_campain", default: false
@@ -285,6 +286,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
     t.boolean "change_bank", default: false
     t.boolean "change_carrier", default: false
     t.boolean "change_employee", default: false
+    t.boolean "change_scheduled_messages", default: false
     t.index ["city_id"], name: "index_employees_on_city_id"
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
@@ -299,15 +301,10 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
   end
 
   create_table "highlights", force: :cascade do |t|
-    t.string "title_1"
-    t.string "title_2"
-    t.text "content_1"
-    t.text "content_2"
-    t.text "content_3"
-    t.string "image_1"
-    t.string "image_2"
-    t.string "image_3"
-    t.string "link"
+    t.string "title"
+    t.string "subtitle"
+    t.text "metadata"
+    t.string "image"
     t.datetime "expires_at"
     t.datetime "starts_in"
     t.integer "status", default: 1
@@ -315,6 +312,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
     t.integer "position", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "link"
   end
 
   create_table "ibpts", force: :cascade do |t|
@@ -376,22 +374,13 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
     t.index ["target_id", "target_type"], name: "index_notifications_on_target_id_and_target_type"
   end
 
-  create_table "order_payments", force: :cascade do |t|
-    t.float "value"
-    t.bigint "order_id"
-    t.bigint "payment_method_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_order_payments_on_order_id"
-    t.index ["payment_method_id"], name: "index_order_payments_on_payment_method_id"
-  end
-
   create_table "orders", force: :cascade do |t|
-    t.string "type"
-    t.datetime "exclusion_at"
+    t.string "kind"
+    t.datetime "exclusion_date"
     t.text "description"
-    t.float "discount"
+    t.float "discont"
     t.float "freight"
+    t.datetime "billing_date"
     t.bigint "cashier_id"
     t.bigint "carrier_id"
     t.bigint "company_id"
@@ -399,26 +388,37 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
     t.datetime "updated_at", null: false
     t.bigint "employee_id"
     t.integer "selected_margin", limit: 2
-    t.integer "discount_type", limit: 2
-    t.integer "status", limit: 2
-    t.string "buyer_type"
-    t.integer "buyer_id"
-    t.bigint "partner_id"
-    t.bigint "order_id"
-    t.integer "billing_employee_id"
-    t.index ["buyer_type", "buyer_id"], name: "index_orders_on_buyer_type_and_buyer_id"
+    t.string "file"
+    t.bigint "client_id"
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
+    t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
     t.index ["employee_id"], name: "index_orders_on_employee_id"
-    t.index ["order_id"], name: "index_orders_on_order_id"
-    t.index ["partner_id"], name: "index_orders_on_partner_id"
   end
 
   create_table "partner_groups", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "partner_projects", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "environment", null: false
+    t.integer "status", default: 0, null: false
+    t.text "status_rmk"
+    t.text "content", null: false
+    t.string "products"
+    t.date "project_date", default: -> { "now()" }
+    t.string "city"
+    t.string "metadata"
+    t.json "images", default: [], array: true
+    t.bigint "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["metadata"], name: "index_partner_projects_on_metadata"
+    t.index ["partner_id"], name: "index_partner_projects_on_partner_id"
   end
 
   create_table "partners", force: :cascade do |t|
@@ -572,6 +572,25 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
     t.index ["employee_id"], name: "index_reports_on_employee_id"
   end
 
+  create_table "scheduled_messages", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "text", null: false
+    t.integer "status", default: 0
+    t.string "receiver_type", null: false
+    t.text "receiver_ids", default: [], array: true
+    t.date "starts_at", default: -> { "now()" }, null: false
+    t.date "finished_at"
+    t.date "last_execution"
+    t.date "next_execution"
+    t.integer "frequency", default: 1, null: false
+    t.integer "frequency_type", default: 0, null: false
+    t.string "repeat"
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_scheduled_messages_on_created_by_id"
+  end
+
   create_table "states", force: :cascade do |t|
     t.string "name"
     t.string "acronym"
@@ -666,13 +685,11 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
   add_foreign_key "image_products", "products"
   add_foreign_key "log_coupons", "coupons"
   add_foreign_key "log_premio_ideals", "partners"
-  add_foreign_key "order_payments", "orders"
-  add_foreign_key "order_payments", "payment_methods"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
+  add_foreign_key "orders", "clients"
   add_foreign_key "orders", "companies"
-  add_foreign_key "orders", "orders"
-  add_foreign_key "orders", "partners"
+  add_foreign_key "partner_projects", "partners"
   add_foreign_key "partners", "banks"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "pi_vouchers", "companies"
@@ -681,6 +698,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_195949) do
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
   add_foreign_key "reports", "employees"
+  add_foreign_key "scheduled_messages", "employees", column: "created_by_id"
   add_foreign_key "states", "regions"
   add_foreign_key "stocks", "companies"
   add_foreign_key "stocks", "products"

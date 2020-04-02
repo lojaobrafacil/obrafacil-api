@@ -3,7 +3,6 @@ class Partner < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
   include DeviseTokenAuth::Concerns::User
-  include Contact
   belongs_to :bank, optional: true
   belongs_to :partner_group, optional: true
   belongs_to :deleted_by, :class_name => "Employee", :foreign_key => "deleted_by_id", optional: true
@@ -13,6 +12,7 @@ class Partner < ApplicationRecord
   has_many :orders
   has_many :commissions, dependent: :destroy
   has_many :pi_vouchers
+  has_many :projects, class_name: :PartnerProject, dependent: :destroy
   has_many :phones, dependent: :destroy, as: :phonable
   has_many :addresses, dependent: :destroy, as: :addressable
   has_many :emails, dependent: :destroy, as: :emailable
@@ -41,7 +41,7 @@ class Partner < ApplicationRecord
   before_validation :validate_status
   before_validation :set_default_to_devise, if: Proc.new { |partner| partner.uid.to_s.empty? }
   before_validation :validate_on_update, on: :update
-  before_validation :default_values, if: Proc.new { |partner| partner.active? || partner.review? }
+  before_validation :default_values
   alias_attribute :vouchers, :pi_vouchers
   mount_uploader :avatar, PartnerAvatarUploader
   mount_uploader :project_image, PartnerImageUploader
@@ -137,15 +137,18 @@ class Partner < ApplicationRecord
 
   def update_notification
     Notification.where(notified_type: "Employee", target: self).update_all(viewed: true)
-    Pusher.trigger("employees", "refresh-notifications", {})
+    Pusher.trigger("employees", "refresh-notifications", { partner: self })
   end
 
   def default_values
-    self.name = self.name.to_s.strip.mb_chars.titleize.to_s if self.name_changed? || self.new_record? rescue nil
-    self.federal_registration = self.federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase if self.federal_registration_changed? || self.new_record? rescue nil
-    self.favored_federal_registration = self.favored_federal_registration.to_s.empty? ? self.federal_registration : self.favored_federal_registration
-    self.favored_federal_registration = self.favored_federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
-    self.state_registration = self.state_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+    if self.active? || self.review?
+      self.name = self.name.to_s.strip.mb_chars.titleize.to_s if self.name_changed? || self.new_record? rescue nil
+      self.federal_registration = self.federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase if self.federal_registration_changed? || self.new_record? rescue nil
+      self.favored_federal_registration = self.favored_federal_registration.to_s.empty? ? self.federal_registration : self.favored_federal_registration
+      self.favored_federal_registration = self.favored_federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+      self.state_registration = self.state_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+    end
+    self.searcher = "#{self.name} #{self.federal_registration === self.favored_federal_registration ? "#{self.federal_registration} #{self.favored_federal_registration}" : self.federal_registration} #{self.state_registration} #{self.status}"
   end
 
   def validate_status

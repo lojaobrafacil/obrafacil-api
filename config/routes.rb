@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "welcomes#index"
   require "sidekiq/web"
+  require "sidekiq-scheduler/web"
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username == "devuser" && password == "nopassword"
@@ -43,12 +44,12 @@ Rails.application.routes.draw do
     resources :partners do
       collection do
         put ":id/reset_password", to: "partners#reset_password"
-        post "send_sms/:status", to: "partners#send_sms", constraints: { status: /active|pre_active|transfer_points|points_expiration/ }
         get "by_federal_registration/:federal_registration", to: "partners#by_federal_registration"
         get "by_favored_federal_registration/:favored_federal_registration", to: "partners#by_favored_federal_registration"
       end
     end
     resources :partner_groups
+    resources :partner_projects
     resources :companies
     resources :suppliers
     resources :permissions
@@ -60,6 +61,11 @@ Rails.application.routes.draw do
     resources :ibpts
     resources :cfops
     resources :payment_methods
+    resources :scheduled_messages do
+      collection do
+        post ":id/run", to: "scheduled_messages#run"
+      end
+    end
     resources :cashiers
     resources :orders
     resources :vehicles
@@ -114,6 +120,7 @@ Rails.application.routes.draw do
     resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
+    resources :partner_projects
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     post "indication", to: "selfs#indication"
     get "web", to: "welcomes#web"
