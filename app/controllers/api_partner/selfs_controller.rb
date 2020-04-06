@@ -41,16 +41,16 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
 
   def indication
     @email = Email.find_by(email: indication_params[:email].strip.downcase)
-    if email.nil || @email&.partner.deleted?
+    if @email.nil? || @email&.partner.deleted?
       @partner = Partner.new({ name: indication_params[:partner_name],
                                site: indication_params[:site],
                                kind: 0,
                                status: "pre_active",
                                phones_attributes: [{ phone: indication_params[:phone], phone_type_id: 4, primary: true }],
                                emails_attributes: [{ email: indication_params[:email], email_type_id: 4, primary: true }],
-                               description: "Indicação do cliente: #{indication_params[:client_name]}" })
+                               description: "Indicação do cliente: #{indication_params[:client_name]} #{indication_params[:description] ? "| observaçoes do cliente: #{indication_params[:description]}" : ""}" })
       if @partner.save
-        EmployeeMailer.new_partner_indication(@partner).deliver_now rescue nil
+        # EmployeeMailer.new_partner_indication(@partner).deliver_now rescue nil
         PartnerMailer.new_indication(@partner, indication_params[:client_name]).deliver_now rescue nil
       end
     end
@@ -78,7 +78,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
   end
 
   def indication_params
-    params.permit(:client_name, :partner_name, :email, :phone, :site)
+    params.permit(:client_name, :partner_name, :email, :phone, :site, :description)
   end
 
   def user_password_params

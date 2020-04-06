@@ -119,6 +119,9 @@ pt-BR:
         name: Nome
         code: Código
         password: Senha
+        email: E-mail
+        federal_registration: "CPF"
+        state_registration: "RG"
         description: Descrição
         created_at: "Criado em"
         updated_at: "Atualizado em"

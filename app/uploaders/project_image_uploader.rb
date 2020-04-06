@@ -1,5 +1,5 @@
 class ProjectImageUploader < CarrierWave::Uploader::Base
-  include CarrierWave::RMagick
+  include CarrierWave::MiniMagick
 
   storage :aws
   process :resize_to_limit => [1024, 1024]
