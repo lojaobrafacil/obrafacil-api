@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Novo contato</h1>
+    Nome: <%= @contact[:name] rescue nil %> <br/>
+    Telefone: <%= @contact[:phone] rescue nil %> <br/>
+    Email: <%= @contact[:email] rescue nil %> <br/>
+    Assunto: <%= @contact[:subject] rescue nil %> <br/>
+    Message: <%= @contact[:message] rescue nil %> <br/>
+  </body>
+</html>

@@ -14,4 +14,13 @@ class EmployeeMailer < ApplicationMailer
       subject: "ObraFacil: Nova indicação!",
     )
   end
+
+  def new_contact(contact)
+    @contact = contact
+    mail(
+      reply_to: @contact[:email] ? @contact[:email] : nil,
+      to: "relacionamento@lojaobrafacil.com.br",
+      subject: "ObraFacil: Nova contato! #{@contact[:subject] ? "- #{@contact[:subject]}" : ""}",
+    )
+  end
 end

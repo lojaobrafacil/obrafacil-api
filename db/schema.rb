@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_124531) do
+ActiveRecord::Schema.define(version: 2020_03_27_181452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -288,6 +288,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_124531) do
     t.boolean "change_carrier", default: false
     t.boolean "change_employee", default: false
     t.bigint "company_id"
+    t.boolean "change_scheduled_messages", default: false
     t.index ["city_id"], name: "index_employees_on_city_id"
     t.index ["company_id"], name: "index_employees_on_company_id"
     t.index ["email"], name: "index_employees_on_email", unique: true
@@ -587,6 +588,25 @@ ActiveRecord::Schema.define(version: 2020_02_26_124531) do
     t.index ["employee_id"], name: "index_reports_on_employee_id"
   end
 
+  create_table "scheduled_messages", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "text", null: false
+    t.integer "status", default: 0
+    t.string "receiver_type", null: false
+    t.text "receiver_ids", default: [], array: true
+    t.date "starts_at", default: -> { "now()" }, null: false
+    t.date "finished_at"
+    t.date "last_execution"
+    t.date "next_execution"
+    t.integer "frequency", default: 1, null: false
+    t.integer "frequency_type", default: 0, null: false
+    t.string "repeat"
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_scheduled_messages_on_created_by_id"
+  end
+
   create_table "states", force: :cascade do |t|
     t.string "name"
     t.string "acronym"
@@ -697,6 +717,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_124531) do
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
   add_foreign_key "reports", "employees"
+  add_foreign_key "scheduled_messages", "employees", column: "created_by_id"
   add_foreign_key "states", "regions"
   add_foreign_key "stocks", "companies"
   add_foreign_key "stocks", "products"

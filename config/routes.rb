@@ -123,6 +123,7 @@ Rails.application.routes.draw do
     resources :partner_projects
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     post "indication", to: "selfs#indication"
+    post "contact", to: "base#contact"
     get "web", to: "welcomes#web"
     get "campains", to: "welcomes#campains"
     get "highlights", to: "welcomes#highlights"

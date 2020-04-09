@@ -73,7 +73,16 @@ class EmployeePreview < ActionMailer::Preview
                                                     region_id: Region.create(name: "test").id).id).id,
       }],
     )
-    ap @partner
     EmployeeMailer.new_partner(@partner)
+  end
+
+  def new_contact
+    EmployeeMailer.new_contact({
+      name: "Arthur Moura",
+      email: "arthurjm95@gmail.com",
+      subject: "Subject",
+      phone: "",
+      message: "Message Message Message Message.",
+    })
   end
 end
