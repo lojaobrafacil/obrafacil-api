@@ -4,6 +4,7 @@ class ScheduledMessage < ApplicationRecord
   enum status: [:inactive, :active, :executed, :canceled]
   validates_inclusion_of :repeat, in: ->(sm) { sm.allowed_repeats }, message: "%{value} is not included in the list"
   before_save :set_next_execution
+  before_validation :default_values
 
   def allowed_repeats
     case frequency_type
@@ -16,6 +17,11 @@ class ScheduledMessage < ApplicationRecord
     else
       [""]
     end
+  end
+
+  def default_values
+    self.frequency = self.frequency || 1
+    self.status = self.status || "active"
   end
 
   def next_date
