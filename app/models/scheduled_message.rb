@@ -33,7 +33,7 @@ class ScheduledMessage < ApplicationRecord
       return if self.finished_at && self.finished_at < date
       date
     else
-      self.starts_at >= Date.today ? self.starts_at + 1 : nil
+      self.starts_at && self.starts_at >= Date.today ? self.starts_at + 1 : nil
     end
   end
 
