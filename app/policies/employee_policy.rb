@@ -30,6 +30,7 @@ class EmployeePolicy < ApplicationPolicy
        :change_cashiers, :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution,
        :order_cost, :order_done, :order_price_reduce, :order_inactive, :order_creation, :limit_margin,
        :change_coupon, :change_campain, :change_highlight, :change_bank, :change_carrier, :change_employee,
+       :change_scheduled_messages,
        :commission_percent, :description, :street, :number, :complement, :neighborhood, :zipcode,
        :phone, :celphone, :city_id]
     else
