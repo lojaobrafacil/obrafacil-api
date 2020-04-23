@@ -102,7 +102,12 @@ Rails.application.routes.draw do
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
-    resources :notifications, only: [:index, :update]
+    resources :notifications, only: [:index, :update, :delete] do
+      collection do
+        put "all", to: "notifications#view_all"
+        delete "all", to: "notifications#delete_all"
+      end
+    end
     resources :dashboard, only: [:index] do
       collection do
         get "all", to: "dashboard#all"
