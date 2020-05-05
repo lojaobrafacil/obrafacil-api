@@ -424,16 +424,21 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
   end
 
   create_table "partner_projects", force: :cascade do |t|
-    t.string "name"
-    t.integer "environment"
-    t.text "description"
+    t.string "name", null: false
+    t.integer "environment", null: false
+    t.integer "status", default: 0, null: false
+    t.text "status_rmk"
+    t.text "content", null: false
     t.string "products"
-    t.date "project_date"
+    t.date "project_date", default: -> { "now()" }
     t.string "city"
     t.string "metadata"
     t.json "images", default: [], array: true
+    t.bigint "partner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["metadata"], name: "index_partner_projects_on_metadata"
+    t.index ["partner_id"], name: "index_partner_projects_on_partner_id"
   end
 
   create_table "partners", force: :cascade do |t|
@@ -709,6 +714,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
   add_foreign_key "orders", "companies"
   add_foreign_key "orders", "orders"
   add_foreign_key "orders", "partners"
+  add_foreign_key "partner_projects", "partners"
   add_foreign_key "partners", "banks"
   add_foreign_key "phones", "phone_types"
   add_foreign_key "pi_vouchers", "companies"

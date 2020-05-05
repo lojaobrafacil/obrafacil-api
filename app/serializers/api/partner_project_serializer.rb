@@ -7,6 +7,7 @@ class Api::PartnerProjectSerializer < ActiveModel::Serializer
     {
       id: object.partner.id,
       name: object.partner.name,
+      searcher: object.partner.searcher.titleize,
     } if object.partner
   end
 end

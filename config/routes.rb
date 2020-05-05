@@ -49,7 +49,13 @@ Rails.application.routes.draw do
       end
     end
     resources :partner_groups
-    resources :partner_projects
+    resources :partner_projects do
+      collection do
+        get ":id/images", to: "partner_projects#images"
+        put ":id/images", to: "partner_projects#images_position"
+      end
+    end
+    resources :project_images
     resources :companies
     resources :suppliers
     resources :permissions
