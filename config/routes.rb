@@ -131,6 +131,7 @@ Rails.application.routes.draw do
     resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
+    resources :partners, only: [:show]
     resources :partner_projects
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     post "indication", to: "selfs#indication"
