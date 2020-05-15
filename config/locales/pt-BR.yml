@@ -19,6 +19,9 @@ pt-BR:
         commission:
           required_year: "Necessario informar o ano"
     models:
+      address:
+        one: Endereço
+        other: Endereços
       api:
         one: Api
         other: Api's
@@ -135,6 +138,13 @@ pt-BR:
         phone_type: Tipo
         created_at: "Criado em"
         updated_at: "Atualizado em"
+      phones:
+        phone: Telefone
+        contact: Contato
+        primary: Principal
+        phone_type: Tipo
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
       email:
         email: Email
         contact: Contato
@@ -142,6 +152,25 @@ pt-BR:
         phone_type: Tipo
         created_at: "Criado em"
         updated_at: "Atualizado em"
+      emails:
+        email: Email
+        contact: Contato
+        primary: Principal
+        phone_type: Tipo
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      address:
+        street: Logradouro
+        neighborhood: Bairro
+        zipcode: CEP
+        complement: Complemento
+        description: Descrição
+      addresses:
+        street: Logradouro
+        neighborhood: Bairro
+        zipcode: CEP
+        complement: Complemento
+        description: Descrição
   date:
     abbr_day_names:
     - Dom
