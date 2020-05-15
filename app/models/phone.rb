@@ -1,7 +1,7 @@
 class Phone < ApplicationRecord
   belongs_to :phone_type
   belongs_to :phonable, polymorphic: true
-  validates :phone, format: { with: /\A\+\d{1,2}?\d{2}\d{4,5}\d{4}\z/, message: "can't be blank. format: +XXXXXXXXXXXXX" }
+  validates :phone, format: { with: /\A\+\d{1,2}?\d{2}\d{4,5}\d{4}\z/, message: "Não pode ficar em branco. Formato: +XXXXXXXXXXXXX" }
   validates_uniqueness_of :primary, scope: [:phonable_id, :phonable_type], message: I18n.t("models.errors.phone.attributes.primary"), if: Proc.new { |phone| phone.primary == true }
   before_validation :format_phone
 
@@ -20,7 +20,7 @@ class Phone < ApplicationRecord
 
   def format_phone
     if self.phone.nil?
-      errors.add(:phone, "can't be blank")
+      errors.add(:phone, "Não pode ficar em branco")
       abort
     end
 
