@@ -4,3 +4,4 @@ set :sidekiq_role, :app
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
 set :sidekiq_env, "production"
 set :rvm_ruby_version, "2.6.0"
+set :branch, "master"
