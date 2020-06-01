@@ -4,6 +4,7 @@ class Order < TemplateOrder
   belongs_to :cashier, optional: true
   belongs_to :partner, optional: true
   has_one :commission
+  has_one :delivery
   enum status: [:budget, :to_pay, :paid, :deleted]
   before_validation :state_machine_to_status
   before_validation :default_values

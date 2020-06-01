@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_181452) do
+ActiveRecord::Schema.define(version: 2020_06_01_123702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.bigint "state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "searcher"
     t.index ["state_id"], name: "index_cities_on_state_id"
   end
 
@@ -154,6 +155,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.integer "status"
     t.datetime "birthday"
     t.integer "limit_margin", default: 1
+    t.string "searcher"
     t.index ["billing_type_id"], name: "index_clients_on_billing_type_id"
     t.index ["confirmation_token"], name: "index_clients_on_confirmation_token", unique: true
     t.index ["email"], name: "index_clients_on_email", unique: true
@@ -210,6 +212,29 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.datetime "updated_at", null: false
     t.bigint "partner_id"
     t.index ["partner_id"], name: "index_coupons_on_partner_id"
+  end
+
+  create_table "deliveries", force: :cascade do |t|
+    t.bigint "order_id"
+    t.integer "external_order_id"
+    t.string "recipient", comment: "Client name for delivery."
+    t.integer "driver_id", comment: "Employee: Driver of delivery."
+    t.integer "checker_id", comment: "Employee: Checker of order."
+    t.string "phone"
+    t.string "email"
+    t.datetime "checked_at"
+    t.float "freight"
+    t.integer "status", comment: "Enumerate."
+    t.date "expected_delivery_in", comment: "Expected delivery date."
+    t.datetime "delivered_at"
+    t.datetime "left_delivery_at"
+    t.text "remark"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["checker_id"], name: "index_deliveries_on_checker_id"
+    t.index ["driver_id"], name: "index_deliveries_on_driver_id"
+    t.index ["external_order_id"], name: "index_deliveries_on_external_order_id"
+    t.index ["order_id"], name: "index_deliveries_on_order_id"
   end
 
   create_table "email_types", force: :cascade do |t|
@@ -286,8 +311,12 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.boolean "change_bank", default: false
     t.boolean "change_carrier", default: false
     t.boolean "change_employee", default: false
+    t.bigint "company_id"
     t.boolean "change_scheduled_messages", default: false
+    t.boolean "can_deliver", default: false
+    t.boolean "can_check_order", default: false
     t.index ["city_id"], name: "index_employees_on_city_id"
+    t.index ["company_id"], name: "index_employees_on_company_id"
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_employees_on_uid_and_provider", unique: true
@@ -374,13 +403,23 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.index ["target_id", "target_type"], name: "index_notifications_on_target_id_and_target_type"
   end
 
+  create_table "order_payments", force: :cascade do |t|
+    t.float "value"
+    t.bigint "order_id"
+    t.bigint "payment_method_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_payments_on_order_id"
+    t.index ["payment_method_id"], name: "index_order_payments_on_payment_method_id"
+  end
+
   create_table "orders", force: :cascade do |t|
-    t.string "kind"
-    t.datetime "exclusion_date"
+    t.string "type"
+    t.datetime "exclusion_at"
     t.text "description"
-    t.float "discont"
+    t.float "discount"
     t.float "freight"
-    t.datetime "billing_date"
+    t.datetime "billing_at"
     t.bigint "cashier_id"
     t.bigint "carrier_id"
     t.bigint "company_id"
@@ -388,13 +427,20 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.datetime "updated_at", null: false
     t.bigint "employee_id"
     t.integer "selected_margin", limit: 2
-    t.string "file"
-    t.bigint "client_id"
+    t.integer "discount_type", limit: 2
+    t.integer "status", limit: 2
+    t.string "buyer_type"
+    t.integer "buyer_id"
+    t.bigint "partner_id"
+    t.bigint "order_id"
+    t.integer "billing_employee_id"
+    t.index ["buyer_type", "buyer_id"], name: "index_orders_on_buyer_type_and_buyer_id"
     t.index ["carrier_id"], name: "index_orders_on_carrier_id"
     t.index ["cashier_id"], name: "index_orders_on_cashier_id"
-    t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["company_id"], name: "index_orders_on_company_id"
     t.index ["employee_id"], name: "index_orders_on_employee_id"
+    t.index ["order_id"], name: "index_orders_on_order_id"
+    t.index ["partner_id"], name: "index_orders_on_partner_id"
   end
 
   create_table "partner_groups", force: :cascade do |t|
@@ -413,7 +459,6 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.date "project_date", default: -> { "now()" }
     t.string "city"
     t.string "metadata"
-    t.json "images", default: [], array: true
     t.bigint "partner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -469,6 +514,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.string "instagram"
     t.string "avatar"
     t.text "aboutme"
+    t.string "searcher"
     t.index ["bank_id"], name: "index_partners_on_bank_id"
     t.index ["confirmation_token"], name: "index_partners_on_confirmation_token", unique: true
     t.index ["email"], name: "index_partners_on_email", unique: true
@@ -555,6 +601,15 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
+  end
+
+  create_table "project_images", force: :cascade do |t|
+    t.string "attachment"
+    t.bigint "partner_project_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_project_id"], name: "index_project_images_on_partner_project_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -680,15 +735,20 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
   add_foreign_key "clients", "billing_types"
   add_foreign_key "commissions", "partners"
   add_foreign_key "coupons", "partners"
+  add_foreign_key "deliveries", "orders"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "cities"
+  add_foreign_key "employees", "companies"
   add_foreign_key "image_products", "products"
   add_foreign_key "log_coupons", "coupons"
   add_foreign_key "log_premio_ideals", "partners"
+  add_foreign_key "order_payments", "orders"
+  add_foreign_key "order_payments", "payment_methods"
   add_foreign_key "orders", "carriers"
   add_foreign_key "orders", "cashiers"
-  add_foreign_key "orders", "clients"
   add_foreign_key "orders", "companies"
+  add_foreign_key "orders", "orders"
+  add_foreign_key "orders", "partners"
   add_foreign_key "partner_projects", "partners"
   add_foreign_key "partners", "banks"
   add_foreign_key "phones", "phone_types"
@@ -697,6 +757,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
   add_foreign_key "prices", "stocks"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
+  add_foreign_key "project_images", "partner_projects"
   add_foreign_key "reports", "employees"
   add_foreign_key "scheduled_messages", "employees", column: "created_by_id"
   add_foreign_key "states", "regions"

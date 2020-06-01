@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       end
     end
     resources :cities
+    resources :deliveries
     resources :regions
     resources :states
     resources :billing_types
