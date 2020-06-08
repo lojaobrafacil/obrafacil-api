@@ -1,8 +1,10 @@
 class Delivery < ApplicationRecord
   belongs_to :order, optional: true
+  belongs_to :city, optional: true
   belongs_to :driver, class_name: "Employee", foreign_key: "driver_id"
   belongs_to :checker, class_name: "Employee", foreign_key: "checker_id"
   before_validation :validate_phone
+  enum status: [:approved, :separated, :check, :nota_emitida, :"saiu para entrega", :"saiu para deposito", :"FINALIZADO"]
 
   def validate_phone
     if !self.phone.to_s.empty?

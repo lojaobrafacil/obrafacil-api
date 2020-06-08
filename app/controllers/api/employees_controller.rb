@@ -3,16 +3,18 @@ class Api::EmployeesController < Api::BaseController
 
   def index
     @employees = policy_scope Employee
-    if @employees&.empty? or @employees.nil?
-      render json: @employees, status: 200
-    else
-      @employees = if params[:name] && params[:federal_registration]
-                     @employees.where("LOWER(name) LIKE LOWER(?) and federal_registration LIKE ?", "%#{params[:name]}%", "#{params[:federal_registration]}%")
-                   else
-                     @employees.all
-                   end
-      paginate json: @employees.order(:id).as_json(only: [:id, :name, :federal_registration, :state_registration, :active, :description]), status: 200
+    filparams = filtered_params
+    if !filparams.empty?
+      query = []
+      query << "LOWER(searcher) ILIKE LOWER('%#{filparams[:searcher]}%')" if filparams[:searcher] && !filparams[:searcher].empty?
+      query << "id in (#{filparams[:ids]})" if filparams[:ids] && !filparams[:ids].empty? && filparams[:ids].chomp(",").match?(/^\d+(,\d+)*$/)
+      query << "LOWER(name) LIKE LOWER('%#{filparams[:name]}%')" if filparams[:name] && !filparams[:name].empty?
+      query << "federal_registration LIKE '#{filparams[:federal_registration]}%'" if filparams[:federal_registration] && !filparams[:federal_registration].empty?
+      filparams[:permissions].split(",").map { |permission| query << "#{permission} is TRUE" if Employee.column_names.include? permission } if filparams[:permissions] && !filparams[:permissions].empty?
+      query = query.join(" and ")
     end
+    @employees = filparams[:searcher] ? @employees.where(query).order("position(LOWER('#{filparams[:searcher]}') in lower(searcher)), id, name") : @employees.where(query).order(:name)
+    paginate json: @employees, status: 200, each_serializer: Api::SimpleEmployeeSerializer
   end
 
   def show
@@ -80,5 +82,9 @@ class Api::EmployeesController < Api::BaseController
 
   def employee_params
     params.permit(policy(Employee).permitted_attributes)
+  end
+
+  def filtered_params
+    params.permit(:searcher, :ids, :name, :federal_registration, :permissions)
   end
 end
