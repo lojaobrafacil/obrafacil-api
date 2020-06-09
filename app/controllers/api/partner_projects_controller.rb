@@ -1,6 +1,6 @@
 class Api::PartnerProjectsController < Api::BaseController
   before_action :authenticate_admin_or_api!
-  before_action :set_partner_project, only: [:show, :update, :destroy]
+  before_action :set_partner_project, only: [:show, :update, :destroy, :images, :image_position]
 
   def index
     @partner_projects = policy_scope PartnerProject
@@ -37,6 +37,20 @@ class Api::PartnerProjectsController < Api::BaseController
     end
   end
 
+  def images
+    authorize @partner_project
+    render json: @partner_project.images, status: 200
+  end
+
+  def image_position
+    authorize @partner_project
+    if @partner_project.update(images_params)
+      render json: @partner_project, status: 200
+    else
+      render json: { errors: @partner_project.errors.full_messages }, status: 422
+    end
+  end
+
   private
 
   def set_partner_project
@@ -46,5 +60,9 @@ class Api::PartnerProjectsController < Api::BaseController
 
   def partner_project_params
     params.permit(policy(PartnerProject).permitted_attributes)
+  end
+
+  def images_params
+    params.permit({ images: [:id, :position] })
   end
 end

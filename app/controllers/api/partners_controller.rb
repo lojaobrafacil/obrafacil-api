@@ -7,7 +7,7 @@ class Api::PartnersController < Api::BaseController
     filparams = filtered_params
     if !filparams.empty?
       query = []
-      query << "LOWER(searcher) ILIKE LOWER('%#{filparams[:searcher]}%')" if filparams[:searcher] && !filparams[:searcher].empty?
+      query << "LOWER(searcher) ILIKE LOWER('%#{filparams[:search]}%')" if filparams[:search] && !filparams[:search].empty?
       query << "status in (#{Partner.statuses.filter { |i, e| filparams[:status].split(",").include?(i) }.values.join(",")})" if filparams[:status] && !filparams[:status].empty? && filparams[:status].split(",").filter { |i| Partner.statuses.include?(i) }
       query << "id in (#{filparams[:ids]})" if filparams[:ids] && !filparams[:ids].empty? && filparams[:ids].chomp(",").match?(/^\d+(,\d+)*$/)
       query << "LOWER(name) LIKE LOWER('%#{filparams[:name]}%')" if filparams[:name] && !filparams[:name].empty?
@@ -15,7 +15,7 @@ class Api::PartnersController < Api::BaseController
       query << "partner_group_id= #{filparams[:partner_group_id]}" if filparams[:partner_group_id] && !filparams[:partner_group_id].empty?
       query = query.join(" and ")
     end
-    @partners = filparams[:searcher] ? @partners.where(query).order("position(LOWER('#{filparams[:searcher]}') in lower(searcher)), id, name") : @partners.where(query).order(:name)
+    @partners = filparams[:search] ? @partners.where(query).order("position(LOWER('#{filparams[:search]}') in lower(searcher)), id, name") : @partners.where(query).order(:name)
     paginate json: @partners, status: 200, each_serializer: Api::PartnersSerializer
   end
 
@@ -121,6 +121,6 @@ class Api::PartnersController < Api::BaseController
   end
 
   def filtered_params
-    params.permit(:searcher, :status, :ids, :name, :federal_registration, :partner_group_id)
+    params.permit(:search, :status, :ids, :name, :federal_registration, :partner_group_id)
   end
 end

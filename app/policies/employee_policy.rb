@@ -30,6 +30,7 @@ class EmployeePolicy < ApplicationPolicy
        :change_cashiers, :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution,
        :order_cost, :order_done, :order_price_reduce, :order_inactive, :order_creation, :limit_margin,
        :change_coupon, :change_campain, :change_highlight, :change_bank, :change_carrier, :change_employee,
+       :change_scheduled_messages,
        :commission_percent, :description, :street, :number, :complement, :neighborhood, :zipcode,
        :phone, :celphone, :city_id, :company_id]
     else
@@ -39,7 +40,7 @@ class EmployeePolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.admin?
+      if (user.is_a?(Api) && user.admin?) || (user.is_a?(Employee) && (user.admin? || user.change_employee?))
         scope.all.where.not(email: "admin@admin.com")
       else
         scope.where(id: user.id)

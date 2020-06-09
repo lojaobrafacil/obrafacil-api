@@ -2,7 +2,9 @@ class PartnerProject < ApplicationRecord
   validates_presence_of :name, :content, :environment
   belongs_to :partner, optional: false
   before_validation :default_values
-  mount_uploaders :images, ProjectImageUploader
+  has_many :project_images, dependent: :destroy
+  alias_attribute :images, :project_images
+  accepts_nested_attributes_for :project_images, allow_destroy: true
   enum environment: [:externo, :interno, :banheiro, :sala, :cozinha, :quarto, :suite, :varanda]
   enum status: [:em_analise, :aprovado, :reprovado]
 

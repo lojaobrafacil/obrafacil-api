@@ -20,6 +20,7 @@ class Api::ScheduledMessagesController < Api::BaseController
   def create
     @scheduled_message = ScheduledMessage.new(scheduled_message_params)
     if @scheduled_message.save
+      @scheduled_message.reload
       render json: @scheduled_message, status: 201
     else
       render json: { errors: @scheduled_message.errors.full_messages }, status: 422

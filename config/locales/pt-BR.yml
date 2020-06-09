@@ -19,6 +19,9 @@ pt-BR:
         commission:
           required_year: "Necessario informar o ano"
     models:
+      address:
+        one: Endereço
+        other: Endereços
       api:
         one: Api
         other: Api's
@@ -34,13 +37,16 @@ pt-BR:
       phone:
         one: Telefone
         outher: Telefones
+      email:
+        one: Email
+        outher: Emails
       commissions:
         one: Comissão
         outher: Comissões
     attributes:
       partner:
         name: Nome
-        email: E-mail
+        email: Email
         federal_registration: "CPF / CNPJ"
         favored_federal_registration: "CPF / CNPJ do favorecido"
         state_registration: "RG / Inscrição estadual"
@@ -119,6 +125,9 @@ pt-BR:
         name: Nome
         code: Código
         password: Senha
+        email: Email
+        federal_registration: "CPF"
+        state_registration: "RG"
         description: Descrição
         created_at: "Criado em"
         updated_at: "Atualizado em"
@@ -129,13 +138,39 @@ pt-BR:
         phone_type: Tipo
         created_at: "Criado em"
         updated_at: "Atualizado em"
-      email:
-        email: E-mail
+      phones:
+        phone: Telefone
         contact: Contato
         primary: Principal
         phone_type: Tipo
         created_at: "Criado em"
         updated_at: "Atualizado em"
+      email:
+        email: Email
+        contact: Contato
+        primary: Principal
+        phone_type: Tipo
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      emails:
+        email: Email
+        contact: Contato
+        primary: Principal
+        phone_type: Tipo
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      address:
+        street: Logradouro
+        neighborhood: Bairro
+        zipcode: CEP
+        complement: Complemento
+        description: Descrição
+      addresses:
+        street: Logradouro
+        neighborhood: Bairro
+        zipcode: CEP
+        complement: Complemento
+        description: Descrição
   date:
     abbr_day_names:
     - Dom
@@ -369,7 +404,7 @@ pt-BR:
     errors:
       email: 
         attributes: 
-          primary: "Deve haver apenas um E-mail principal"
+          primary: "Deve haver apenas um Email principal"
       phone: 
         attributes: 
           primary: "Deve haver apenas um telefone principal"
@@ -395,9 +430,9 @@ pt-BR:
           already_used: "Já foi usado"
       response:
         email:  
-          success: "E-mail enviado com sucesso"
-          not_send: "E-mail só pode ser usado para vouchers ativos"
-          error: "Erro ao enviar o e-mail"
+          success: "Email enviado com sucesso"
+          not_send: "Email só pode ser usado para vouchers ativos"
+          error: "Erro ao enviar o email"
         inactivate: 
           error: "Voucher não pode ser inativado, confirme se já não foi usado ou se está inativo"
         used: 

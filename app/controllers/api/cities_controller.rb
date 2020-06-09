@@ -3,8 +3,11 @@ class Api::CitiesController < Api::BaseController
 
   def index
     @cities = policy_scope City
-    @cities = params["state_id"] ? @cities.where("state_id = ?", params["state_id"]) : @cities.all
-    render json: @cities.order(:id).as_json(only: [:id, :name]), status: 200
+    query = []
+    query << "LOWER(searcher) ILIKE LOWER('%#{params[:search]}%')" if params[:search] && !params[:search].empty?
+    query << "state_id = '#{params[:state_id]}'" if params[:state_id] && !params[:state_id].empty?
+    @cities = @cities.where(query.join("and"))
+    render json: @cities.order(:id).as_json(only: [:id, :name, :searcher]), status: 200
   end
 
   def show
@@ -23,7 +26,7 @@ class Api::CitiesController < Api::BaseController
     if @city.save
       render json: @city, status: 201
     else
-      render json: {errors: @city.errors}, status: 422
+      render json: { errors: @city.errors }, status: 422
     end
   end
 
@@ -33,7 +36,7 @@ class Api::CitiesController < Api::BaseController
     if @city.update(city_params)
       render json: @city, status: 200
     else
-      render json: {errors: @city.errors}, status: 422
+      render json: { errors: @city.errors }, status: 422
     end
   end
 

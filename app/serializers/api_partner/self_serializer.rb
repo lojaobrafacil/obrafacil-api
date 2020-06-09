@@ -2,7 +2,7 @@ class ApiPartner::SelfSerializer < ActiveModel::Serializer
   attributes :id, :name, :federal_registration, :state_registration, :agency, :account,
              :favored, :favored_federal_registration, :bank_name, :register, :site,
              :addresses, :phones, :emails, :commissions, :money_pi, :points_pi,
-             :premio_ideal_rescue
+             :premio_ideal_rescue, :avatar
 
   has_one :coupon
 

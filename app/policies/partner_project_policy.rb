@@ -3,6 +3,14 @@ class PartnerProjectPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def images?
+    user.admin?
+  end
+
+  def image_position?
+    user.admin?
+  end
+
   def permitted_attributes
     if user.admin?
       [:name, :project_date, :content, :environment,

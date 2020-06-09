@@ -50,7 +50,13 @@ Rails.application.routes.draw do
       end
     end
     resources :partner_groups
-    resources :partner_projects
+    resources :partner_projects do
+      collection do
+        get ":id/images", to: "partner_projects#images"
+        put ":id/images", to: "partner_projects#images_position"
+      end
+    end
+    resources :project_images
     resources :companies
     resources :suppliers
     resources :permissions
@@ -103,7 +109,12 @@ Rails.application.routes.draw do
     get "allbanks", to: :allbanks, controller: "banks"
     delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
-    resources :notifications, only: [:index, :update]
+    resources :notifications, only: [:index, :update, :delete] do
+      collection do
+        put "all", to: "notifications#view_all"
+        delete "all", to: "notifications#delete_all"
+      end
+    end
     resources :dashboard, only: [:index] do
       collection do
         get "all", to: "dashboard#all"
@@ -121,9 +132,11 @@ Rails.application.routes.draw do
     resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
+    resources :partners, only: [:show]
     resources :partner_projects
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     post "indication", to: "selfs#indication"
+    post "contact", to: "base#contact"
     get "web", to: "welcomes#web"
     get "campains", to: "welcomes#campains"
     get "highlights", to: "welcomes#highlights"
