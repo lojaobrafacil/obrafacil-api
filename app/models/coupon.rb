@@ -21,7 +21,7 @@ class Coupon < ApplicationRecord
 
   def self.find_by_code(code, client_federal_registration = nil)
     begin
-      @coupon = Coupon.find_by(code: code)
+      @coupon = Coupon.find_by(code: code.downcase)
       @coupon.status = "inactive" if (@coupon.total_uses > 0 && @coupon.uses >= @coupon.total_uses) || @coupon.expired_at <= Time.now || @coupon.starts_at > Time.now
       if @coupon.status != "inactive" && client_federal_registration && @coupon.client_uses != 0
         num_of_use_by_client = @coupon.logs.where(client_federal_registration: client_federal_registration).count
