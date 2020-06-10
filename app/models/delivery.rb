@@ -6,6 +6,14 @@ class Delivery < ApplicationRecord
   before_validation :validate_phone
   enum status: [:approved, :separated, :check, :nota_emitida, :"saiu para entrega", :"saiu para deposito", :"FINALIZADO"]
 
+  scope :to_delivery, -> { today ? where(delivered_at: nil, expected_delivery_in: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day) : where(delivered_at: nil) }
+  scope :to_delivery_today, -> { where(expected_delivery_in: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day) }
+  scope :to_separate, -> { where(separated_at: nil) }
+  scope :to_check, -> { where(checked_at: nil) }
+  scope :this_month, -> { where(created_at: Time.now.beginning_of_month..Time.now.end_of_month) }
+  scope :deliver_this_month, -> { where(delivered_at: nil, expected_delivery_in: Time.now.beginning_of_month..Time.now.end_of_month) }
+  scope :delivered_this_month, -> { where(delivered_at: Time.now.beginning_of_month..Time.now.end_of_month) }
+
   def validate_phone
     if !self.phone.to_s.empty?
       number = self.phone.gsub(/[^0-9+]\s*/, "").gsub(/\+55\s*/, "")
