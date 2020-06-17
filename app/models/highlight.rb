@@ -3,6 +3,7 @@ class Highlight < ApplicationRecord
   enum status: [:inactive, :active]
   enum kind: [:normal, :campain, :winner, :event]
   mount_uploader :image, HighlightImageUploader
+  mount_uploader :secondaryImage, HighlightImageUploader
   before_save :validate_metadata
 
   def validate_metadata
