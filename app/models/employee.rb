@@ -10,10 +10,11 @@ class Employee < ApplicationRecord
   belongs_to :company, optional: true
   belongs_to :city, optional: true
   validates_presence_of :name, :federal_registration, :limit_margin
-  validates :admin, :change_partners, :change_clients, :change_cashiers, :order_creation,
-            :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution,
-            :order_cost, :order_done, :order_price_reduce,
-            :order_inactive, inclusion: { in: [true, false] }
+  validates :admin, :change_partners, :change_clients, :change_suppliers,
+            :change_cashiers, :generate_nfe, :import_xml, :change_products, :order_client, :order_devolution,
+            :order_cost, :order_done, :order_price_reduce, :order_inactive, :order_creation,
+            :change_coupon, :change_campain, :change_highlight, :change_bank, :change_carrier, :change_employee,
+            :change_scheduled_messages, :can_separate, :can_deliver, :can_check_order, inclusion: { in: [true, false], message: "%{value} deve ser TRUE ou FALSE" }
   validates_uniqueness_of :federal_registration, conditions: -> { where.not(active: false) }, case_sensitive: true
   before_save :default_values, if: Proc.new { |employee| employee.active? }
   # after_save :send_to_deca, if: Proc.new { |employee| employee.active? }
