@@ -134,6 +134,7 @@ Rails.application.routes.draw do
     resources :banks, only: [:index]
     resources :partners, only: [:show]
     resources :partner_projects
+    resources :events, only: [:show]
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     post "indication", to: "selfs#indication"
     post "contact", to: "base#contact"
