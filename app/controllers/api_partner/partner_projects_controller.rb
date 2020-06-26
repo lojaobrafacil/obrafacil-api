@@ -4,7 +4,7 @@ class ApiPartner::PartnerProjectsController < ApiPartner::BaseController
 
   def index
     @projects = PartnerProject.order(:project_date, :name, :id)
-    render json: @projects, status: 200, each_serializer: ApiPartner::PartnerProjectSerializer
+    render json: @projects, status: 200, each_serializer: ApiPartner::PartnerProjectsSerializer
   end
 
   def show
