@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_181452) do
+ActiveRecord::Schema.define(version: 2020_06_24_145807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.bigint "state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "searcher"
     t.index ["state_id"], name: "index_cities_on_state_id"
   end
 
@@ -316,6 +317,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link"
+    t.string "secondaryImage"
   end
 
   create_table "ibpts", force: :cascade do |t|
@@ -433,7 +435,6 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.date "project_date", default: -> { "now()" }
     t.string "city"
     t.string "metadata"
-    t.json "images", default: [], array: true
     t.bigint "partner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -576,6 +577,16 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
     t.index ["unit_id"], name: "index_products_on_unit_id"
+  end
+
+  create_table "project_images", force: :cascade do |t|
+    t.string "attachment"
+    t.bigint "partner_project_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "highlight", default: true
+    t.index ["partner_project_id"], name: "index_project_images_on_partner_project_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -722,6 +733,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_181452) do
   add_foreign_key "prices", "stocks"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "products", "units"
+  add_foreign_key "project_images", "partner_projects"
   add_foreign_key "reports", "employees"
   add_foreign_key "scheduled_messages", "employees", column: "created_by_id"
   add_foreign_key "states", "regions"

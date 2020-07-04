@@ -52,4 +52,15 @@ class PartnerMailer < ApplicationMailer
       reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
+
+  def client_needs_more_information(partner, client)
+    @partner = partner
+    @client = client
+    @partner_name = @partner.primary_email.contact
+    mail(
+      to: "#{@partner_name}<#{@partner.primary_email.email}>",
+      subject: "Obra Fácil Mais: #{client[:name]} quer falar com você!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
+    )
+  end
 end

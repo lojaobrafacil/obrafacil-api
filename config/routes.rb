@@ -131,7 +131,11 @@ Rails.application.routes.draw do
     resources :selfs, only: [:index, :create]
     resources :commissions, only: [:index]
     resources :banks, only: [:index]
-    resources :partners, only: [:show]
+    resources :partners, only: [:index, :show] do
+      collection do
+        post ":id/send_email", to: "partners#send_email"
+      end
+    end
     resources :partner_projects
     resources :events, only: [:show]
     get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }

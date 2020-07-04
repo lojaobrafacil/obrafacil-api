@@ -46,6 +46,14 @@ class Partner < ApplicationRecord
   mount_uploader :project_image, PartnerImageUploader
   scope :this_month, -> { where(created_at: Time.now.beginning_of_month..Time.now.end_of_month) }
 
+  def self.most_scored_month
+    Partner.joins(:commissions)
+      .select("partners.*, coalesce(sum(commissions.order_price), 0) as soma")
+      .where("commissions.created_at BETWEEN ? AND ? and avatar is not null", (Time.now - 6.month).beginning_of_month, Time.now.end_of_month)
+      .group("partners.id")
+      .order("soma desc")
+  end
+
   def primary_email; emails.find_by(primary: true) || emails.first; end
   def primary_phone; phones.find_by(primary: true) || phones.first; end
 
