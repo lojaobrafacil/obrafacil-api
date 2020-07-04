@@ -49,7 +49,7 @@ class Partner < ApplicationRecord
   def self.most_scored_month
     Partner.joins(:commissions)
       .select("partners.*, coalesce(sum(commissions.order_price), 0) as soma")
-      .where("commissions.created_at BETWEEN ? AND ? and avatar is not null", (Time.now - 6.month).beginning_of_month, Time.now.end_of_month)
+      .where("commissions.created_at BETWEEN ? AND ? and avatar is not null", Time.now.beginning_of_month, Time.now.end_of_month)
       .group("partners.id")
       .order("soma desc")
   end
