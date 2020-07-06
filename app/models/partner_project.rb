@@ -19,7 +19,7 @@ class PartnerProject < ApplicationRecord
 
   def generate_metadata(c = 1)
     if self.name_changed? || self.partner_id_changed? || self.new_record?
-      metadata = "#{partner_id}-#{self.name.gsub(" ", "_")}"
+      metadata = "#{partner_id}-#{self.name&.gsub(" ", "_")}"
       metadata = c === 1 ? metadata : "#{metadata}#{c}".downcase
       return generate_metadata(c + 1) if PartnerProject.find_by(metadata: metadata)
       self.metadata = metadata
