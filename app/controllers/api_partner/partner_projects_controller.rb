@@ -3,7 +3,7 @@ class ApiPartner::PartnerProjectsController < ApiPartner::BaseController
   before_action :find_project, only: [:update, :delete]
 
   def index
-    @projects = PartnerProject.order(:project_date, :name, :id)
+    @projects = PartnerProject.where(status: "aprovado").order(:project_date, :name, :id)
     render json: @projects, status: 200, each_serializer: ApiPartner::PartnerProjectsSerializer
   end
 
