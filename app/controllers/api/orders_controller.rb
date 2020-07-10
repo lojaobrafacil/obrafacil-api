@@ -4,8 +4,8 @@ class Api::OrdersController < Api::BaseController
   def index
     @orders = policy_scope Order
     @orders = @orders.where(id: params[:ids].split(",")) if !params[:ids].to_s.empty?
-    @orders = @orders.billing_data_range(params[:from].to_time.in_time_zone.beginning_of_day, params[:to].to_time.in_time_zone.end_of_day) if !params[:from].to_time.nil? && !params[:to].to_time.nil?
-    @orders = @orders.where(kind: params[:kind]) if !params[:kind].to_s.empty?
+    @orders = @orders.billing_at_range(params[:from].to_time.in_time_zone.beginning_of_day, params[:to].to_time.in_time_zone.end_of_day) if !params[:from]&.to_time.nil? && !params[:to]&.to_time.nil?
+    @orders = @orders.where(status: params[:status]) if !params[:status].to_s.empty?
     @orders = @orders.where(company_id: params[:company_id]) if !params[:company_id].to_s.empty?
 
     respond_with do |format|
@@ -23,29 +23,29 @@ class Api::OrdersController < Api::BaseController
     @order = Order.find_by(id: params[:id])
     if @order
       authorize @order
-      render json: @order, status: 200
+      render json: @order, status: 200, serializer: Api::OrderSerializer
     else
       head 404
     end
   end
 
   def create
-    @order = Order.new(order_params)
+    @order = Order.new(create_order_params)
     authorize @order
     if @order.save
       render json: @order, status: 201
     else
-      render json: { errors: @order.errors }, status: 422
+      render json: { errors: @order.errors.full_messages }, status: 422
     end
   end
 
   def update
     @order = Order.find(params[:id])
     authorize @order
-    if @order.update(order_params)
+    if @order.update(update_order_params)
       render json: @order, status: 200
     else
-      render json: { errors: @order.errors }, status: 422
+      render json: { errors: @order.errors.full_messages }, status: 422
     end
   end
 
@@ -58,7 +58,20 @@ class Api::OrdersController < Api::BaseController
 
   private
 
-  def order_params
-    params.permit(policy(Order).permitted_attributes)
+  def create_order_params
+    # params.permit(policy(Order).permitted_attributes)
+    params.permit(
+      [:description, :discount, :freight, :billing_at,
+       :file, :selected_margin, :employee_id,
+       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id]
+    )
+  end
+
+  def update_order_params
+    params.permit(
+      [:description, :discount, :freight, :billing_at,
+       :file, :selected_margin, :employee_id,
+       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id]
+    )
   end
 end

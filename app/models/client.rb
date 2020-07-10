@@ -56,6 +56,7 @@ class Client < ApplicationRecord
     self.name = self.name.to_s.strip.titleize if self.name_changed? || self.new_record? rescue nil
     self.federal_registration = self.federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase if self.federal_registration_changed? || self.new_record? rescue nil
     self.state_registration = self.state_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+    self.searcher = "#{self.id} #{self.name} #{self.federal_registration} #{self.state_registration} #{self.emails.map { |item| "#{item.email} " }.join}".strip
   end
 
   # to devise

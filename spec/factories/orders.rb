@@ -3,7 +3,7 @@ FactoryBot.define do
     kind { ["budget", "normal"].sample }
     exclusion_date { nil }
     description { Faker::Lorem.sentence }
-    discont { Faker::Number.decimal(l_digits: 2) }
+    discount { Faker::Number.decimal(l_digits: 2) }
     freight { Faker::Number.decimal(l_digits: 2) }
     billing_date { Faker::Date.backward(days: 10) }
     file { Faker::File.file_name(dir: "path/to") }

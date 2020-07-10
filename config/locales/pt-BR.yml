@@ -126,8 +126,35 @@ pt-BR:
         code: Código
         password: Senha
         email: Email
-        federal_registration: "CPF"
-        state_registration: "RG"
+        federal_registration: CPF
+        state_registration: RG
+        admin: Administrador
+        change_partners: Alterar parceiros
+        change_clients: Alterar clientes
+        change_suppliers: Alterar fornecedores
+        change_cashiers: Alterar caixa
+        generate_nfe: Gerar nota fiscal
+        import_xml: importar xml
+        change_products: Alterar produtos
+        order_client: Alterar cliente do pedido
+        order_devolution: Devolver pedido
+        order_cost: Pedido em preço de custo
+        order_done: Baixar pedido
+        order_price_reduce: Reduzir pedido
+        order_inactive: Inativar pedido
+        order_creation: Criar pedido
+        limit_margin: Tabela limite
+        change_coupon: Alterar cupom
+        change_campain: Alterar campanha
+        change_highlight: Alterar destaque
+        change_bank: Alterar banco
+        change_carrier: Alterar transportadora
+        change_employee: Alterar funcionario
+        change_scheduled_messages: Alterar mensagens programadas
+        can_separate: Pode separar pedido
+        can_deliver: Pode fazer entrega
+        can_check_order: Pode checar pedido
+        commission_percent: Percentual de comissão
         description: Descrição
         created_at: "Criado em"
         updated_at: "Atualizado em"
@@ -294,12 +321,12 @@ pt-BR:
       carrierwave_processing_error: Falhou em ser processado
       carrierwave_integrity_error: Não é um tipo de arquivo permitido
       carrierwave_download_error: Não pôde ser baixado
-      extension_whitelist_error: "Não é permitido o envio de arquivos %{extension}, tipos permitidos: %{allowed_types}"
-      extension_blacklist_error: "Não é permitido o envio de arquivos %{extension}, tipos proibidos: %{prohibited_types}"
+      extension_whitelist_error: "Não é permitido o envio de arquivos %{extension}: tipos permitidos: %{allowed_types}"
+      extension_blacklist_error: "Não é permitido o envio de arquivos %{extension}: tipos proibidos: %{prohibited_types}"
       content_type_whitelist_error: "Não é permitido o envio de arquivos %{content_type}"
       content_type_blacklist_error: "Não é permitido o envio de arquivos %{content_type}"
-      rmagick_processing_error: "Falha ao manipular com RMagick, talvez arquivo não seja uma imagem?"
-      mini_magick_processing_error: "Falha ao manipular com MiniMagick, talvez arquivo não seja uma imagem? Erro original: %{e}"
+      rmagick_processing_error: "Falha ao manipular com RMagick: talvez arquivo não seja uma imagem?"
+      mini_magick_processing_error: "Falha ao manipular com MiniMagick: talvez arquivo não seja uma imagem? Erro original: %{e}"
       min_size_error: "O tamanho do arquivo deve ser maior do que %{min_size}"
       max_size_error: "O tamanho do arquivo deve ser inferior a %{max_size}"
       present: deve ficar em branco
@@ -316,7 +343,7 @@ pt-BR:
         other: não possui o tamanho esperado (%{count} caracteres)
         
     template:
-      body: 'Por favor, verifique o(s) seguinte(s) campo(s):'
+      body: 'Por favor: verifique o(s) seguinte(s) campo(s):'
       header:
         one: 'Não foi possível gravar %{model}: 1 erro'
         other: 'Não foi possível gravar %{model}: %{count} erros'
@@ -389,13 +416,13 @@ pt-BR:
     array:
       last_word_connector: " e "
       two_words_connector: " e "
-      words_connector: ", "
+      words_connector: ": "
   time:
     am: ''
     formats:
-      default: "%a, %d de %B de %Y, %H:%M:%S %z"
-      long: "%d de %B de %Y, %H:%M"
-      short: "%d de %B, %H:%M"
+      default: "%a: %d de %B de %Y: %H:%M:%S %z"
+      long: "%d de %B de %Y: %H:%M"
+      short: "%d de %B: %H:%M"
     pm: ''
   pundit:
     errors: 
@@ -434,11 +461,11 @@ pt-BR:
           not_send: "Email só pode ser usado para vouchers ativos"
           error: "Erro ao enviar o email"
         inactivate: 
-          error: "Voucher não pode ser inativado, confirme se já não foi usado ou se está inativo"
+          error: "Voucher não pode ser inativado: confirme se já não foi usado ou se está inativo"
         used: 
-          error: "Voucher não pode ser usado, confirme se já não foi usado ou se está inativo"
+          error: "Voucher não pode ser usado: confirme se já não foi usado ou se está inativo"
         received: 
-          error: "Voucher não pode ser recebido, confirme se já não foi recebido ou se está inativo"
+          error: "Voucher não pode ser recebido: confirme se já não foi recebido ou se está inativo"
     commission:
       response:
         create_many:

@@ -18,6 +18,15 @@ class Api::DashboardController < Api::BaseController
         partners_this_month: Partner.this_month.count,
       })
     end
+    if @current_api_employee.admin || @current_api_employee.can_separate || @current_api_employee.can_deliver || @current_api_employee.can_check_order
+      response.merge!({
+        deliveries: Delivery.count,
+        deliveries_this_month: Delivery.this_month.count,
+        deliveries_deliver: Delivery.deliver_this_month.count,
+        deliveries_to_deliver: Delivery.to_delivery_today,
+        deliveries_delivered: Delivery.delivered_this_month.count,
+      })
+    end
     render json: response, status: 200
   end
 

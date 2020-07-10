@@ -8,11 +8,10 @@ class Api::ClientsController < Api::BaseController
     begin
       if @clients
         @clients = @clients.where(status: params[:status]) if params[:status] && !params[:status].empty?
-        query = []
-        query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name] && !params[:name].empty?
-        query << "federal_registration LIKE '#{params[:federal_registration]}%'" if params[:federal_registration] && !params[:federal_registration].empty?
-        @clients = params.empty? ? @clients : @clients.where(query.join(" and "))
-        paginate json: @clients.order(:id), status: 200, each_serializer: Api::ClientsSerializer
+        if params[:searcher]
+          @clients = @clients.where("lower(searcher) ilike any('{#{params[:searcher].split.map { |item| "%#{item}%" }.join(",")}}') ")
+        end
+        paginate json: @clients.order(:id, :searcher), status: 200, each_serializer: Api::ClientsSerializer
       else
         head 404
       end

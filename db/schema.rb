@@ -214,6 +214,42 @@ ActiveRecord::Schema.define(version: 2020_06_24_145807) do
     t.index ["partner_id"], name: "index_coupons_on_partner_id"
   end
 
+  create_table "deliveries", force: :cascade do |t|
+    t.bigint "order_id"
+    t.integer "external_order_id"
+    t.string "recipient", comment: "Client name for delivery."
+    t.string "delivered_to", comment: "field intended for the recipient."
+    t.integer "separator_id", comment: "Employee: Separator of delivery."
+    t.integer "driver_id", comment: "Employee: Driver of delivery."
+    t.integer "checker_id", comment: "Employee: Checker of order."
+    t.bigint "company_id"
+    t.string "phone"
+    t.string "email"
+    t.string "street"
+    t.string "zipcode"
+    t.string "complement"
+    t.string "neighborhood"
+    t.string "street_number"
+    t.bigint "city_id"
+    t.datetime "checked_at"
+    t.float "freight"
+    t.integer "status", comment: "Enumerate."
+    t.date "expected_delivery_in", comment: "Expected delivery date."
+    t.datetime "delivered_at"
+    t.datetime "left_delivery_at"
+    t.datetime "separated_at"
+    t.text "remark"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["checker_id"], name: "index_deliveries_on_checker_id"
+    t.index ["city_id"], name: "index_deliveries_on_city_id"
+    t.index ["company_id"], name: "index_deliveries_on_company_id"
+    t.index ["driver_id"], name: "index_deliveries_on_driver_id"
+    t.index ["external_order_id"], name: "index_deliveries_on_external_order_id"
+    t.index ["order_id"], name: "index_deliveries_on_order_id"
+    t.index ["separator_id"], name: "index_deliveries_on_separator_id"
+  end
+
   create_table "email_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -290,6 +326,9 @@ ActiveRecord::Schema.define(version: 2020_06_24_145807) do
     t.boolean "change_employee", default: false
     t.bigint "company_id"
     t.boolean "change_scheduled_messages", default: false
+    t.boolean "can_separate", default: false
+    t.boolean "can_deliver", default: false
+    t.boolean "can_check_order", default: false
     t.index ["city_id"], name: "index_employees_on_city_id"
     t.index ["company_id"], name: "index_employees_on_company_id"
     t.index ["email"], name: "index_employees_on_email", unique: true
@@ -712,6 +751,9 @@ ActiveRecord::Schema.define(version: 2020_06_24_145807) do
   add_foreign_key "clients", "billing_types"
   add_foreign_key "commissions", "partners"
   add_foreign_key "coupons", "partners"
+  add_foreign_key "deliveries", "cities"
+  add_foreign_key "deliveries", "companies"
+  add_foreign_key "deliveries", "orders"
   add_foreign_key "emails", "email_types"
   add_foreign_key "employees", "cities"
   add_foreign_key "employees", "companies"
