@@ -6,13 +6,10 @@ class ApiPartner::WelcomesController < ApplicationController
     @welcomes = {
       highlights: {
         normal: highlight_normal,
-        winner: highlight_winner,
+        winner: highlight_winner, # DEPRECATION
       },
+      partners: Partner.most_scored_month.limit(4),
       events: (Highlight.where(status: "active").where(kind: "event").order("position DESC NULLS LAST, created_at DESC").limit(4).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil),
-      campain_images: ["https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-1.png",
-                       "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-2.png",
-                       "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-3.png",
-                       "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/campanhas/pmd-4.png"],
       videos: [
         { text: "Arquiteta Carol Ferreira", url: "https://www.youtube.com/embed/wd7kbxniqJo" },
         { text: "Boutique arquitetura", url: "https://www.youtube.com//embed/XXbk4RNLews" },
