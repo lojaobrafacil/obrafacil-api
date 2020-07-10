@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_01_123702) do
+ActiveRecord::Schema.define(version: 2020_06_24_145807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -356,6 +356,7 @@ ActiveRecord::Schema.define(version: 2020_06_01_123702) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link"
+    t.string "secondaryImage"
   end
 
   create_table "ibpts", force: :cascade do |t|
@@ -623,6 +624,7 @@ ActiveRecord::Schema.define(version: 2020_06_01_123702) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "highlight", default: true
     t.index ["partner_project_id"], name: "index_project_images_on_partner_project_id"
   end
 

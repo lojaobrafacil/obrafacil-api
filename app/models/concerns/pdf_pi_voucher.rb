@@ -15,7 +15,7 @@ class PdfPiVoucher < Prawn::Document
 
   def render
     pdf = Prawn::Document.new(PDF_OPTIONS) do |pdf|
-      pdf.image open("https://s3-sa-east-1.amazonaws.com/hubcoapp-images/logo.jpg"), width: 100, :at => [380, 90]
+      pdf.image open("https://s3-sa-east-1.amazonaws.com/hubcoapp-images/obrafacil-logo.png"), width: 100, :at => [380, 90]
       pdf.move_down 30
 
       pdf.fill_color "225599"

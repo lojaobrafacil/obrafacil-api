@@ -44,4 +44,15 @@ RSpec.describe PartnerMailer, type: :mailer do
       expect(email.subject).to eq("Obra Fácil Mais: Esqueceu sua senha!")
     end
   end
+
+  describe "client_needs_more_information" do
+    let(:email) { PartnerMailer.client_needs_more_information(@partner) }
+    let(:client) { { name: "Arthur" } }
+
+    it "renders the headers" do
+      expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
+      expect(email.to).to eq(["#{@partner.primary_email.contact}<#{@partner.primary_email.email}>"])
+      expect(email.subject).to eq("Obra Fácil Mais: #{client.name} quer falar com você!")
+    end
+  end
 end
