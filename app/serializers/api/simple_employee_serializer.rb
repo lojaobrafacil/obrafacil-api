@@ -1,5 +1,5 @@
 class Api::SimpleEmployeeSerializer < ActiveModel::Serializer
-  attributes :id, :name, :email, :phone, :celphone
+  attributes :id, :name, :email, :phone, :celphone, :active
 
   def phone
     object.formatted_phone
