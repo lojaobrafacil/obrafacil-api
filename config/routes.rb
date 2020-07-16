@@ -96,6 +96,7 @@ Rails.application.routes.draw do
       collection do
         get "by_status/:status", to: "pi_vouchers#by_status", constraints: { status: /not_used|used_not_received|used_received/ }
         post ":id/send_email", to: "pi_vouchers#send_email"
+        put ":id", to: "pi_vouchers#update"
         put ":id/:status", to: "pi_vouchers#update", constraints: { status: /use|inactivate|received/ }
       end
     end
