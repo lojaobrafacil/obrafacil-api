@@ -47,11 +47,10 @@ class Partner < ApplicationRecord
   scope :this_month, -> { where(created_at: Time.now.beginning_of_month..Time.now.end_of_month) }
 
   def self.most_scored_month
-    now = Time.now
-    start = now.day < 25 ? now.change(day: 26, month: now.month - 1) : now.change(day: 26)
+    start = Time.now.change(month: Time.now.month - 1)
     Partner.joins(:commissions)
       .select("partners.*, coalesce(sum(commissions.order_price), 0) as soma")
-      .where("commissions.created_at BETWEEN ? AND ? and avatar is not null", start.beginning_of_day, Time.now.end_of_month)
+      .where("commissions.created_at BETWEEN ? AND ? and avatar is not null", start.beginning_of_month, Time.now.end_of_month)
       .group("partners.id")
       .order("soma desc")
   end

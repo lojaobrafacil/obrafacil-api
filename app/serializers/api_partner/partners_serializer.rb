@@ -1,6 +1,6 @@
 class ApiPartner::PartnersSerializer < ActiveModel::Serializer
   attributes :id, :name, :register, :site, :address, :phone,
-             :email, :avatar, :projects
+             :email, :avatar, :projects, :aboutme
 
   def phone
     ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::PhoneSerializer.new(object.primary_phone)).serializable_hash
@@ -15,6 +15,6 @@ class ApiPartner::PartnersSerializer < ActiveModel::Serializer
   end
 
   def address
-    ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::AddressSerializer.new(object.addresses.first)).serializable_hash
+    ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::AddressSerializer.new(object.addresses.first)).serializable_hash if !object.addresses.empty?
   end
 end
