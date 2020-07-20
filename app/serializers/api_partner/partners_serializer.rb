@@ -1,6 +1,6 @@
 class ApiPartner::PartnersSerializer < ActiveModel::Serializer
   attributes :id, :name, :register, :site, :address, :phone,
-             :email, :avatar, :projects, :aboutme
+             :email, :avatar, :projects, :aboutme, :instagram
 
   def phone
     ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::PhoneSerializer.new(object.primary_phone)).serializable_hash
