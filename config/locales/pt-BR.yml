@@ -171,6 +171,18 @@ pt-BR:
         zipcode: CEP
         complement: Complemento
         description: Descrição
+      partner_project:
+        name: Nome
+        partner_id: Parceiro
+        partner: Parceiro
+        city_id: Cidade
+        city: Cidade
+        environment: Ambiente
+        status_rmk: observaçōes do status
+        content: Conteúdo
+        products: Produtos
+        project_date: Data do projeto
+        images: Imagens
   date:
     abbr_day_names:
     - Dom
