@@ -28,8 +28,9 @@ class PartnerMailer < ApplicationMailer
     )
   end
 
-  def first_access(partner)
+  def first_access(partner, pass)
     @partner = partner
+    @password = pass
     @first_name = @partner.name.split.first
     @last_name = @partner.name.split.last
     @partner_name = "#{@first_name} #{@last_name}" rescue @partner.name

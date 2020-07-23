@@ -68,7 +68,8 @@ class Partner < ApplicationRecord
         self.coupon
       end
       if self.confirmation_sent_at.nil?
-        PartnerMailer.first_access(self).deliver_now if !self.primary_email.nil? && !self.coupon.nil? && self.update(confirmation_sent_at: Time.now)
+        pass = SecureRandom.alphanumeric(10)
+        PartnerMailer.first_access(self, pass).deliver_now if !self.primary_email.nil? && !self.coupon.nil? && self.update(confirmation_sent_at: Time.now, password: pass)
       end
     else
       self.coupon.update(status: 0) if !self.coupon.nil?
@@ -184,7 +185,7 @@ class Partner < ApplicationRecord
   # to devise
   def set_default_to_devise
     self.uid = SecureRandom.uuid
-    self.password = self.password_confirmation = "obrafacil2018"
+    self.password = self.password_confirmation = SecureRandom.alphanumeric(10)
   end
 
   def devise_attributes_changed?

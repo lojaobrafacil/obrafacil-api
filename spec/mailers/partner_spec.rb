@@ -26,7 +26,7 @@ RSpec.describe PartnerMailer, type: :mailer do
   end
 
   describe "first_access" do
-    let(:email) { PartnerMailer.first_access(@partner) }
+    let(:email) { PartnerMailer.first_access(@partner, SecureRandom.alphanumeric(10)) }
 
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
