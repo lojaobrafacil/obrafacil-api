@@ -36,7 +36,7 @@ RSpec.describe PartnerMailer, type: :mailer do
   end
 
   describe "forgot_password_instruction" do
-    let(:email) { PartnerMailer.forgot_password_instruction(@partner) }
+    let(:email) { PartnerMailer.forgot_password_instruction(@partner, SecureRandom.alphanumeric(10)) }
 
     it "renders the headers" do
       expect(email.from).to eq(["naoresponda@lojaobrafacil.com.br"])
