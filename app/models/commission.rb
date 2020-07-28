@@ -11,6 +11,6 @@ class Commission < ApplicationRecord
     while [0, 6].include?(time.wday)
       time = time + 1.day
     end
-    self.sent_date = time
+    self.sent_date = time + 12.hour
   end
 end
