@@ -7,7 +7,7 @@ class Partner < ApplicationRecord
   belongs_to :partner_group, optional: true
   belongs_to :deleted_by, :class_name => "Employee", :foreign_key => "deleted_by_id", optional: true
   belongs_to :created_by, :class_name => "Employee", :foreign_key => "created_by_id", optional: true
-  has_one :coupon, dependent: :destroy
+  has_many :coupons, dependent: :destroy
   has_many :log_premio_ideals, class_name: "Log::PremioIdeal", dependent: :destroy
   has_many :commissions, dependent: :destroy
   has_many :pi_vouchers
@@ -46,6 +46,10 @@ class Partner < ApplicationRecord
   mount_uploader :project_image, PartnerImageUploader
   scope :this_month, -> { where(created_at: Time.now.beginning_of_month..Time.now.end_of_month) }
 
+  def coupon
+    coupons.order(:created_at).first
+  end
+
   def self.most_scored_month
     start = Commission.where("created_at > ?", Time.now.beginning_of_month).count > 0 ? Time.now : Time.now.change(month: Time.now.month - 1)
     Partner.joins(:commissions)
@@ -62,8 +66,8 @@ class Partner < ApplicationRecord
 
   def create_coupon
     if self.active?
-      if self.coupon.nil?
-        self.build_coupon(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 0, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year).save
+      if self.coupons.empty?
+        self.coupons.create(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 0, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year).save
       else
         self.coupon
       end
