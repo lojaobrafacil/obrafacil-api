@@ -67,7 +67,7 @@ class Partner < ApplicationRecord
   def create_coupon
     if self.active?
       if self.coupons.empty?
-        self.coupons.create(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 0, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year).save
+        self.coupons.create(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 0, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year)
       else
         self.coupon
       end
