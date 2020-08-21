@@ -144,8 +144,9 @@ Rails.application.routes.draw do
     post "contact", to: "base#contact"
     get "web", to: "welcomes#web"
     get "campains", to: "welcomes#campains"
-    get "highlights", to: "welcomes#highlights"
-    get "highlights/:kind", to: "welcomes#highlights", constraints: { kind: /normal|winner|event/ }
+    get "highlights", to: "highlights#index"
+    get "highlights/:kind", to: "highlights#index", constraints: { kind: /normal|winner|event/ }
+    get "highlights/:id", to: "highlights#show"
     get "winners", to: "welcomes#winners"
     get "winners/:year", to: "welcomes#winners", constraints: { kind: /[0-9|]+/ }
     get "all", to: "welcomes#all"

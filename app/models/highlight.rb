@@ -1,4 +1,6 @@
 class Highlight < ApplicationRecord
+  has_many :images, dependent: :destroy, as: :imageable
+  accepts_nested_attributes_for :images, allow_destroy: true
   validates_presence_of :title
   enum status: [:inactive, :active]
   enum kind: [:normal, :campain, :winner, :event]

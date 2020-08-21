@@ -1,29 +1,50 @@
 class Api::ImagesController < Api::BaseController
   before_action :authenticate_admin_or_api!
-  before_action :set_product, only: [:create]
+  before_action :set_image, only: [:show, :update, :destroy, :images]
+
+  def index
+    @images = policy_scope Image
+    paginate json: @images.order(:position), status: 200
+  end
+
+  def show
+    return render json: @image, status: 200
+  end
 
   def create
-    response = []
-    images_params[:images].each do |image|
-      image = @product.image_products.build(attachment: image)
-      image.save ? response << image : response << image.errors
+    @image = Image.new(image_params)
+    if @image.save
+      render json: @image, status: 201
+    else
+      render json: { errors: @image.errors.full_messages }, status: 422
     end
+  end
 
-    render json: {response: response}, status: 200
+  def update
+    if @image.update(image_params)
+      render json: @image, status: 200
+    else
+      render json: { errors: @image.errors.full_messages }, status: 422
+    end
   end
 
   def destroy
-    ImageProduct.find(params[:id]).destroy
-    head 204
+    authorize @image
+    if @image.destroy
+      render json: { success: "Sucesso" }, status: 200
+    else
+      render json: { errors: @image.errors.full_messages }, status: 422
+    end
   end
 
   private
 
-  def set_product
-    @product = Product.find(images_params[:product_id])
+  def set_image
+    @image = Image.find_by(id: params[:id])
+    head 404 unless @image
   end
 
-  def images_params
-    params.permit(policy(:image).permitted_attributes) # allow nested params as array
+  def image_params
+    params.permit(:imageable_id, :imageable_type, :attachment, :remote_attachment_url)
   end
 end
