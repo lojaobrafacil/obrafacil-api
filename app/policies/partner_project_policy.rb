@@ -1,14 +1,38 @@
 class PartnerProjectPolicy < ApplicationPolicy
   def show?
-    user.admin?
+    if user&.is_a?(Api)
+      user&.admin?
+    else
+      user&.change_partners || user&.admin?
+    end
+  end
+
+  def index?
+    true
+  end
+
+  def create?
+    show?
+  end
+
+  def reset?
+    show?
+  end
+
+  def destroy?
+    show?
+  end
+
+  def reset_password?
+    show?
   end
 
   def images?
-    user.admin?
+    show?
   end
 
   def image_position?
-    user.admin?
+    show?
   end
 
   def permitted_attributes
