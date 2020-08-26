@@ -36,7 +36,7 @@ class PartnerProjectPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user.admin?
+    if show?
       [:name, :project_date, :content, :environment,
        :products, :city, :partner_id, :status, :status_rmk,
        { images: [] }]
