@@ -2,10 +2,9 @@ class ApiPartner::WelcomesController < ApplicationController
   def web
     videos = JSON.parse(Net::HTTP.get(URI.parse("https://www.googleapis.com/youtube/v3/search?key=AIzaSyBLg6UmJ93T7Bt7JphKiSQUb8IaXurUBeI&channelId=UC-YzYZyjTNNWnWzXHecA8mg&part=id&order=date&maxResults=3"))).symbolize_keys
     highlight_normal = (Highlight.where("(expires_at is null or expires_at > '#{Time.now}') and status = 1").order("position DESC NULLS LAST, expires_at").limit(3).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil)
-    # highlight_winner = (Highlight.where(status: "active", kind: "winner").order("position DESC NULLS LAST, created_at DESC").limit(4).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil)
     @welcomes = {
       highlights: highlights,
-      partners: ::Partner.most_scored_month.limit(4).as_json(only: [:id, :name, :avatar]),
+      partners: ::Partner.most_scored_month(Time.now.month - 1).limit(4).as_json(only: [:id, :name, :avatar]),
       events: (Highlight.where(status: "active").where(kind: "event").order("position DESC NULLS LAST, created_at DESC").limit(4).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil),
       videos: [
         { text: "Arquiteta Carol Ferreira", url: "https://www.youtube.com/embed/wd7kbxniqJo" },
