@@ -54,7 +54,7 @@ class Partner < ApplicationRecord
     start = Commission.where("created_at > ?", Time.now.beginning_of_month).count > 0 ? Time.now : Time.now.change(month: Time.now.month - 1)
     Partner.joins(:commissions)
       .select("partners.*, coalesce(sum(commissions.order_price), 0) as soma")
-      .where("commissions.created_at BETWEEN ? AND ? and avatar is not null", start.beginning_of_month, Time.now.end_of_month)
+      .where("extract(year from commissions.order_date) = ? and (extract(month from commissions.order_date) = ? or extract(month from commissions.order_date) = ?) and avatar is not null", start.year, start.month, Time.now.month)
       .group("partners.id")
       .order("soma desc")
   end
