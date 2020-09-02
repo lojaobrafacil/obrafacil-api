@@ -50,7 +50,7 @@ class Partner < ApplicationRecord
     coupons.order(:created_at).first
   end
 
-  def self.most_scored_month(month)
+  def self.most_scored_month(month = false)
     start = Commission.where("created_at > ?", Time.now.beginning_of_month).count > 0 ? Time.now : Time.now.change(month: Time.now.month - 1)
     Partner.joins(:commissions)
       .select("partners.*, coalesce(sum(commissions.order_price), 0) as soma")
