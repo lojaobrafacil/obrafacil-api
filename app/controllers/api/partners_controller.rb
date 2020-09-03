@@ -109,7 +109,7 @@ class Api::PartnersController < Api::BaseController
                   :kind, :status, :birthday, :renewal_date, :description, :origin, :percent,
                   :agency, :ocupation, :account, :favored, :bank_id, :cash_redemption,
                   :partner_group_id, :favored_federal_registration, :site, :register,
-                  :avatar, :project_image, :instagram, :aboutme,
+                  :avatar, :project_image, :instagram, :aboutme, :can_published,
                   addresses_attributes: [:id, :street, :number, :complement, :neighborhood, :zipcode,
                                          :description, :address_type_id, :city_id, :_destroy],
                   phones_attributes: [:id, :phone, :contact, :phone_type_id, :primary, :_destroy],
