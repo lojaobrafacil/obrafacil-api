@@ -6,4 +6,8 @@ class ApiPartner::PartnerProjectSerializer < ActiveModel::Serializer
   def highlight_image
     object.highlight_image&.attachment_url
   end
+
+  def partner
+    object.partner.as_json(only: [:id, :name, :site, :aboutme, :instagram, :phones, :emails, :addresses, :avatar])
+  end
 end

@@ -7,7 +7,7 @@ class Partner < ApplicationRecord
   belongs_to :partner_group, optional: true
   belongs_to :deleted_by, :class_name => "Employee", :foreign_key => "deleted_by_id", optional: true
   belongs_to :created_by, :class_name => "Employee", :foreign_key => "created_by_id", optional: true
-  has_one :coupon, dependent: :destroy
+  has_many :coupons, dependent: :destroy
   has_many :log_premio_ideals, class_name: "Log::PremioIdeal", dependent: :destroy
   has_many :orders
   has_many :commissions, dependent: :destroy
@@ -47,12 +47,15 @@ class Partner < ApplicationRecord
   mount_uploader :project_image, PartnerImageUploader
   scope :this_month, -> { where(created_at: Time.now.beginning_of_month..Time.now.end_of_month) }
 
-  def self.most_scored_month
-    now = Time.now
-    start = now.day < 25 ? now.change(day: 26, month: now.month - 1) : now.change(day: 26)
+  def coupon
+    coupons.order(:created_at).first
+  end
+
+  def self.most_scored_month(month = false)
+    start = Commission.where("created_at > ?", Time.now.beginning_of_month).count > 0 ? Time.now : Time.now.change(month: Time.now.month - 1)
     Partner.joins(:commissions)
       .select("partners.*, coalesce(sum(commissions.order_price), 0) as soma")
-      .where("commissions.created_at BETWEEN ? AND ? and avatar is not null", start.beginning_of_day, Time.now.end_of_month)
+      .where("can_published = true and extract(year from commissions.order_date) = ? and (extract(month from commissions.order_date) = ? or extract(month from commissions.order_date) = ?) and avatar is not null", start.year, month ? month : start.month, month ? month : Time.now.month)
       .group("partners.id")
       .order("soma desc")
   end
@@ -64,13 +67,14 @@ class Partner < ApplicationRecord
 
   def create_coupon
     if self.active?
-      if self.coupon.nil?
-        self.build_coupon(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 0, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year).save
+      if self.coupons.empty?
+        self.coupons.create(name: "Parceiro #{self.name}", discount: 5.0, kind: 0, status: 0, starts_at: DateTime.now(), expired_at: DateTime.now + 1.year)
       else
         self.coupon
       end
       if self.confirmation_sent_at.nil?
-        PartnerMailer.first_access(self).deliver_now if !self.primary_email.nil? && !self.coupon.nil? && self.update(confirmation_sent_at: Time.now)
+        pass = SecureRandom.alphanumeric(10)
+        PartnerMailer.first_access(self, pass).deliver_now if !self.primary_email.nil? && !self.coupon.nil? && self.update(confirmation_sent_at: Time.now, password: pass)
       end
     else
       self.coupon.update(status: 0) if !self.coupon.nil?
@@ -123,8 +127,9 @@ class Partner < ApplicationRecord
 
   def forgot_password
     if self.primary_email
-      self.update(reset_password_token: Devise.friendly_token(50), reset_password_sent_at: Time.now)
-      PartnerMailer.forgot_password_instruction(self).deliver_now
+      pass = SecureRandom.alphanumeric(10)
+      self.update(password: pass)
+      PartnerMailer.forgot_password_instruction(self, pass).deliver_now
     end
   end
 
@@ -185,7 +190,7 @@ class Partner < ApplicationRecord
   # to devise
   def set_default_to_devise
     self.uid = SecureRandom.uuid
-    self.password = self.password_confirmation = "obrafacil2018"
+    self.password = self.password_confirmation = SecureRandom.alphanumeric(10)
   end
 
   def devise_attributes_changed?

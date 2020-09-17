@@ -4,7 +4,7 @@ class Api::PartnerSerializer < ActiveModel::Serializer
              :favored, :bank_id, :bank_name, :partner_group_id, :partner_group_name, :ocupation,
              :addresses, :phones, :emails, :cash_redemption, :favored_federal_registration,
              :register, :site, :instagram, :avatar, :project_image, :aboutme, :updated_at, :created_at, :deleted_at,
-             :money_pi, :points_pi
+             :money_pi, :points_pi, :can_published
 
   has_one :bank
   has_one :partner_group

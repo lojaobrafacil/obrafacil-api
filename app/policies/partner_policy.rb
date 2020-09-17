@@ -31,11 +31,12 @@ class PartnerPolicy < ApplicationPolicy
     if user&.is_a?(Api) && user&.admin?
       [:name, :federal_registration, :state_registration,
        :kind, :status, :birthday, :renewal_date, :description, :origin, :percent, :agency,
-       :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption]
+       :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption, :can_published]
     elsif show?
       [:name, :federal_registration, :state_registration,
        :kind, :status, :birthday, :renewal_date, :description, :origin, :percent, :agency,
-       :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption, :deleted_by_id]
+       :ocupation, :account, :favored, :user_id, :bank_id, :cash_redemption, :deleted_by_id,
+       :can_published]
     else
       []
     end

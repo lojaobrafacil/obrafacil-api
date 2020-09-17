@@ -28,8 +28,8 @@ class Api::PiVouchersController < Api::BaseController
       format.xlsx {
         @filename = "relatorio-vouchers-#{params[:status]}-#{Date.today}.xlsx"
         ToXlsx.new(@pi_vouchers, { titles: ["Id", "Data de Expiracao", "Valor", "Arquivo", "Email enviado em", "Status", "Recebido da premio ideal em", "Empresa", "Parceiro"],
-                                  attributes: ["id", "expiration_date", "value", "attachment", "send_email_at", "status", "received_at", "company_id", "partner_id"],
-                                  filename: @filename }).generate
+                                   attributes: ["id", "expiration_date", "value", "attachment", "send_email_at", "status", "received_at", "company_id", "partner_id"],
+                                   filename: @filename }).generate
         send_file Rails.root.join("tmp/#{@filename}"), filename: @filename
       }
     end
@@ -55,7 +55,7 @@ class Api::PiVouchersController < Api::BaseController
   end
 
   def create
-    @pi_voucher = PiVoucher.new(params.permit(:value, :partner_id))
+    @pi_voucher = PiVoucher.new(params.permit(:value, :partner_id, :remark))
     authorize @pi_voucher
     if @pi_voucher.save
       render json: @pi_voucher, status: 201
@@ -74,6 +74,8 @@ class Api::PiVouchersController < Api::BaseController
     when "received"
       @pi_voucher.assign_attributes(received_at: Time.now)
     end
+    p params
+    @pi_voucher.assign_attributes(remark: params[:remark]) if params[:remark]
     if @pi_voucher.save
       render json: @pi_voucher, status: 200
     else

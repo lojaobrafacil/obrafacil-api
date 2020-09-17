@@ -13,6 +13,10 @@ class Coupon < ApplicationRecord
     self.logs.count rescue 0
   end
 
+  def last_use
+    logs.order(:created_at).last
+  end
+
   def default_values
     self.code = generate_code if self.code.to_s.empty?
     self.total_uses ||= 0

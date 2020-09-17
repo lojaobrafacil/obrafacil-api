@@ -28,8 +28,9 @@ class PartnerMailer < ApplicationMailer
     )
   end
 
-  def first_access(partner)
+  def first_access(partner, pass)
     @partner = partner
+    @password = pass
     @first_name = @partner.name.split.first
     @last_name = @partner.name.split.last
     @partner_name = "#{@first_name} #{@last_name}" rescue @partner.name
@@ -42,8 +43,9 @@ class PartnerMailer < ApplicationMailer
     )
   end
 
-  def forgot_password_instruction(partner)
+  def forgot_password_instruction(partner, pass)
     @partner = partner
+    @password = pass
     @partner_name = @partner.primary_email.contact
     @url = "#{ENV["WEB_ENDPOINT"]}/redefinir-senha?t=#{@partner.reset_password_token}&c=#{Base64.encode64 @partner.federal_registration}"
     mail(

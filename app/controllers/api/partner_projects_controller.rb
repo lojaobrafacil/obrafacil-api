@@ -4,6 +4,10 @@ class Api::PartnerProjectsController < Api::BaseController
 
   def index
     @partner_projects = policy_scope PartnerProject
+    query = []
+    query << "id in (#{params[:ids]})" if params[:ids] && !params[:ids].empty? && params[:ids].chomp(",").match?(/^\d+(,\d+)*$/)
+    query << "LOWER(name) LIKE LOWER('%#{params[:name]}%')" if params[:name] && !params[:name].empty?
+    @partner_projects = @partner_projects.where(query.join(" and "))
     paginate json: @partner_projects.order(:status), status: 200, each_serializer: Api::PartnerProjectSerializer
   end
 

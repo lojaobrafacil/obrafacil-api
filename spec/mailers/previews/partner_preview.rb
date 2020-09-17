@@ -62,7 +62,7 @@ class PartnerPreview < ActionMailer::Preview
     )
     @email.update(contact: "Arthur Moura",
                   primary: true)
-    PartnerMailer.first_access(@partner)
+    PartnerMailer.first_access(@partner, SecureRandom.alphanumeric(10))
   end
 
   def forgot_password_instruction
@@ -84,7 +84,7 @@ class PartnerPreview < ActionMailer::Preview
     )
     @email.update(contact: "Arthur Moura",
                   primary: true)
-    PartnerMailer.forgot_password_instruction(@partner)
+    PartnerMailer.forgot_password_instruction(@partner, SecureRandom.alphanumeric(10))
   end
 
   def client_needs_more_information

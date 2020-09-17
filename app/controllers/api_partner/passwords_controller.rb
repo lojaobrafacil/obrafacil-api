@@ -4,7 +4,7 @@ class ApiPartner::PasswordsController < ApiPartner::BaseController
     if @partner
       if @partner.primary_email
         @partner.forgot_password
-        render json: { success: "Enviei um email para #{@partner.primary_email.email[0..2]}...@#{@partner.primary_email.email.split("@").last} com as instruçōes necessaria. caso não receba o email entre em contato conosco t: (11) 3031-6891." }, status: 200
+        render json: { success: "Sua senha foi atualizada e enviamos um email informando a nova senha. caso não receba o email entre em contato conosco t: (11) 3031-6891." }, status: 200
       else
         render json: { errors: "Olha, eu encontrei seu usuário porem ele nao possue e-mail cadastrado. entre em contato conosco para saber mais t: (11) 3031-6891." }, status: 422
       end

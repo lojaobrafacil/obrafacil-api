@@ -19,10 +19,15 @@ class PartnerAvatarUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "avatar.jpg" if original_filename.present?
+    "avatar_#{secure_token}.#{file.extension}" if original_filename.present?
   end
 
   protected
+
+  def secure_token
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+  end
 
   def serializable_hash(options = {})
     e = {}
