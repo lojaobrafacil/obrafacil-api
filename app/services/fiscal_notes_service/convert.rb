@@ -6,22 +6,22 @@ module FiscalNotesService
   class Convert < BaseService
     attr_accessor :success, :errors, :content
 
-    def initialize(zip_url)
-      @zip_url = zip_url
+    def initialize(zip_file)
+      @zip_file = zip_file
       @path = ""
-      @filename = ""
+      @original_filename = @zip_file.original_filename.split(".zip")[0]
+      @filename = @original_filename + ".xlsx"
       @success = {}
       @errors = {}
       super()
     end
 
     def can_execute?
-      File.exists? @path ? add_error("folder not found.", 404) : true
+      @zip_file ? true : add_error("Zip File not found.", 404)
     end
 
     def execute_action
       @path = unzip
-      @filename = @path.split("/").last + ".xlsx"
       convert
     end
 
@@ -139,18 +139,17 @@ module FiscalNotesService
     end
 
     def unzip
-      Zip::ZipFile.open(@zip_url) do |zip_file|
-        name = zip_file.name.split("/").last.split(".zip")[0]
-        zip_file.each do |f|
-          f_path = File.join("tmp", f.name)
+      Zip::ZipFile.open(@zip_file) do |file|
+        file.each do |f|
+          f_path = File.join("tmp", @original_filename, f.name)
           if File.exist?(f_path)
             FileUtils.rm_rf f_path
           end
           FileUtils.mkdir_p(File.dirname(f_path))
-          zip_file.extract(f, f_path)
+          file.extract(f, f_path)
         end
       end
-      return "tmp/#{name}"
+      return "tmp/#{@original_filename}"
     end
   end
 end
