@@ -135,7 +135,7 @@ module FiscalNotesService
         puts e
         return add_error({ error: "Falha ao processar, verifique o conteudo.", content: e }, 404)
       end
-      return { success: true, result: File.open(Rails.root.join("tmp", @filename)), status: 200 }
+      return add_success(Rails.root.join("tmp", @filename))
     end
 
     def unzip
@@ -149,7 +149,7 @@ module FiscalNotesService
           file.extract(f, f_path)
         end
       end
-      return "tmp/#{@original_filename}"
+      return "tmp/#{@original_filename}/*.xml"
     end
   end
 end

@@ -1,7 +1,8 @@
 class BaseService
-  attr_reader :error_message, :status_code
+  attr_reader :response, :error_message, :status_code
 
   def initialize
+    @response = nil
     @error_message = nil
     @status_code = 200
   end
@@ -24,6 +25,13 @@ class BaseService
 
   def add_error(message, code)
     @error_message = message
+    @status_code = code
+
+    success?
+  end
+
+  def add_success(response, code = 200)
+    @response = response
     @status_code = code
 
     success?

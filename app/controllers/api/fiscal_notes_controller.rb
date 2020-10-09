@@ -4,8 +4,12 @@ class Api::FiscalNotesController < Api::BaseController
   def xml_to_xlsx
     file = FiscalNotesService::Convert.new(zip_params[:file])
     file.call
-    return render json: file.error_message, status: :unprocessable_entity if file.error_message
-    send_file file.result
+
+    if file.success?
+      return send_file File.new("tmp/Outubro-2019-1.xlsx")
+    else
+      return render json: file.error_message, status: :unprocessable_entity
+    end
   end
 
   def zip_params
