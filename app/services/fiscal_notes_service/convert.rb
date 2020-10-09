@@ -135,14 +135,14 @@ module FiscalNotesService
         puts e
         return add_error({ error: "Falha ao processar, verifique o conteudo.", content: e }, 404)
       end
-      return { success: true, result: File.open(Rails.root.join(@filename)), status: 200 }
+      return { success: true, result: File.open(Rails.root.join("tmp", @filename)), status: 200 }
     end
 
     def unzip
       Zip::ZipFile.open(@zip_url) do |zip_file|
         name = zip_file.name.split("/").last.split(".zip")[0]
         zip_file.each do |f|
-          f_path = File.join(f.name)
+          f_path = File.join("tmp", f.name)
           if File.exist?(f_path)
             FileUtils.rm_rf f_path
           end
@@ -150,7 +150,7 @@ module FiscalNotesService
           zip_file.extract(f, f_path)
         end
       end
-      return name
+      return "tmp/#{name}"
     end
   end
 end
