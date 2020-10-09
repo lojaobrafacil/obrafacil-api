@@ -132,7 +132,7 @@ module FiscalNotesService
         end
         ToXlsx.new(myXLS.as_json, { filename: @filename }).generate
       rescue Exception => e
-        ap e
+        puts e
         return add_error({ error: "Falha ao processar, verifique o conteudo.", content: e }, 404)
       end
       return { success: true, result: File.open(Rails.root.join(@filename)), status: 200 }
