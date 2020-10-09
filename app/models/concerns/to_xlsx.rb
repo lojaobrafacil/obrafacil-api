@@ -3,13 +3,13 @@ class ToXlsx
   require "rubygems"
   require "write_xlsx"
 
-  def initialize(object, options = {})
-    @object = object
-    @attributes = options[:attributes] || object.attribute_names rescue nil
-    @titles = formatted_titles(options[:titles]) rescue formatted_titles(@attributes)
+  def initialize(hash, options = {})
+    @hash = hash
+    @attributes = @hash.class == Array ? @hash.map { |x| x.keys }.uniq[0] : options[:attributes] || hash.attribute_names rescue nil
+    @titles = @hash.class == Array ? @hash.map { |x| x.keys }.uniq[0] : formatted_titles(options[:titles]) rescue formatted_titles(@attributes)
     @attributes_size = @attributes.size rescue nil
     @filename = options[:filename] rescue "ruby.xlsx"
-    @template = options[:template] || @object.class.to_s.split("::").first
+    @template = options[:template] || @hash.class.to_s.split("::").first
   end
 
   def generate
@@ -26,7 +26,7 @@ class ToXlsx
   def formatted_titles(titles)
     titles.each do |title|
       left, right = titles.split(title)
-      titles = left + [@object.human_attribute_name(title)] + right if ["emails", "phones", "addresses"].exclude?(title)
+      titles = left + [@hash.human_attribute_name(title)] + right if ["emails", "phones", "addresses"].exclude?(title)
     end
     if titles.include?("emails")
       left, right = titles.split("emails")
@@ -49,7 +49,7 @@ class ToXlsx
     format = workbook.add_format
     col = row = 0
     worksheet.write(row, col, @titles, format)
-    @object.each do |object|
+    @hash.each do |object|
       col = 0
       row += 1
       @attributes.each do |attr|
@@ -67,7 +67,7 @@ class ToXlsx
     format = workbook.add_format
     col = row = 0
     worksheet.write(row, col, @titles, format)
-    @object.each do |object|
+    @hash.each do |object|
       col = 0
       row += 1
       @attributes.each do |attr|
@@ -187,7 +187,7 @@ class ToXlsx
     format_num = workbook.add_format({ 'num_format': "R$ #,##0" })
     col = row = 0
     worksheet.write(row, col, @titles, format)
-    @object.each do |object|
+    @hash.each do |object|
       col = 0
       row += 1
       @attributes.each do |attr|
