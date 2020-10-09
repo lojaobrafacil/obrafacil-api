@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         end
       end
     end
+    # API - RESOURCES
     resources :addresses
     resources :address_types
     resources :emails
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
         put ":id/images", to: "partner_projects#images_position"
       end
     end
+
     resources :project_images
     resources :companies
     resources :suppliers
@@ -101,15 +103,6 @@ Rails.application.routes.draw do
         put ":id/:status", to: "pi_vouchers#update", constraints: { status: /use|inactivate|received/ }
       end
     end
-    namespace :log do
-      resources :premio_ideals, only: [:index, :show]
-      put "premio_ideals/:id/retry", to: "premio_ideals#retry"
-      resources :workers, only: [:index, :show]
-    end
-    put "products/:product_id/stocks", to: "stocks#update_code_by_product"
-    get "allbanks", to: :allbanks, controller: "banks"
-    delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
-    get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
     resources :notifications, only: [:index, :update, :delete] do
       collection do
         put "all", to: "notifications#view_all"
@@ -121,6 +114,19 @@ Rails.application.routes.draw do
         get "all", to: "dashboard#all"
       end
     end
+    # / API - RESOURCES
+    # API - NAMESPACES
+    namespace :log do
+      resources :premio_ideals, only: [:index, :show]
+      put "premio_ideals/:id/retry", to: "premio_ideals#retry"
+      resources :workers, only: [:index, :show]
+    end
+    # / API - NAMESPACES
+    put "products/:product_id/stocks", to: "stocks#update_code_by_product"
+    get "allbanks", to: :allbanks, controller: "banks"
+    delete "commissions/destroy_all/:partner_id", to: "commissions#destroy_all"
+    get "zipcodes/:code", to: "zipcodes#by_code", constraints: { code: /[0-9|]+/ }
+    post "fiscal_notes/convert", to: "fiscal_notes#xml_to_xlsx"
   end
 
   namespace :api_partner, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "partner-stg" : "partner" }, path: "/" do
