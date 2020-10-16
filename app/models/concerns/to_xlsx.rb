@@ -53,7 +53,7 @@ class ToXlsx
       col = 0
       row += 1
       @attributes.each do |attr|
-        worksheet.write(row, col, object[attr].to_s, format)
+        worksheet.write_string(row, col, object[attr].to_s)
         col += 1
       end
     end
