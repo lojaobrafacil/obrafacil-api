@@ -5,6 +5,13 @@ class ApiPartner::WelcomesController < ApplicationController
       highlights: (Highlight.where.not(kind: "campain").order("position DESC NULLS LAST, expires_at").limit(3).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil),
       partners: ::Partner.most_scored_month(Time.now.month - 1).limit(4).as_json(only: [:id, :name, :avatar]),
       events: (Highlight.where(status: "active").where(kind: "event").order("position DESC NULLS LAST, created_at DESC").limit(4).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::HighlightSerializer.new(u)).serializable_hash } rescue nil),
+      stores: [
+        "Loja Pinheiros - Rua dos Pinheiros, 1278/1282. Pinheiros - São Paulo - SP - (011) 3031-6891.",
+        "Loja Zona Norte - Av. Eng. Caetano Alvares, 4601/4409. Zona Norte - São Paulo - SP - (011) 2236-2799.",
+        "Loja Zona Sul - Rua Dr. Alceu de Campos Rodrigues, 410. Zona Sul - São Paulo - SP - (011) 3045-1095.",
+        "Loja Alphaville - Alameda Araguaia, 891-Alphaville industrial-  Barueri  SP - (011) 4191-1508.",
+        "Loja Tatuapé (em breve) - Rua Eleonora Cintra, 87 - Jardim Anália Franco - Tatuapé   SP - (011) 2268-0126.",
+      ],
       videos: [
         { text: "Arquiteta Carol Ferreira", url: "https://www.youtube.com/embed/wd7kbxniqJo" },
         { text: "Boutique arquitetura", url: "https://www.youtube.com//embed/XXbk4RNLews" },
