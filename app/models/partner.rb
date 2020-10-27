@@ -37,7 +37,7 @@ class Partner < ApplicationRecord
   after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
   after_create :create_notification
   after_save :update_notification
-  before_save :create_coupon
+  after_save :create_coupon
   before_validation :validate_status
   before_validation :set_default_to_devise, if: Proc.new { |partner| partner.uid.to_s.empty? }
   before_validation :validate_on_update, on: :update
