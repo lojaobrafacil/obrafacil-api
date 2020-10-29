@@ -13,6 +13,10 @@ class ApiPartner::WelcomesController < ApplicationController
         "Loja Tatuapé (em breve) - Rua Eleonora Cintra, 87 - Jardim Anália Franco - Tatuapé   SP - (011) 2268-0126.",
       ],
       videos: [
+        { text: "Depoimento Carol Cantelli", url: "https://www.youtube.com/embed/PXhweV7s11M" },
+        { text: "Depoimento arquiteta Duda Senna", url: "https://www.youtube.com/embed/zK-O3Em5WNk" },
+        { text: "Depoimento arquiteta Nina Fioretto", url: "https://www.youtube.com/embed/SVU7V_D5y5U" },
+        { text: "Depoimento arquiteto Marcelo Colnaghi", url: "https://www.youtube.com/embed/-6611ARjDHY" },
         { text: "Arquiteta Carol Ferreira", url: "https://www.youtube.com/embed/wd7kbxniqJo" },
         { text: "Boutique arquitetura", url: "https://www.youtube.com//embed/XXbk4RNLews" },
         { text: "Projeto D2N Arquitetura e Interiores", url: "https://www.youtube.com/embed/kU8EJ8-xJJ4" },
