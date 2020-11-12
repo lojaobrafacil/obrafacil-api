@@ -48,7 +48,7 @@ class ToXlsx
     worksheet = workbook.add_worksheet
     format = workbook.add_format
     col = row = 0
-    worksheet.write(row, col, @titles, format)
+    worksheet.write_string(row, col, @titles, format)
     @hash.each do |object|
       col = 0
       row += 1
@@ -66,7 +66,7 @@ class ToXlsx
     worksheet = workbook.add_worksheet
     format = workbook.add_format
     col = row = 0
-    worksheet.write(row, col, @titles, format)
+    worksheet.write_string(row, col, @titles, format)
     @hash.each do |object|
       col = 0
       row += 1
@@ -75,11 +75,11 @@ class ToXlsx
           for i in 0...2
             email = object.emails[i]
             if !email.to_s.empty?
-              worksheet.write(row, col, email.email, format)
+              worksheet.write_string(row, col, email.email, format)
               col += 1
-              worksheet.write(row, col, email.email_type.name, format)
+              worksheet.write_string(row, col, email.email_type.name, format)
               col += 1
-              worksheet.write(row, col, email.contact, format)
+              worksheet.write_string(row, col, email.contact, format)
               col += 1
             else
               col += 3
@@ -90,11 +90,11 @@ class ToXlsx
           for i in 0...2
             phone = object.phones[i]
             if !phone.to_s.empty?
-              worksheet.write(row, col, phone.formatted_phone(true), format)
+              worksheet.write_string(row, col, phone.formatted_phone(true), format)
               col += 1
-              worksheet.write(row, col, phone.phone_type.name, format)
+              worksheet.write_string(row, col, phone.phone_type.name, format)
               col += 1
-              worksheet.write(row, col, phone.contact, format)
+              worksheet.write_string(row, col, phone.contact, format)
               col += 1
             else
               col += 3
@@ -105,21 +105,21 @@ class ToXlsx
           for i in 0...2
             address = object.addresses[i]
             if !address.to_s.empty?
-              worksheet.write(row, col, address.street, format)
+              worksheet.write_string(row, col, address.street, format)
               col += 1
-              worksheet.write(row, col, address.neighborhood, format)
+              worksheet.write_string(row, col, address.neighborhood, format)
               col += 1
-              worksheet.write(row, col, address.zipcode, format)
+              worksheet.write_string(row, col, address.zipcode, format)
               col += 1
-              worksheet.write(row, col, address.ibge, format)
+              worksheet.write_string(row, col, address.ibge, format)
               col += 1
-              worksheet.write(row, col, address.complement, format)
+              worksheet.write_string(row, col, address.complement, format)
               col += 1
-              worksheet.write(row, col, address.description, format)
+              worksheet.write_string(row, col, address.description, format)
               col += 1
-              worksheet.write(row, col, address.address_type.name, format)
+              worksheet.write_string(row, col, address.address_type.name, format)
               col += 1
-              worksheet.write(row, col, address.city.name, format)
+              worksheet.write_string(row, col, address.city.name, format)
               col += 1
             else
               col += 8
@@ -127,43 +127,43 @@ class ToXlsx
           end
         end
         if attr == "attachment"
-          worksheet.write(row, col, object.attachment_url, format)
+          worksheet.write_string(row, col, object.attachment_url, format)
           col += 1
         end
         if attr == "coupon"
-          worksheet.write(row, col, object.coupon&.code, format)
+          worksheet.write_string(row, col, object.coupon&.code, format)
           col += 1
         end
         if attr == "bank"
-          worksheet.write(row, col, object.bank&.name, format)
+          worksheet.write_string(row, col, object.bank&.name, format)
           col += 1
         end
         if attr == "partner_group"
-          worksheet.write(row, col, object.partner_group&.name, format)
+          worksheet.write_string(row, col, object.partner_group&.name, format)
           col += 1
         end
         if attr == "created_by"
-          worksheet.write(row, col, object.created_by&.name, format)
+          worksheet.write_string(row, col, object.created_by&.name, format)
           col += 1
         end
         if attr == "deleted_by"
-          worksheet.write(row, col, object.deleted_by&.name, format)
+          worksheet.write_string(row, col, object.deleted_by&.name, format)
           col += 1
         end
         if attr == "status"
-          worksheet.write(row, col, Partner.human_enum_name(:status, object.status), format)
+          worksheet.write_string(row, col, Partner.human_enum_name(:status, object.status), format)
           col += 1
         end
         if attr == "kind"
-          worksheet.write(row, col, Partner.human_enum_name(:kind, object.kind), format)
+          worksheet.write_string(row, col, Partner.human_enum_name(:kind, object.kind), format)
           col += 1
         end
         if attr == "origin"
-          worksheet.write(row, col, Partner.human_enum_name(:origin, object.origin), format)
+          worksheet.write_string(row, col, Partner.human_enum_name(:origin, object.origin), format)
           col += 1
         end
         if attr == "cash_redemption"
-          worksheet.write(row, col, Partner.human_enum_name(:cash_redemption, object.cash_redemption), format)
+          worksheet.write_string(row, col, Partner.human_enum_name(:cash_redemption, object.cash_redemption), format)
           col += 1
         end
         unless ["emails", "phones", "addresses",
@@ -171,7 +171,7 @@ class ToXlsx
                 "partner_group", "created_by",
                 "deleted_by", "status", "kind",
                 "origin", "cash_redemption"].include?(attr)
-          worksheet.write(row, col, object[attr].to_s, format)
+          worksheet.write_string(row, col, object[attr].to_s, format)
           col += 1
         end
       end
@@ -186,16 +186,16 @@ class ToXlsx
     format = workbook.add_format
     format_num = workbook.add_format({ 'num_format': "R$ #,##0" })
     col = row = 0
-    worksheet.write(row, col, @titles, format)
+    worksheet.write_string(row, col, @titles, format)
     @hash.each do |object|
       col = 0
       row += 1
       @attributes.each do |attr|
         if attr == "nome_parceiro"
-          worksheet.write(row, col, object[attr].to_s, format)
+          worksheet.write_string(row, col, object[attr].to_s, format)
           col += 1
         else
-          worksheet.write(row, col, number_to_currency(object[attr], :unit => "R$ ", :separator => ",", :delimiter => "."), format_num)
+          worksheet.write_string(row, col, number_to_currency(object[attr], :unit => "R$ ", :separator => ",", :delimiter => "."), format_num)
           col += 1
         end
       end
