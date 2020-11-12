@@ -48,7 +48,7 @@ class ToXlsx
     worksheet = workbook.add_worksheet
     format = workbook.add_format
     col = row = 0
-    worksheet.write_string(row, col, @titles, format)
+    worksheet.write(row, col, @titles, format)
     @hash.each do |object|
       col = 0
       row += 1
@@ -66,7 +66,7 @@ class ToXlsx
     worksheet = workbook.add_worksheet
     format = workbook.add_format
     col = row = 0
-    worksheet.write_string(row, col, @titles, format)
+    worksheet.write(row, col, @titles, format)
     @hash.each do |object|
       col = 0
       row += 1
@@ -186,7 +186,7 @@ class ToXlsx
     format = workbook.add_format
     format_num = workbook.add_format({ 'num_format': "R$ #,##0" })
     col = row = 0
-    worksheet.write_string(row, col, @titles, format)
+    worksheet.write(row, col, @titles, format)
     @hash.each do |object|
       col = 0
       row += 1
