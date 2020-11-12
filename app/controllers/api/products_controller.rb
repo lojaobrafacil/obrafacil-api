@@ -5,10 +5,10 @@ class Api::ProductsController < Api::BaseController
   def index
     @products = Product.all
     @products = if params["name"]
-                  @products.where("LOWER(name) LIKE LOWER(?)", "%#{params["name"]}%")
-                else
-                  @products.all
-                end
+        @products.where("LOWER(name) LIKE LOWER(?)", "%#{params["name"]}%")
+      else
+        @products.all
+      end
     paginate json: @products.order(:id), status: 200, each_serializer: Api::ProductSerializer
   end
 

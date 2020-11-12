@@ -165,4 +165,8 @@ Rails.application.routes.draw do
       # Define routes for Client within this block.
     end
   end
+
+  namespace :api_public, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "public-stg" : "public" }, path: "/" do
+    get "products/:id", to: "products#show"
+  end
 end
