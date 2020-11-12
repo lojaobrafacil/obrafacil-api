@@ -33,7 +33,7 @@ class ApiPartner::PartnerProjectsController < ApiPartner::BaseController
   end
 
   def delete
-    if @project.delete
+    if @project.destroy
       render json: "#{@project.name} excluido com sucesso", status: 200
     else
       render json: { errors: @partner.errors.full_messages }, status: 422
