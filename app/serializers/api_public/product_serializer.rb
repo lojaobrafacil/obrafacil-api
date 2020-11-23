@@ -1,3 +1,3 @@
 class ApiPublic::ProductSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :images
 end

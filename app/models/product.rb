@@ -4,9 +4,12 @@ class Product < ApplicationRecord
   belongs_to :supplier
   belongs_to :deleted_by, :class_name => "Employee", :foreign_key => "deleted_by_id", optional: true
   has_many :stocks, dependent: :destroy
-  has_many :image_products, dependent: :destroy
+  has_many :prices, dependent: :destroy
+  has_many :images, dependent: :destroy, as: :imageable
+  accepts_nested_attributes_for :images, allow_destroy: true
   accepts_nested_attributes_for :stocks, allow_destroy: true
-  after_create :generate_stocks
+  after_create :generate_stocks, :generate_prices
+  after_save :update_prices
 
   validates_presence_of :name
   enum kind: [:own, :third_party, :not_marketed]
@@ -20,11 +23,24 @@ class Product < ApplicationRecord
   private
 
   def generate_stocks
-    company = Company.all
-    if !company.empty?
-      company.each do |cp|
+    companies = Company.all
+    if !companies.empty?
+      companies.each do |cp|
         cp.stocks.create(stock: 0, stock_min: 0, stock_max: 0, product: self)
       end
     end
+  end
+
+  def generate_prices
+    margins = Margin.all
+    if !margins.empty?
+      margins.each do |m|
+        m.prices.create(name: "tabela #{m.order}", value: 1, plataform: 1, product: self)
+      end
+    end
+  end
+
+  def update_prices
+    self.prices.where.not(margin: nil).each(&:save)
   end
 end
