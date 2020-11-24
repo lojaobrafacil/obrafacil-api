@@ -19,6 +19,10 @@ class AddAndRemoveColumnsFromProduct < ActiveRecord::Migration[5.2]
     add_column :products, :ncm, :string
     add_column :stocks, :reserve, :integer, default: 0
 
+    change_column :products, :reduction, :float, precision: 5, scale: 2, default: 0
+    change_column :products, :suggested_price, :float, precision: 5, scale: 2, default: 0
+    change_column :products, :suggested_price_site, :float, precision: 5, scale: 2, default: 0
+
     remove_column :stocks, :discount, :float, precision: 5, scale: 2, default: 0
     remove_column :stocks, :cost, :float, precision: 5, scale: 2, default: 0
     remove_column :stocks, :st, :float, precision: 5, scale: 2, default: 0

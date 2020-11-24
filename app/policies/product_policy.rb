@@ -16,15 +16,12 @@ class ProductPolicy < ApplicationPolicy
       [:name, :description, :barcode, :weight, :height,
        :width, :length, :color, :kind, :sub_category_id, :unit_id,
        :sku, :sku_xml, :ipi, :reduction, :suggested_price, :supplier_id,
-       :suggested_price_site, :suggested_price_role, :status, :deleted_by_id,
-       :deleted_at, :supplier_discount, :cost, :tax_replacement, :contribution_margin,
-       :pmva, :vbc, :vbcst, :vicms, :picms, :vicmsst, :picmsst, :freight, :st,
-       :tax_reduction, :icms, :cest, :ncm,
+       :suggested_price_site, :suggested_price_role, :status, :supplier_discount,
+       :cost, :tax_replacement, :contribution_margin, :pmva, :vbc, :vbcst, :vicms,
+       :picms, :vicmsst, :picmsst, :freight, :st, :tax_reduction, :icms, :cest, :ncm,
        images: [], stocks_attributes: [
-         :id, :stock,
-         :stock_max, :stock_min, :cost, :discount,
-         :st, :margin, :pmva, :vbc, :vbcst, :vicms, :picms, :vicmsst,
-         :picmsst, :company_id, :product_id,
+         :id, :stock, :stock_max, :stock_min,
+         :company_id, :product_id,
        ]]
     else
       []

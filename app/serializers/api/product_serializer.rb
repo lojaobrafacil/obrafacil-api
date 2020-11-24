@@ -5,7 +5,7 @@ class Api::ProductSerializer < ActiveModel::Serializer
              :status, :deleted_at, :supplier_discount, :cost, :tax_replacement,
              :contribution_margin, :pmva, :vbc, :vbcst, :vicms, :picms, :vicmsst,
              :picmsst, :freight, :st, :tax_reduction, :icms, :cest, :ncm, :images,
-             :stocks, :prices
+             :qrcode, :qrcode_url, :stocks, :prices
   has_one :sub_category
   has_one :unit
   has_one :supplier

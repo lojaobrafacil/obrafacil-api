@@ -9,12 +9,14 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :images, allow_destroy: true
   accepts_nested_attributes_for :stocks, allow_destroy: true
   after_create :generate_stocks, :generate_prices
-  after_save :update_prices
+  after_save :update_prices, :generate_qrcode
 
   validates_presence_of :name
   enum kind: [:own, :third_party, :not_marketed]
   enum status: [:inactive, :active, :deleted]
   enum suggested_price_role: [:bigger, :less, :equal]
+
+  mount_uploader :qrcode, QrcodeUploader
 
   def destroy(employee_id)
     self.update(status: "deleted", deleted_at: Time.now, deleted_by_id: employee_id)
@@ -42,5 +44,17 @@ class Product < ApplicationRecord
 
   def update_prices
     self.prices.where.not(margin: nil).each(&:save)
+  end
+
+  def generate_qrcode
+    if !self.qrcode.exist?
+      url = qrcode_url || "https://hubcoapp.com.br/p/#{self.id}"
+      qrcode = RQRCode::QRCode.new(url)
+
+      path = "tmp/product/product-qrcode-#{self.id}.png"
+      IO.binwrite(path, qrcode.as_png(size: 480).to_s)
+      self.update(qrcode: File.open(path), qrcode_url: url)
+      File.delete(path)
+    end
   end
 end

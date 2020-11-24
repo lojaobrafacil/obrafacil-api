@@ -108,6 +108,15 @@ type_units = [
   [name: "X", description: "Nao definida"],
 ]
 
+margins = [
+  { order: 0, value: 1.0712 },
+  { order: 1, value: 1.04 },
+  { order: 2, value: 0.988 },
+  { order: 3, value: 0.95678 },
+  { order: 4, value: 0.936 },
+  { order: 5, value: 0.905 },
+]
+
 p "Criando address_type "
 address_type.each do |type|
   AddressType.find_or_create_by!(name: type)
@@ -144,6 +153,11 @@ Unit.destroy_all if Unit.all.size > 1
 type_units.each do |unit|
   Unit.create!(name: unit.first[:name], description: unit.first[:description])
 end
+p "Criando type_units ....[OK]"
+
+p "Criando Margins "
+Margin.destroy_all if Margin.all.size > 1
+Margin.create!(margins)
 p "Criando type_units ....[OK]"
 
 p "BRPopulate "
