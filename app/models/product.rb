@@ -47,13 +47,13 @@ class Product < ApplicationRecord
   end
 
   def generate_qrcode
-    if !self.qrcode.exist?
+    if !self.qrcode.present?
       url = qrcode_url || "https://hubcoapp.com.br/p/#{self.id}"
       qrcode = RQRCode::QRCode.new(url)
 
-      path = "tmp/product/product-qrcode-#{self.id}.png"
+      path = "tmp/product-qrcode-#{self.id}.png"
       IO.binwrite(path, qrcode.as_png(size: 480).to_s)
-      self.update(qrcode: File.open(path), qrcode_url: url)
+      self.update(qrcode: File.open(path), path_qrcode: url)
       File.delete(path)
     end
   end

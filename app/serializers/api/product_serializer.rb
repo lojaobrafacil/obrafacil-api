@@ -5,7 +5,7 @@ class Api::ProductSerializer < ActiveModel::Serializer
              :status, :deleted_at, :supplier_discount, :cost, :tax_replacement,
              :contribution_margin, :pmva, :vbc, :vbcst, :vicms, :picms, :vicmsst,
              :picmsst, :freight, :st, :tax_reduction, :icms, :cest, :ncm, :images,
-             :qrcode, :qrcode_url, :stocks, :prices
+             :qrcode, :path_qrcode, :stocks, :prices
   has_one :sub_category
   has_one :unit
   has_one :supplier
@@ -21,5 +21,9 @@ class Api::ProductSerializer < ActiveModel::Serializer
 
   def prices
     object.prices.select(:id, :name, :value)
+  end
+
+  def qrcode
+    object.qrcode.url
   end
 end
