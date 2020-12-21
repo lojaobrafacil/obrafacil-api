@@ -157,6 +157,7 @@ Rails.application.routes.draw do
     get "winners", to: "welcomes#winners"
     get "winners/:year", to: "welcomes#winners", constraints: { kind: /[0-9|]+/ }
     get "all", to: "welcomes#all"
+    get "warnings", to: "welcomes#warnings"
   end
 
   namespace :api_client, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "client-stg" : "client" }, path: "/" do
