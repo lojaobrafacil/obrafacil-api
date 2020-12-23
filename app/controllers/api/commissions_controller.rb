@@ -21,7 +21,7 @@ class Api::CommissionsController < Api::BaseController
         format.csv { send_data @commissions.to_csv({ col_sep: "\t" }), filename: "relatorio-parceiro-#{@partner.name}-#{params[:year]}-#{Date.today}.csv" }
         format.xlsx {
           ToXlsx.new(@commissions, { titles: ["codigo", "No. Pedido", "Data da compra", "Nome do Cliente", "Valor do Pedido", "Valor pago com vale", "Enviado em", "Porcentagem", "Pontos/Produtos", "Pontos/Dinheiro", "Data envio", "Criado em", "Atualizado em"],
-                                    attributes: ["id", "order_id", "order_date", "client_name", "order_price", "return_price", "percent_date", "percent", "points", "percent_value", "sent_date", "created_at", "updated_at"] }).generate
+                                     attributes: ["id", "order_id", "order_date", "client_name", "order_price", "return_price", "percent_date", "percent", "points", "percent_value", "sent_date", "created_at", "updated_at"] }).generate
           send_file Rails.root.join("ruby.xlsx"), filename: "relatorio-parceiro-#{@partner.name}-#{params[:year]}-#{Date.today}.xlsx"
         }
       end
@@ -77,7 +77,7 @@ class Api::CommissionsController < Api::BaseController
   def destroy
     @commission = Commission.find_by(id: params[:id])
     if @commission
-      @commission.destroy
+      @commission.update(deleted_at: Time.now)
       head 204
     else
       head 422
@@ -86,7 +86,7 @@ class Api::CommissionsController < Api::BaseController
 
   def destroy_all
     begin
-      ::Partner.find_by(id: params[:partner_id]).commissions.destroy_all
+      ::Partner.find_by(id: params[:partner_id]).commissions.update(deleted_at: Time.now)
       render json: { success: "Deletado todos as comissoes do parceiro " + params[:partner_id] }, status: 204
     rescue
       render json: { errors: "partner_id necessario" }, status: 422
@@ -106,6 +106,7 @@ class Api::CommissionsController < Api::BaseController
 
   def commission_params
     params.permit(:partner_id, :order_id, :order_date, :order_price,
-                  :client_name, :return_price, :points, :percent, :percent_date, :sent_date)
+                  :client_name, :return_price, :points, :percent, :percent_date,
+                  :sent_date, :comments)
   end
 end

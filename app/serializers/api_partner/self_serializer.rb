@@ -23,7 +23,7 @@ class ApiPartner::SelfSerializer < ActiveModel::Serializer
   end
 
   def commissions
-    object.commissions.map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::CommissionSerializer.new(u)).serializable_hash }
+    object.commissions.where(deleted_at: nil).map { |u| ActiveModelSerializers::Adapter.configured_adapter.new(ApiPartner::CommissionSerializer.new(u)).serializable_hash }
   end
 
   def points_pi

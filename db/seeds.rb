@@ -186,6 +186,15 @@ payment_term = [
   { id: 80, name: "30/60/90/120/150/180", date1: "30", date2: "60", date3: "90", date4: "120", date5: "150", date6: "180" },
 ]
 
+margins = [
+  { order: 0, value: 1.0712 },
+  { order: 1, value: 1.04 },
+  { order: 2, value: 0.988 },
+  { order: 3, value: 0.95678 },
+  { order: 4, value: 0.936 },
+  { order: 5, value: 0.905 },
+]
+
 p "Criando address_type "
 address_type.each do |type|
   AddressType.find_or_create_by!(name: type)
@@ -226,6 +235,11 @@ p "Criando payment_term "
 PaymentTerm.destroy_all if PaymentTerm.all.size > 1
 PaymentTerm.create!(payment_term)
 p "Criando payment_term ....[OK]"
+
+p "Criando Margins "
+Margin.destroy_all if Margin.all.size > 1
+Margin.create!(margins)
+p "Criando type_units ....[OK]"
 
 p "BRPopulate "
 BRPopulate.populate if City.all.size < 1

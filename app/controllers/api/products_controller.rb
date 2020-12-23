@@ -5,10 +5,10 @@ class Api::ProductsController < Api::BaseController
   def index
     @products = Product.all
     @products = if params["name"]
-                  @products.where("LOWER(name) LIKE LOWER(?)", "%#{params["name"]}%")
-                else
-                  @products.all
-                end
+        @products.where("LOWER(name) LIKE LOWER(?)", "%#{params["name"]}%")
+      else
+        @products.all
+      end
     paginate json: @products.order(:id), status: 200, each_serializer: Api::ProductSerializer
   end
 
@@ -21,7 +21,7 @@ class Api::ProductsController < Api::BaseController
     @product = Product.new(product_params)
     authorize @product
     if @product.save
-      image_products_attributes(@product) if params[:images]
+      image_attributes(@product) if params[:images]
       render json: @product, status: 201
     else
       render json: { errors: @product.errors.full_messages }, status: 422
@@ -31,7 +31,7 @@ class Api::ProductsController < Api::BaseController
   def update
     authorize @product
     if @product.update(product_params)
-      image_products_attributes(@product) if params[:images]
+      image_attributes(@product) if params[:images]
       render json: @product, status: 200
     else
       render json: { errors: @product.errors.full_messages }, status: 422
@@ -55,7 +55,7 @@ class Api::ProductsController < Api::BaseController
     params.permit(policy(Product).permitted_attributes)
   end
 
-  def image_products_attributes(product)
+  def image_attributes(product)
     image_products_params.each do |image|
       image = image.permit(:id, :attachment)
       if image[:id] != nil

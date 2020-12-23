@@ -1,4 +1,5 @@
 class Commission < ApplicationRecord
+  default_scope { where(deleted_at: nil) }
   belongs_to :partner
   before_save :set_date, on: :create
 

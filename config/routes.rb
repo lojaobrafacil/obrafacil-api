@@ -157,6 +157,7 @@ Rails.application.routes.draw do
     get "winners", to: "welcomes#winners"
     get "winners/:year", to: "welcomes#winners", constraints: { kind: /[0-9|]+/ }
     get "all", to: "welcomes#all"
+    get "warnings", to: "welcomes#warnings"
   end
 
   namespace :api_client, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "client-stg" : "client" }, path: "/" do
@@ -164,5 +165,9 @@ Rails.application.routes.draw do
     as :client do
       # Define routes for Client within this block.
     end
+  end
+
+  namespace :api_public, defaults: { format: :json }, constraints: { subdomain: Rails.env.staging? ? "public-stg" : "public" }, path: "/" do
+    get "products/:id", to: "products#show"
   end
 end

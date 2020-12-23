@@ -48,6 +48,14 @@ class ApiPartner::WelcomesController < ApplicationController
     paginate json: @highlights, status: 200, each_serializer: ApiPartner::CampainSerializer
   end
 
+  def warnings
+    render json: [{
+             url: "https://hubcoapp-images.s3-sa-east-1.amazonaws.com/pb/warning.jpeg",
+             starts_at: Time.new(2020, 12, 24),
+             end_at: Time.new(2021, 01, 03),
+           }], status: 200
+  end
+
   def all
     render json: {
       banks: Bank.all,
