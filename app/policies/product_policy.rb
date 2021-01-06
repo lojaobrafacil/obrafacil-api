@@ -19,7 +19,7 @@ class ProductPolicy < ApplicationPolicy
        :suggested_price_site, :suggested_price_role, :status, :supplier_discount,
        :cost, :tax_replacement, :contribution_margin, :pmva, :vbc, :vbcst, :vicms,
        :picms, :vicmsst, :picmsst, :freight, :st, :tax_reduction, :icms, :cest, :ncm,
-       images: [], stocks_attributes: [
+       stocks_attributes: [
          :id, :stock, :stock_max, :stock_min,
          :company_id, :product_id,
        ]]

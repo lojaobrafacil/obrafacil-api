@@ -1,14 +1,14 @@
 class Api::ProductSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :barcode, :weight, :height,
              :width, :length, :color, :kind, :sku, :sku_xml, :ipi,
-             :reduction, :suggested_price, :suggested_price_site, :suggested_price_role,
-             :status, :deleted_at, :supplier_discount, :cost, :tax_replacement,
-             :contribution_margin, :pmva, :vbc, :vbcst, :vicms, :picms, :vicmsst,
-             :picmsst, :freight, :st, :tax_reduction, :icms, :cest, :ncm, :images,
-             :qrcode, :path_qrcode, :stocks, :prices
+             :status, :deleted_at, :supplier_id, :supplier_discount, :cost,
+             :tax_replacement, :contribution_margin, :pmva, :vbc, :vbcst, :vicms,
+             :picms, :vicmsst, :picmsst, :freight, :st, :tax_reduction, :icms, :cest,
+             :ncm, :images, :qrcode, :path_qrcode, :stocks, :prices, :sub_category_id,
+             :unit_id, :supplier_id, :reduction, :suggested_price, :suggested_price_site,
+             :suggested_price_role
+
   has_one :sub_category
-  has_one :unit
-  has_one :supplier
   has_one :deleted_by
 
   def stocks

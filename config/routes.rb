@@ -65,7 +65,12 @@ Rails.application.routes.draw do
     resources :categories
     resources :sub_categories
     resources :units
-    resources :products
+    resources :products do
+      collection do
+        get ":id/images", to: "products#images"
+        put ":id/images", to: "products#images_position"
+      end
+    end
     resources :carriers
     resources :ibpts
     resources :cfops

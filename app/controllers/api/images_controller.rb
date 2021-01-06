@@ -1,28 +1,11 @@
 class Api::ImagesController < Api::BaseController
   before_action :authenticate_admin_or_api!
-  before_action :set_image, only: [:show, :update, :destroy, :images]
-
-  def index
-    @images = policy_scope Image
-    paginate json: @images.order(:position), status: 200
-  end
-
-  def show
-    return render json: @image, status: 200
-  end
+  before_action :set_image, only: [:destroy]
 
   def create
     @image = Image.new(image_params)
     if @image.save
       render json: @image, status: 201
-    else
-      render json: { errors: @image.errors.full_messages }, status: 422
-    end
-  end
-
-  def update
-    if @image.update(image_params)
-      render json: @image, status: 200
     else
       render json: { errors: @image.errors.full_messages }, status: 422
     end
