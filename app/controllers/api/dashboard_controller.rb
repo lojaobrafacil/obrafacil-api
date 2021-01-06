@@ -43,6 +43,8 @@ class Api::DashboardController < Api::BaseController
       units: Unit.all,
       suppliers: Supplier.all,
       companies: Company.all,
+      environments: Environment.all,
+      payment_terms: PaymentTerm.all,
     }
     render json: response, status: 200
   end

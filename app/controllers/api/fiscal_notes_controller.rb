@@ -6,7 +6,7 @@ class Api::FiscalNotesController < Api::BaseController
     file.call
 
     if file.success?
-      return send_file File.new("tmp/Outubro-2019-1.xlsx")
+      return send_file File.new(file.response)
     else
       return render json: file.error_message, status: :unprocessable_entity
     end

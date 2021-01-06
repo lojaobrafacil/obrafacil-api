@@ -13,7 +13,7 @@ class Api::OrdersController < Api::BaseController
       format.csv { send_data @orders.to_csv({ col_sep: "\t" }), filename: "pedidos-#{Time.now}.csv" }
       format.xlsx {
         ToXlsx.new(@orders, { titles: ["codigo", "No. Pedido", "Data da compra", "Nome do Cliente", "Valor do Pedido", "Valor pago com vale", "Enviado em", "Porcentagem", "Pontos/Produtos", "Pontos/Dinheiro", "Data envio", "Criado em", "Atualizado em"],
-                             attributes: ["id", "order_id", "order_date", "client_name", "order_price", "return_price", "percent_date", "percent", "points", "percent_value", "sent_date", "created_at", "updated_at"] }).generate
+                              attributes: ["id", "order_id", "order_date", "client_name", "order_price", "return_price", "percent_date", "percent", "points", "percent_value", "sent_date", "created_at", "updated_at"] }).generate
         send_file Rails.root.join("ruby.xlsx"), filename: "pedidos-#{Time.now}.xlsx"
       }
     end
@@ -33,7 +33,7 @@ class Api::OrdersController < Api::BaseController
     @order = Order.new(create_order_params)
     authorize @order
     if @order.save
-      render json: @order, status: 201
+      render json: @order, status: 201, serializer: Api::OrderSerializer
     else
       render json: { errors: @order.errors.full_messages }, status: 422
     end
@@ -43,7 +43,7 @@ class Api::OrdersController < Api::BaseController
     @order = Order.find(params[:id])
     authorize @order
     if @order.update(update_order_params)
-      render json: @order, status: 200
+      render json: @order, status: 200, serializer: Api::OrderSerializer
     else
       render json: { errors: @order.errors.full_messages }, status: 422
     end
@@ -62,16 +62,29 @@ class Api::OrdersController < Api::BaseController
     # params.permit(policy(Order).permitted_attributes)
     params.permit(
       [:description, :discount, :freight, :billing_at,
-       :file, :selected_margin, :employee_id,
-       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id]
+       :file, :selected_margin, :employee_id, :payment_term_id,
+       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id,
+       :order_items_attributes => [
+         :product_id, :order_id, :billing_type_id, :price, :quantity, :environment,
+         :cost, :description, :tax_industrialized_product, :tax_substitution, :environment_id,
+         :tax_circulation_commodity_services, :quantity_downloaded, :product, :environment_complement,
+         :checker_employee_id, :output_company_id, :billing_at, :common_mercosur_nomenclature,
+       ]]
     )
   end
 
   def update_order_params
     params.permit(
       [:description, :discount, :freight, :billing_at,
-       :file, :selected_margin, :employee_id,
-       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id]
+       :file, :selected_margin, :employee_id, :payment_term_id,
+       :buyer_id, :buyer_type, :cashier_id, :carrier_id, :company_id,
+       :order_items_attributes => [
+         :id, :product_id, :order_id, :billing_type_id, :price, :quantity, :environment,
+         :cost, :description, :tax_industrialized_product, :tax_substitution, :environment_id,
+         :tax_circulation_commodity_services, :quantity_downloaded, :product, :environment_complement,
+         :checker_employee_id, :output_company_id, :billing_at, :common_mercosur_nomenclature,
+         :_destroy,
+       ]]
     )
   end
 end

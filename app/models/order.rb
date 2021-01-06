@@ -3,6 +3,7 @@ class Order < TemplateOrder
   validates :buyer_type, presence: false, inclusion: { in: ["Client"], message: "deve ser um Cliente" }, allow_nil: true, allow_blank: true
   belongs_to :cashier, optional: true
   belongs_to :partner, optional: true
+  belongs_to :payment_term
   has_one :commission
   has_one :delivery
   enum status: [:budget, :to_pay, :paid, :deleted]
