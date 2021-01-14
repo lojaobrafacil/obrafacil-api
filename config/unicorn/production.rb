@@ -6,8 +6,8 @@ pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"
 
-worker_processes 4
-timeout 30
+worker_processes 6
+timeout 60
 preload_app true
 
 listen "/tmp/unicorn.emam.sock", backlog: 64
