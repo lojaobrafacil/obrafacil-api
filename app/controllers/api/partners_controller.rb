@@ -15,7 +15,7 @@ class Api::PartnersController < Api::BaseController
       query << "partner_group_id= #{filparams[:partner_group_id]}" if filparams[:partner_group_id] && !filparams[:partner_group_id].empty?
       query = query.join(" and ")
     end
-    @partners = filparams[:search] ? @partners.where(query).order("position(LOWER('#{filparams[:search]}') in lower(searcher)), id, name") : @partners.where(query).order(:name)
+    @partners = filparams[:search] ? @partners.where(query).order("position(LOWER('#{filparams[:search]}') in lower(searcher)), id, name") : filparams[:order_by] ? @partners.where(query).order(filparams[:order_by]) : @partners.where(query).order(:name)
     paginate json: @partners, status: 200, each_serializer: Api::PartnersSerializer
   end
 
@@ -121,6 +121,6 @@ class Api::PartnersController < Api::BaseController
   end
 
   def filtered_params
-    params.permit(:search, :status, :ids, :name, :federal_registration, :partner_group_id)
+    params.permit(:search, :status, :ids, :name, :federal_registration, :partner_group_id, :order_by)
   end
 end
