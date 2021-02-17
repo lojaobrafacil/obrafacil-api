@@ -4,12 +4,8 @@ class Api::CommissionsController < Api::BaseController
   before_action :authenticate_admin!, only: [:create_many]
 
   def index
-    begin
-      @commissions = ::Partner.find_by(id: params[:partner_id]).commissions.order("order_date desc")
-      paginate json: @commissions, status: 200
-    rescue
-      render json: { errors: "partner_id is mandatory" }, status: 422
-    end
+    @commissions = params[:partner_id] ? ::Partner.find_by(id: params[:partner_id]).commissions : Commission.all
+    paginate json: @commissions.order("order_date desc"), status: 200
   end
 
   def by_year
