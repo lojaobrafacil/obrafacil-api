@@ -4,8 +4,27 @@ class Api::CommissionsController < Api::BaseController
   before_action :authenticate_admin!, only: [:create_many]
 
   def index
-    @commissions = params[:partner_id] ? ::Partner.find_by(id: params[:partner_id]).commissions : Commission.all
-    paginate json: @commissions.order("order_date desc"), status: 200
+    @commissions = policy_scope Commission
+    filparams = filtered_params
+    if !filparams.empty?
+      query = []
+      query << "order_id in (#{filparams[:order_id].delete(" ")})" if filparams[:order_id] && !filparams[:order_id].empty? && filparams[:order_id].delete(" ").chomp(",").match?(/^\d+(,\d+)*$/)
+      query << "LOWER(client_name) LIKE LOWER('%#{filparams[:client_name]}%')" if filparams[:client_name] && !filparams[:client_name].empty?
+      query << "partner_id in (#{filparams[:partner_id].delete(" ")})" if filparams[:partner_id] && filparams[:partner_id].delete(" ").chomp(",").match?(/^\d+(,\d+)*$/)
+      query = query.join(" and ")
+    end
+    @commissions = @commissions.where(query).order("order_date desc")
+    respond_with do |format|
+      format.json { paginate json: @commissions, status: 200 }
+      format.csv { send_data @commissions.to_csv({ col_sep: "\t" }), filename: "relatorio-commissons-#{Date.today}.csv" }
+      format.xlsx {
+        filename = "relatorio-commissons-#{Date.today}.xlsx"
+        ToXlsx.new(@commissions, { titles: ["codigo", "No. Pedido", "ID do Parceiro", "Data da compra", "Nome do Cliente", "Valor do Pedido", "Valor pago com vale", "Enviado em", "Porcentagem", "Pontos/Produtos", "Pontos/Dinheiro", "Data envio", "Criado em", "Atualizado em"],
+                                   attributes: ["id", "order_id", "partner_id", "order_date", "client_name", "order_price", "return_price", "percent_date", "percent", "points", "percent_value", "sent_date", "created_at", "updated_at"],
+                                   filename: filename }).generate
+        send_file Rails.root.join("tmp", filename), filename: filename
+      }
+    end
   end
 
   def by_year
@@ -104,5 +123,9 @@ class Api::CommissionsController < Api::BaseController
     params.permit(:partner_id, :order_id, :order_date, :order_price,
                   :client_name, :return_price, :points, :percent, :percent_date,
                   :sent_date, :comments)
+  end
+
+  def filtered_params
+    params.permit(:order_id, :partner_id, :client_name)
   end
 end
