@@ -74,7 +74,6 @@ class Api::PiVouchersController < Api::BaseController
     when "received"
       @pi_voucher.assign_attributes(received_at: Time.now)
     end
-    p params
     @pi_voucher.assign_attributes(remark: params[:remark]) if params[:remark]
     if @pi_voucher.save
       render json: @pi_voucher, status: 200

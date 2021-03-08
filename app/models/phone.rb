@@ -14,8 +14,8 @@ class Phone < ApplicationRecord
   end
 
   def self.primary(obj = {})
-    p = obj.empty? ? where(primary: true) : where(primary: true, phonable_id: obj["phonable_id"], phonable_type: obj["phonable_type"])
-    obj["id"] && !obj["id"].nil? ? p.where.not(id: obj["id"]) : p
+    pri = obj.empty? ? where(primary: true) : where(primary: true, phonable_id: obj["phonable_id"], phonable_type: obj["phonable_type"])
+    obj["id"] && !obj["id"].nil? ? pri.where.not(id: obj["id"]) : pri
   end
 
   def format_phone

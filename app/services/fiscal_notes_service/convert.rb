@@ -135,6 +135,7 @@ module FiscalNotesService
         puts e
         return add_error({ error: "Falha ao processar, verifique o conteudo.", content: e }, 404)
       end
+      FileUtils.rm_rf Rails.root.join(@path.remove("/*.xml"))
       return add_success(Rails.root.join("tmp", @filename))
     end
 

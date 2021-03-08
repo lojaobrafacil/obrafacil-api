@@ -16,7 +16,6 @@ class BaseService
   end
 
   def call
-    p can_execute?
     if can_execute?
       execute_action
     end
