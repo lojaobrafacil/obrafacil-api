@@ -73,9 +73,9 @@ module FiscalNotesService
                   ptotal: prod["prod"]["vProd"], ##  Preço total do produto
                   bcalc_icms_item: prod["imposto"]["ICMS"].values[0]["vBC"], ##  Base de cálculo do ICMS do produto
                   valor_icms_item: prod["imposto"]["ICMS"].values[0]["vICMS"], ##  Valor do ICMS do produto
-                  bcalc_st_item: prod["imposto"]["ICMS"].values[0]["vBCST"], ##  Base de cálculo da substituição tributária do produto
-                  valor_st_item: prod["imposto"]["ICMS"].values[0]["vICMSST"], ##  Valor da substituição tributária do produto
-                  aliq_icms: prod["imposto"]["ICMS"].values[0]["pICMS"], ##  Alíquota do ICMS
+                  bcalc_st_item: prod["imposto"]["ICMS"].values[0]["vBCST"] ? prod["imposto"]["ICMS"].values[0]["vBCST"] : prod["imposto"]["ICMS"].values[0]["vBCSTRet"], ##  Base de cálculo da substituição tributária do produto
+                  valor_st_item: prod["imposto"]["ICMS"].values[0]["vICMSST"] ? prod["imposto"]["ICMS"].values[0]["vICMSST"] : prod["imposto"]["ICMS"].values[0]["VICMSSTRet"], ##  Valor da substituição tributária do produto
+                  aliq_icms: prod["imposto"]["ICMS"].values[0]["pICMS"] ? prod["imposto"]["ICMS"].values[0]["pICMS"] : prod["imposto"]["ICMS"].values[0]["pST"], ##  Alíquota do ICMS
                   valor_ipi_item: prod["imposto"]["IPI"] ? prod["imposto"]["IPI"]["cEnq"] == "999" ? 0 : prod["imposto"]["vIPI"] : 0, ##  Valor do IPI do produto
                   cfop_item: prod["prod"]["CFOP"], ##  CFOP do produto
                 }
@@ -119,9 +119,9 @@ module FiscalNotesService
                 ptotal: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["prod"]["vProd"], ##  Preço total do produto
                 bcalc_icms_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vBC"], ##  Base de cálculo do ICMS do produto
                 valor_icms_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vICMS"], ##  Valor do ICMS do produto
-                bcalc_st_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vBCST"], ##  Base de cálculo da substituição tributária do produto
-                valor_st_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vICMSST"], ##  Valor da substituição tributária do produto
-                aliq_icms: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["pICMS"], ##  Alíquota do ICMS
+                bcalc_st_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vBCST"] ? myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vBCST"] : myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vBCSTRet"], ##  Base de cálculo da substituição tributária do produto
+                valor_st_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vICMSST"] ? myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["vICMSST"] : myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["VICMSSTRet"], ##  Valor da substituição tributária do produto
+                aliq_icms: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["pICMS"] ? myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["pICMS"] : myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["ICMS"].values[0]["pST"], ##  Alíquota do ICMS
                 valor_ipi_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["IPI"] ? myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["IPI"]["cEnq"] === "999" ? 0 : myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["imposto"]["vIPI"] : 0, ##  Valor do IPI do produto
                 cfop_item: myJSON["nfeProc"]["NFe"]["infNFe"]["det"]["prod"]["CFOP"], ##  CFOP do produto
               }
