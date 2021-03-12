@@ -2,7 +2,7 @@ class EmployeeMailer < ApplicationMailer
   def new_partner(partner)
     @partner = partner
     mail(
-      to: "relacionamento@lojaobrafacil.com.br",
+      to: ["relacionamento@lojaobrafacil.com.br", "cdpinheiros@lojaobrafacil.com.br"],
       subject: "ObraFacil: Novo Parceiro!",
     )
   end
@@ -10,7 +10,7 @@ class EmployeeMailer < ApplicationMailer
   def new_partner_indication(partner)
     @partner = partner
     mail(
-      to: "relacionamento@lojaobrafacil.com.br",
+      to: ["relacionamento@lojaobrafacil.com.br", "cdpinheiros@lojaobrafacil.com.br"],
       subject: "ObraFacil: Nova indicação!",
     )
   end
@@ -19,7 +19,7 @@ class EmployeeMailer < ApplicationMailer
     @contact = contact
     mail(
       reply_to: @contact[:email] ? @contact[:email] : nil,
-      to: "relacionamento@lojaobrafacil.com.br",
+      to: ["relacionamento@lojaobrafacil.com.br", "cdpinheiros@lojaobrafacil.com.br"],
       subject: "ObraFacil: Nova contato! #{@contact[:subject] ? "- #{@contact[:subject]}" : ""}",
     )
   end
