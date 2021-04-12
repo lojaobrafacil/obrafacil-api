@@ -1,4 +1,5 @@
 class Partner < ApplicationRecord
+  default_scope { where.not(status: "deleted") }
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
