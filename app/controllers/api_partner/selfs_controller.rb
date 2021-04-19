@@ -68,7 +68,7 @@ class ApiPartner::SelfsController < ApiPartner::BaseController
   private
 
   def partner_params
-    params.permit(:name, :federal_registration, :state_registration, :agency, :account,
+    params.permit(:name, :federal_registration, :birthday :state_registration, :agency, :account,
                   :favored, :favored_federal_registration, :bank_id, :ocupation, :kind,
                   :site, :register, :avatar, :project_image, :instagram, :aboutme, :can_published,
                   addresses_attributes: [:street, :number, :complement, :neighborhood, :zipcode,
