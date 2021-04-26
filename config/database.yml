@@ -12,6 +12,7 @@ development:
   <<: *default
 
 test:
+  <<: *default
   adapter: postgresql
   encoding: unicode
   pool: 5
