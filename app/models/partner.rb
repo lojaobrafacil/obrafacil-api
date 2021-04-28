@@ -36,6 +36,7 @@ class Partner < ApplicationRecord
             uniqueness: { allow_blank: true, case_sensitive: true },
             if: Proc.new { |partner| (partner.active? || partner.review?) && ["active", "review"].map { |value| Partner.where.not(id: partner.id).where(favored_federal_registration: partner.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase).pluck(:status).include?(value) }.include?(true) }
   after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
+  before_save :send_invalidation_email, if: Proc.new { |partner| partner.inactive? && !partner.invalidation_email_sent_at? }
   after_create :create_notification
   after_save :update_notification
   after_save :create_coupon
@@ -151,6 +152,11 @@ class Partner < ApplicationRecord
     end
   end
 
+  def send_invalidation_email
+    PartnerMailer.need_more_informations(self).deliver_now
+    self.invalidation_email_sent_at = Time.now
+  end
+
   def update_notification
     Notification.where(notified_type: "Employee", target: self).update_all(viewed: true)
     Pusher.trigger("employees", "refresh-notifications", { partner: self })
@@ -163,8 +169,11 @@ class Partner < ApplicationRecord
       self.favored_federal_registration = self.favored_federal_registration.to_s.empty? ? self.federal_registration : self.favored_federal_registration
       self.favored_federal_registration = self.favored_federal_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
       self.state_registration = self.state_registration.to_s.gsub(/[^0-9A-Za-z]/, "").upcase rescue nil
+      self.invalidation_email_sent_at = nil
     end
     self.searcher = "#{self.name} #{self.federal_registration === self.favored_federal_registration ? "#{self.federal_registration} #{self.favored_federal_registration}" : self.federal_registration} #{self.state_registration} #{self.status}"
+    self.emails.each { |email| self.searcher += " #{email.email}" } if self.emails 
+    self.phones.each { |phone| self.searcher += " #{phone.phone}" } if self.phones
   end
 
   def validate_status

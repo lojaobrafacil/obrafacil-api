@@ -65,4 +65,14 @@ class PartnerMailer < ApplicationMailer
       reply_to: "relacionamento@lojaobrafacil.com.br",
     )
   end
+  
+  def need_more_informations(partner)
+    @partner = partner
+    @url = ENV["WEB_ENDPOINT"]
+    mail(
+      to: "#{@partner.name}<#{@partner.primary_email.email}>",
+      subject: "Obra Fácil Mais: Seu cadastro ainda não foi aprovado!",
+      reply_to: "relacionamento@lojaobrafacil.com.br",
+    )
+  end
 end
