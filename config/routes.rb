@@ -48,6 +48,7 @@ Rails.application.routes.draw do
         put ":id/reset_password", to: "partners#reset_password"
         get "by_federal_registration/:federal_registration", to: "partners#by_federal_registration"
         get "by_favored_federal_registration/:favored_federal_registration", to: "partners#by_favored_federal_registration"
+        delete ":id/avatar", to: "partners#remove_avatar"
       end
     end
     resources :partner_groups

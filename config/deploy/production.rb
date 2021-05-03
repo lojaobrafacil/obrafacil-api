@@ -1,5 +1,5 @@
 server "67.205.130.23", user: "deploy", roles: %w{app web}
-server "hubcoapp.ceohfyrrbarw.us-east-1.rds.amazonaws.com", user: "deploy", roles: %w{db}, :primary => true
+# server "hubcoapp.ceohfyrrbarw.us-east-1.rds.amazonaws.com", roles: %w{db}, :primary => true
 set :sidekiq_role, :app
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
 set :sidekiq_env, "production"

@@ -1,6 +1,6 @@
 class Api::PartnersController < Api::BaseController
   before_action :authenticate_admin_or_api!
-  before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password]
+  before_action :set_partner, only: [:show, :update, :destroy, :reset, :reset_password, :remove_avatar]
 
   def index
     @partners = policy_scope ::Partner
@@ -83,6 +83,14 @@ class Api::PartnersController < Api::BaseController
 
   def upload_image
     if @partner.update(partner_image_params)
+      render json: @partner, status: 200
+    else
+      render json: { errors: @partner.errors.full_messages }, status: 422
+    end
+  end
+
+  def remove_avatar
+    if @partner.remove_avatar!
       render json: @partner, status: 200
     else
       render json: { errors: @partner.errors.full_messages }, status: 422
