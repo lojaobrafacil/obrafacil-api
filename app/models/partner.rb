@@ -63,7 +63,7 @@ class Partner < ApplicationRecord
   end
 
   def primary_email; emails.find_by(primary: true) || emails.first; end
-  def birthday_email; emails.find_by(bithday: true) || primary_email; end
+  def birthday_email; emails.find_by(birthday: true) || primary_email; end
   def primary_phone; phones.find_by(primary: true) || phones.first; end
 
   def commissions_by_year(year); commissions.where("extract(year from order_date) = ?", year); end
