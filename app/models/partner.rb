@@ -35,7 +35,7 @@ class Partner < ApplicationRecord
             presence: true,
             uniqueness: { allow_blank: true, case_sensitive: true },
             if: Proc.new { |partner| (partner.active? || partner.review?) && ["active", "review"].map { |value| Partner.where.not(id: partner.id).where(favored_federal_registration: partner.favored_federal_registration.gsub(/[^0-9A-Za-z]/, "").upcase).pluck(:status).include?(value) }.include?(true) }
-  # after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
+  after_save :premio_ideal, if: Proc.new { |partner| partner.active? }
   before_save :send_invalidation_email, if: Proc.new { |partner| partner.inactive? && !partner.invalidation_email_sent_at? }
   after_create :create_notification
   after_save :update_notification
