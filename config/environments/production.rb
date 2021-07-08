@@ -85,7 +85,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "mail.lojaobrafacil.com.br",
-    port: 587,
+    port: 465,
     domain: "lojaobrafacil.com.br",
     user_name: "naoresponda@lojaobrafacil.com.br",
     password: "naoresponda_jh27",
