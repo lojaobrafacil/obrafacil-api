@@ -89,7 +89,8 @@ Rails.application.configure do
     domain: "lojaobrafacil.com.br",
     user_name: "naoresponda@lojaobrafacil.com.br",
     password: "naoresponda_jh27",
-    authentication: "plain",
-    enable_starttls_auto: false,
+    authentication: :login,
+    ssl: true,
+    openssl_verify_mode: "none",
   }
 end
