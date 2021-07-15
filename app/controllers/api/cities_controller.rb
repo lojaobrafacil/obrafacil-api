@@ -4,7 +4,7 @@ class Api::CitiesController < Api::BaseController
   def index
     @cities = policy_scope City
     query = []
-    query << "LOWER(searcher) ILIKE LOWER('%#{params[:search]}%')" if params[:search] && !params[:search].empty?
+    query << "LOWER(searcher) ILIKE LOWER('%#{params[:searcher]}%')" if params[:searcher] && !params[:searcher].empty?
     query << "state_id = '#{params[:state_id]}'" if params[:state_id] && !params[:state_id].empty?
     @cities = @cities.where(query.join("and"))
     render json: @cities.order(:id).as_json(only: [:id, :name, :searcher]), status: 200
