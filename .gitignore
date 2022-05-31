@@ -27,3 +27,4 @@ test-partner.json
 .DS_Store
 vendor/bundle
 logfile
+public/assets
