@@ -52,14 +52,14 @@ class Api::CommissionsController < Api::BaseController
         format.json { render json: @commissions.limit(40).as_json }
         format.csv {
           send_data @commissions.to_csv({
-                      attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro", "soma"],
+                      attributes: ["codigo_parceiro", "nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro", "soma"],
                       col_sep: "\t", default_nil: "0",
                     }), filename: "relatorio-consolidado-parceiros-#{params[:year]}-#{Date.today}.csv"
         }
         format.xlsx {
           path = ToXlsx.new(@commissions, {
-            titles: ["Nome do Parceiro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro", "Soma"],
-            attributes: ["nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro", "soma"],
+            titles: ["Código do Parceiro", "Nome do Parceiro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro", "Soma"],
+            attributes: ["codigo_parceiro", "nome_parceiro", "janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro", "soma"],
             filename: "#{SecureRandom.uuid}.xlsx",
             template: "commissions_by_year",
           }).generate
